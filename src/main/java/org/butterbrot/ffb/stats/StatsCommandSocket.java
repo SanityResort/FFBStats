@@ -6,16 +6,17 @@ import com.balancedbytes.games.ffb.net.NetCommandFactory;
 import com.balancedbytes.games.ffb.net.commands.ClientCommandReplay;
 import com.balancedbytes.games.ffb.util.StringTool;
 import com.eclipsesource.json.JsonValue;
-import org.eclipse.jetty.websocket.WebSocket;
+//import org.eclipse.jetty.websocket.WebSocket;
 
 import java.io.IOException;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
 public class StatsCommandSocket
-implements WebSocket.OnTextMessage {
+//implements WebSocket.OnTextMessage
+{
     private NetCommandFactory fNetCommandFactory;
-    private Connection fConnection;
+  //  private Connection fConnection;
     private boolean fCommandCompression;
     private final CountDownLatch fCloseLatch;
     private final CommandHandler statsHandler;
@@ -28,7 +29,7 @@ implements WebSocket.OnTextMessage {
         this.fCloseLatch = new CountDownLatch(1);
         this.fCommandCompression = compression;
     }
-
+/*
     public void onOpen(Connection pConnection) {
         this.fConnection = pConnection;
         System.out.printf("Got connect: %s%n", new Object[]{this.fConnection});
@@ -40,7 +41,7 @@ implements WebSocket.OnTextMessage {
             e.printStackTrace();
         }
     }
-
+*/
     public void onMessage(String pTextMessage) {
         JsonValue jsonValue;
         if (!StringTool.isProvided(pTextMessage) || !this.isOpen()) {
@@ -61,7 +62,7 @@ implements WebSocket.OnTextMessage {
 
     public void onClose(int pCloseCode, String pCloseReason) {
         System.out.printf("Connection closed: %d - %s%n", pCloseCode, pCloseReason);
-        this.fConnection = null;
+  //      this.fConnection = null;
         this.fCloseLatch.countDown();
     }
 
@@ -88,12 +89,12 @@ implements WebSocket.OnTextMessage {
         if (!StringTool.isProvided(textMessage)) {
             return false;
         }
-        this.fConnection.sendMessage(textMessage);
+    //    this.fConnection.sendMessage(textMessage);
         return true;
     }
 
     public boolean isOpen() {
-        return this.fConnection != null && this.fConnection.isOpen();
+        return true; //return this.fConnection != null && this.fConnection.isOpen();
     }
 }
 

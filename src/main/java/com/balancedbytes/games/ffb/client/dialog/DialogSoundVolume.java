@@ -3,32 +3,16 @@
  */
 package com.balancedbytes.games.ffb.client.dialog;
 
-import com.balancedbytes.games.ffb.SoundId;
 import com.balancedbytes.games.ffb.client.FantasyFootballClient;
-import com.balancedbytes.games.ffb.client.UserInterface;
-import com.balancedbytes.games.ffb.client.dialog.Dialog;
-import com.balancedbytes.games.ffb.client.dialog.IDialog;
-import com.balancedbytes.games.ffb.client.dialog.IDialogCloseListener;
-import com.balancedbytes.games.ffb.client.sound.SoundEngine;
 import com.balancedbytes.games.ffb.dialog.DialogId;
 import com.balancedbytes.games.ffb.util.StringTool;
-import java.awt.Component;
-import java.awt.Container;
-import java.awt.Dimension;
-import java.awt.LayoutManager;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import javax.swing.BorderFactory;
-import javax.swing.Box;
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JSlider;
-import javax.swing.border.Border;
+
+import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.InternalFrameEvent;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class DialogSoundVolume
 extends Dialog
@@ -94,9 +78,6 @@ ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent pE) {
-        SoundEngine soundEngine = this.getClient().getUserInterface().getSoundEngine();
-        soundEngine.setVolume(this.getVolume());
-        soundEngine.playSound(SoundId.DING);
     }
 
     @Override

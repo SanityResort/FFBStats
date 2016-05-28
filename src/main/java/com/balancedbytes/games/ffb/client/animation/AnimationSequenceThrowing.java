@@ -6,24 +6,17 @@ package com.balancedbytes.games.ffb.client.animation;
 import com.balancedbytes.games.ffb.FieldCoordinate;
 import com.balancedbytes.games.ffb.SoundId;
 import com.balancedbytes.games.ffb.client.FantasyFootballClient;
-import com.balancedbytes.games.ffb.client.FieldComponent;
-import com.balancedbytes.games.ffb.client.IconCache;
 import com.balancedbytes.games.ffb.client.PlayerIconFactory;
-import com.balancedbytes.games.ffb.client.UserInterface;
-import com.balancedbytes.games.ffb.client.animation.IAnimationListener;
-import com.balancedbytes.games.ffb.client.animation.IAnimationSequence;
 import com.balancedbytes.games.ffb.client.layer.FieldLayer;
-import com.balancedbytes.games.ffb.client.sound.SoundEngine;
 import com.balancedbytes.games.ffb.model.Animation;
 import com.balancedbytes.games.ffb.model.AnimationType;
-import com.balancedbytes.games.ffb.model.Game;
 import com.balancedbytes.games.ffb.model.Player;
-import com.balancedbytes.games.ffb.model.Team;
-import java.awt.Rectangle;
+
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
-import javax.swing.Timer;
 
 public class AnimationSequenceThrowing
 implements IAnimationSequence,
@@ -108,8 +101,6 @@ ActionListener {
         this.fPositionY = this.fStartY;
         String soundSetting = this.fFieldLayer.getClient().getProperty("setting.sound.mode");
         if (this.fSound != null && ("soundOn".equals(soundSetting) || "muteSpectators".equals(soundSetting))) {
-            SoundEngine soundEngine = this.fFieldLayer.getClient().getUserInterface().getSoundEngine();
-            soundEngine.playSound(this.fSound);
         }
         this.fTimer.start();
     }

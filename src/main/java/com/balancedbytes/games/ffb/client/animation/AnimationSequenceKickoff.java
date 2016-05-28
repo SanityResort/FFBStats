@@ -3,18 +3,11 @@
  */
 package com.balancedbytes.games.ffb.client.animation;
 
-import com.balancedbytes.games.ffb.SoundId;
-import com.balancedbytes.games.ffb.client.FantasyFootballClient;
-import com.balancedbytes.games.ffb.client.FieldComponent;
-import com.balancedbytes.games.ffb.client.UserInterface;
-import com.balancedbytes.games.ffb.client.animation.AnimationFrame;
-import com.balancedbytes.games.ffb.client.animation.IAnimationListener;
-import com.balancedbytes.games.ffb.client.animation.IAnimationSequence;
 import com.balancedbytes.games.ffb.client.layer.FieldLayer;
-import com.balancedbytes.games.ffb.client.sound.SoundEngine;
+
+import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.Timer;
 
 public class AnimationSequenceKickoff
 implements IAnimationSequence,
@@ -78,10 +71,8 @@ ActionListener {
             this.fDelay = this.fFrames[this.fPosition].getTime();
             this.fFrames[this.fPosition].drawCenteredAndScaled(this.fFieldLayer, this.fX, this.fY);
             if (this.fFrames[this.fPosition].getSound() != null) {
-                SoundEngine soundEngine = this.fFieldLayer.getClient().getUserInterface().getSoundEngine();
                 String soundSetting = this.fFieldLayer.getClient().getProperty("setting.sound.mode");
                 if ("soundOn".equals(soundSetting) || "muteSpectators".equals(soundSetting)) {
-                    soundEngine.playSound(this.fFrames[this.fPosition].getSound());
                 }
             }
         } else {

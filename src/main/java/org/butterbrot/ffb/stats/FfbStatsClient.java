@@ -1,8 +1,7 @@
 package org.butterbrot.ffb.stats;
 
 import com.balancedbytes.games.ffb.net.commands.ServerCommand;
-import org.eclipse.jetty.websocket.WebSocketClient;
-import org.eclipse.jetty.websocket.WebSocketClientFactory;
+import org.springframework.web.socket.client.WebSocketClient;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -16,13 +15,13 @@ import java.util.concurrent.TimeUnit;
 public class FfbStatsClient {
     private CommandHandler statsHandler;
     private Properties fProperties;
-    private WebSocketClientFactory fWebSocketClientFactory;
+//    private WebSocketClientFactory fWebSocketClientFactory;
     private StatsCommandSocket fCommandSocket;
 
 
     public FfbStatsClient(String gameId) throws IOException {
         this.loadProperties();
-        this.fWebSocketClientFactory = new WebSocketClientFactory();
+  //      this.fWebSocketClientFactory = new WebSocketClientFactory();
         this.statsHandler = new CommandHandler(this);
         this.fCommandSocket = new StatsCommandSocket(Long.valueOf(gameId), Boolean.parseBoolean(getProperty("client.command.compression")), statsHandler);
     }
@@ -30,10 +29,10 @@ public class FfbStatsClient {
     public void startClient() {
 
         try {
-            this.fWebSocketClientFactory.start();
+    //        this.fWebSocketClientFactory.start();
             URI uri = new URI("ws", null, this.getServerHost().getCanonicalHostName(), this.getServerPort(), "/command", null, null);
-            WebSocketClient fWebSocketClient = this.fWebSocketClientFactory.newWebSocketClient();
-            fWebSocketClient.open(uri, this.fCommandSocket).get();
+      //      WebSocketClient fWebSocketClient = this.fWebSocketClientFactory.newWebSocketClient();
+       //     fWebSocketClient.open(uri, this.fCommandSocket).get();
         }
         catch (Exception pAnyException) {
             pAnyException.printStackTrace();
@@ -42,7 +41,7 @@ public class FfbStatsClient {
 
     public void downloadDone(){
         try {
-            this.fWebSocketClientFactory.stop();
+        //    this.fWebSocketClientFactory.stop();
             this.fCommandSocket.awaitClose(1, TimeUnit.SECONDS);
         }
         catch (Exception pAnyException) {

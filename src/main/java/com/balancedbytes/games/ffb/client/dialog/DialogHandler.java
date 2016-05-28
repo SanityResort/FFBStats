@@ -8,9 +8,6 @@ import com.balancedbytes.games.ffb.StatusType;
 import com.balancedbytes.games.ffb.client.ClientData;
 import com.balancedbytes.games.ffb.client.FantasyFootballClient;
 import com.balancedbytes.games.ffb.client.UserInterface;
-import com.balancedbytes.games.ffb.client.dialog.IDialog;
-import com.balancedbytes.games.ffb.client.dialog.IDialogCloseListener;
-import com.balancedbytes.games.ffb.client.sound.SoundEngine;
 import com.balancedbytes.games.ffb.dialog.DialogId;
 
 public abstract class DialogHandler
@@ -62,10 +59,8 @@ implements IDialogCloseListener {
 
     protected void playSound(SoundId pSound) {
         if (pSound != null) {
-            SoundEngine soundEngine = this.getClient().getUserInterface().getSoundEngine();
             String soundSetting = this.getClient().getProperty("setting.sound.mode");
             if ("soundOn".equals(soundSetting) || "muteSpectators".equals(soundSetting) && !pSound.isSpectatorSound()) {
-                soundEngine.playSound(pSound);
             }
         }
     }

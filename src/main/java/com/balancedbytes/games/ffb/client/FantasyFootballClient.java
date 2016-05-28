@@ -10,48 +10,33 @@
 package com.balancedbytes.games.ffb.client;
 
 import com.balancedbytes.games.ffb.ClientMode;
-import com.balancedbytes.games.ffb.ClientStateId;
 import com.balancedbytes.games.ffb.FantasyFootballException;
 import com.balancedbytes.games.ffb.Weather;
-import com.balancedbytes.games.ffb.client.ActionKeyBindings;
-import com.balancedbytes.games.ffb.client.ClientData;
-import com.balancedbytes.games.ffb.client.ClientParameters;
-import com.balancedbytes.games.ffb.client.ClientReplayer;
-import com.balancedbytes.games.ffb.client.FieldComponent;
-import com.balancedbytes.games.ffb.client.StatusReport;
-import com.balancedbytes.games.ffb.client.TurnTimerTask;
-import com.balancedbytes.games.ffb.client.UserInterface;
 import com.balancedbytes.games.ffb.client.dialog.DialogAboutHandler;
 import com.balancedbytes.games.ffb.client.dialog.IDialog;
 import com.balancedbytes.games.ffb.client.dialog.IDialogCloseListener;
 import com.balancedbytes.games.ffb.client.handler.ClientCommandHandlerFactory;
-import com.balancedbytes.games.ffb.client.layer.FieldLayerPitch;
 import com.balancedbytes.games.ffb.client.net.ClientCommunication;
 import com.balancedbytes.games.ffb.client.net.ClientPingTask;
 import com.balancedbytes.games.ffb.client.net.CommandSocket;
 import com.balancedbytes.games.ffb.client.state.ClientState;
 import com.balancedbytes.games.ffb.client.state.ClientStateFactory;
-import com.balancedbytes.games.ffb.client.ui.GameMenuBar;
-import com.balancedbytes.games.ffb.client.ui.ScoreBarComponent;
 import com.balancedbytes.games.ffb.model.Game;
 import com.balancedbytes.games.ffb.net.IConnectionListener;
 import com.balancedbytes.games.ffb.util.StringTool;
-import java.awt.Insets;
+import org.springframework.web.socket.client.WebSocketClient;
+
+import javax.swing.*;
+import java.awt.*;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.PrintStream;
 import java.net.InetAddress;
 import java.net.URI;
 import java.net.UnknownHostException;
 import java.util.Properties;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
-import javax.swing.UIManager;
-import org.eclipse.jetty.websocket.WebSocket;
-import org.eclipse.jetty.websocket.WebSocketClient;
-import org.eclipse.jetty.websocket.WebSocketClientFactory;
 
 public class FantasyFootballClient
 implements IConnectionListener,
@@ -75,7 +60,7 @@ IDialogCloseListener {
     private ClientReplayer fReplayer;
     private ClientParameters fParameters;
     private ClientMode fMode;
-    private WebSocketClientFactory fWebSocketClientFactory;
+//    private WebSocketClientFactory fWebSocketClientFactory;
     private WebSocketClient fWebSocketClient;
     private CommandSocket fCommandSocket;
     private transient ClientData fClientData;
@@ -100,7 +85,7 @@ IDialogCloseListener {
         this.fUserInterface = new UserInterface(this);
         this.fUserInterface.refreshSideBars();
         this.fUserInterface.getScoreBar().refresh();
-        this.fWebSocketClientFactory = new WebSocketClientFactory();
+  //      this.fWebSocketClientFactory = new WebSocketClientFactory();
         this.fCommandSocket = new CommandSocket(this);
         this.fCommunication = new ClientCommunication(this);
         this.fCommunicationThread = new Thread(this.fCommunication);
@@ -158,7 +143,7 @@ IDialogCloseListener {
             throw new FantasyFootballException(pUnknownHostException);
         }
         boolean connectionEstablished = false;
-        try {
+    /*    try {
             this.fWebSocketClientFactory.start();
             URI uri = new URI("ws", null, this.getServerHost().getCanonicalHostName(), this.getServerPort(), "/command", null, null);
             this.fWebSocketClient = this.fWebSocketClientFactory.newWebSocketClient();
@@ -168,7 +153,7 @@ IDialogCloseListener {
         catch (Exception pAnyException) {
             pAnyException.printStackTrace();
         }
-        this.getUserInterface().getStatusReport().reportConnectionEstablished(connectionEstablished);
+      */  this.getUserInterface().getStatusReport().reportConnectionEstablished(connectionEstablished);
         if (ClientMode.REPLAY != this.getMode()) {
             this.fTurnTimerTask = new TurnTimerTask(this);
             this.fTurnTimer.scheduleAtFixedRate((TimerTask)this.fTurnTimerTask, 0, 1000);
@@ -180,7 +165,7 @@ IDialogCloseListener {
         this.fPingTimer = null;
         this.fTurnTimer = null;
         try {
-            this.fWebSocketClientFactory.stop();
+         //   this.fWebSocketClientFactory.stop();
             this.fCommandSocket.awaitClose(10, TimeUnit.SECONDS);
         }
         catch (Exception pAnyException) {

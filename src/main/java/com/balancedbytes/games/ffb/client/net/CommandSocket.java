@@ -24,13 +24,14 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
-import org.eclipse.jetty.websocket.WebSocket;
+//import org.eclipse.jetty.websocket.WebSocket;
 
 public class CommandSocket
-implements WebSocket.OnTextMessage {
+//implements WebSocket.OnTextMessage
+{
     private FantasyFootballClient fClient;
     private NetCommandFactory fNetCommandFactory;
-    private WebSocket.Connection fConnection;
+//    private WebSocket.Connection fConnection;
     private boolean fCommandCompression;
     private final CountDownLatch fCloseLatch;
 
@@ -45,13 +46,13 @@ implements WebSocket.OnTextMessage {
         }
     }
 
-    public void onOpen(WebSocket.Connection pConnection) {
+  /*  public void onOpen(WebSocket.Connection pConnection) {
         this.fConnection = pConnection;
         System.out.printf("Got connect: %s%n", new Object[]{this.fConnection});
         this.fConnection.setMaxIdleTime(Integer.MAX_VALUE);
         this.fConnection.setMaxTextMessageSize(65536);
     }
-
+*/
     public void onMessage(String pTextMessage) {
         JsonValue jsonValue;
         if (!StringTool.isProvided(pTextMessage) || !this.isOpen()) {
@@ -78,7 +79,7 @@ implements WebSocket.OnTextMessage {
     public void onClose(int pCloseCode, String pCloseReason) {
         System.out.printf("Connection closed: %d - %s%n", pCloseCode, pCloseReason);
         this.fClient.getUserInterface().getStatusReport().reportSocketClosed();
-        this.fConnection = null;
+  //      this.fConnection = null;
         this.fCloseLatch.countDown();
     }
 
@@ -105,12 +106,12 @@ implements WebSocket.OnTextMessage {
         if (!StringTool.isProvided(textMessage)) {
             return false;
         }
-        this.fConnection.sendMessage(textMessage);
+    //    this.fConnection.sendMessage(textMessage);
         return true;
     }
 
     public boolean isOpen() {
-        return this.fConnection != null && this.fConnection.isOpen();
+     return true;//   return this.fConnection != null && this.fConnection.isOpen();
     }
 }
 

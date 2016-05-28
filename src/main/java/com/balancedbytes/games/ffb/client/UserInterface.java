@@ -3,19 +3,11 @@
  */
 package com.balancedbytes.games.ffb.client;
 
-import com.balancedbytes.games.ffb.ClientMode;
 import com.balancedbytes.games.ffb.FantasyFootballException;
-import com.balancedbytes.games.ffb.client.FantasyFootballClient;
-import com.balancedbytes.games.ffb.client.FieldComponent;
-import com.balancedbytes.games.ffb.client.GameTitle;
-import com.balancedbytes.games.ffb.client.IconCache;
-import com.balancedbytes.games.ffb.client.PlayerIconFactory;
-import com.balancedbytes.games.ffb.client.StatusReport;
 import com.balancedbytes.games.ffb.client.dialog.DialogLeaveGame;
 import com.balancedbytes.games.ffb.client.dialog.DialogManager;
 import com.balancedbytes.games.ffb.client.dialog.IDialog;
 import com.balancedbytes.games.ffb.client.dialog.IDialogCloseListener;
-import com.balancedbytes.games.ffb.client.sound.SoundEngine;
 import com.balancedbytes.games.ffb.client.ui.ChatComponent;
 import com.balancedbytes.games.ffb.client.ui.GameMenuBar;
 import com.balancedbytes.games.ffb.client.ui.LogComponent;
@@ -23,25 +15,14 @@ import com.balancedbytes.games.ffb.client.ui.ScoreBarComponent;
 import com.balancedbytes.games.ffb.client.ui.SideBarComponent;
 import com.balancedbytes.games.ffb.dialog.DialogId;
 import com.balancedbytes.games.ffb.model.Game;
-import com.balancedbytes.games.ffb.model.Team;
 import com.balancedbytes.games.ffb.util.StringTool;
 import com.fumbbl.rng.MouseEntropySource;
-import java.awt.Component;
-import java.awt.Container;
-import java.awt.Dimension;
-import java.awt.LayoutManager;
+
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.lang.reflect.InvocationTargetException;
-import javax.swing.BorderFactory;
-import javax.swing.Box;
-import javax.swing.BoxLayout;
-import javax.swing.JDesktopPane;
-import javax.swing.JFrame;
-import javax.swing.JMenuBar;
-import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
-import javax.swing.border.Border;
 
 public class UserInterface
 extends JFrame
@@ -54,7 +35,6 @@ IDialogCloseListener {
     private SideBarComponent fSideBarHome;
     private SideBarComponent fSideBarAway;
     private IconCache fIconCache;
-    private SoundEngine fSoundEngine;
     private ScoreBarComponent fScoreBar;
     private LogComponent fLog;
     private ChatComponent fChat;
@@ -68,8 +48,6 @@ IDialogCloseListener {
         this.fClient = pClient;
         this.fIconCache = new IconCache(this.getClient());
         this.fIconCache.init();
-        this.fSoundEngine = new SoundEngine(this.getClient());
-        this.fSoundEngine.init();
         this.fDialogManager = new DialogManager(this.getClient());
         this.setGameMenuBar(new GameMenuBar(this.getClient()));
         this.setGameTitle(new GameTitle());
@@ -139,10 +117,6 @@ IDialogCloseListener {
         return this.fIconCache;
     }
 
-    public SoundEngine getSoundEngine() {
-        return this.fSoundEngine;
-    }
-
     public LogComponent getLog() {
         return this.fLog;
     }
@@ -198,7 +172,6 @@ IDialogCloseListener {
         this.setGameTitle(gameTitle);
         String volumeSetting = this.getClient().getProperty("setting.sound.volume");
         int volume = StringTool.isProvided(volumeSetting) ? Integer.parseInt(volumeSetting) : 50;
-        this.getClient().getUserInterface().getSoundEngine().setVolume(volume);
     }
 
     public JDesktopPane getDesktop() {
