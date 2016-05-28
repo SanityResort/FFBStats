@@ -1,0 +1,49 @@
+/*
+ * Decompiled with CFR 0_114.
+ */
+package com.balancedbytes.games.ffb.client.handler;
+
+import com.balancedbytes.games.ffb.ClientMode;
+import com.balancedbytes.games.ffb.client.ClientData;
+import com.balancedbytes.games.ffb.client.FantasyFootballClient;
+import com.balancedbytes.games.ffb.client.StatusReport;
+import com.balancedbytes.games.ffb.client.UserInterface;
+import com.balancedbytes.games.ffb.client.handler.ClientCommandHandler;
+import com.balancedbytes.games.ffb.client.handler.ClientCommandHandlerMode;
+import com.balancedbytes.games.ffb.client.ui.LogComponent;
+import com.balancedbytes.games.ffb.net.NetCommand;
+import com.balancedbytes.games.ffb.net.NetCommandId;
+import com.balancedbytes.games.ffb.net.commands.ServerCommandLeave;
+
+public class ClientCommandHandlerLeave
+extends ClientCommandHandler {
+    protected ClientCommandHandlerLeave(FantasyFootballClient pClient) {
+        super(pClient);
+    }
+
+    @Override
+    public NetCommandId getId() {
+        return NetCommandId.SERVER_LEAVE;
+    }
+
+    @Override
+    public boolean handleNetCommand(NetCommand pNetCommand, ClientCommandHandlerMode pMode) {
+        if (pMode == ClientCommandHandlerMode.QUEUING) {
+            return true;
+        }
+        ServerCommandLeave leaveCommand = (ServerCommandLeave)pNetCommand;
+        if (ClientMode.PLAYER == leaveCommand.getClientMode()) {
+            this.getClient().getClientData().setTurnTimerStopped(true);
+        }
+        this.getClient().getClientData().setSpectators(leaveCommand.getSpectators());
+        if (pMode != ClientCommandHandlerMode.REPLAYING) {
+            UserInterface userInterface = this.getClient().getUserInterface();
+            userInterface.getLog().markCommandBegin(leaveCommand.getCommandNr());
+            userInterface.getStatusReport().reportLeave(leaveCommand);
+            userInterface.getLog().markCommandEnd(leaveCommand.getCommandNr());
+            this.refreshSideBars();
+        }
+        return true;
+    }
+}
+
