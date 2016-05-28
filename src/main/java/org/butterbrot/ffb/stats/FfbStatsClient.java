@@ -1,12 +1,3 @@
-/*
- * Decompiled with CFR 0_114.
- * 
- * Could not load the following classes:
- *  org.eclipse.jetty.websocket.WebSocket
- *  org.eclipse.jetty.websocket.WebSocket$Connection
- *  org.eclipse.jetty.websocket.WebSocketClient
- *  org.eclipse.jetty.websocket.WebSocketClientFactory
- */
 package org.butterbrot.ffb.stats;
 
 import com.balancedbytes.games.ffb.net.commands.ServerCommand;

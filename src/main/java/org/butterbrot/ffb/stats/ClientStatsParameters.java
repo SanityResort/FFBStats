@@ -1,6 +1,3 @@
-/*
- * Decompiled with CFR 0_114.
- */
 package org.butterbrot.ffb.stats;
 
 import com.balancedbytes.games.ffb.ClientMode;

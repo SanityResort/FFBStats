@@ -11,9 +11,6 @@ import com.balancedbytes.games.ffb.util.ArrayTool;
 import java.util.List;
 import java.util.Set;
 
-/**
- * Created by Chris on 26.05.2016.
- */
 public class StatsCollector implements Runnable {
     private List<ServerCommand> replayCommands;
     private StatsCollection collection = new StatsCollection();

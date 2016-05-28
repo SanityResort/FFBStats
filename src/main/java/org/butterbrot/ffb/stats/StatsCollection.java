@@ -7,9 +7,6 @@ import com.balancedbytes.games.ffb.util.ArrayTool;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Created by Chris on 27.05.2016.
- */
 public class StatsCollection {
 
     private TeamStatsCollection home = new TeamStatsCollection();

@@ -8,9 +8,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
-/**
- * Created by Chris on 27.05.2016.
- */
 public class TeamStatsCollection {
 
     private BlockResultFactory factory = new BlockResultFactory();
