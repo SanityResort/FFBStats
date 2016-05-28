@@ -36,17 +36,27 @@
             <artifactId>spring-websocket</artifactId>
             <version>4.2.6.RELEASE</version>
         </dependency>
-<!--
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-messaging</artifactId>
+            <version>4.2.6.RELEASE</version>
+        </dependency>
+
         <dependency>
             <groupId>org.eclipse.jetty.aggregate</groupId>
             <artifactId>jetty-all</artifactId>
-            <version>9.3.9.v20160517</version>
+            <version>9.2.16.v20160414</version>
         </dependency>
         <dependency>
             <groupId>org.eclipse.jetty.websocket</groupId>
             <artifactId>websocket-client</artifactId>
-            <version>9.3.9.v20160517</version>
+            <version>9.2.16.v20160414</version>
         </dependency>
--->
+        <dependency>
+            <groupId>org.eclipse.jetty</groupId>
+            <artifactId>jetty-util</artifactId>
+            <version>9.2.16.v20160414</version>
+        </dependency>
+
     </dependencies>
 </project>

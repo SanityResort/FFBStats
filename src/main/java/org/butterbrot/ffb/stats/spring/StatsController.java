@@ -9,6 +9,18 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.socket.WebSocketHttpHeaders;
+import org.springframework.web.socket.client.WebSocketClient;
+import org.springframework.web.socket.client.jetty.JettyWebSocketClient;
+import org.springframework.web.socket.client.standard.StandardWebSocketClient;
+import org.springframework.web.socket.messaging.WebSocketStompClient;
+import org.springframework.web.socket.sockjs.client.SockJsClient;
+import org.springframework.web.socket.sockjs.client.Transport;
+import org.springframework.web.socket.sockjs.client.WebSocketTransport;
+
+import java.net.InetAddress;
+import java.net.URI;
+import java.util.Collections;
 
 @Controller
 @EnableAutoConfiguration
@@ -23,11 +35,27 @@ public class StatsController {
 
     @RequestMapping(value = "/stats/{gameId}")
     @ResponseBody
-    public String stats(@PathVariable(value = "gameId") String gameId) {
+    public String stats(@PathVariable(value = "gameId") String gameId) throws Exception {
         logger.info("Creating stats for game: {}", gameId);
+
+/*        WebSocketTransport webSocketTransport = new WebSocketTransport(new JettyWebSocketClient());
+
+        URI uri = new URI("ws", null, InetAddress.getByName(server).getCanonicalHostName(), port, "/command", null, null);
+
+        SockJsClient webSocketClient = new SockJsClient(Collections.<Transport>singletonList(webSocketTransport));
+        webSocketClient.doHandshake(new ReplayMessageHandler(), new WebSocketHttpHeaders(),  uri);
+*/
+        JettyWebSocketClient transport = new JettyWebSocketClient();
+        //WebSocketStompClient stompClient = new WebSocketStompClient(transport);
+        //stompClient.start();
+        String uri = new URI("ws", null, InetAddress.getByName(server).getCanonicalHostName(), port, "/command", null, null).toASCIIString();
+       // stompClient.connect(uri, new ReplayMessageHandler());
+        transport.start();
+        transport.doHandshake(new ReplayMessageHandler(), uri);
+        logger.info("Url: " + uri);
+
         return "gameId:" + gameId + "\nserver: " + server + "\nport: " + port + "\ncompression: " + compression;
     }
-
 
     public static void main(String[] args) {
         SpringApplication.run(StatsController.class, args);
@@ -56,4 +84,6 @@ public class StatsController {
     public void setCompression(boolean compression) {
         this.compression = compression;
     }
+
+
 }
