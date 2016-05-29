@@ -24,7 +24,7 @@ import com.balancedbytes.games.ffb.client.state.ClientStateFactory;
 import com.balancedbytes.games.ffb.model.Game;
 import com.balancedbytes.games.ffb.net.IConnectionListener;
 import com.balancedbytes.games.ffb.util.StringTool;
-import org.springframework.web.socket.client.WebSocketClient;
+import org.eclipse.jetty.websocket.WebSocketClient;
 
 import javax.swing.*;
 import java.awt.*;

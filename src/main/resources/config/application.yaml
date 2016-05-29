@@ -1,4 +1,4 @@
 connection:
   server: fumbbl.com
   port: 22223
-  compression: true
+  compression: false

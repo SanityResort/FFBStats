@@ -1,28 +1,30 @@
 package org.butterbrot.ffb.stats;
 
-import com.balancedbytes.games.ffb.*;
-import com.balancedbytes.games.ffb.model.InducementSet;
-import com.balancedbytes.games.ffb.model.Player;
 import com.balancedbytes.games.ffb.net.INetCommandHandler;
 import com.balancedbytes.games.ffb.net.NetCommand;
-import com.balancedbytes.games.ffb.net.commands.*;
-import com.sun.deploy.util.ArrayUtil;
+import com.balancedbytes.games.ffb.net.commands.ServerCommand;
+import com.balancedbytes.games.ffb.net.commands.ServerCommandGameState;
+import com.balancedbytes.games.ffb.net.commands.ServerCommandReplay;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
-import java.util.*;
-import java.util.concurrent.SynchronousQueue;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class CommandHandler
 implements
 INetCommandHandler {
 
-    private FfbStatsClient client;
+    private static final Logger logger = LoggerFactory.getLogger(CommandHandler.class);
+
+//    private FfbStatsClient client;
     private StatsCollector statsCollector;
     private Thread statCollectorThread;
     private final List<ServerCommand> replayCommands = new ArrayList<>();
 
-    public CommandHandler(FfbStatsClient client) {
-        this.client = client;
+    public CommandHandler(/*FfbStatsClient client*/) {
+  //      this.client = client;
         statsCollector = new StatsCollector(replayCommands);
         statCollectorThread = new Thread(statsCollector);
         statCollectorThread.start();
@@ -31,6 +33,7 @@ INetCommandHandler {
     @Override
     public void handleCommand(NetCommand pNetCommand) {
 
+        logger.info("Handling command: " + pNetCommand.getId());
         switch (pNetCommand.getId()) {
             case SERVER_GAME_STATE:
                 statsCollector.setAwayTeam(((ServerCommandGameState) pNetCommand).getGame().getTeamAway());
@@ -40,7 +43,7 @@ INetCommandHandler {
                 ServerCommandReplay replayCommand = (ServerCommandReplay) pNetCommand;
                 replayCommands.addAll(Arrays.asList(replayCommand.getReplayCommands()));
                 if (replayCommands.size() == replayCommand.getTotalNrOfCommands()) {
-                    client.downloadDone();
+    //                client.downloadDone();
                     synchronized (replayCommands) {
                         replayCommands.notify();
                     }

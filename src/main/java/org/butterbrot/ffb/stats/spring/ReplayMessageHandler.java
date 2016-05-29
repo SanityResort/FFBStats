@@ -1,63 +1,99 @@
 package org.butterbrot.ffb.stats.spring;
 
+import org.eclipse.jetty.websocket.WebSocket;
+import org.eclipse.jetty.websocket.WebSocketHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.messaging.simp.stomp.StompCommand;
-import org.springframework.messaging.simp.stomp.StompHeaders;
-import org.springframework.messaging.simp.stomp.StompSession;
-import org.springframework.messaging.simp.stomp.StompSessionHandler;
-import org.springframework.messaging.simp.stomp.StompSessionHandlerAdapter;
-import org.springframework.web.socket.CloseStatus;
-import org.springframework.web.socket.WebSocketHandler;
-import org.springframework.web.socket.WebSocketMessage;
-import org.springframework.web.socket.WebSocketSession;
 
-import java.lang.reflect.Type;
+import javax.servlet.http.HttpServletRequest;
 
-public class ReplayMessageHandler  implements WebSocketHandler {
+public class ReplayMessageHandler extends WebSocketHandler {
 
     private static final Logger logger = LoggerFactory.getLogger(ReplayMessageHandler.class);
+
+    private boolean useCompression;
+
+    public ReplayMessageHandler(boolean useCompression) {
+        this.useCompression = useCompression;
+    }
+
+    @Override
+    public WebSocket doWebSocketConnect(HttpServletRequest httpServletRequest, String s) {
+        return null;
+    }
 /*
-    @Override
-    public void afterConnected(StompSession stompSession, StompHeaders stompHeaders) {
-        logger.info("afterConnected");
-        super.afterConnected(stompSession, stompHeaders);
-    }
-
-    @Override
-    public void handleException(StompSession stompSession, StompCommand stompCommand, StompHeaders stompHeaders, byte[] bytes, Throwable throwable) {
-        logger.info("handleException");
-        super.handleException(stompSession,stompCommand,stompHeaders,bytes,throwable);
-    }
-
-    @Override
-    public void handleTransportError(StompSession stompSession, Throwable throwable) {
-        logger.info("handleTransportError");
-        throwable.printStackTrace();
-        super.handleTransportError(stompSession,throwable);
-    }
-
-    @Override
-    public Type getPayloadType(StompHeaders stompHeaders) {
-        logger.info("getPayloadType");
-        return super.getPayloadType(stompHeaders);
-    }
-
-    @Override
-    public void handleFrame(StompHeaders stompHeaders, Object o) {
-        logger.info("handleFrame");
-        super.handleFrame(stompHeaders,o);
-    }*/
-
     @Override
     public void afterConnectionEstablished(WebSocketSession webSocketSession) throws Exception {
         logger.info("afterConnectionEstablished");
+        JsonValue command = new ClientCommandReplay().toJsonValue();
+
+        final String textMessage;
+        if (this.useCompression) {
+            try {
+                textMessage = UtilJson.deflateToBase64(command);
+                webSocketSession.setBinaryMessageSizeLimit(65536);
+                logger.info("session is open: " +         webSocketSession.isOpen());
+                try {
+                    webSocketSession.sendMessage(new BinaryMessage(binaryPayload(command.toString())));
+                } catch (Exception ex) {
+                    logger.error("Sending failed: ", ex);
+                    throw ex;
+                }
+                logger.info("session is open: " +         webSocketSession.isOpen());
+            }
+            catch (IOException ex) {
+                logger.error("Deflating json failed", ex);
+                throw ex;
+            }
+        } else {
+                textMessage = command.toString();
+            webSocketSession.setTextMessageSizeLimit(65536);
+            logger.info("session is open: " +         webSocketSession.isOpen());
+            try {
+                webSocketSession.sendMessage(new TextMessage(textMessage));
+            } catch (Exception ex) {
+                logger.error("Sending failed: ", ex);
+                throw ex;
+            }
+            logger.info("session is open: " +         webSocketSession.isOpen());
+        }
+    }
+
+    private byte[] binaryPayload(String message) throws IOException {
+        ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
+        DeflaterOutputStream deflaterOut = new DeflaterOutputStream((OutputStream) byteOut, new Deflater(9));
+        BufferedWriter out = new BufferedWriter(new OutputStreamWriter((OutputStream) deflaterOut,  Charset.forName("UTF-8")));
+        out.write(message);
+        out.close();
+        return Base64.encodeToByte(byteOut.toByteArray(), false);
+    }*/
+
+
+  /*  @Override
+    public void handleMessage(WebSocketSession webSocketSession, WebSocketMessage<?> webSocketMessage) throws Exception {
+        logger.info("handleMessage");
+        String message = (String) webSocketMessage.getPayload();
+        logger.info("Message: " + message);
+    }*/
+/*
+    @Override
+    protected void handleBinaryMessage(WebSocketSession session, BinaryMessage message) throws Exception {
+        logger.info("handleBinaryMessage");
     }
 
     @Override
-    public void handleMessage(WebSocketSession webSocketSession, WebSocketMessage<?> webSocketMessage) throws Exception {
+    public void handleMessage(WebSocketSession session, WebSocketMessage<?> message) throws Exception {
         logger.info("handleMessage");
+    }
 
+    @Override
+    protected void handlePongMessage(WebSocketSession session, PongMessage message) throws Exception {
+        logger.info("handlePongMessage");
+    }
+
+    @Override
+    public void handleTextMessage(WebSocketSession webSocketSession, TextMessage message) {
+        logger.info("handleTextMessage");
     }
 
     @Override
@@ -75,5 +111,5 @@ public class ReplayMessageHandler  implements WebSocketHandler {
     @Override
     public boolean supportsPartialMessages() {
         return true;
-    }
+    }*/
 }

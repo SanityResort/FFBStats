@@ -1,7 +1,6 @@
 package org.butterbrot.ffb.stats;
 
 import com.balancedbytes.games.ffb.net.commands.ServerCommand;
-import org.springframework.web.socket.client.WebSocketClient;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -22,7 +21,7 @@ public class FfbStatsClient {
     public FfbStatsClient(String gameId) throws IOException {
         this.loadProperties();
   //      this.fWebSocketClientFactory = new WebSocketClientFactory();
-        this.statsHandler = new CommandHandler(this);
+        this.statsHandler = new CommandHandler();
         this.fCommandSocket = new StatsCommandSocket(Long.valueOf(gameId), Boolean.parseBoolean(getProperty("client.command.compression")), statsHandler);
     }
 
