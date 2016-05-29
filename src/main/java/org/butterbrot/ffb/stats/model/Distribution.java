@@ -38,12 +38,16 @@ public class Distribution {
         Set<BlockResult> keys = new TreeSet<>();
         keys.addAll(stats.keySet());
         int sum=0;
+        int max = 0;
         for (BlockResult key: keys) {
-            sum+=stats.get(key);
+            int count = stats.get(key);
+            sum+=count;
+            max = Math.max(max, count);
+
         }
         for (BlockResult key: keys) {
             int count = stats.get(key);
-            double percentage = sum == 0? 0: 100*count/sum;
+            double percentage = sum == 0? 0: 100*count/max;
             entries.add(new DistributionEntry(count, percentage, SYMBOL_LABELS.get(key)));
         }
     }
@@ -54,12 +58,16 @@ public class Distribution {
         Set<Integer> keys = new TreeSet<>();
         keys.addAll(stats.keySet());
         int sum=0;
+        int max = 0;
         for (Integer key: keys) {
-            sum+=stats.get(key);
+            int count = stats.get(key);
+            sum+=count;
+            max = Math.max(max, count);
+
         }
         for (Integer key: keys) {
             int count = stats.get(key);
-            double percentage = sum == 0? 0: 100*count/sum;
+            double percentage = sum == 0? 0: 100*count/max;
             entries.add(new DistributionEntry(count, percentage, labels.get(key)));
         }
     }
