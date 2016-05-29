@@ -35,8 +35,6 @@ import com.balancedbytes.games.ffb.TurnModeFactory;
 import com.balancedbytes.games.ffb.Weather;
 import com.balancedbytes.games.ffb.WeatherFactory;
 import com.balancedbytes.games.ffb.json.UtilJson;
-import com.balancedbytes.games.ffb.option.GameOptionFactory;
-import com.balancedbytes.games.ffb.option.IGameOption;
 import com.eclipsesource.json.JsonValue;
 
 import java.util.Date;
@@ -127,7 +125,7 @@ public enum ModelChangeDataType implements IEnumWithId,
                 return ((FieldMarker) pValue).toJsonValue();
             }
             case GAME_OPTION: {
-                return ((IGameOption) pValue).toJsonValue();
+                return JsonValue.valueOf("");
             }
             case INDUCEMENT: {
                 return ((Inducement) pValue).toJsonValue();
@@ -226,7 +224,7 @@ public enum ModelChangeDataType implements IEnumWithId,
                 return new FieldMarker().initFrom(pJsonValue);
             }
             case GAME_OPTION: {
-                return new GameOptionFactory().fromJsonValue(pJsonValue);
+                return null;
             }
             case INDUCEMENT: {
                 return new Inducement().initFrom(pJsonValue);

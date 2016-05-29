@@ -36,7 +36,6 @@ import com.balancedbytes.games.ffb.model.AnimationTypeFactory;
 import com.balancedbytes.games.ffb.model.change.ModelChangeIdFactory;
 import com.balancedbytes.games.ffb.net.NetCommandIdFactory;
 import com.balancedbytes.games.ffb.net.ServerStatusFactory;
-import com.balancedbytes.games.ffb.option.GameOptionIdFactory;
 import com.balancedbytes.games.ffb.report.ReportIdFactory;
 
 public interface IJsonOption {
@@ -157,7 +156,6 @@ public interface IJsonOption {
     public static final JsonArrayOption GAME_LIST_ENTRIES = new JsonArrayOption("gameListEntries");
     public static final JsonStringOption GAME_NAME = new JsonStringOption("gameName");
     public static final JsonArrayOption GAME_OPTION_ARRAY = new JsonArrayOption("gameOptionArray");
-    public static final JsonEnumWithNameOption GAME_OPTION_ID = new JsonEnumWithNameOption("gameOptionId", new GameOptionIdFactory());
     public static final JsonStringOption GAME_OPTION_VALUE = new JsonStringOption("gameOptionValue");
     public static final JsonObjectOption GAME_OPTIONS = new JsonObjectOption("gameOptions");
     public static final JsonObjectOption GAME_RESULT = new JsonObjectOption("gameResult");
