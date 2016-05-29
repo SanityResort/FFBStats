@@ -9,7 +9,6 @@ import com.balancedbytes.games.ffb.CardEffect;
 import com.balancedbytes.games.ffb.DiceDecoration;
 import com.balancedbytes.games.ffb.FieldCoordinate;
 import com.balancedbytes.games.ffb.FieldMarker;
-import com.balancedbytes.games.ffb.IDialogParameter;
 import com.balancedbytes.games.ffb.Inducement;
 import com.balancedbytes.games.ffb.LeaderState;
 import com.balancedbytes.games.ffb.MoveSquare;
@@ -230,7 +229,6 @@ public class ModelChangeProcessor {
                 return true;
             }
             case GAME_SET_DIALOG_PARAMETER: {
-                pGame.setDialogParameter((IDialogParameter)pModelChange.getValue());
                 return true;
             }
             case GAME_SET_FINISHED: {
@@ -565,8 +563,7 @@ public class ModelChangeProcessor {
                 return new ModelChange(pModelChange.getChangeId(), pModelChange.getKey(), rangeRuler != null ? rangeRuler.transform() : null);
             }
             case GAME_SET_DIALOG_PARAMETER: {
-                IDialogParameter dialogParameter = (IDialogParameter)pModelChange.getValue();
-                return new ModelChange(pModelChange.getChangeId(), pModelChange.getKey(), dialogParameter != null ? dialogParameter.transform() : null);
+                return new ModelChange(pModelChange.getChangeId(), pModelChange.getKey(), null);
             }
             case GAME_SET_HOME_FIRST_OFFENSE: 
             case GAME_SET_HOME_PLAYING: {

@@ -11,7 +11,6 @@ import com.balancedbytes.games.ffb.CardFactory;
 import com.balancedbytes.games.ffb.DiceDecoration;
 import com.balancedbytes.games.ffb.FieldCoordinate;
 import com.balancedbytes.games.ffb.FieldMarker;
-import com.balancedbytes.games.ffb.IDialogParameter;
 import com.balancedbytes.games.ffb.IEnumWithId;
 import com.balancedbytes.games.ffb.IEnumWithName;
 import com.balancedbytes.games.ffb.Inducement;
@@ -35,19 +34,15 @@ import com.balancedbytes.games.ffb.TurnMode;
 import com.balancedbytes.games.ffb.TurnModeFactory;
 import com.balancedbytes.games.ffb.Weather;
 import com.balancedbytes.games.ffb.WeatherFactory;
-import com.balancedbytes.games.ffb.dialog.DialogId;
-import com.balancedbytes.games.ffb.dialog.DialogIdFactory;
-import com.balancedbytes.games.ffb.dialog.DialogParameterFactory;
 import com.balancedbytes.games.ffb.json.UtilJson;
 import com.balancedbytes.games.ffb.option.GameOptionFactory;
 import com.balancedbytes.games.ffb.option.IGameOption;
-import com.eclipsesource.json.JsonObject;
 import com.eclipsesource.json.JsonValue;
+
 import java.util.Date;
 
 public enum ModelChangeDataType implements IEnumWithId,
-IEnumWithName
-{
+        IEnumWithName {
     NULL(1, "null"),
     BOOLEAN(2, "boolean"),
     STRING(3, "string"),
@@ -77,7 +72,7 @@ IEnumWithName
     CARD(27, "card"),
     LEADER_STATE(28, "leaderState"),
     CARD_EFFECT(29, "cardEffect");
-    
+
     private int fId;
     private String fName;
 
@@ -102,94 +97,94 @@ IEnumWithName
         }
         switch (this) {
             case BLOOD_SPOT: {
-                return ((BloodSpot)pValue).toJsonValue();
+                return ((BloodSpot) pValue).toJsonValue();
             }
             case BOOLEAN: {
-                return JsonValue.valueOf((Boolean)pValue);
+                return JsonValue.valueOf((Boolean) pValue);
             }
             case CARD: {
-                return UtilJson.toJsonValue((Card)pValue);
+                return UtilJson.toJsonValue((Card) pValue);
             }
             case CARD_EFFECT: {
-                return UtilJson.toJsonValue((CardEffect)pValue);
+                return UtilJson.toJsonValue((CardEffect) pValue);
             }
             case DATE: {
-                return UtilJson.toJsonValue((Date)pValue);
+                return UtilJson.toJsonValue((Date) pValue);
             }
             case DIALOG_ID: {
-                return UtilJson.toJsonValue((DialogId)pValue);
+                return JsonValue.valueOf(0);
             }
             case DIALOG_PARAMETER: {
-                return ((IDialogParameter)pValue).toJsonValue();
+                return JsonValue.valueOf("");
             }
             case DICE_DECORATION: {
-                return ((DiceDecoration)pValue).toJsonValue();
+                return ((DiceDecoration) pValue).toJsonValue();
             }
             case FIELD_COORDINATE: {
-                return UtilJson.toJsonValue((FieldCoordinate)pValue);
+                return UtilJson.toJsonValue((FieldCoordinate) pValue);
             }
             case FIELD_MARKER: {
-                return ((FieldMarker)pValue).toJsonValue();
+                return ((FieldMarker) pValue).toJsonValue();
             }
             case GAME_OPTION: {
-                return ((IGameOption)pValue).toJsonValue();
+                return ((IGameOption) pValue).toJsonValue();
             }
             case INDUCEMENT: {
-                return ((Inducement)pValue).toJsonValue();
+                return ((Inducement) pValue).toJsonValue();
             }
             case INTEGER: {
                 if (pValue instanceof Byte) {
-                    return JsonValue.valueOf(((Byte)pValue).intValue());
+                    return JsonValue.valueOf(((Byte) pValue).intValue());
                 }
-                return JsonValue.valueOf((Integer)pValue);
+                return JsonValue.valueOf((Integer) pValue);
             }
             case LEADER_STATE: {
-                return UtilJson.toJsonValue((LeaderState)pValue);
+                return UtilJson.toJsonValue((LeaderState) pValue);
             }
             case LONG: {
-                return JsonValue.valueOf((Long)pValue);
+                return JsonValue.valueOf((Long) pValue);
             }
             case MOVE_SQUARE: {
-                return ((MoveSquare)pValue).toJsonValue();
+                return ((MoveSquare) pValue).toJsonValue();
             }
             case NULL: {
                 return null;
             }
             case PLAYER_ACTION: {
-                return UtilJson.toJsonValue((PlayerAction)pValue);
+                return UtilJson.toJsonValue((PlayerAction) pValue);
             }
             case PLAYER_MARKER: {
-                return ((PlayerMarker)pValue).toJsonValue();
+                return ((PlayerMarker) pValue).toJsonValue();
             }
             case PLAYER_STATE: {
-                return UtilJson.toJsonValue((PlayerState)pValue);
+                return UtilJson.toJsonValue((PlayerState) pValue);
             }
             case PUSHBACK_SQUARE: {
-                return ((PushbackSquare)pValue).toJsonValue();
+                return ((PushbackSquare) pValue).toJsonValue();
             }
             case RANGE_RULER: {
-                return ((RangeRuler)pValue).toJsonValue();
+                return ((RangeRuler) pValue).toJsonValue();
             }
             case SEND_TO_BOX_REASON: {
-                return UtilJson.toJsonValue((SendToBoxReason)pValue);
+                return UtilJson.toJsonValue((SendToBoxReason) pValue);
             }
             case SERIOUS_INJURY: {
-                return UtilJson.toJsonValue((SeriousInjury)pValue);
+                return UtilJson.toJsonValue((SeriousInjury) pValue);
             }
             case SKILL: {
-                return UtilJson.toJsonValue((Skill)pValue);
+                return UtilJson.toJsonValue((Skill) pValue);
             }
             case STRING: {
-                return JsonValue.valueOf((String)pValue);
+                return JsonValue.valueOf((String) pValue);
             }
             case TRACK_NUMBER: {
-                return ((TrackNumber)pValue).toJsonValue();
+                return ((TrackNumber) pValue).toJsonValue();
             }
             case TURN_MODE: {
-                return UtilJson.toJsonValue((TurnMode)pValue);
+                return UtilJson.toJsonValue((TurnMode) pValue);
             }
             case WEATHER: {
-                return UtilJson.toJsonValue((Weather)pValue);
+                return UtilJson.toJsonValue((Weather) pValue);
             }
         }
         throw new IllegalStateException("Unknown type " + this + ".");
@@ -216,10 +211,10 @@ IEnumWithName
                 return UtilJson.toDate(pJsonValue);
             }
             case DIALOG_ID: {
-                return UtilJson.toEnumWithName(new DialogIdFactory(), pJsonValue);
+                return null;
             }
             case DIALOG_PARAMETER: {
-                return new DialogParameterFactory().forJsonValue(pJsonValue);
+                return null;
             }
             case DICE_DECORATION: {
                 return new DiceDecoration().initFrom(pJsonValue);

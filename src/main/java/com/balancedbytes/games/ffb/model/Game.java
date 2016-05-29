@@ -4,30 +4,11 @@
 package com.balancedbytes.games.ffb.model;
 
 import com.balancedbytes.games.ffb.FieldCoordinate;
-import com.balancedbytes.games.ffb.IDialogParameter;
-import com.balancedbytes.games.ffb.IEnumWithName;
 import com.balancedbytes.games.ffb.PlayerAction;
 import com.balancedbytes.games.ffb.TurnMode;
-import com.balancedbytes.games.ffb.dialog.DialogParameterFactory;
 import com.balancedbytes.games.ffb.json.IJsonOption;
 import com.balancedbytes.games.ffb.json.IJsonSerializable;
-import com.balancedbytes.games.ffb.json.JsonBooleanOption;
-import com.balancedbytes.games.ffb.json.JsonDateOption;
-import com.balancedbytes.games.ffb.json.JsonEnumWithNameOption;
-import com.balancedbytes.games.ffb.json.JsonFieldCoordinateOption;
-import com.balancedbytes.games.ffb.json.JsonIntOption;
-import com.balancedbytes.games.ffb.json.JsonLongOption;
-import com.balancedbytes.games.ffb.json.JsonObjectOption;
-import com.balancedbytes.games.ffb.json.JsonStringOption;
 import com.balancedbytes.games.ffb.json.UtilJson;
-import com.balancedbytes.games.ffb.model.ActingPlayer;
-import com.balancedbytes.games.ffb.model.FieldModel;
-import com.balancedbytes.games.ffb.model.GameOptions;
-import com.balancedbytes.games.ffb.model.GameResult;
-import com.balancedbytes.games.ffb.model.Player;
-import com.balancedbytes.games.ffb.model.Team;
-import com.balancedbytes.games.ffb.model.TeamResult;
-import com.balancedbytes.games.ffb.model.TurnData;
 import com.balancedbytes.games.ffb.model.change.ModelChange;
 import com.balancedbytes.games.ffb.model.change.ModelChangeId;
 import com.balancedbytes.games.ffb.model.change.ModelChangeObservable;
@@ -36,6 +17,7 @@ import com.balancedbytes.games.ffb.util.StringTool;
 import com.balancedbytes.games.ffb.util.UtilActingPlayer;
 import com.eclipsesource.json.JsonObject;
 import com.eclipsesource.json.JsonValue;
+
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -62,7 +44,6 @@ implements IJsonSerializable {
     private boolean fTimeoutEnforced;
     private boolean fConcessionPossible;
     private boolean fTesting;
-    private IDialogParameter fDialogParameter;
     private FieldModel fFieldModel;
     private Team fTeamHome;
     private Team fTeamAway;
@@ -359,18 +340,6 @@ implements IJsonSerializable {
         return this.fWaitingForOpponent;
     }
 
-    public void setDialogParameter(IDialogParameter pDialogParameter) {
-        if (pDialogParameter == null && this.fDialogParameter == null) {
-            return;
-        }
-        this.fDialogParameter = pDialogParameter;
-        this.notifyObservers(ModelChangeId.GAME_SET_DIALOG_PARAMETER, null, this.fDialogParameter);
-    }
-
-    public IDialogParameter getDialogParameter() {
-        return this.fDialogParameter;
-    }
-
     public Date getFinished() {
         return this.fFinished;
     }
@@ -484,7 +453,6 @@ implements IJsonSerializable {
         transformedGame.setFinished(this.getFinished());
         transformedGame.setSetupOffense(this.isSetupOffense());
         transformedGame.setWaitingForOpponent(this.isWaitingForOpponent());
-        transformedGame.setDialogParameter(this.getDialogParameter());
         transformedGame.setDefenderId(this.getDefenderId());
         transformedGame.setDefenderAction(this.getDefenderAction());
         transformedGame.setTurnTime(this.getTurnTime());
@@ -541,9 +509,7 @@ implements IJsonSerializable {
         IJsonOption.ACTING_PLAYER.addTo(jsonObject, this.fActingPlayer.toJsonValue());
         IJsonOption.GAME_RESULT.addTo(jsonObject, this.fGameResult.toJsonValue());
         IJsonOption.GAME_OPTIONS.addTo(jsonObject, this.fOptions.toJsonValue());
-        if (this.fDialogParameter != null) {
-            IJsonOption.DIALOG_PARAMETER.addTo(jsonObject, this.fDialogParameter.toJsonValue());
-        }
+
         return jsonObject;
     }
 
@@ -579,11 +545,8 @@ implements IJsonSerializable {
         this.fActingPlayer.initFrom(IJsonOption.ACTING_PLAYER.getFrom(jsonObject));
         this.fGameResult.initFrom(IJsonOption.GAME_RESULT.getFrom(jsonObject));
         this.fOptions.initFrom(IJsonOption.GAME_OPTIONS.getFrom(jsonObject));
-        this.fDialogParameter = null;
         JsonObject dialogParameterObject = IJsonOption.DIALOG_PARAMETER.getFrom(jsonObject);
-        if (dialogParameterObject != null) {
-            this.fDialogParameter = new DialogParameterFactory().forJsonValue(dialogParameterObject);
-        }
+
         return this;
     }
 }
