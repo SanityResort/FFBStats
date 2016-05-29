@@ -6,7 +6,6 @@ package com.balancedbytes.games.ffb.net.commands;
 import com.balancedbytes.games.ffb.SoundId;
 import com.balancedbytes.games.ffb.json.IJsonOption;
 import com.balancedbytes.games.ffb.json.UtilJson;
-import com.balancedbytes.games.ffb.model.Animation;
 import com.balancedbytes.games.ffb.net.NetCommandId;
 import com.balancedbytes.games.ffb.report.ReportList;
 import com.eclipsesource.json.JsonObject;
@@ -15,7 +14,6 @@ import com.eclipsesource.json.JsonValue;
 public class ServerCommandModelSync
 extends ServerCommand {
     private ReportList fReportList = new ReportList();
-    private Animation fAnimation;
     private SoundId fSound;
     private long fGameTime;
     private long fTurnTime;
@@ -23,10 +21,9 @@ extends ServerCommand {
     public ServerCommandModelSync() {
     }
 
-    public ServerCommandModelSync(ReportList pReportList, Animation pAnimation, SoundId pSound, long pGameTime, long pTurnTime) {
+    public ServerCommandModelSync(ReportList pReportList, SoundId pSound, long pGameTime, long pTurnTime) {
         this();
         this.fReportList.add(pReportList);
-        this.fAnimation = pAnimation;
         this.fSound = pSound;
         this.fGameTime = pGameTime;
         this.fTurnTime = pTurnTime;
@@ -41,9 +38,6 @@ extends ServerCommand {
         return this.fReportList;
     }
 
-    public Animation getAnimation() {
-        return this.fAnimation;
-    }
 
     public SoundId getSound() {
         return this.fSound;
@@ -58,8 +52,7 @@ extends ServerCommand {
     }
 
     public ServerCommandModelSync transform() {
-        Animation transformedAnimation = this.getAnimation() != null ? this.getAnimation().transform() : null;
-        ServerCommandModelSync transformedCommand = new ServerCommandModelSync(this.getReportList().transform(), transformedAnimation, this.getSound(), this.getGameTime(), this.getTurnTime());
+        ServerCommandModelSync transformedCommand = new ServerCommandModelSync(this.getReportList().transform(), this.getSound(), this.getGameTime(), this.getTurnTime());
         transformedCommand.setCommandNr(this.getCommandNr());
         return transformedCommand;
     }
@@ -72,9 +65,7 @@ extends ServerCommand {
         if (this.fReportList != null) {
             IJsonOption.REPORT_LIST.addTo(jsonObject, this.fReportList.toJsonValue());
         }
-        if (this.fAnimation != null) {
-            IJsonOption.ANIMATION.addTo(jsonObject, this.fAnimation.toJsonValue());
-        }
+
         IJsonOption.SOUND.addTo(jsonObject, this.fSound);
         IJsonOption.GAME_TIME.addTo(jsonObject, this.fGameTime);
         IJsonOption.TURN_TIME.addTo(jsonObject, this.fTurnTime);
@@ -91,11 +82,8 @@ extends ServerCommand {
         if (reportListObject != null) {
             this.fReportList.initFrom(reportListObject);
         }
-        this.fAnimation = null;
         JsonObject animationObject = IJsonOption.ANIMATION.getFrom(jsonObject);
-        if (animationObject != null) {
-            this.fAnimation = new Animation().initFrom(animationObject);
-        }
+
         this.fSound = (SoundId)IJsonOption.SOUND.getFrom(jsonObject);
         this.fGameTime = IJsonOption.GAME_TIME.getFrom(jsonObject);
         this.fTurnTime = IJsonOption.TURN_TIME.getFrom(jsonObject);

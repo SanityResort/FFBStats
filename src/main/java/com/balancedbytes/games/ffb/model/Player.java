@@ -21,29 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Player implements IJsonSerializable {
-    public static final String XML_TAG = "player";
-    private static final String _XML_ATTRIBUTE_ID = "id";
-    private static final String _XML_ATTRIBUTE_NR = "nr";
-    private static final String _XML_ATTRIBUTE_SIZE = "size";
-    private static final String _XML_TAG_NAME = "name";
-    private static final String _XML_TAG_TYPE = "type";
-    private static final String _XML_TAG_GENDER = "gender";
-    private static final String _XML_TAG_POSITION_ID = "positionId";
-    private static final String _XML_TAG_SKILL_LIST = "skillList";
-    private static final String _XML_TAG_SKILL = "skill";
-    private static final String _XML_TAG_ICON_SET = "iconSet";
-    private static final String _XML_TAG_PORTRAIT = "portrait";
-    private static final String _XML_TAG_INJURY_LIST = "injuryList";
-    private static final String _XML_TAG_INJURY = "injury";
-    private static final String _XML_ATTRIBUTE_RECOVERING = "recovering";
-    private static final String _XML_TAG_PLAYER_STATISTICS = "playerStatistics";
-    private static final String _XML_ATTRIBUTE_CURRENT_SPPS = "currentSpps";
-    private static final String _XML_TAG_MOVEMENT = "movement";
-    private static final String _XML_TAG_STRENGTH = "strength";
-    private static final String _XML_TAG_AGILITY = "agility";
-    private static final String _XML_TAG_ARMOUR = "armour";
-    private static final String _XML_TAG_SHORTHAND = "shorthand";
-    private static final String _XML_TAG_RACE = "race";
+
     private String fId;
     private int fNr;
     private Team fTeam;
@@ -62,7 +40,6 @@ public class Player implements IJsonSerializable {
     private List<Skill> fSkills = new ArrayList<Skill>();
     private List<SeriousInjury> fLastingInjuries = new ArrayList<SeriousInjury>();
     private SeriousInjury fRecoveringInjury;
-    private transient RosterPosition fPosition;
     private transient int fCurrentSpps;
     private transient boolean fInsideSkillList;
     private transient boolean fInsideInjuryList;
@@ -71,7 +48,6 @@ public class Player implements IJsonSerializable {
     public Player() {
         this.setGender(PlayerGender.MALE);
         this.fIconSetIndex = 0;
-        this.fPosition = new RosterPosition(null);
     }
 
     public String getName() {
@@ -174,81 +150,6 @@ public class Player implements IJsonSerializable {
         this.fNrOfIcons = pNrOfIcons;
     }
 
-    public RosterPosition getPosition() {
-        return this.fPosition;
-    }
-
-    public void updatePosition(RosterPosition pPosition) {
-        this.fPosition = pPosition;
-        if (this.fPosition != null) {
-            this.setPositionId(this.fPosition.getId());
-            if (this.getPlayerType() == null) {
-                this.setType(this.fPosition.getType());
-            }
-            if (this.fPosition.getGender() != null) {
-                this.setGender(this.fPosition.getGender());
-            }
-            this.setMovement(this.fPosition.getMovement());
-            this.setStrength(this.fPosition.getStrength());
-            this.setAgility(this.fPosition.getAgility());
-            this.setArmour(this.fPosition.getArmour());
-            this.fIconSetIndex = pPosition.findNextIconSetIndex();
-            for (Skill skill2 : this.fPosition.getSkills()) {
-                this.addSkill(skill2);
-            }
-            block13 : for (Skill skill2 : this.getSkills()) {
-                switch (skill2) {
-                    case MOVEMENT_INCREASE: {
-                        ++this.fMovement;
-                        continue block13;
-                    }
-                    case STRENGTH_INCREASE: {
-                        ++this.fStrength;
-                        continue block13;
-                    }
-                    case AGILITY_INCREASE: {
-                        ++this.fAgility;
-                        continue block13;
-                    }
-                    case ARMOUR_INCREASE: {
-                        ++this.fArmour;
-                        break;
-                    }
-                }
-            }
-            int oldMovement = this.getMovement();
-            int oldArmour = this.getArmour();
-            int oldAgility = this.getAgility();
-            int oldStrength = this.getStrength();
-            block14 : for (SeriousInjury injury : this.getLastingInjuries()) {
-                switch (injury) {
-                    case SMASHED_HIP: 
-                    case SMASHED_ANKLE: {
-                        if (this.fMovement <= 1 || oldMovement - this.fMovement >= 2) continue block14;
-                        --this.fMovement;
-                        continue block14;
-                    }
-                    case SERIOUS_CONCUSSION: 
-                    case FRACTURED_SKULL: {
-                        if (this.fArmour <= 1 || oldArmour - this.fArmour >= 2) continue block14;
-                        --this.fArmour;
-                        continue block14;
-                    }
-                    case BROKEN_NECK: {
-                        if (this.fAgility <= 1 || oldAgility - this.fAgility >= 2) continue block14;
-                        --this.fAgility;
-                        continue block14;
-                    }
-                    case SMASHED_COLLAR_BONE: {
-                        if (this.fStrength <= 1 || oldStrength - this.fStrength >= 2) continue block14;
-                        --this.fStrength;
-                        break;
-                    }
-                }
-            }
-        }
-    }
-
     public Team getTeam() {
         return this.fTeam;
     }
@@ -307,10 +208,6 @@ public class Player implements IJsonSerializable {
 
     public void setPositionId(String pPositionId) {
         this.fPositionId = pPositionId;
-    }
-
-    public String getRace() {
-        return this.getPosition().getRace();
     }
 
     public boolean equals(Object obj) {

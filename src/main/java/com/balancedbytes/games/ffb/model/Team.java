@@ -17,22 +17,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Team implements IJsonSerializable {
-    public static final String XML_TAG = "team";
-    private static final String _XML_ATTRIBUTE_ID = "id";
-    private static final String _XML_TAG_NAME = "name";
-    private static final String _XML_TAG_RACE = "race";
-    private static final String _XML_TAG_ROSTER_ID = "rosterId";
-    private static final String _XML_TAG_RE_ROLLS = "reRolls";
-    private static final String _XML_TAG_APOTHECARIES = "apothecaries";
-    private static final String _XML_TAG_CHEERLEADERS = "cheerleaders";
-    private static final String _XML_TAG_ASSISTANT_COACHES = "assistantCoaches";
-    private static final String _XML_TAG_COACH = "coach";
-    private static final String _XML_TAG_FAN_FACTOR = "fanFactor";
-    private static final String _XML_TAG_TEAM_VALUE = "teamValue";
-    private static final String _XML_TAG_DIVISION = "division";
-    private static final String _XML_TAG_TREASURY = "treasury";
-    private static final String _XML_TAG_BASE_ICON_PATH = "baseIconPath";
-    private static final String _XML_TAG_LOGO_URL = "logo";
+
     private String fId;
     private String fName;
     private String fRace;
@@ -48,14 +33,8 @@ public class Team implements IJsonSerializable {
     private String fBaseIconPath;
     private String fLogoUrl;
     private String fRosterId;
-    private Roster fRoster;
-    private InducementSet fInducementSet;
     private transient Map<String, Player> fPlayerById = new HashMap<String, Player>();
     private transient Map<Integer, Player> fPlayerByNr = new HashMap<Integer, Player>();
-
-    public Team() {
-        this.updateRoster(new Roster());
-    }
 
     public void setId(String pId) {
         this.fId = pId;
@@ -126,15 +105,6 @@ public class Team implements IJsonSerializable {
         return maxPlayerNr;
     }
 
-    public int getNrOfAvailablePlayersInPosition(RosterPosition pos) {
-        int nrOfPlayersInPosition = 0;
-        for (Player player : this.getPlayers()) {
-            if (player.getPosition() != pos || player.getRecoveringInjury() != null) continue;
-            ++nrOfPlayersInPosition;
-        }
-        return nrOfPlayersInPosition;
-    }
-
     public int getNrOfRegularPlayers() {
         int nrOfRegularPlayers = 0;
         for (Player player : this.getPlayers()) {
@@ -179,22 +149,6 @@ public class Team implements IJsonSerializable {
 
     public void setReRolls(int pReRolls) {
         this.fReRolls = pReRolls;
-    }
-
-    public Roster getRoster() {
-        return this.fRoster;
-    }
-
-    public void updateRoster(Roster pRoster) {
-        this.fRoster = pRoster;
-        if (this.fRoster != null) {
-            this.setRosterId(this.fRoster.getId());
-            this.setRace(this.fRoster.getName());
-            for (Player player : this.getPlayers()) {
-                String positionId = player.getPositionId();
-                player.updatePosition(this.fRoster.getPositionById(positionId));
-            }
-        }
     }
 
     public int getCheerleaders() {
@@ -261,13 +215,7 @@ public class Team implements IJsonSerializable {
         this.fCoach = coach;
     }
 
-    public InducementSet getInducementSet() {
-        return this.fInducementSet;
-    }
 
-    public void setInducementSet(InducementSet pInducementSet) {
-        this.fInducementSet = pInducementSet;
-    }
 
     public static Comparator<Team> comparatorByName() {
         return new Comparator<Team>(){
@@ -300,9 +248,6 @@ public class Team implements IJsonSerializable {
             playerArray.add(player.toJsonValue());
         }
         IJsonOption.PLAYER_ARRAY.addTo(jsonObject, playerArray);
-        if (this.fRoster != null) {
-            IJsonOption.ROSTER.addTo(jsonObject, this.fRoster.toJsonValue());
-        }
         return jsonObject;
     }
 
@@ -328,12 +273,7 @@ public class Team implements IJsonSerializable {
         for (int i = 0; i < playerArray.size(); ++i) {
             this.addPlayer(new Player().initFrom(playerArray.get(i)));
         }
-        Roster roster = null;
-        JsonObject rosterObject = IJsonOption.ROSTER.getFrom(jsonObject);
-        if (rosterObject != null) {
-            roster = new Roster().initFrom(rosterObject);
-        }
-        this.updateRoster(roster);
+
         return this;
     }
 

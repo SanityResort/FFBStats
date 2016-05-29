@@ -5,76 +5,13 @@ package com.balancedbytes.games.ffb.net;
 
 import com.balancedbytes.games.ffb.IEnumWithId;
 import com.balancedbytes.games.ffb.IEnumWithName;
-import com.balancedbytes.games.ffb.net.NetCommand;
-import com.balancedbytes.games.ffb.net.commands.ClientCommandActingPlayer;
-import com.balancedbytes.games.ffb.net.commands.ClientCommandApothecaryChoice;
-import com.balancedbytes.games.ffb.net.commands.ClientCommandBlock;
-import com.balancedbytes.games.ffb.net.commands.ClientCommandBlockChoice;
-import com.balancedbytes.games.ffb.net.commands.ClientCommandBuyCard;
-import com.balancedbytes.games.ffb.net.commands.ClientCommandBuyInducements;
-import com.balancedbytes.games.ffb.net.commands.ClientCommandCloseSession;
-import com.balancedbytes.games.ffb.net.commands.ClientCommandCoinChoice;
-import com.balancedbytes.games.ffb.net.commands.ClientCommandConcedeGame;
-import com.balancedbytes.games.ffb.net.commands.ClientCommandConfirm;
-import com.balancedbytes.games.ffb.net.commands.ClientCommandDebugClientState;
-import com.balancedbytes.games.ffb.net.commands.ClientCommandEndTurn;
-import com.balancedbytes.games.ffb.net.commands.ClientCommandFollowupChoice;
-import com.balancedbytes.games.ffb.net.commands.ClientCommandFoul;
-import com.balancedbytes.games.ffb.net.commands.ClientCommandGaze;
-import com.balancedbytes.games.ffb.net.commands.ClientCommandHandOver;
-import com.balancedbytes.games.ffb.net.commands.ClientCommandIllegalProcedure;
-import com.balancedbytes.games.ffb.net.commands.ClientCommandInterceptorChoice;
-import com.balancedbytes.games.ffb.net.commands.ClientCommandJoin;
-import com.balancedbytes.games.ffb.net.commands.ClientCommandJourneymen;
-import com.balancedbytes.games.ffb.net.commands.ClientCommandKickoff;
-import com.balancedbytes.games.ffb.net.commands.ClientCommandMove;
-import com.balancedbytes.games.ffb.net.commands.ClientCommandPass;
-import com.balancedbytes.games.ffb.net.commands.ClientCommandPasswordChallenge;
-import com.balancedbytes.games.ffb.net.commands.ClientCommandPettyCash;
-import com.balancedbytes.games.ffb.net.commands.ClientCommandPing;
-import com.balancedbytes.games.ffb.net.commands.ClientCommandPlayerChoice;
-import com.balancedbytes.games.ffb.net.commands.ClientCommandPushback;
-import com.balancedbytes.games.ffb.net.commands.ClientCommandReceiveChoice;
 import com.balancedbytes.games.ffb.net.commands.ClientCommandReplay;
-import com.balancedbytes.games.ffb.net.commands.ClientCommandRequestVersion;
-import com.balancedbytes.games.ffb.net.commands.ClientCommandSetMarker;
-import com.balancedbytes.games.ffb.net.commands.ClientCommandSetupPlayer;
-import com.balancedbytes.games.ffb.net.commands.ClientCommandStartGame;
-import com.balancedbytes.games.ffb.net.commands.ClientCommandTalk;
-import com.balancedbytes.games.ffb.net.commands.ClientCommandTeamSetupDelete;
-import com.balancedbytes.games.ffb.net.commands.ClientCommandTeamSetupLoad;
-import com.balancedbytes.games.ffb.net.commands.ClientCommandTeamSetupSave;
-import com.balancedbytes.games.ffb.net.commands.ClientCommandThrowTeamMate;
-import com.balancedbytes.games.ffb.net.commands.ClientCommandTimeoutPossible;
-import com.balancedbytes.games.ffb.net.commands.ClientCommandTouchback;
-import com.balancedbytes.games.ffb.net.commands.ClientCommandUseApothecary;
-import com.balancedbytes.games.ffb.net.commands.ClientCommandUseInducement;
-import com.balancedbytes.games.ffb.net.commands.ClientCommandUseReRoll;
-import com.balancedbytes.games.ffb.net.commands.ClientCommandUseSkill;
-import com.balancedbytes.games.ffb.net.commands.ClientCommandUserSettings;
-import com.balancedbytes.games.ffb.net.commands.ClientCommandWizardSpell;
-import com.balancedbytes.games.ffb.net.commands.ServerCommandAddPlayer;
-import com.balancedbytes.games.ffb.net.commands.ServerCommandAdminMessage;
-import com.balancedbytes.games.ffb.net.commands.ServerCommandGameList;
 import com.balancedbytes.games.ffb.net.commands.ServerCommandGameState;
-import com.balancedbytes.games.ffb.net.commands.ServerCommandJoin;
-import com.balancedbytes.games.ffb.net.commands.ServerCommandLeave;
 import com.balancedbytes.games.ffb.net.commands.ServerCommandModelSync;
-import com.balancedbytes.games.ffb.net.commands.ServerCommandPasswordChallenge;
-import com.balancedbytes.games.ffb.net.commands.ServerCommandPing;
-import com.balancedbytes.games.ffb.net.commands.ServerCommandRemovePlayer;
 import com.balancedbytes.games.ffb.net.commands.ServerCommandReplay;
-import com.balancedbytes.games.ffb.net.commands.ServerCommandSound;
-import com.balancedbytes.games.ffb.net.commands.ServerCommandStatus;
-import com.balancedbytes.games.ffb.net.commands.ServerCommandTalk;
-import com.balancedbytes.games.ffb.net.commands.ServerCommandTeamList;
-import com.balancedbytes.games.ffb.net.commands.ServerCommandTeamSetupList;
-import com.balancedbytes.games.ffb.net.commands.ServerCommandUserSettings;
-import com.balancedbytes.games.ffb.net.commands.ServerCommandVersion;
 
 public enum NetCommandId implements IEnumWithId,
-IEnumWithName
-{
+        IEnumWithName {
     INTERNAL_SERVER_SOCKET_CLOSED(1, "internalServerSocketClosed"),
     CLIENT_JOIN(2, "clientJoin"),
     CLIENT_TALK(3, "clientTalk"),
@@ -151,7 +88,7 @@ IEnumWithName
     INTERNAL_SERVER_SCHEDULE_GAME(75, "internalServerScheduleGame"),
     INTERNAL_SERVER_BACKUP_GAME(76, "internalServerBackupGame"),
     CLIENT_CLOSE_SESSION(77, "clientCloseSession");
-    
+
     private int fId;
     private String fName;
 
@@ -172,137 +109,12 @@ IEnumWithName
 
     public NetCommand createNetCommand() {
         switch (this) {
-            case CLIENT_JOIN: {
-                return new ClientCommandJoin();
-            }
-            case CLIENT_TALK: {
-                return new ClientCommandTalk();
-            }
-            case SERVER_TALK: {
-                return new ServerCommandTalk();
-            }
-            case SERVER_STATUS: {
-                return new ServerCommandStatus();
-            }
-            case SERVER_TEAM_LIST: {
-                return new ServerCommandTeamList();
-            }
+
             case SERVER_GAME_STATE: {
                 return new ServerCommandGameState();
             }
-            case SERVER_JOIN: {
-                return new ServerCommandJoin();
-            }
-            case SERVER_LEAVE: {
-                return new ServerCommandLeave();
-            }
-            case CLIENT_SETUP_PLAYER: {
-                return new ClientCommandSetupPlayer();
-            }
-            case CLIENT_START_GAME: {
-                return new ClientCommandStartGame();
-            }
-            case CLIENT_ACTING_PLAYER: {
-                return new ClientCommandActingPlayer();
-            }
-            case CLIENT_MOVE: {
-                return new ClientCommandMove();
-            }
-            case CLIENT_USE_RE_ROLL: {
-                return new ClientCommandUseReRoll();
-            }
-            case SERVER_SOUND: {
-                return new ServerCommandSound();
-            }
-            case CLIENT_COIN_CHOICE: {
-                return new ClientCommandCoinChoice();
-            }
-            case CLIENT_RECEIVE_CHOICE: {
-                return new ClientCommandReceiveChoice();
-            }
-            case CLIENT_END_TURN: {
-                return new ClientCommandEndTurn();
-            }
-            case CLIENT_KICKOFF: {
-                return new ClientCommandKickoff();
-            }
-            case CLIENT_TOUCHBACK: {
-                return new ClientCommandTouchback();
-            }
-            case CLIENT_HAND_OVER: {
-                return new ClientCommandHandOver();
-            }
-            case CLIENT_PASS: {
-                return new ClientCommandPass();
-            }
-            case CLIENT_BLOCK: {
-                return new ClientCommandBlock();
-            }
-            case CLIENT_BLOCK_CHOICE: {
-                return new ClientCommandBlockChoice();
-            }
-            case CLIENT_PUSHBACK: {
-                return new ClientCommandPushback();
-            }
-            case CLIENT_FOLLOWUP_CHOICE: {
-                return new ClientCommandFollowupChoice();
-            }
-            case CLIENT_INTERCEPTOR_CHOICE: {
-                return new ClientCommandInterceptorChoice();
-            }
-            case CLIENT_USE_SKILL: {
-                return new ClientCommandUseSkill();
-            }
-            case SERVER_TEAM_SETUP_LIST: {
-                return new ServerCommandTeamSetupList();
-            }
-            case CLIENT_TEAM_SETUP_LOAD: {
-                return new ClientCommandTeamSetupLoad();
-            }
-            case CLIENT_TEAM_SETUP_SAVE: {
-                return new ClientCommandTeamSetupSave();
-            }
-            case CLIENT_TEAM_SETUP_DELETE: {
-                return new ClientCommandTeamSetupDelete();
-            }
-            case CLIENT_FOUL: {
-                return new ClientCommandFoul();
-            }
-            case CLIENT_USE_APOTHECARY: {
-                return new ClientCommandUseApothecary();
-            }
-            case CLIENT_APOTHECARY_CHOICE: {
-                return new ClientCommandApothecaryChoice();
-            }
-            case CLIENT_PING: {
-                return new ClientCommandPing();
-            }
-            case SERVER_PING: {
-                return new ServerCommandPing();
-            }
-            case CLIENT_PASSWORD_CHALLENGE: {
-                return new ClientCommandPasswordChallenge();
-            }
-            case SERVER_PASSWORD_CHALLENGE: {
-                return new ServerCommandPasswordChallenge();
-            }
-            case SERVER_VERSION: {
-                return new ServerCommandVersion();
-            }
-            case CLIENT_REQUEST_VERSION: {
-                return new ClientCommandRequestVersion();
-            }
-            case CLIENT_DEBUG_CLIENT_STATE: {
-                return new ClientCommandDebugClientState();
-            }
-            case SERVER_GAME_LIST: {
-                return new ServerCommandGameList();
-            }
-            case CLIENT_USER_SETTINGS: {
-                return new ClientCommandUserSettings();
-            }
-            case SERVER_USER_SETTINGS: {
-                return new ServerCommandUserSettings();
+            case SERVER_MODEL_SYNC: {
+                return new ServerCommandModelSync();
             }
             case SERVER_REPLAY: {
                 return new ServerCommandReplay();
@@ -310,63 +122,7 @@ IEnumWithName
             case CLIENT_REPLAY: {
                 return new ClientCommandReplay();
             }
-            case CLIENT_THROW_TEAM_MATE: {
-                return new ClientCommandThrowTeamMate();
-            }
-            case CLIENT_PLAYER_CHOICE: {
-                return new ClientCommandPlayerChoice();
-            }
-            case SERVER_MODEL_SYNC: {
-                return new ServerCommandModelSync();
-            }
-            case CLIENT_TIMEOUT_POSSIBLE: {
-                return new ClientCommandTimeoutPossible();
-            }
-            case CLIENT_ILLEGAL_PROCEDURE: {
-                return new ClientCommandIllegalProcedure();
-            }
-            case CLIENT_CONCEDE_GAME: {
-                return new ClientCommandConcedeGame();
-            }
-            case SERVER_ADMIN_MESSAGE: {
-                return new ServerCommandAdminMessage();
-            }
-            case CLIENT_USE_INDUCEMENT: {
-                return new ClientCommandUseInducement();
-            }
-            case CLIENT_BUY_INDUCEMENTS: {
-                return new ClientCommandBuyInducements();
-            }
-            case SERVER_ADD_PLAYER: {
-                return new ServerCommandAddPlayer();
-            }
-            case CLIENT_JOURNEYMEN: {
-                return new ClientCommandJourneymen();
-            }
-            case CLIENT_GAZE: {
-                return new ClientCommandGaze();
-            }
-            case CLIENT_CONFIRM: {
-                return new ClientCommandConfirm();
-            }
-            case CLIENT_SET_MARKER: {
-                return new ClientCommandSetMarker();
-            }
-            case CLIENT_PETTY_CASH: {
-                return new ClientCommandPettyCash();
-            }
-            case SERVER_REMOVE_PLAYER: {
-                return new ServerCommandRemovePlayer();
-            }
-            case CLIENT_WIZARD_SPELL: {
-                return new ClientCommandWizardSpell();
-            }
-            case CLIENT_BUY_CARD: {
-                return new ClientCommandBuyCard();
-            }
-            case CLIENT_CLOSE_SESSION: {
-                return new ClientCommandCloseSession();
-            }
+
         }
         throw new IllegalStateException("Unhandled netCommandId " + this + ".");
     }

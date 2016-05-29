@@ -32,7 +32,6 @@ import com.balancedbytes.games.ffb.SpecialEffectFactory;
 import com.balancedbytes.games.ffb.TeamStatusFactory;
 import com.balancedbytes.games.ffb.TurnModeFactory;
 import com.balancedbytes.games.ffb.WeatherFactory;
-import com.balancedbytes.games.ffb.model.AnimationTypeFactory;
 import com.balancedbytes.games.ffb.net.NetCommandIdFactory;
 import com.balancedbytes.games.ffb.net.ServerStatusFactory;
 import com.balancedbytes.games.ffb.report.ReportIdFactory;
@@ -42,7 +41,6 @@ public interface IJsonOption {
     public static final JsonStringOption ACTING_PLAYER_ID = new JsonStringOption("actingPlayerId");
     public static final JsonIntOption AGILITY = new JsonIntOption("agility");
     public static final JsonObjectOption ANIMATION = new JsonObjectOption("animation");
-    public static final JsonEnumWithNameOption ANIMATION_TYPE = new JsonEnumWithNameOption("animationType", new AnimationTypeFactory());
     public static final JsonIntOption APOTHECARIES = new JsonIntOption("apothecaries");
     public static final JsonBooleanOption APOTHECARY = new JsonBooleanOption("apothecary");
     public static final JsonBooleanOption APOTHECARY_USED = new JsonBooleanOption("apothecaryUsed");

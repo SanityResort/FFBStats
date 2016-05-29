@@ -37,21 +37,11 @@ public class Game
     private boolean fTimeoutEnforced;
     private boolean fConcessionPossible;
     private boolean fTesting;
-    private FieldModel fFieldModel;
     private Team fTeamHome;
     private Team fTeamAway;
-    private TurnData fTurnDataHome;
-    private TurnData fTurnDataAway;
-    private ActingPlayer fActingPlayer;
-    private GameResult fGameResult;
     private transient long fGameTime;
 
     public Game() {
-        this.setFieldModel(new FieldModel(this));
-        this.fTurnDataHome = new TurnData(this, true);
-        this.fTurnDataAway = new TurnData(this, false);
-        this.fActingPlayer = new ActingPlayer(this);
-        this.fGameResult = new GameResult(this);
         this.fHomePlaying = true;
         this.setTeamHome(new Team());
         this.setTeamAway(new Team());
@@ -68,18 +58,6 @@ public class Game
         return this.fId;
     }
 
-    public GameResult getGameResult() {
-        return this.fGameResult;
-    }
-
-    public TurnData getTurnDataHome() {
-        return this.fTurnDataHome;
-    }
-
-    public TurnData getTurnDataAway() {
-        return this.fTurnDataAway;
-    }
-
     public int getHalf() {
         return this.fHalf;
     }
@@ -90,9 +68,6 @@ public class Game
     }
 
 
-    public ActingPlayer getActingPlayer() {
-        return this.fActingPlayer;
-    }
 
     public Team getTeamHome() {
         return this.fTeamHome;
@@ -102,13 +77,6 @@ public class Game
         return this.fTeamAway;
     }
 
-    public FieldModel getFieldModel() {
-        return this.fFieldModel;
-    }
-
-    public void setFieldModel(FieldModel pFieldModel) {
-        this.fFieldModel = pFieldModel;
-    }
 
     public boolean isHomePlaying() {
         return this.fHomePlaying;
@@ -124,10 +92,6 @@ public class Game
         return this.fHomeFirstOffense;
     }
 
-
-    public TurnData getTurnData() {
-        return this.isHomePlaying() ? this.getTurnDataHome() : this.getTurnDataAway();
-    }
 
     public boolean isSetupOffense() {
         return this.fSetupOffense;
@@ -147,16 +111,6 @@ public class Game
         return team;
     }
 
-    public Player getPlayerById(String pPlayerId) {
-        Player player = null;
-        if (this.getTeamHome() != null) {
-            player = this.getTeamHome().getPlayerById(pPlayerId);
-        }
-        if (player == null && this.getTeamAway() != null) {
-            player = this.getTeamAway().getPlayerById(pPlayerId);
-        }
-        return player;
-    }
 
     public Player[] getPlayers() {
         ArrayList<Player> allPlayers = new ArrayList<Player>();
@@ -173,12 +127,10 @@ public class Game
 
     public void setTeamHome(Team pTeam) {
         this.fTeamHome = pTeam;
-        this.fGameResult.getTeamResultHome().setTeam(pTeam);
     }
 
     public void setTeamAway(Team pTeam) {
         this.fTeamAway = pTeam;
-        this.fGameResult.getTeamResultAway().setTeam(pTeam);
     }
 
     public Date getStarted() {
@@ -190,17 +142,11 @@ public class Game
         return this.fDefenderId;
     }
 
-    public Player getDefender() {
-        return this.getPlayerById(this.getDefenderId());
-    }
 
     public String getThrowerId() {
         return this.fThrowerId;
     }
 
-    public Player getThrower() {
-        return this.getPlayerById(this.getThrowerId());
-    }
 
 
     public PlayerAction getThrowerAction() {
@@ -226,15 +172,10 @@ public class Game
     public Game transform() {
         Game transformedGame = new Game();
         transformedGame.setId(this.getId());
-        transformedGame.fActingPlayer = this.getActingPlayer();
         transformedGame.setTurnTime(this.getTurnTime());
         transformedGame.setGameTime(this.getGameTime());
-        transformedGame.fFieldModel = this.getFieldModel().transform();
         transformedGame.setTeamHome(this.getTeamAway());
-        transformedGame.getTurnDataHome().init(this.getTurnDataAway());
         transformedGame.setTeamAway(this.getTeamHome());
-        transformedGame.getTurnDataAway().init(this.getTurnDataHome());
-        transformedGame.fGameResult = this.getGameResult().transform();
         return transformedGame;
     }
 
@@ -263,12 +204,7 @@ public class Game
         IJsonOption.THROWER_ID.addTo(jsonObject, this.fThrowerId);
         IJsonOption.THROWER_ACTION.addTo(jsonObject, this.fThrowerAction);
         IJsonOption.TEAM_AWAY.addTo(jsonObject, this.fTeamAway.toJsonValue());
-        IJsonOption.TURN_DATA_AWAY.addTo(jsonObject, this.fTurnDataAway.toJsonValue());
         IJsonOption.TEAM_HOME.addTo(jsonObject, this.fTeamHome.toJsonValue());
-        IJsonOption.TURN_DATA_HOME.addTo(jsonObject, this.fTurnDataHome.toJsonValue());
-        IJsonOption.FIELD_MODEL.addTo(jsonObject, this.fFieldModel.toJsonValue());
-        IJsonOption.ACTING_PLAYER.addTo(jsonObject, this.fActingPlayer.toJsonValue());
-        IJsonOption.GAME_RESULT.addTo(jsonObject, this.fGameResult.toJsonValue());
 
         return jsonObject;
     }
@@ -298,12 +234,7 @@ public class Game
         this.fThrowerId = IJsonOption.THROWER_ID.getFrom(jsonObject);
         this.fThrowerAction = (PlayerAction) IJsonOption.THROWER_ACTION.getFrom(jsonObject);
         this.fTeamAway.initFrom(IJsonOption.TEAM_AWAY.getFrom(jsonObject));
-        this.fTurnDataAway.initFrom(IJsonOption.TURN_DATA_AWAY.getFrom(jsonObject));
         this.fTeamHome.initFrom(IJsonOption.TEAM_HOME.getFrom(jsonObject));
-        this.fTurnDataHome.initFrom(IJsonOption.TURN_DATA_HOME.getFrom(jsonObject));
-        this.fFieldModel.initFrom(IJsonOption.FIELD_MODEL.getFrom(jsonObject));
-        this.fActingPlayer.initFrom(IJsonOption.ACTING_PLAYER.getFrom(jsonObject));
-        this.fGameResult.initFrom(IJsonOption.GAME_RESULT.getFrom(jsonObject));
 
         return this;
     }
