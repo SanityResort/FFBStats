@@ -5,14 +5,11 @@ package com.balancedbytes.games.ffb.model.change;
 
 import com.balancedbytes.games.ffb.json.IJsonOption;
 import com.balancedbytes.games.ffb.json.IJsonSerializable;
-import com.balancedbytes.games.ffb.json.JsonArrayOption;
 import com.balancedbytes.games.ffb.json.UtilJson;
-import com.balancedbytes.games.ffb.model.Game;
-import com.balancedbytes.games.ffb.model.change.ModelChange;
-import com.balancedbytes.games.ffb.model.change.ModelChangeProcessor;
 import com.eclipsesource.json.JsonArray;
 import com.eclipsesource.json.JsonObject;
 import com.eclipsesource.json.JsonValue;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -52,19 +49,8 @@ implements IJsonSerializable {
         return this.fChanges.size();
     }
 
-    public void applyTo(Game pGame) {
-        ModelChangeProcessor processor = new ModelChangeProcessor();
-        for (ModelChange change : this.getChanges()) {
-            processor.apply(pGame, change);
-        }
-    }
-
     public ModelChangeList transform() {
         ModelChangeList transformedList = new ModelChangeList(this.size());
-        ModelChangeProcessor processor = new ModelChangeProcessor();
-        for (ModelChange change : this.getChanges()) {
-            transformedList.add(processor.transform(change));
-        }
         return transformedList;
     }
 

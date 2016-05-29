@@ -14,7 +14,6 @@ import com.balancedbytes.games.ffb.model.change.ModelChangeId;
 import com.balancedbytes.games.ffb.model.change.ModelChangeObservable;
 import com.balancedbytes.games.ffb.util.DateTool;
 import com.balancedbytes.games.ffb.util.StringTool;
-import com.balancedbytes.games.ffb.util.UtilActingPlayer;
 import com.eclipsesource.json.JsonObject;
 import com.eclipsesource.json.JsonValue;
 
@@ -168,21 +167,6 @@ implements IJsonSerializable {
         }
         this.fHomeFirstOffense = pHomeFirstOffense;
         this.notifyObservers(ModelChangeId.GAME_SET_HOME_FIRST_OFFENSE, null, this.fHomeFirstOffense);
-    }
-
-    public void startTurn() {
-        this.setPassCoordinate(null);
-        UtilActingPlayer.changeActingPlayer(this, null, null, false);
-        this.getTurnDataHome().startTurn();
-        this.getTurnDataAway().startTurn();
-        this.setThrowerId(null);
-        this.setThrowerAction(null);
-        this.setDefenderId(null);
-        this.setDefenderAction(null);
-        this.setWaitingForOpponent(false);
-        this.setTimeoutPossible(false);
-        this.setTimeoutEnforced(false);
-        this.setConcessionPossible(true);
     }
 
     public TurnData getTurnData() {

@@ -73,7 +73,7 @@ extends ServerCommand {
 
     public ServerCommandModelSync transform() {
         Animation transformedAnimation = this.getAnimation() != null ? this.getAnimation().transform() : null;
-        ServerCommandModelSync transformedCommand = new ServerCommandModelSync(this.getModelChanges().transform(), this.getReportList().transform(), transformedAnimation, this.getSound(), this.getGameTime(), this.getTurnTime());
+        ServerCommandModelSync transformedCommand = new ServerCommandModelSync(this.getModelChanges(), this.getReportList().transform(), transformedAnimation, this.getSound(), this.getGameTime(), this.getTurnTime());
         transformedCommand.setCommandNr(this.getCommandNr());
         return transformedCommand;
     }
