@@ -1,6 +1,7 @@
 package org.butterbrot.ffb.stats;
 
 import com.balancedbytes.games.ffb.net.commands.ServerCommand;
+import com.sun.org.apache.xpath.internal.operations.Mod;
 import org.butterbrot.ffb.stats.communication.CommandHandler;
 import org.butterbrot.ffb.stats.communication.StatsCommandSocket;
 import org.butterbrot.ffb.stats.model.StatsCollection;
@@ -12,6 +13,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -34,7 +37,6 @@ public class StatsController {
     private boolean compression;
 
     @RequestMapping(value = "/stats/{gameId}")
-    @ResponseBody
     public String stats(@PathVariable(value = "gameId") String gameId)  {
         logger.info("Creating stats for game: {}", gameId);
 
@@ -77,7 +79,8 @@ public class StatsController {
         }
 
         StatsCollection stats = collector.evaluate();
-        return stats.toString();
+      //  model.addAttribute("stats", stats.toString());
+        return "stats";
     }
 
     // for local testing
