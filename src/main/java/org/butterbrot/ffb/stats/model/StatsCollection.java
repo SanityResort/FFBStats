@@ -1,8 +1,7 @@
-package org.butterbrot.ffb.stats;
+package org.butterbrot.ffb.stats.model;
 
 import com.balancedbytes.games.ffb.model.Player;
 import com.balancedbytes.games.ffb.model.Team;
-import com.balancedbytes.games.ffb.util.ArrayTool;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -15,19 +14,15 @@ public class StatsCollection {
     private Map<String, TeamStatsCollection> teams = new HashMap<>();
 
     public void setHomeTeam(Team team) {
-        System.out.println("Adding home team " + team.getId());
         teams.put(team.getId(), home);
         for (Player player : team.getPlayers()) {
-            System.out.println("Adding home player " + player.getId());
             teams.put(player.getId(), home);
         }
     }
 
     public void setAwayTeam(Team team) {
-        System.out.println("Adding away team " + team.getId());
         teams.put(team.getId(), away);
         for (Player player : team.getPlayers()) {
-            System.out.println("Adding away player " + player.getId());
             teams.put(player.getId(), away);
         }
     }
@@ -49,10 +44,6 @@ public class StatsCollection {
         getOpposition(team).addSingleRoll(roll);
     }
 
-    public void addDoubleRoll(int[] rolls, String player) {
-        teams.get(player).addDoubleRoll(rolls);
-    }
-
     public void addDoubleOpposingRoll(int[] rolls, String playerOrTeam) {
         TeamStatsCollection team = teams.get(playerOrTeam);
         getOpposition(team).addDoubleRoll(rolls);
@@ -67,7 +58,6 @@ public class StatsCollection {
     }
 
     public void addBlockRolls(int[] rolls, String blocker, String choosingTeam, boolean rerolled) {
-        System.out.println("Adding block: " + ArrayTool.join(rolls, ",") + " - blocker: " + blocker + " - choosing team: " + choosingTeam);
         TeamStatsCollection blockerTeam = teams.get(blocker);
         blockerTeam.addBlockDice(rolls);
         TeamStatsCollection chooserTeam = teams.get(choosingTeam);
@@ -83,7 +73,6 @@ public class StatsCollection {
     }
 
     public void addBlockKnockDown(int diceCount, String knockedDownPlayer, String choosingTeam, String blocker) {
-        System.out.println("Adding knockdown: " + diceCount + " - blocker: " + blocker + " - choosing team: " + choosingTeam + " - knocked down: " + knockedDownPlayer);
         TeamStatsCollection blockerTeam = teams.get(blocker);
         TeamStatsCollection chooserTeam = teams.get(choosingTeam);
         int count = diceCount * (chooserTeam == blockerTeam ? 1 : -1);

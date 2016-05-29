@@ -1,4 +1,4 @@
-package org.butterbrot.ffb.stats;
+package org.butterbrot.ffb.stats.model;
 
 import com.balancedbytes.games.ffb.BlockResult;
 import com.balancedbytes.games.ffb.BlockResultFactory;

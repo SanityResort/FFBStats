@@ -1,10 +1,9 @@
-package org.butterbrot.ffb.stats.spring;
+package org.butterbrot.ffb.stats;
 
 import com.balancedbytes.games.ffb.net.commands.ServerCommand;
-import org.butterbrot.ffb.stats.CommandHandler;
-import org.butterbrot.ffb.stats.StatsCollection;
-import org.butterbrot.ffb.stats.StatsCollector;
-import org.butterbrot.ffb.stats.StatsCommandSocket;
+import org.butterbrot.ffb.stats.communication.CommandHandler;
+import org.butterbrot.ffb.stats.communication.StatsCommandSocket;
+import org.butterbrot.ffb.stats.model.StatsCollection;
 import org.eclipse.jetty.websocket.WebSocketClient;
 import org.eclipse.jetty.websocket.WebSocketClientFactory;
 import org.slf4j.Logger;
@@ -39,24 +38,23 @@ public class StatsController {
     public String stats(@PathVariable(value = "gameId") String gameId)  {
         logger.info("Creating stats for game: {}", gameId);
 
-        final List<ServerCommand> replayCommands = new ArrayList<>();
-        WebSocketClientFactory fWebSocketClientFactory;
+        List<ServerCommand> replayCommands = new ArrayList<>();
         StatsCollector collector = new StatsCollector(replayCommands);
         CommandHandler statsHandler = new CommandHandler(collector);
-        fWebSocketClientFactory = new WebSocketClientFactory();
-        final StatsCommandSocket fCommandSocket = new StatsCommandSocket(Long.valueOf(gameId), compression, statsHandler);
+        WebSocketClientFactory webSocketClientFactory = new WebSocketClientFactory();
+        StatsCommandSocket commandSocket = new StatsCommandSocket(Long.valueOf(gameId), compression, statsHandler);
 
         try {
-            fWebSocketClientFactory.start();
+            webSocketClientFactory.start();
             URI uri = new URI("ws", null, InetAddress.getByName(server).getCanonicalHostName(), port, "/command", null, null);
-            WebSocketClient fWebSocketClient = fWebSocketClientFactory.newWebSocketClient();
-            fWebSocketClient.open(uri, fCommandSocket).get();
+            WebSocketClient fWebSocketClient = webSocketClientFactory.newWebSocketClient();
+            fWebSocketClient.open(uri, commandSocket).get();
 
             logger.info("Url: " + uri);
         } catch (Exception e) {
-            if (fWebSocketClientFactory.isRunning()) {
+            if (webSocketClientFactory.isRunning()) {
                 try {
-                    fWebSocketClientFactory.stop();
+                    webSocketClientFactory.stop();
                 } catch (Exception e1) {
                     logger.error("Could not stop factory for clean up", e1);
                 }
@@ -74,8 +72,8 @@ public class StatsController {
 
         logger.info("Was notified");
         try {
-            fWebSocketClientFactory.stop();
-            fCommandSocket.awaitClose(1, TimeUnit.SECONDS);
+            webSocketClientFactory.stop();
+            commandSocket.awaitClose(1, TimeUnit.SECONDS);
         } catch (Exception pAnyException) {
             pAnyException.printStackTrace();
         }
@@ -85,10 +83,12 @@ public class StatsController {
         return stats.toString();
     }
 
+    // for local testing
     public static void main(String[] args) {
         SpringApplication.run(StatsController.class, args);
     }
 
+    // keep those for property injection
     public String getServer() {
         return server;
     }

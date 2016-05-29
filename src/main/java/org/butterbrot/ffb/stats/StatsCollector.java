@@ -24,6 +24,7 @@ import com.balancedbytes.games.ffb.report.ReportTentaclesShadowingRoll;
 import com.balancedbytes.games.ffb.report.ReportTurnEnd;
 import com.balancedbytes.games.ffb.report.ReportWinningsRoll;
 import com.balancedbytes.games.ffb.util.ArrayTool;
+import org.butterbrot.ffb.stats.model.StatsCollection;
 
 import java.util.List;
 
@@ -31,10 +32,9 @@ public class StatsCollector {
     private List<ServerCommand> replayCommands;
     private StatsCollection collection = new StatsCollection();
 
-    public StatsCollector(final List<ServerCommand> replayCommands) {
+    StatsCollector(final List<ServerCommand> replayCommands) {
         this.replayCommands = replayCommands;
     }
-
 
     public void setHomeTeam(Team team) {
         collection.setHomeTeam(team);
@@ -48,28 +48,16 @@ public class StatsCollector {
         return replayCommands;
     }
 
-    public StatsCollection evaluate() {
+    StatsCollection evaluate() {
 
-        int replayCount = 0;
         String currentBlocker = null;
         ReportBlockRoll currentBlockRoll = null;
         boolean lastReportWasBlockRoll = false;
         boolean blockRerolled = false;
         for (ServerCommand command : replayCommands) {
-            replayCount++;
-            //              System.out.println("Aggregating command " + replayCount + " of " + replayCommands.size());
             ServerCommandModelSync modelSync = (ServerCommandModelSync) command;
             ReportList reportList = modelSync.getReportList();
-            //             System.out.println("Starting report aggregation for " + reportList.size() + " reports");
-            int reportCount = 0;
             for (IReport report : reportList.getReports()) {
-                reportCount++;
-                //            System.out.println("Aggregating report " + reportCount + " of " + reportList.size());
-                System.out.println("replaycount: " + replayCount);
-                System.out.println("reportcount: " + reportCount);
-                System.out.println("Current blocker: " + currentBlocker);
-                System.out.println("Current block roll: " + (currentBlockRoll == null ? null : currentBlockRoll.toJsonValue()));
-                System.out.println(report.toJsonValue());
                 switch (report.getId()) {
                     case ALWAYS_HUNGRY_ROLL:
                     case ANIMOSITY_ROLL:
@@ -109,7 +97,6 @@ public class StatsCollector {
                     case INJURY:
                         ReportInjury injury = (ReportInjury) report;
                         if (ArrayTool.isProvided(injury.getArmorRoll())) {
-                            //     System.out.println("Armour roll: " + injury.getArmorRoll().length + "  Player " + injury.getAttackerId());
                             collection.addArmourRoll(injury.getArmorRoll(), injury.getDefenderId());
                         }
                         if (injury.isArmorBroken()) {
@@ -182,7 +169,6 @@ public class StatsCollector {
                         lastReportWasBlockRoll = false;
                         blockRerolled = false;
                         ReportPlayerAction action = ((ReportPlayerAction) report);
-                        System.out.println("Player Action: " + action.getPlayerAction());
                         switch (action.getPlayerAction()) {
                             case BLITZ:
                             case BLITZ_MOVE:
@@ -221,7 +207,7 @@ public class StatsCollector {
                             }
                         }
                     default:
-                        System.out.println("Ignoring report " + report.getId());
+                        // no op
                 }
             }
         }

@@ -1,26 +1,24 @@
-package org.butterbrot.ffb.stats;
+package org.butterbrot.ffb.stats.communication;
 
 import com.balancedbytes.games.ffb.net.INetCommandHandler;
 import com.balancedbytes.games.ffb.net.NetCommand;
 import com.balancedbytes.games.ffb.net.commands.ServerCommand;
 import com.balancedbytes.games.ffb.net.commands.ServerCommandGameState;
 import com.balancedbytes.games.ffb.net.commands.ServerCommandReplay;
+import org.butterbrot.ffb.stats.StatsCollector;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class CommandHandler
-implements
-INetCommandHandler {
+public class CommandHandler implements INetCommandHandler {
 
     private static final Logger logger = LoggerFactory.getLogger(CommandHandler.class);
 
     private StatsCollector statsCollector;
 
-    public CommandHandler(StatsCollector statsCollector ) {
+    public CommandHandler(StatsCollector statsCollector) {
         this.statsCollector = statsCollector;
     }
 
@@ -43,7 +41,7 @@ INetCommandHandler {
                 }
                 break;
             default:
-                System.out.println("Received unexpected command: " + pNetCommand.getId());
+                logger.warn("Received unexpected command: {}", pNetCommand.getId());
         }
 
     }

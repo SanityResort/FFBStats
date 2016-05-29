@@ -1,4 +1,4 @@
-package org.butterbrot.ffb.stats;
+package org.butterbrot.ffb.stats.communication;
 
 import com.balancedbytes.games.ffb.json.UtilJson;
 import com.balancedbytes.games.ffb.net.NetCommand;
@@ -36,7 +36,6 @@ implements WebSocket.OnTextMessage
 
     public void onOpen(Connection pConnection) {
         this.fConnection = pConnection;
-        logger.info("Got connect: {}" , this.fConnection);
         this.fConnection.setMaxIdleTime(Integer.MAX_VALUE);
         this.fConnection.setMaxTextMessageSize(65536);
         try {
@@ -47,15 +46,13 @@ implements WebSocket.OnTextMessage
     }
 
     public void onMessage(String pTextMessage) {
-        logger.info("Called onmessage");
         JsonValue jsonValue;
         if (!StringTool.isProvided(pTextMessage) || !this.isOpen()) {
             return;
         }
         try {
             jsonValue = UtilJson.inflateFromBase64(pTextMessage);
-        }
-        catch (IOException pIoException) {
+        } catch (IOException pIoException) {
             jsonValue = null;
         }
         NetCommand netCommand = this.fNetCommandFactory.forJsonValue(jsonValue);
@@ -66,18 +63,15 @@ implements WebSocket.OnTextMessage
     }
 
     public void onClose(int pCloseCode, String pCloseReason) {
-        logger.info("Connection closed: {} - {}", pCloseCode, pCloseReason);
         this.fConnection = null;
         this.fCloseLatch.countDown();
     }
 
     public boolean awaitClose(int duration, TimeUnit unit) throws InterruptedException {
-        logger.info("Called awaitclose");
         return this.fCloseLatch.await(duration, unit);
     }
 
-    public boolean send(NetCommand pCommand) throws IOException {
-        logger.info("Called send");
+    private boolean send(NetCommand pCommand) throws IOException {
         if (pCommand == null || !this.isOpen()) {
             return false;
         }
@@ -85,8 +79,9 @@ implements WebSocket.OnTextMessage
         if (this.fCommandCompression) {
             try {
                 textMessage = UtilJson.deflateToBase64(pCommand.toJsonValue());
+            } catch (IOException ex) {
+                logger.error("Could not compress payload", ex);
             }
-            catch (IOException var3_3) {}
         } else {
             JsonValue jsonValue = pCommand.toJsonValue();
             if (jsonValue != null) {
@@ -96,12 +91,11 @@ implements WebSocket.OnTextMessage
         if (!StringTool.isProvided(textMessage)) {
             return false;
         }
-        logger.info("Calling sendMessage");
         this.fConnection.sendMessage(textMessage);
         return true;
     }
 
-    public boolean isOpen() {
+    private boolean isOpen() {
         return this.fConnection != null && this.fConnection.isOpen();
     }
 }
