@@ -44,7 +44,6 @@ public class Game
     private TurnData fTurnDataAway;
     private ActingPlayer fActingPlayer;
     private GameResult fGameResult;
-    private GameOptions fOptions;
     private transient long fGameTime;
 
     public Game() {
@@ -56,7 +55,6 @@ public class Game
         this.fHomePlaying = true;
         this.setTeamHome(new Team());
         this.setTeamAway(new Team());
-        this.fOptions = new GameOptions(this);
     }
 
     public void setId(long pId) {
@@ -225,18 +223,12 @@ public class Game
         this.fTurnTime = pTurnTime;
     }
 
-    public GameOptions getOptions() {
-        return this.fOptions;
-    }
-
-
     public Game transform() {
         Game transformedGame = new Game();
         transformedGame.setId(this.getId());
         transformedGame.fActingPlayer = this.getActingPlayer();
         transformedGame.setTurnTime(this.getTurnTime());
         transformedGame.setGameTime(this.getGameTime());
-        transformedGame.getOptions().init(this.getOptions());
         transformedGame.fFieldModel = this.getFieldModel().transform();
         transformedGame.setTeamHome(this.getTeamAway());
         transformedGame.getTurnDataHome().init(this.getTurnDataAway());
@@ -277,7 +269,6 @@ public class Game
         IJsonOption.FIELD_MODEL.addTo(jsonObject, this.fFieldModel.toJsonValue());
         IJsonOption.ACTING_PLAYER.addTo(jsonObject, this.fActingPlayer.toJsonValue());
         IJsonOption.GAME_RESULT.addTo(jsonObject, this.fGameResult.toJsonValue());
-        IJsonOption.GAME_OPTIONS.addTo(jsonObject, this.fOptions.toJsonValue());
 
         return jsonObject;
     }
@@ -313,8 +304,6 @@ public class Game
         this.fFieldModel.initFrom(IJsonOption.FIELD_MODEL.getFrom(jsonObject));
         this.fActingPlayer.initFrom(IJsonOption.ACTING_PLAYER.getFrom(jsonObject));
         this.fGameResult.initFrom(IJsonOption.GAME_RESULT.getFrom(jsonObject));
-        this.fOptions.initFrom(IJsonOption.GAME_OPTIONS.getFrom(jsonObject));
-        JsonObject dialogParameterObject = IJsonOption.DIALOG_PARAMETER.getFrom(jsonObject);
 
         return this;
     }

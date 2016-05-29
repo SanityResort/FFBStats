@@ -3,20 +3,11 @@
  */
 package com.balancedbytes.games.ffb.report;
 
-import com.balancedbytes.games.ffb.IEnumWithName;
-import com.balancedbytes.games.ffb.IRollModifier;
-import com.balancedbytes.games.ffb.PassModifier;
 import com.balancedbytes.games.ffb.PassingDistance;
 import com.balancedbytes.games.ffb.json.IJsonOption;
-import com.balancedbytes.games.ffb.json.JsonBooleanOption;
-import com.balancedbytes.games.ffb.json.JsonEnumWithNameOption;
 import com.balancedbytes.games.ffb.json.UtilJson;
-import com.balancedbytes.games.ffb.report.IReport;
-import com.balancedbytes.games.ffb.report.ReportId;
-import com.balancedbytes.games.ffb.report.ReportSkillRoll;
 import com.eclipsesource.json.JsonObject;
 import com.eclipsesource.json.JsonValue;
-import java.util.List;
 
 public class ReportPassRoll
 extends ReportSkillRoll {
@@ -31,12 +22,12 @@ extends ReportSkillRoll {
     }
 
     public ReportPassRoll(String pPlayerId, boolean pFumble, int pRoll, boolean pReRolled, boolean pBomb) {
-        this(pPlayerId, !pFumble, pRoll, 2, pReRolled, null, null, pFumble, false, pBomb);
+        this(pPlayerId, !pFumble, pRoll, 2, pReRolled, null, pFumble, false, pBomb);
         this.fHailMaryPass = true;
     }
 
-    public ReportPassRoll(String pPlayerId, boolean pSuccessful, int pRoll, int pMinimumRoll, boolean pReRolled, PassModifier[] pRollModifiers, PassingDistance pPassingDistance, boolean pFumble, boolean pSafeThrowHold, boolean pBomb) {
-        super(ReportId.PASS_ROLL, pPlayerId, pSuccessful, pRoll, pMinimumRoll, pReRolled, pRollModifiers);
+    public ReportPassRoll(String pPlayerId, boolean pSuccessful, int pRoll, int pMinimumRoll, boolean pReRolled, PassingDistance pPassingDistance, boolean pFumble, boolean pSafeThrowHold, boolean pBomb) {
+        super(ReportId.PASS_ROLL, pPlayerId, pSuccessful, pRoll, pMinimumRoll, pReRolled);
         this.fFumble = pFumble;
         this.fPassingDistance = pPassingDistance;
         this.fFumble = pFumble;
@@ -48,10 +39,6 @@ extends ReportSkillRoll {
     @Override
     public ReportId getId() {
         return ReportId.PASS_ROLL;
-    }
-
-    public PassModifier[] getRollModifiers() {
-        return this.getRollModifierList().toArray(new PassModifier[this.getRollModifierList().size()]);
     }
 
     public PassingDistance getPassingDistance() {
@@ -79,7 +66,7 @@ extends ReportSkillRoll {
         if (this.isHailMaryPass()) {
             return new ReportPassRoll(this.getPlayerId(), this.isFumble(), this.getRoll(), this.isReRolled(), this.isBomb());
         }
-        return new ReportPassRoll(this.getPlayerId(), this.isSuccessful(), this.getRoll(), this.getMinimumRoll(), this.isReRolled(), this.getRollModifiers(), this.getPassingDistance(), this.isFumble(), this.isHeldBySafeThrow(), this.isBomb());
+        return new ReportPassRoll(this.getPlayerId(), this.isSuccessful(), this.getRoll(), this.getMinimumRoll(), this.isReRolled(), this.getPassingDistance(), this.isFumble(), this.isHeldBySafeThrow(), this.isBomb());
     }
 
     @Override
