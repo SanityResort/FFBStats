@@ -3,27 +3,14 @@
  */
 package com.balancedbytes.games.ffb;
 
-import com.balancedbytes.games.ffb.IEnumWithName;
-import com.balancedbytes.games.ffb.TeamStatus;
-import com.balancedbytes.games.ffb.TeamStatusFactory;
 import com.balancedbytes.games.ffb.json.IJsonOption;
 import com.balancedbytes.games.ffb.json.IJsonSerializable;
-import com.balancedbytes.games.ffb.json.JsonEnumWithNameOption;
-import com.balancedbytes.games.ffb.json.JsonIntOption;
-import com.balancedbytes.games.ffb.json.JsonStringOption;
 import com.balancedbytes.games.ffb.json.UtilJson;
 import com.balancedbytes.games.ffb.model.Team;
-import com.balancedbytes.games.ffb.xml.IXmlReadable;
-import com.balancedbytes.games.ffb.xml.IXmlSerializable;
-import com.balancedbytes.games.ffb.xml.UtilXml;
 import com.eclipsesource.json.JsonObject;
 import com.eclipsesource.json.JsonValue;
-import javax.xml.transform.sax.TransformerHandler;
-import org.xml.sax.Attributes;
 
-public class TeamListEntry
-implements IXmlSerializable,
-IJsonSerializable {
+public class TeamListEntry implements IJsonSerializable {
     public static final String XML_TAG = "team";
     private static final String _XML_TAG_ID = "id";
     private static final String _XML_TAG_STATUS = "status";
@@ -105,56 +92,6 @@ IJsonSerializable {
 
     public void setTreasury(int pTreasury) {
         this.fTreasury = pTreasury;
-    }
-
-    @Override
-    public void addToXml(TransformerHandler pHandler) {
-        UtilXml.startElement(pHandler, "team");
-        UtilXml.addValueElement(pHandler, "id", this.getTeamId());
-        UtilXml.addValueElement(pHandler, "status", this.getTeamStatus() != null ? Integer.toString(this.getTeamStatus().getId()) : null);
-        UtilXml.addValueElement(pHandler, "division", this.getDivision());
-        UtilXml.addValueElement(pHandler, "name", this.getTeamName());
-        UtilXml.addValueElement(pHandler, "teamValue", this.getTeamValue());
-        UtilXml.addValueElement(pHandler, "race", this.getRace());
-        UtilXml.addValueElement(pHandler, "treasury", this.getTreasury());
-        UtilXml.endElement(pHandler, "team");
-    }
-
-    @Override
-    public String toXml(boolean pIndent) {
-        return UtilXml.toXml(this, pIndent);
-    }
-
-    @Override
-    public IXmlReadable startXmlElement(String pXmlTag, Attributes pXmlAttributes) {
-        return this;
-    }
-
-    @Override
-    public boolean endXmlElement(String pXmlTag, String pValue) {
-        if ("id".equals(pXmlTag)) {
-            this.fTeamId = pValue;
-        }
-        if ("status".equals(pXmlTag)) {
-            int teamStatusId = Integer.parseInt(pValue);
-            this.fTeamStatus = new TeamStatusFactory().forId(teamStatusId);
-        }
-        if ("division".equals(pXmlTag)) {
-            this.fDivision = pValue;
-        }
-        if ("name".equals(pXmlTag)) {
-            this.fTeamName = pValue;
-        }
-        if ("teamValue".equals(pXmlTag)) {
-            this.fTeamValue = Integer.parseInt(pValue);
-        }
-        if ("race".equals(pXmlTag)) {
-            this.fRace = pValue;
-        }
-        if ("treasury".equals(pXmlTag)) {
-            this.fTreasury = Integer.parseInt(pValue);
-        }
-        return "team".equals(pXmlTag);
     }
 
     @Override

@@ -3,36 +3,21 @@
  */
 package com.balancedbytes.games.ffb;
 
-import com.balancedbytes.games.ffb.FieldCoordinate;
-import com.balancedbytes.games.ffb.PlayerState;
 import com.balancedbytes.games.ffb.json.IJsonOption;
 import com.balancedbytes.games.ffb.json.IJsonSerializable;
-import com.balancedbytes.games.ffb.json.JsonArrayOption;
-import com.balancedbytes.games.ffb.json.JsonFieldCoordinateOption;
-import com.balancedbytes.games.ffb.json.JsonIntOption;
-import com.balancedbytes.games.ffb.json.JsonStringOption;
 import com.balancedbytes.games.ffb.json.UtilJson;
-import com.balancedbytes.games.ffb.model.FieldModel;
 import com.balancedbytes.games.ffb.model.Game;
 import com.balancedbytes.games.ffb.model.Player;
 import com.balancedbytes.games.ffb.model.Team;
 import com.balancedbytes.games.ffb.util.UtilBox;
-import com.balancedbytes.games.ffb.xml.IXmlReadable;
-import com.balancedbytes.games.ffb.xml.IXmlSerializable;
-import com.balancedbytes.games.ffb.xml.UtilXml;
 import com.eclipsesource.json.JsonArray;
 import com.eclipsesource.json.JsonObject;
 import com.eclipsesource.json.JsonValue;
+
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
-import javax.xml.transform.sax.TransformerHandler;
-import org.xml.sax.Attributes;
-import org.xml.sax.helpers.AttributesImpl;
 
-public class TeamSetup
-implements IXmlSerializable,
-IJsonSerializable {
+public class TeamSetup implements IJsonSerializable {
     public static final String XML_TAG = "teamSetup";
     private static final String _XML_ATTRIBUTE_X = "x";
     private static final String _XML_ATTRIBUTE_Y = "y";
@@ -119,56 +104,6 @@ IJsonSerializable {
             pGame.getFieldModel().setPlayerState(player, playerState.changeBase(9));
             UtilBox.putPlayerIntoBox(pGame, player);
         }
-    }
-
-    @Override
-    public void addToXml(TransformerHandler pHandler) {
-        AttributesImpl attributes = new AttributesImpl();
-        UtilXml.addAttribute(attributes, "name", this.getName());
-        UtilXml.addAttribute(attributes, "teamId", this.getTeamId());
-        UtilXml.startElement(pHandler, "teamSetup", attributes);
-        int[] playerNumbers = this.getPlayerNumbers();
-        FieldCoordinate[] coordinates = this.getCoordinates();
-        for (int i = 0; i < playerNumbers.length; ++i) {
-            attributes = new AttributesImpl();
-            UtilXml.addAttribute(attributes, "nr", playerNumbers[i]);
-            UtilXml.startElement(pHandler, "player", attributes);
-            attributes = new AttributesImpl();
-            UtilXml.addAttribute(attributes, "x", coordinates[i].getX());
-            UtilXml.addAttribute(attributes, "y", coordinates[i].getY());
-            UtilXml.startElement(pHandler, "coordinate", attributes);
-            UtilXml.endElement(pHandler, "coordinate");
-            UtilXml.endElement(pHandler, "player");
-        }
-        UtilXml.endElement(pHandler, "teamSetup");
-    }
-
-    @Override
-    public String toXml(boolean pIndent) {
-        return UtilXml.toXml(this, pIndent);
-    }
-
-    @Override
-    public IXmlReadable startXmlElement(String pXmlTag, Attributes pXmlAttributes) {
-        if ("teamSetup".equals(pXmlTag)) {
-            this.setName(UtilXml.getStringAttribute(pXmlAttributes, "name"));
-            this.setTeamId(UtilXml.getStringAttribute(pXmlAttributes, "teamId"));
-        }
-        if ("player".equals(pXmlTag)) {
-            this.fCurrentPlayerNr = UtilXml.getIntAttribute(pXmlAttributes, "nr");
-        }
-        if ("coordinate".equals(pXmlTag)) {
-            int x = UtilXml.getIntAttribute(pXmlAttributes, "x");
-            int y = UtilXml.getIntAttribute(pXmlAttributes, "y");
-            FieldCoordinate coordinate = new FieldCoordinate(x, y);
-            this.addCoordinate(coordinate, this.fCurrentPlayerNr);
-        }
-        return this;
-    }
-
-    @Override
-    public boolean endXmlElement(String pXmlTag, String pValue) {
-        return "teamSetup".equals(pXmlTag);
     }
 
     @Override

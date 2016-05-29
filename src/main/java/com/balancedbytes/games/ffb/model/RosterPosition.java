@@ -3,46 +3,27 @@
  */
 package com.balancedbytes.games.ffb.model;
 
-import com.balancedbytes.games.ffb.IEnumWithName;
 import com.balancedbytes.games.ffb.PlayerGender;
-import com.balancedbytes.games.ffb.PlayerGenderFactory;
 import com.balancedbytes.games.ffb.PlayerType;
-import com.balancedbytes.games.ffb.PlayerTypeFactory;
 import com.balancedbytes.games.ffb.Skill;
 import com.balancedbytes.games.ffb.SkillCategory;
 import com.balancedbytes.games.ffb.SkillCategoryFactory;
 import com.balancedbytes.games.ffb.SkillFactory;
 import com.balancedbytes.games.ffb.json.IJsonOption;
 import com.balancedbytes.games.ffb.json.IJsonSerializable;
-import com.balancedbytes.games.ffb.json.JsonArrayOption;
-import com.balancedbytes.games.ffb.json.JsonBooleanOption;
-import com.balancedbytes.games.ffb.json.JsonEnumWithNameOption;
-import com.balancedbytes.games.ffb.json.JsonIntArrayOption;
-import com.balancedbytes.games.ffb.json.JsonIntOption;
-import com.balancedbytes.games.ffb.json.JsonStringOption;
 import com.balancedbytes.games.ffb.json.UtilJson;
-import com.balancedbytes.games.ffb.model.Roster;
 import com.balancedbytes.games.ffb.util.ArrayTool;
-import com.balancedbytes.games.ffb.util.StringTool;
-import com.balancedbytes.games.ffb.xml.IXmlReadable;
-import com.balancedbytes.games.ffb.xml.IXmlSerializable;
-import com.balancedbytes.games.ffb.xml.UtilXml;
 import com.eclipsesource.json.JsonArray;
 import com.eclipsesource.json.JsonObject;
 import com.eclipsesource.json.JsonValue;
+
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
-import javax.xml.transform.sax.TransformerHandler;
-import org.xml.sax.Attributes;
-import org.xml.sax.helpers.AttributesImpl;
 
-public class RosterPosition
-implements IXmlSerializable,
-IJsonSerializable {
+public class RosterPosition implements IJsonSerializable {
     public static final String XML_TAG = "position";
     private static final String _XML_ATTRIBUTE_ID = "id";
     private static final String _XML_ATTRIBUTE_VALUE = "value";
@@ -297,169 +278,6 @@ IJsonSerializable {
 
     public String getTeamWithPositionId() {
         return this.fTeamWithPositionId;
-    }
-
-    @Override
-    public void addToXml(TransformerHandler pHandler) {
-        AttributesImpl attributes = new AttributesImpl();
-        UtilXml.addAttribute(attributes, "id", this.getId());
-        UtilXml.startElement(pHandler, "position", attributes);
-        UtilXml.addValueElement(pHandler, "quantity", this.getQuantity());
-        UtilXml.addValueElement(pHandler, "name", this.getName());
-        UtilXml.addValueElement(pHandler, "shorthand", this.getShorthand());
-        UtilXml.addValueElement(pHandler, "type", this.getType() != null ? this.getType().getName() : null);
-        UtilXml.addValueElement(pHandler, "gender", this.getGender() != null ? this.getGender().getName() : null);
-        UtilXml.addValueElement(pHandler, "displayName", this.getDisplayName());
-        UtilXml.addValueElement(pHandler, "cost", this.getCost());
-        UtilXml.addValueElement(pHandler, "movement", this.getMovement());
-        UtilXml.addValueElement(pHandler, "strength", this.getStrength());
-        UtilXml.addValueElement(pHandler, "agility", this.getAgility());
-        UtilXml.addValueElement(pHandler, "armour", this.getArmour());
-        UtilXml.addValueElement(pHandler, "race", this.getRace());
-        UtilXml.addValueElement(pHandler, "undead", this.isUndead());
-        UtilXml.addValueElement(pHandler, "thrall", this.isThrall());
-        UtilXml.addValueElement(pHandler, "teamWithPositionId", this.getTeamWithPositionId());
-        UtilXml.addValueElement(pHandler, "portrait", this.getUrlPortrait());
-        attributes = new AttributesImpl();
-        UtilXml.addAttribute(attributes, "size", this.getNrOfIcons());
-        UtilXml.startElement(pHandler, "iconSet", attributes);
-        UtilXml.addCharacters(pHandler, this.getUrlIconSet());
-        UtilXml.endElement(pHandler, "iconSet");
-        UtilXml.addValueElement(pHandler, "teamWithPositionId", this.getTeamWithPositionId());
-        UtilXml.startElement(pHandler, "skillCategoryList");
-        for (SkillCategory skillCategory2 : this.getSkillCategories(false)) {
-            UtilXml.addValueElement(pHandler, "normal", skillCategory2.getName());
-        }
-        for (SkillCategory skillCategory : this.getSkillCategories(true)) {
-            UtilXml.addValueElement(pHandler, "double", skillCategory.getName());
-        }
-        UtilXml.endElement(pHandler, "skillCategoryList");
-        UtilXml.startElement(pHandler, "skillList");
-        for (Skill skill : this.getSkills()) {
-            attributes = new AttributesImpl();
-            if (this.getSkillValue((Skill)((Object)skill)) > 0) {
-                UtilXml.addAttribute(attributes, "value", this.getSkillValue((Skill)((Object)skill)));
-            }
-            UtilXml.startElement(pHandler, "skill", attributes);
-            UtilXml.addCharacters(pHandler, skill.getName());
-            UtilXml.endElement(pHandler, "skill");
-        }
-        UtilXml.endElement(pHandler, "skillList");
-        UtilXml.endElement(pHandler, "position");
-    }
-
-    @Override
-    public String toXml(boolean pIndent) {
-        return UtilXml.toXml(this, pIndent);
-    }
-
-    @Override
-    public IXmlReadable startXmlElement(String pXmlTag, Attributes pXmlAttributes) {
-        if (this.fInsideSkillListTag) {
-            if ("skill".equals(pXmlTag)) {
-                String skillValue = UtilXml.getStringAttribute(pXmlAttributes, "value");
-                this.fCurrentSkillValue = StringTool.isProvided(skillValue) ? Integer.valueOf(Integer.parseInt(skillValue)) : null;
-            }
-        } else {
-            if ("position".equals(pXmlTag)) {
-                this.fId = pXmlAttributes.getValue("id").trim();
-            }
-            if ("skillCategoryList".equals(pXmlTag)) {
-                this.fInsideSkillCategoryListTag = true;
-            }
-            if ("iconSet".equals(pXmlTag)) {
-                this.setNrOfIcons(UtilXml.getIntAttribute(pXmlAttributes, "size"));
-            }
-            if ("skillList".equals(pXmlTag)) {
-                this.fInsideSkillListTag = true;
-            }
-        }
-        return this;
-    }
-
-    @Override
-    public boolean endXmlElement(String pTag, String pValue) {
-        boolean complete = "position".equals(pTag);
-        if (complete) {
-            if (!StringTool.isProvided(this.getShorthand()) && StringTool.isProvided(this.getName())) {
-                this.setShorthand(this.getName().substring(0, 1));
-            }
-        } else if (this.fInsideSkillListTag) {
-            Skill skill;
-            if ("skillList".equals(pTag)) {
-                this.fInsideSkillListTag = false;
-            }
-            if ("skill".equals(pTag) && (skill = new SkillFactory().forName(pValue)) != null) {
-                this.fSkillValues.put(skill, this.fCurrentSkillValue);
-            }
-        } else if (this.fInsideSkillCategoryListTag) {
-            SkillCategory pSkillCategory;
-            if ("skillCategoryList".equals(pTag)) {
-                this.fInsideSkillCategoryListTag = false;
-            }
-            if ("normal".equals(pTag) && (pSkillCategory = new SkillCategoryFactory().forName(pValue)) != null) {
-                this.fSkillCategoriesOnNormalRoll.add(pSkillCategory);
-            }
-            if ("double".equals(pTag) && (pSkillCategory = new SkillCategoryFactory().forName(pValue)) != null) {
-                this.fSkillCategoriesOnDoubleRoll.add(pSkillCategory);
-            }
-        } else {
-            if ("portrait".equals(pTag)) {
-                this.setUrlPortrait(pValue);
-            }
-            if ("iconSet".equals(pTag)) {
-                this.setUrlIconSet(pValue);
-                if (this.getNrOfIcons() < 1) {
-                    this.setNrOfIcons(1);
-                }
-            }
-            if ("quantity".equals(pTag)) {
-                this.setQuantity(Integer.parseInt(pValue));
-            }
-            if ("name".equals(pTag)) {
-                this.setName(pValue);
-            }
-            if ("displayName".equals(pTag)) {
-                this.setDisplayName(pValue);
-            }
-            if ("shorthand".equals(pTag)) {
-                this.setShorthand(pValue);
-            }
-            if ("type".equals(pTag)) {
-                this.setType(new PlayerTypeFactory().forName(pValue));
-            }
-            if ("gender".equals(pTag)) {
-                this.setGender(new PlayerGenderFactory().forName(pValue));
-            }
-            if ("cost".equals(pTag)) {
-                this.setCost(Integer.parseInt(pValue));
-            }
-            if ("movement".equals(pTag)) {
-                this.setMovement(Integer.parseInt(pValue));
-            }
-            if ("strength".equals(pTag)) {
-                this.setStrength(Integer.parseInt(pValue));
-            }
-            if ("agility".equals(pTag)) {
-                this.setAgility(Integer.parseInt(pValue));
-            }
-            if ("armour".equals(pTag)) {
-                this.setArmour(Integer.parseInt(pValue));
-            }
-            if ("race".equals(pTag)) {
-                this.setRace(pValue);
-            }
-            if ("undead".equals(pTag)) {
-                this.setUndead(Boolean.parseBoolean(pValue));
-            }
-            if ("thrall".equals(pTag)) {
-                this.setThrall(Boolean.parseBoolean(pValue));
-            }
-            if ("teamWithPositionId".equals(pTag)) {
-                this.setTeamWithPositionId(pValue);
-            }
-        }
-        return complete;
     }
 
     @Override

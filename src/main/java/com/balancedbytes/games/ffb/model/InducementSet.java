@@ -9,33 +9,21 @@ import com.balancedbytes.games.ffb.Inducement;
 import com.balancedbytes.games.ffb.InducementType;
 import com.balancedbytes.games.ffb.json.IJsonOption;
 import com.balancedbytes.games.ffb.json.IJsonSerializable;
-import com.balancedbytes.games.ffb.json.JsonArrayOption;
-import com.balancedbytes.games.ffb.json.JsonStringArrayOption;
 import com.balancedbytes.games.ffb.json.UtilJson;
-import com.balancedbytes.games.ffb.model.Game;
-import com.balancedbytes.games.ffb.model.TurnData;
 import com.balancedbytes.games.ffb.model.change.ModelChange;
 import com.balancedbytes.games.ffb.model.change.ModelChangeId;
 import com.balancedbytes.games.ffb.util.ArrayTool;
-import com.balancedbytes.games.ffb.xml.IXmlReadable;
-import com.balancedbytes.games.ffb.xml.IXmlSerializable;
-import com.balancedbytes.games.ffb.xml.UtilXml;
 import com.eclipsesource.json.JsonArray;
 import com.eclipsesource.json.JsonObject;
 import com.eclipsesource.json.JsonValue;
+
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-import javax.xml.transform.sax.TransformerHandler;
-import org.xml.sax.Attributes;
-import org.xml.sax.helpers.AttributesImpl;
 
-public class InducementSet
-implements IXmlSerializable,
-IJsonSerializable {
+public class InducementSet implements IJsonSerializable {
     public static final String XML_TAG = "inducementSet";
     private static final String _XML_TAG_STAR_PLAYER_SET = "starPlayerSet";
     private static final String _XML_TAG_STAR_PLAYER = "starPlayer";
@@ -224,69 +212,6 @@ IJsonSerializable {
         String key = this.getTurnData().isHomeData() ? "home" : "away";
         ModelChange modelChange = new ModelChange(pChangeId, key, pValue);
         this.getTurnData().getGame().notifyObservers(modelChange);
-    }
-
-    @Override
-    public void addToXml(TransformerHandler pHandler) {
-        AttributesImpl attributes;
-        UtilXml.startElement(pHandler, "inducementSet");
-        for (Inducement inducement : this.fInducements.values()) {
-            inducement.addToXml(pHandler);
-        }
-        UtilXml.startElement(pHandler, "starPlayerSet");
-        for (String positionId : this.fStarPlayerPositionIds) {
-            attributes = new AttributesImpl();
-            UtilXml.addAttribute(attributes, "positionId", positionId);
-            UtilXml.addEmptyElement(pHandler, "starPlayer", attributes);
-        }
-        UtilXml.endElement(pHandler, "starPlayerSet");
-        UtilXml.startElement(pHandler, "cardSet");
-        for (Card card : this.fCardsAvailable) {
-            attributes = new AttributesImpl();
-            UtilXml.addAttribute(attributes, "name", card.getName());
-            UtilXml.addEmptyElement(pHandler, "card", attributes);
-        }
-        UtilXml.endElement(pHandler, "cardSet");
-        UtilXml.endElement(pHandler, "inducementSet");
-    }
-
-    @Override
-    public String toXml(boolean pIndent) {
-        return UtilXml.toXml(this, pIndent);
-    }
-
-    @Override
-    public IXmlReadable startXmlElement(String pXmlTag, Attributes pXmlAttributes) {
-        Card card;
-        String cardName;
-        IXmlSerializable xmlElement = this;
-        if ("inducement".equals(pXmlTag)) {
-            Inducement inducement = new Inducement();
-            inducement.startXmlElement(pXmlTag, pXmlAttributes);
-            this.addInducement(inducement);
-            xmlElement = inducement;
-        }
-        if ("starPlayerSet".equals(pXmlTag)) {
-            this.fStarPlayerPositionIds.clear();
-        }
-        if ("starPlayer".equals(pXmlTag)) {
-            String positionId = pXmlAttributes.getValue("positionId").trim();
-            this.addStarPlayerPositionId(positionId);
-        }
-        if ("cardSet".equals(pXmlTag)) {
-            this.fCardsAvailable.clear();
-            this.fCardsActive.clear();
-            this.fCardsDeactivated.clear();
-        }
-        if ("card".equals(pXmlTag) && (card = new CardFactory().forName(cardName = pXmlAttributes.getValue("name").trim())) != null) {
-            this.fCardsAvailable.add(card);
-        }
-        return xmlElement;
-    }
-
-    @Override
-    public boolean endXmlElement(String pXmlTag, String pValue) {
-        return "inducementSet".equals(pXmlTag);
     }
 
     @Override

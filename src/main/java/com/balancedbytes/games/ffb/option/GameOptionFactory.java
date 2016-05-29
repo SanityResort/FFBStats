@@ -3,21 +3,10 @@
  */
 package com.balancedbytes.games.ffb.option;
 
-import com.balancedbytes.games.ffb.IEnumWithName;
 import com.balancedbytes.games.ffb.json.IJsonOption;
-import com.balancedbytes.games.ffb.json.JsonEnumWithNameOption;
-import com.balancedbytes.games.ffb.json.JsonStringOption;
 import com.balancedbytes.games.ffb.json.UtilJson;
-import com.balancedbytes.games.ffb.option.GameOptionBoolean;
-import com.balancedbytes.games.ffb.option.GameOptionId;
-import com.balancedbytes.games.ffb.option.GameOptionIdFactory;
-import com.balancedbytes.games.ffb.option.GameOptionInt;
-import com.balancedbytes.games.ffb.option.GameOptionString;
-import com.balancedbytes.games.ffb.option.IGameOption;
-import com.balancedbytes.games.ffb.xml.UtilXml;
 import com.eclipsesource.json.JsonObject;
 import com.eclipsesource.json.JsonValue;
-import org.xml.sax.Attributes;
 
 public class GameOptionFactory {
     public IGameOption createGameOption(GameOptionId pOptionId) {
@@ -125,20 +114,5 @@ public class GameOptionFactory {
         }
         return gameOption;
     }
-
-    public IGameOption fromXmlElement(String pXmlTag, Attributes pXmlAttributes) {
-        IGameOption option = null;
-        if ("option".equals(pXmlTag)) {
-            String name = UtilXml.getStringAttribute(pXmlAttributes, "name");
-            String value = UtilXml.getStringAttribute(pXmlAttributes, "value");
-            GameOptionId optionId = new GameOptionIdFactory().forName(name);
-            option = this.createGameOption(optionId);
-            if (option != null) {
-                option.setValue(value);
-            }
-        }
-        return option;
-    }
-
 }
 

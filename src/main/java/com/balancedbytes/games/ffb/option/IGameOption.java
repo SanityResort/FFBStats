@@ -4,15 +4,9 @@
 package com.balancedbytes.games.ffb.option;
 
 import com.balancedbytes.games.ffb.json.IJsonWriteable;
-import com.balancedbytes.games.ffb.option.GameOptionId;
-import com.balancedbytes.games.ffb.xml.IXmlWriteable;
 
 public interface IGameOption
-extends IJsonWriteable,
-IXmlWriteable {
-    public static final String XML_TAG = "option";
-    public static final String XML_ATTRIBUTE_NAME = "name";
-    public static final String XML_ATTRIBUTE_VALUE = "value";
+extends IJsonWriteable {
 
     public GameOptionId getId();
 

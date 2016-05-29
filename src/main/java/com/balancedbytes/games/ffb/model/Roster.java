@@ -5,29 +5,15 @@ package com.balancedbytes.games.ffb.model;
 
 import com.balancedbytes.games.ffb.json.IJsonOption;
 import com.balancedbytes.games.ffb.json.IJsonSerializable;
-import com.balancedbytes.games.ffb.json.JsonArrayOption;
-import com.balancedbytes.games.ffb.json.JsonBooleanOption;
-import com.balancedbytes.games.ffb.json.JsonIntOption;
-import com.balancedbytes.games.ffb.json.JsonStringOption;
 import com.balancedbytes.games.ffb.json.UtilJson;
-import com.balancedbytes.games.ffb.model.RosterPosition;
-import com.balancedbytes.games.ffb.util.StringTool;
-import com.balancedbytes.games.ffb.xml.IXmlReadable;
-import com.balancedbytes.games.ffb.xml.IXmlSerializable;
-import com.balancedbytes.games.ffb.xml.UtilXml;
 import com.eclipsesource.json.JsonArray;
 import com.eclipsesource.json.JsonObject;
 import com.eclipsesource.json.JsonValue;
-import java.util.Collection;
+
 import java.util.HashMap;
 import java.util.Map;
-import javax.xml.transform.sax.TransformerHandler;
-import org.xml.sax.Attributes;
-import org.xml.sax.helpers.AttributesImpl;
 
-public class Roster
-implements IXmlSerializable,
-IJsonSerializable {
+public class Roster implements IJsonSerializable {
     public static final String XML_TAG = "roster";
     private static final String _XML_ATTRIBUTE_ID = "id";
     private static final String _XML_ATTRIBUTE_TEAM = "team";
@@ -148,88 +134,6 @@ IJsonSerializable {
 
     public void setUndead(boolean pUndead) {
         this.fUndead = pUndead;
-    }
-
-    @Override
-    public void addToXml(TransformerHandler pHandler) {
-        AttributesImpl attributes = new AttributesImpl();
-        UtilXml.addAttribute(attributes, "id", this.getId());
-        UtilXml.startElement(pHandler, "roster");
-        UtilXml.addValueElement(pHandler, "name", this.getName());
-        UtilXml.addValueElement(pHandler, "reRollCost", this.getReRollCost());
-        UtilXml.addValueElement(pHandler, "maxReRolls", this.getMaxReRolls());
-        UtilXml.addValueElement(pHandler, "baseIconPath", this.getBaseIconPath());
-        UtilXml.addValueElement(pHandler, "logo", this.getLogoUrl());
-        UtilXml.addValueElement(pHandler, "raisedPositionId", this.fRaisedPositionId);
-        UtilXml.addValueElement(pHandler, "apothecary", this.hasApothecary());
-        UtilXml.addValueElement(pHandler, "necromancer", this.hasNecromancer());
-        UtilXml.addValueElement(pHandler, "undead", this.isUndead());
-        for (RosterPosition position : this.getPositions()) {
-            position.addToXml(pHandler);
-        }
-        UtilXml.endElement(pHandler, "roster");
-    }
-
-    @Override
-    public String toXml(boolean pIndent) {
-        return UtilXml.toXml(this, pIndent);
-    }
-
-    @Override
-    public IXmlSerializable startXmlElement(String pXmlTag, Attributes pXmlAttributes) {
-        IXmlSerializable xmlElement = this;
-        if ("roster".equals(pXmlTag)) {
-            if (StringTool.isProvided(pXmlAttributes.getValue("id"))) {
-                this.fId = pXmlAttributes.getValue("id").trim();
-            }
-            if (StringTool.isProvided(pXmlAttributes.getValue("team"))) {
-                this.fId = pXmlAttributes.getValue("team").trim();
-            }
-        }
-        if ("position".equals(pXmlTag)) {
-            this.fCurrentlyParsedRosterPosition = new RosterPosition(null);
-            this.fCurrentlyParsedRosterPosition.startXmlElement(pXmlTag, pXmlAttributes);
-            xmlElement = this.fCurrentlyParsedRosterPosition;
-        }
-        return xmlElement;
-    }
-
-    @Override
-    public boolean endXmlElement(String pXmlTag, String pValue) {
-        boolean complete = "roster".equals(pXmlTag);
-        if (!complete) {
-            if ("name".equals(pXmlTag)) {
-                this.setName(pValue);
-            }
-            if ("reRollCost".equals(pXmlTag)) {
-                this.setReRollCost(Integer.parseInt(pValue));
-            }
-            if ("maxReRolls".equals(pXmlTag)) {
-                this.setMaxReRolls(Integer.parseInt(pValue));
-            }
-            if ("baseIconPath".equals(pXmlTag)) {
-                this.setBaseIconPath(pValue);
-            }
-            if ("logo".equals(pXmlTag)) {
-                this.setLogoUrl(pValue);
-            }
-            if ("raisedPositionId".equals(pXmlTag)) {
-                this.fRaisedPositionId = pValue;
-            }
-            if ("position".equals(pXmlTag)) {
-                this.addPosition(this.fCurrentlyParsedRosterPosition);
-            }
-            if ("apothecary".equals(pXmlTag)) {
-                this.setApothecary(Boolean.parseBoolean(pValue));
-            }
-            if ("necromancer".equals(pXmlTag)) {
-                this.setNecromancer(Boolean.parseBoolean(pValue));
-            }
-            if ("undead".equals(pXmlTag)) {
-                this.setUndead(Boolean.parseBoolean(pValue));
-            }
-        }
-        return complete;
     }
 
     @Override

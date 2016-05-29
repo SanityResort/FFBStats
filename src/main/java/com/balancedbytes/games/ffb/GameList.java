@@ -3,29 +3,21 @@
  */
 package com.balancedbytes.games.ffb;
 
-import com.balancedbytes.games.ffb.GameListEntry;
 import com.balancedbytes.games.ffb.json.IJsonOption;
 import com.balancedbytes.games.ffb.json.IJsonSerializable;
-import com.balancedbytes.games.ffb.json.JsonArrayOption;
 import com.balancedbytes.games.ffb.json.UtilJson;
 import com.balancedbytes.games.ffb.util.ArrayTool;
-import com.balancedbytes.games.ffb.xml.IXmlReadable;
-import com.balancedbytes.games.ffb.xml.IXmlSerializable;
-import com.balancedbytes.games.ffb.xml.UtilXml;
 import com.eclipsesource.json.JsonArray;
 import com.eclipsesource.json.JsonObject;
 import com.eclipsesource.json.JsonValue;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
-import javax.xml.transform.sax.TransformerHandler;
-import org.xml.sax.Attributes;
 
-public class GameList
-implements IXmlSerializable,
-IJsonSerializable {
+public class GameList implements IJsonSerializable {
     public static final String XML_TAG = "gameList";
     private List<GameListEntry> fEntries = new ArrayList<GameListEntry>();
 
@@ -71,38 +63,6 @@ IJsonSerializable {
 
     public int size() {
         return this.fEntries.size();
-    }
-
-    @Override
-    public void addToXml(TransformerHandler pHandler) {
-        GameListEntry[] entries;
-        UtilXml.startElement(pHandler, "gameList");
-        for (GameListEntry gameListEntry : entries = this.getEntries()) {
-            gameListEntry.addToXml(pHandler);
-        }
-        UtilXml.endElement(pHandler, "gameList");
-    }
-
-    @Override
-    public String toXml(boolean pIndent) {
-        return UtilXml.toXml(this, pIndent);
-    }
-
-    @Override
-    public IXmlReadable startXmlElement(String pXmlTag, Attributes pXmlAttributes) {
-        IXmlSerializable xmlElement = this;
-        if ("game".equals(pXmlTag)) {
-            GameListEntry gameListEntry = new GameListEntry();
-            gameListEntry.startXmlElement(pXmlTag, pXmlAttributes);
-            this.add(gameListEntry);
-            xmlElement = gameListEntry;
-        }
-        return xmlElement;
-    }
-
-    @Override
-    public boolean endXmlElement(String pXmlTag, String pValue) {
-        return "gameList".equals(pXmlTag);
     }
 
     @Override

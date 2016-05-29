@@ -3,11 +3,8 @@
  */
 package com.balancedbytes.games.ffb.model;
 
-import com.balancedbytes.games.ffb.IEnumWithName;
 import com.balancedbytes.games.ffb.PlayerGender;
-import com.balancedbytes.games.ffb.PlayerGenderFactory;
 import com.balancedbytes.games.ffb.PlayerType;
-import com.balancedbytes.games.ffb.PlayerTypeFactory;
 import com.balancedbytes.games.ffb.SeriousInjury;
 import com.balancedbytes.games.ffb.SeriousInjuryFactory;
 import com.balancedbytes.games.ffb.Skill;
@@ -15,28 +12,15 @@ import com.balancedbytes.games.ffb.SkillCategory;
 import com.balancedbytes.games.ffb.SkillFactory;
 import com.balancedbytes.games.ffb.json.IJsonOption;
 import com.balancedbytes.games.ffb.json.IJsonSerializable;
-import com.balancedbytes.games.ffb.json.JsonArrayOption;
-import com.balancedbytes.games.ffb.json.JsonEnumWithNameOption;
-import com.balancedbytes.games.ffb.json.JsonIntOption;
-import com.balancedbytes.games.ffb.json.JsonStringOption;
 import com.balancedbytes.games.ffb.json.UtilJson;
-import com.balancedbytes.games.ffb.model.RosterPosition;
-import com.balancedbytes.games.ffb.model.Team;
-import com.balancedbytes.games.ffb.xml.IXmlReadable;
-import com.balancedbytes.games.ffb.xml.IXmlSerializable;
-import com.balancedbytes.games.ffb.xml.UtilXml;
 import com.eclipsesource.json.JsonArray;
 import com.eclipsesource.json.JsonObject;
 import com.eclipsesource.json.JsonValue;
+
 import java.util.ArrayList;
 import java.util.List;
-import javax.xml.transform.sax.TransformerHandler;
-import org.xml.sax.Attributes;
-import org.xml.sax.helpers.AttributesImpl;
 
-public class Player
-implements IXmlSerializable,
-IJsonSerializable {
+public class Player implements IJsonSerializable {
     public static final String XML_TAG = "player";
     private static final String _XML_ATTRIBUTE_ID = "id";
     private static final String _XML_ATTRIBUTE_NR = "nr";
@@ -341,143 +325,6 @@ IJsonSerializable {
         }
         Player other = (Player)obj;
         return this.getId().equals(other.getId());
-    }
-
-    @Override
-    public void addToXml(TransformerHandler pHandler) {
-        AttributesImpl attributes = new AttributesImpl();
-        UtilXml.addAttribute(attributes, "id", this.getId());
-        UtilXml.addAttribute(attributes, "nr", this.getNr());
-        UtilXml.startElement(pHandler, "player", attributes);
-        UtilXml.addValueElement(pHandler, "name", this.getName());
-        UtilXml.addValueElement(pHandler, "gender", this.getPlayerGender() != null ? this.getPlayerGender().getName() : null);
-        UtilXml.addValueElement(pHandler, "positionId", this.getPositionId());
-        UtilXml.addValueElement(pHandler, "type", this.getPlayerType() != null ? this.getPlayerType().getName() : null);
-        UtilXml.addValueElement(pHandler, "portrait", this.getUrlPortrait());
-        attributes = new AttributesImpl();
-        UtilXml.addAttribute(attributes, "size", this.getNrOfIcons());
-        UtilXml.startElement(pHandler, "iconSet", attributes);
-        UtilXml.addCharacters(pHandler, this.getUrlIconSet());
-        UtilXml.endElement(pHandler, "iconSet");
-        UtilXml.startElement(pHandler, "skillList");
-        if (this.fSkills.size() > 0) {
-            for (Skill skill : this.fSkills) {
-                UtilXml.addValueElement(pHandler, "skill", skill.getName());
-            }
-        }
-        UtilXml.endElement(pHandler, "skillList");
-        UtilXml.startElement(pHandler, "injuryList");
-        if (this.fLastingInjuries.size() > 0) {
-            for (SeriousInjury lastingInjury : this.fLastingInjuries) {
-                UtilXml.addValueElement(pHandler, "injury", lastingInjury.getName());
-            }
-        }
-        UtilXml.endElement(pHandler, "injuryList");
-        UtilXml.endElement(pHandler, "player");
-    }
-
-    @Override
-    public String toXml(boolean pIndent) {
-        return UtilXml.toXml(this, pIndent);
-    }
-
-    @Override
-    public IXmlSerializable startXmlElement(String pXmlTag, Attributes pXmlAttributes) {
-        Player xmlElement = this;
-        if (this.fInsideInjuryList) {
-            if ("injury".equals(pXmlTag)) {
-                this.fInjuryCurrent = UtilXml.getBooleanAttribute(pXmlAttributes, "recovering");
-            }
-        } else {
-            if ("player".equals(pXmlTag)) {
-                this.fId = UtilXml.getStringAttribute(pXmlAttributes, "id");
-                this.setNr(UtilXml.getIntAttribute(pXmlAttributes, "nr"));
-            }
-            if ("injuryList".equals(pXmlTag)) {
-                this.fInsideInjuryList = true;
-            }
-            if ("iconSet".equals(pXmlTag)) {
-                this.setNrOfIcons(UtilXml.getIntAttribute(pXmlAttributes, "size"));
-            }
-            if ("skillList".equals(pXmlTag)) {
-                this.fInsideSkillList = true;
-            }
-            if ("playerStatistics".equals(pXmlTag)) {
-                this.setCurrentSpps(UtilXml.getIntAttribute(pXmlAttributes, "currentSpps"));
-            }
-        }
-        return xmlElement;
-    }
-
-    @Override
-    public boolean endXmlElement(String pXmlTag, String pValue) {
-        boolean complete = "player".equals(pXmlTag);
-        if (!complete) {
-            if (this.fInsideSkillList) {
-                Skill skill;
-                if ("skillList".equals(pXmlTag)) {
-                    this.fInsideSkillList = false;
-                }
-                if ("skill".equals(pXmlTag) && (skill = new SkillFactory().forName(pValue)) != null) {
-                    this.fSkills.add(skill);
-                }
-            } else if (this.fInsideInjuryList) {
-                SeriousInjury injury;
-                if ("injuryList".equals(pXmlTag)) {
-                    this.fInsideInjuryList = false;
-                }
-                if ("injury".equals(pXmlTag) && (injury = new SeriousInjuryFactory().forName(pValue)) != null) {
-                    this.fLastingInjuries.add(injury);
-                    if (this.fInjuryCurrent) {
-                        this.fRecoveringInjury = injury;
-                    }
-                }
-            } else {
-                if ("portrait".equals(pXmlTag)) {
-                    this.setUrlPortrait(pValue);
-                }
-                if ("iconSet".equals(pXmlTag)) {
-                    this.setUrlIconSet(pValue);
-                    if (this.getNrOfIcons() < 1) {
-                        this.setNrOfIcons(1);
-                    }
-                }
-                if ("name".equals(pXmlTag)) {
-                    this.setName(pValue);
-                }
-                if ("gender".equals(pXmlTag)) {
-                    this.setGender(new PlayerGenderFactory().forName(pValue));
-                    if (this.getPlayerGender() == null) {
-                        this.setGender(PlayerGender.MALE);
-                    }
-                }
-                if ("positionId".equals(pXmlTag)) {
-                    this.setPositionId(pValue);
-                }
-                if ("type".equals(pXmlTag)) {
-                    this.setType(new PlayerTypeFactory().forName(pValue));
-                }
-                if ("movement".equals(pXmlTag)) {
-                    this.setMovement(Integer.parseInt(pValue));
-                }
-                if ("strength".equals(pXmlTag)) {
-                    this.setStrength(Integer.parseInt(pValue));
-                }
-                if ("agility".equals(pXmlTag)) {
-                    this.setAgility(Integer.parseInt(pValue));
-                }
-                if ("armour".equals(pXmlTag)) {
-                    this.setArmour(Integer.parseInt(pValue));
-                }
-                if ("race".equals(pXmlTag)) {
-                    this.getPosition().setRace(pValue);
-                }
-                if ("shorthand".equals(pXmlTag)) {
-                    this.getPosition().setShorthand(pValue);
-                }
-            }
-        }
-        return complete;
     }
 
     public void init(Player pPlayer) {

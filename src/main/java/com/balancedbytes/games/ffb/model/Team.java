@@ -4,36 +4,19 @@
 package com.balancedbytes.games.ffb.model;
 
 import com.balancedbytes.games.ffb.PlayerType;
-import com.balancedbytes.games.ffb.SeriousInjury;
 import com.balancedbytes.games.ffb.json.IJsonOption;
 import com.balancedbytes.games.ffb.json.IJsonSerializable;
-import com.balancedbytes.games.ffb.json.JsonArrayOption;
-import com.balancedbytes.games.ffb.json.JsonIntOption;
-import com.balancedbytes.games.ffb.json.JsonObjectOption;
-import com.balancedbytes.games.ffb.json.JsonStringOption;
 import com.balancedbytes.games.ffb.json.UtilJson;
-import com.balancedbytes.games.ffb.model.InducementSet;
-import com.balancedbytes.games.ffb.model.Player;
-import com.balancedbytes.games.ffb.model.Roster;
-import com.balancedbytes.games.ffb.model.RosterPosition;
-import com.balancedbytes.games.ffb.xml.IXmlReadable;
-import com.balancedbytes.games.ffb.xml.IXmlSerializable;
-import com.balancedbytes.games.ffb.xml.UtilXml;
 import com.eclipsesource.json.JsonArray;
 import com.eclipsesource.json.JsonObject;
 import com.eclipsesource.json.JsonValue;
+
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
-import javax.xml.transform.sax.TransformerHandler;
-import org.xml.sax.Attributes;
-import org.xml.sax.helpers.AttributesImpl;
 
-public class Team
-implements IXmlSerializable,
-IJsonSerializable {
+public class Team implements IJsonSerializable {
     public static final String XML_TAG = "team";
     private static final String _XML_ATTRIBUTE_ID = "id";
     private static final String _XML_TAG_NAME = "name";
@@ -294,106 +277,6 @@ IJsonSerializable {
                 return pTeam1.getName().compareTo(pTeam2.getName());
             }
         };
-    }
-
-    @Override
-    public void addToXml(TransformerHandler pHandler) {
-        AttributesImpl attributes = new AttributesImpl();
-        UtilXml.addAttribute(attributes, "id", this.getId());
-        UtilXml.startElement(pHandler, "team", attributes);
-        UtilXml.addValueElement(pHandler, "coach", this.getCoach());
-        UtilXml.addValueElement(pHandler, "name", this.getName());
-        UtilXml.addValueElement(pHandler, "race", this.getRace());
-        UtilXml.addValueElement(pHandler, "rosterId", this.getRosterId());
-        UtilXml.addValueElement(pHandler, "reRolls", this.getReRolls());
-        UtilXml.addValueElement(pHandler, "fanFactor", this.getFanFactor());
-        UtilXml.addValueElement(pHandler, "teamValue", this.getTeamValue());
-        UtilXml.addValueElement(pHandler, "apothecaries", this.getApothecaries());
-        UtilXml.addValueElement(pHandler, "cheerleaders", this.getCheerleaders());
-        UtilXml.addValueElement(pHandler, "assistantCoaches", this.getAssistantCoaches());
-        UtilXml.addValueElement(pHandler, "division", this.getDivision());
-        UtilXml.addValueElement(pHandler, "treasury", this.getTreasury());
-        UtilXml.addValueElement(pHandler, "baseIconPath", this.getBaseIconPath());
-        UtilXml.addValueElement(pHandler, "logo", this.getLogoUrl());
-        for (Player player : this.getPlayers()) {
-            player.addToXml(pHandler);
-        }
-        UtilXml.endElement(pHandler, "team");
-    }
-
-    @Override
-    public String toXml(boolean pIndent) {
-        return UtilXml.toXml(this, pIndent);
-    }
-
-    @Override
-    public IXmlReadable startXmlElement(String pXmlTag, Attributes pXmlAttributes) {
-        IXmlSerializable xmlElement = this;
-        if ("team".equals(pXmlTag)) {
-            this.setId(UtilXml.getStringAttribute(pXmlAttributes, "id"));
-        }
-        if ("player".equals(pXmlTag)) {
-            Player player = new Player();
-            player.startXmlElement(pXmlTag, pXmlAttributes);
-            this.addPlayer(player);
-            xmlElement = player;
-        }
-        if ("inducementSet".equals(pXmlTag)) {
-            this.setInducementSet(new InducementSet());
-            this.getInducementSet().startXmlElement(pXmlTag, pXmlAttributes);
-            xmlElement = this.getInducementSet();
-        }
-        return xmlElement;
-    }
-
-    @Override
-    public boolean endXmlElement(String pXmlTag, String pValue) {
-        boolean complete = "team".equals(pXmlTag);
-        if (!complete) {
-            if ("name".equals(pXmlTag)) {
-                this.fName = pValue;
-            }
-            if ("coach".equals(pXmlTag)) {
-                this.setCoach(pValue);
-            }
-            if ("race".equals(pXmlTag)) {
-                this.setRace(pValue);
-            }
-            if ("rosterId".equals(pXmlTag)) {
-                this.setRosterId(pValue);
-            }
-            if ("reRolls".equals(pXmlTag)) {
-                this.setReRolls(Integer.parseInt(pValue));
-            }
-            if ("fanFactor".equals(pXmlTag)) {
-                this.setFanFactor(Integer.parseInt(pValue));
-            }
-            if ("apothecaries".equals(pXmlTag)) {
-                this.setApothecaries(Integer.parseInt(pValue));
-            }
-            if ("cheerleaders".equals(pXmlTag)) {
-                this.setCheerleaders(Integer.parseInt(pValue));
-            }
-            if ("assistantCoaches".equals(pXmlTag)) {
-                this.setAssistantCoaches(Integer.parseInt(pValue));
-            }
-            if ("teamValue".equals(pXmlTag)) {
-                this.setTeamValue(Integer.parseInt(pValue));
-            }
-            if ("division".equals(pXmlTag)) {
-                this.setDivision(pValue);
-            }
-            if ("treasury".equals(pXmlTag)) {
-                this.setTreasury(Integer.parseInt(pValue));
-            }
-            if ("baseIconPath".equals(pXmlTag)) {
-                this.setBaseIconPath(pValue);
-            }
-            if ("logo".equals(pXmlTag)) {
-                this.setLogoUrl(pValue);
-            }
-        }
-        return complete;
     }
 
     @Override

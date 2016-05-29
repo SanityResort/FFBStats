@@ -3,30 +3,19 @@
  */
 package com.balancedbytes.games.ffb;
 
-import com.balancedbytes.games.ffb.TeamListEntry;
-import com.balancedbytes.games.ffb.TeamStatus;
 import com.balancedbytes.games.ffb.json.IJsonOption;
 import com.balancedbytes.games.ffb.json.IJsonSerializable;
-import com.balancedbytes.games.ffb.json.JsonArrayOption;
-import com.balancedbytes.games.ffb.json.JsonStringOption;
 import com.balancedbytes.games.ffb.json.UtilJson;
 import com.balancedbytes.games.ffb.util.ArrayTool;
 import com.balancedbytes.games.ffb.util.StringTool;
-import com.balancedbytes.games.ffb.xml.IXmlReadable;
-import com.balancedbytes.games.ffb.xml.IXmlSerializable;
-import com.balancedbytes.games.ffb.xml.UtilXml;
 import com.eclipsesource.json.JsonArray;
 import com.eclipsesource.json.JsonObject;
 import com.eclipsesource.json.JsonValue;
+
 import java.util.ArrayList;
 import java.util.List;
-import javax.xml.transform.sax.TransformerHandler;
-import org.xml.sax.Attributes;
-import org.xml.sax.helpers.AttributesImpl;
 
-public class TeamList
-implements IXmlSerializable,
-IJsonSerializable {
+public class TeamList implements IJsonSerializable {
     public static final String XML_TAG = "teams";
     private static final String _XML_ATTRIBUTE_COACH = "coach";
     private String fCoach;
@@ -87,43 +76,6 @@ IJsonSerializable {
             }
         }
         return filteredTeamList;
-    }
-
-    @Override
-    public void addToXml(TransformerHandler pHandler) {
-        TeamListEntry[] teamListEntries;
-        AttributesImpl attributes = new AttributesImpl();
-        UtilXml.addAttribute(attributes, "coach", this.getCoach());
-        UtilXml.startElement(pHandler, "teams", attributes);
-        for (TeamListEntry teamListEntry : teamListEntries = this.getTeamListEntries()) {
-            teamListEntry.addToXml(pHandler);
-        }
-        UtilXml.endElement(pHandler, "teams");
-    }
-
-    @Override
-    public String toXml(boolean pIndent) {
-        return UtilXml.toXml(this, pIndent);
-    }
-
-    @Override
-    public IXmlReadable startXmlElement(String pXmlTag, Attributes pXmlAttributes) {
-        IXmlSerializable xmlElement = this;
-        if ("teams".equals(pXmlTag)) {
-            this.fCoach = UtilXml.getStringAttribute(pXmlAttributes, "coach");
-        }
-        if ("team".equals(pXmlTag)) {
-            TeamListEntry teamListEntry = new TeamListEntry();
-            teamListEntry.startXmlElement(pXmlTag, pXmlAttributes);
-            this.add(teamListEntry);
-            xmlElement = teamListEntry;
-        }
-        return xmlElement;
-    }
-
-    @Override
-    public boolean endXmlElement(String pXmlTag, String pValue) {
-        return "teams".equals(pXmlTag);
     }
 
     @Override

@@ -5,30 +5,21 @@ package com.balancedbytes.games.ffb.model;
 
 import com.balancedbytes.games.ffb.json.IJsonOption;
 import com.balancedbytes.games.ffb.json.IJsonSerializable;
-import com.balancedbytes.games.ffb.json.JsonArrayOption;
 import com.balancedbytes.games.ffb.json.UtilJson;
-import com.balancedbytes.games.ffb.model.Game;
 import com.balancedbytes.games.ffb.model.change.ModelChange;
 import com.balancedbytes.games.ffb.model.change.ModelChangeId;
 import com.balancedbytes.games.ffb.option.GameOptionBoolean;
 import com.balancedbytes.games.ffb.option.GameOptionFactory;
 import com.balancedbytes.games.ffb.option.GameOptionId;
 import com.balancedbytes.games.ffb.option.IGameOption;
-import com.balancedbytes.games.ffb.xml.IXmlReadable;
-import com.balancedbytes.games.ffb.xml.IXmlSerializable;
-import com.balancedbytes.games.ffb.xml.UtilXml;
 import com.eclipsesource.json.JsonArray;
 import com.eclipsesource.json.JsonObject;
 import com.eclipsesource.json.JsonValue;
-import java.util.Collection;
+
 import java.util.HashMap;
 import java.util.Map;
-import javax.xml.transform.sax.TransformerHandler;
-import org.xml.sax.Attributes;
 
-public class GameOptions
-implements IXmlSerializable,
-IJsonSerializable {
+public class GameOptions implements IJsonSerializable {
     public static final String XML_TAG = "options";
     private Map<GameOptionId, IGameOption> fOptionById;
     private transient Game fGame;
@@ -117,33 +108,6 @@ IJsonSerializable {
             return;
         }
         this.getGame().notifyObservers(new ModelChange(pChangeId, null, pValue));
-    }
-
-    @Override
-    public void addToXml(TransformerHandler pHandler) {
-        UtilXml.startElement(pHandler, "options");
-        for (IGameOption option : this.getOptions()) {
-            option.addToXml(pHandler);
-        }
-        UtilXml.endElement(pHandler, "options");
-    }
-
-    @Override
-    public String toXml(boolean pIndent) {
-        return UtilXml.toXml(this, pIndent);
-    }
-
-    @Override
-    public IXmlSerializable startXmlElement(String pXmlTag, Attributes pXmlAttributes) {
-        if ("option".equals(pXmlTag)) {
-            this.addOption(new GameOptionFactory().fromXmlElement(pXmlTag, pXmlAttributes));
-        }
-        return this;
-    }
-
-    @Override
-    public boolean endXmlElement(String pXmlTag, String pValue) {
-        return "options".equals(pXmlTag);
     }
 
     @Override

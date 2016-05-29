@@ -3,26 +3,13 @@
  */
 package com.balancedbytes.games.ffb;
 
-import com.balancedbytes.games.ffb.FieldCoordinate;
 import com.balancedbytes.games.ffb.json.IJsonOption;
 import com.balancedbytes.games.ffb.json.IJsonSerializable;
-import com.balancedbytes.games.ffb.json.JsonBooleanOption;
-import com.balancedbytes.games.ffb.json.JsonFieldCoordinateOption;
-import com.balancedbytes.games.ffb.json.JsonIntOption;
-import com.balancedbytes.games.ffb.json.JsonStringOption;
 import com.balancedbytes.games.ffb.json.UtilJson;
-import com.balancedbytes.games.ffb.xml.IXmlReadable;
-import com.balancedbytes.games.ffb.xml.IXmlSerializable;
-import com.balancedbytes.games.ffb.xml.UtilXml;
 import com.eclipsesource.json.JsonObject;
 import com.eclipsesource.json.JsonValue;
-import javax.xml.transform.sax.TransformerHandler;
-import org.xml.sax.Attributes;
-import org.xml.sax.helpers.AttributesImpl;
 
-public class RangeRuler
-implements IXmlSerializable,
-IJsonSerializable {
+public class RangeRuler implements IJsonSerializable {
     public static final String XML_TAG = "rangeRuler";
     private static final String _XML_ATTRIBUTE_THROWER_ID = "throwerId";
     private static final String _XML_ATTRIBUTE_MINIMUM_ROLL = "minimumRoll";
@@ -93,49 +80,6 @@ IJsonSerializable {
 
     public static RangeRuler transform(RangeRuler pTrackNumber) {
         return pTrackNumber != null ? pTrackNumber.transform() : null;
-    }
-
-    @Override
-    public void addToXml(TransformerHandler pHandler) {
-        AttributesImpl attributes = new AttributesImpl();
-        UtilXml.addAttribute(attributes, "throwerId", this.getThrowerId());
-        UtilXml.addAttribute(attributes, "minimumRoll", this.getMinimumRoll());
-        UtilXml.addAttribute(attributes, "throwTeamMate", this.isThrowTeamMate());
-        UtilXml.startElement(pHandler, "rangeRuler", attributes);
-        if (this.getTargetCoordinate() != null) {
-            attributes = new AttributesImpl();
-            UtilXml.addAttribute(attributes, "x", this.getTargetCoordinate().getX());
-            UtilXml.addAttribute(attributes, "y", this.getTargetCoordinate().getY());
-            UtilXml.startElement(pHandler, "targetCoordinate", attributes);
-            UtilXml.endElement(pHandler, "targetCoordinate");
-        }
-        UtilXml.endElement(pHandler, "rangeRuler");
-    }
-
-    @Override
-    public String toXml(boolean pIndent) {
-        return UtilXml.toXml(this, pIndent);
-    }
-
-    @Override
-    public IXmlReadable startXmlElement(String pXmlTag, Attributes pXmlAttributes) {
-        RangeRuler xmlElement = this;
-        if ("rangeRuler".equals(pXmlTag)) {
-            this.fThrowerId = UtilXml.getStringAttribute(pXmlAttributes, "throwerId");
-            this.fMinimumRoll = UtilXml.getIntAttribute(pXmlAttributes, "minimumRoll");
-            this.fThrowTeamMate = UtilXml.getBooleanAttribute(pXmlAttributes, "throwTeamMate");
-        }
-        if ("targetCoordinate".equals(pXmlTag)) {
-            int x = UtilXml.getIntAttribute(pXmlAttributes, "x");
-            int y = UtilXml.getIntAttribute(pXmlAttributes, "y");
-            this.fTargetCoordinate = new FieldCoordinate(x, y);
-        }
-        return xmlElement;
-    }
-
-    @Override
-    public boolean endXmlElement(String pXmlTag, String pValue) {
-        return "rangeRuler".equals(pXmlTag);
     }
 
     @Override
