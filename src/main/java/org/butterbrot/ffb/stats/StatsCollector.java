@@ -24,7 +24,7 @@ import com.balancedbytes.games.ffb.report.ReportTentaclesShadowingRoll;
 import com.balancedbytes.games.ffb.report.ReportTurnEnd;
 import com.balancedbytes.games.ffb.report.ReportWinningsRoll;
 import com.balancedbytes.games.ffb.util.ArrayTool;
-import org.butterbrot.ffb.stats.model.StatsCollection;
+import org.butterbrot.ffb.stats.collections.StatsCollection;
 
 import java.util.List;
 

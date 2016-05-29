@@ -1,4 +1,4 @@
-package org.butterbrot.ffb.stats.model;
+package org.butterbrot.ffb.stats.collections;
 
 import com.balancedbytes.games.ffb.BlockResult;
 import com.balancedbytes.games.ffb.BlockResultFactory;
@@ -23,6 +23,72 @@ public class TeamStatsCollection {
     private Map<Integer, Integer> rerolledBlocks = initBlockStatsMap();
     private Map<Integer, Integer> successfulBlocks = initBlockStatsMap();
     private Map<Integer, Integer> failedBlocks = initBlockStatsMap();
+
+    private String teamName;
+    private String coach;
+    private String race;
+
+    public TeamStatsCollection(String teamName, String coach, String race) {
+        this.teamName = teamName;
+        this.coach = coach;
+        this.race = race;
+    }
+
+    public Map<Integer, Integer> getSingleRolls() {
+        return singleRolls;
+    }
+
+    public Map<Integer, Integer> getTotalSingleRolls() {
+        return totalSingleRolls;
+    }
+
+    public Map<Integer, Integer> getDoubleRolls() {
+        return doubleRolls;
+    }
+
+    public Map<Integer, Integer> getTotalDoubleRolls() {
+        return totalDoubleRolls;
+    }
+
+    public Map<Integer, Integer> getArmourRolls() {
+        return armourRolls;
+    }
+
+    public Map<Integer, Integer> getInjuryRolls() {
+        return injuryRolls;
+    }
+
+    public Map<BlockResult, Integer> getBlockDice() {
+        return blockDice;
+    }
+
+    public Map<Integer, Integer> getTotalBlocks() {
+        return totalBlocks;
+    }
+
+    public Map<Integer, Integer> getRerolledBlocks() {
+        return rerolledBlocks;
+    }
+
+    public Map<Integer, Integer> getSuccessfulBlocks() {
+        return successfulBlocks;
+    }
+
+    public Map<Integer, Integer> getFailedBlocks() {
+        return failedBlocks;
+    }
+
+    public String getTeamName() {
+        return teamName;
+    }
+
+    public String getCoach() {
+        return coach;
+    }
+
+    public String getRace() {
+        return race;
+    }
 
     private  Map<BlockResult, Integer> initBlockDiceMap() {
         Map<BlockResult, Integer>  blockDice = new HashMap<>();

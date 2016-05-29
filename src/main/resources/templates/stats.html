@@ -2,9 +2,9 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <title>Dice stats</title>
+    <title th:text="'Dice Stats for Game ' + ${gameId}">Fumbbl Dice Stats</title>
 </head>
 <body>
-    <p th:text="'Stats are local!'" />
+    <p th:text="'Stats are '+${stats.home}+'!'" />
 </body>
 </html>

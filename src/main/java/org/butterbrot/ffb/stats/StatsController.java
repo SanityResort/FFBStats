@@ -1,10 +1,10 @@
 package org.butterbrot.ffb.stats;
 
 import com.balancedbytes.games.ffb.net.commands.ServerCommand;
-import com.sun.org.apache.xpath.internal.operations.Mod;
 import org.butterbrot.ffb.stats.communication.CommandHandler;
 import org.butterbrot.ffb.stats.communication.StatsCommandSocket;
-import org.butterbrot.ffb.stats.model.StatsCollection;
+import org.butterbrot.ffb.stats.collections.StatsCollection;
+import org.butterbrot.ffb.stats.model.GameDistribution;
 import org.eclipse.jetty.websocket.WebSocketClient;
 import org.eclipse.jetty.websocket.WebSocketClientFactory;
 import org.slf4j.Logger;
@@ -14,10 +14,8 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.net.InetAddress;
 import java.net.URI;
@@ -37,7 +35,7 @@ public class StatsController {
     private boolean compression;
 
     @RequestMapping(value = "/stats/{gameId}")
-    public String stats(@PathVariable(value = "gameId") String gameId)  {
+    public String stats(@PathVariable(value = "gameId") String gameId, Model model)  {
         logger.info("Creating stats for game: {}", gameId);
 
         List<ServerCommand> replayCommands = new ArrayList<>();
@@ -79,7 +77,8 @@ public class StatsController {
         }
 
         StatsCollection stats = collector.evaluate();
-      //  model.addAttribute("stats", stats.toString());
+        model.addAttribute("stats", new GameDistribution(stats));
+        model.addAttribute("gameId", gameId);
         return "stats";
     }
 

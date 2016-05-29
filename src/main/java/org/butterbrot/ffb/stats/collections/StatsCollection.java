@@ -1,4 +1,4 @@
-package org.butterbrot.ffb.stats.model;
+package org.butterbrot.ffb.stats.collections;
 
 import com.balancedbytes.games.ffb.model.Player;
 import com.balancedbytes.games.ffb.model.Team;
@@ -8,12 +8,13 @@ import java.util.Map;
 
 public class StatsCollection {
 
-    private TeamStatsCollection home = new TeamStatsCollection();
-    private TeamStatsCollection away = new TeamStatsCollection();
+    private TeamStatsCollection home;
+    private TeamStatsCollection away;
 
     private Map<String, TeamStatsCollection> teams = new HashMap<>();
 
     public void setHomeTeam(Team team) {
+        home = new TeamStatsCollection(team.getName(), team.getCoach(), team.getRace());
         teams.put(team.getId(), home);
         for (Player player : team.getPlayers()) {
             teams.put(player.getId(), home);
@@ -21,6 +22,7 @@ public class StatsCollection {
     }
 
     public void setAwayTeam(Team team) {
+        away = new TeamStatsCollection(team.getName(), team.getCoach(), team.getRace());
         teams.put(team.getId(), away);
         for (Player player : team.getPlayers()) {
             teams.put(player.getId(), away);
