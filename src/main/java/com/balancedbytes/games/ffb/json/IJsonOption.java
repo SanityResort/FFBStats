@@ -33,7 +33,6 @@ import com.balancedbytes.games.ffb.TeamStatusFactory;
 import com.balancedbytes.games.ffb.TurnModeFactory;
 import com.balancedbytes.games.ffb.WeatherFactory;
 import com.balancedbytes.games.ffb.net.NetCommandIdFactory;
-import com.balancedbytes.games.ffb.net.ServerStatusFactory;
 import com.balancedbytes.games.ffb.report.ReportIdFactory;
 
 public interface IJsonOption {
@@ -324,7 +323,6 @@ public interface IJsonOption {
     public static final JsonEnumWithNameOption SERIOUS_INJURY_NEW = new JsonEnumWithNameOption("seriousInjuryNew", new SeriousInjuryFactory());
     public static final JsonEnumWithNameOption SERIOUS_INJURY_OLD = new JsonEnumWithNameOption("seriousInjuryOld", new SeriousInjuryFactory());
     public static final JsonIntOption SERIOUS_INJURY_SUFFERED = new JsonIntOption("seriousInjurySuffered");
-    public static final JsonEnumWithNameOption SERVER_STATUS = new JsonEnumWithNameOption("serverStatus", new ServerStatusFactory());
     public static final JsonStringOption SERVER_VERSION = new JsonStringOption("serverVersion");
     public static final JsonStringArrayOption SETTING_NAMES = new JsonStringArrayOption("settingNames");
     public static final JsonStringArrayOption SETTING_VALUES = new JsonStringArrayOption("settingValues");
