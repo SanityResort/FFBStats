@@ -228,7 +228,6 @@ implements IJsonSerializable {
         }
         String key = this.isHomeData() ? "home" : "away";
         ModelChange modelChange = new ModelChange(pChangeId, key, pValue);
-        this.getGame().notifyObservers(modelChange);
     }
 
     @Override

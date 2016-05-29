@@ -221,8 +221,6 @@ public class UtilPlayer {
             } else if (oldPlayerState.hasUsedPro()) {
                 newPlayerState = oldPlayerState.changeUsedPro(false);
             }
-            if (newPlayerState == null) continue;
-            fieldModel.setPlayerState(players[i], newPlayerState);
         }
     }
 

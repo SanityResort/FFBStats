@@ -76,8 +76,6 @@ implements IJsonSerializable {
         this.fSufferingBloodLust = false;
         this.fSufferingAnimosity = false;
         Player player = this.getGame().getPlayerById(this.getPlayerId());
-        this.setStrength(player != null ? UtilCards.getPlayerStrength(this.getGame(), player) : 0);
-        this.notifyObservers(ModelChangeId.ACTING_PLAYER_SET_PLAYER_ID, this.fPlayerId);
     }
 
     public Player getPlayer() {
@@ -96,49 +94,23 @@ implements IJsonSerializable {
         return this.fCurrentMove;
     }
 
-    public void setCurrentMove(int pCurrentMove) {
-        if (pCurrentMove == this.fCurrentMove) {
-            return;
-        }
-        this.fCurrentMove = pCurrentMove;
-        this.notifyObservers(ModelChangeId.ACTING_PLAYER_SET_CURRENT_MOVE, this.fCurrentMove);
-    }
-
     public boolean isGoingForIt() {
         return this.fGoingForIt;
     }
 
-    public void setGoingForIt(boolean pGoingForIt) {
-        if (pGoingForIt == this.fGoingForIt) {
-            return;
-        }
-        this.fGoingForIt = pGoingForIt;
-        this.notifyObservers(ModelChangeId.ACTING_PLAYER_SET_GOING_FOR_IT, this.fGoingForIt);
-    }
+
 
     public PlayerAction getPlayerAction() {
         return this.fPlayerAction;
     }
 
-    public void setPlayerAction(PlayerAction pPlayerAction) {
-        if (pPlayerAction == this.fPlayerAction) {
-            return;
-        }
-        this.fPlayerAction = pPlayerAction;
-        this.notifyObservers(ModelChangeId.ACTING_PLAYER_SET_PLAYER_ACTION, this.fPlayerAction);
-    }
+
 
     public boolean isSkillUsed(Skill pSkill) {
         return this.fUsedSkills.contains(pSkill);
     }
 
-    public void markSkillUsed(Skill pSkill) {
-        if (pSkill == null || this.isSkillUsed(pSkill)) {
-            return;
-        }
-        this.fUsedSkills.add(pSkill);
-        this.notifyObservers(ModelChangeId.ACTING_PLAYER_MARK_SKILL_USED, pSkill);
-    }
+
 
     public String getRace() {
         if (this.getPlayer() != null) {
@@ -155,132 +127,28 @@ implements IJsonSerializable {
         return this.fHasBlocked;
     }
 
-    public void setHasBlocked(boolean pHasBlocked) {
-        if (pHasBlocked == this.fHasBlocked) {
-            return;
-        }
-        this.fHasBlocked = pHasBlocked;
-        this.notifyObservers(ModelChangeId.ACTING_PLAYER_SET_HAS_BLOCKED, this.fHasBlocked);
-    }
-
     public boolean hasPassed() {
         return this.fHasPassed;
-    }
-
-    public void setHasPassed(boolean pHasPassed) {
-        if (pHasPassed == this.fHasPassed) {
-            return;
-        }
-        this.fHasPassed = pHasPassed;
-        this.notifyObservers(ModelChangeId.ACTING_PLAYER_SET_HAS_PASSED, this.fHasPassed);
-    }
-
-    public boolean isDodging() {
-        return this.fDodging;
-    }
-
-    public void setDodging(boolean pDodging) {
-        if (pDodging == this.fDodging) {
-            return;
-        }
-        this.fDodging = pDodging;
-        this.notifyObservers(ModelChangeId.ACTING_PLAYER_SET_DODGING, this.fDodging);
     }
 
     public int getStrength() {
         return this.fStrength;
     }
 
-    public void setStrength(int pStrength) {
-        if (pStrength == this.fStrength) {
-            return;
-        }
-        this.fStrength = pStrength;
-        this.notifyObservers(ModelChangeId.ACTING_PLAYER_SET_STRENGTH, this.fStrength);
-    }
-
     public boolean hasMoved() {
         return this.fHasMoved;
-    }
-
-    public void setHasMoved(boolean pHasMoved) {
-        if (pHasMoved == this.fHasMoved) {
-            return;
-        }
-        this.fHasMoved = pHasMoved;
-        this.notifyObservers(ModelChangeId.ACTING_PLAYER_SET_HAS_MOVED, this.fHasMoved);
     }
 
     public boolean isLeaping() {
         return this.fLeaping;
     }
 
-    public void setLeaping(boolean pLeaping) {
-        if (pLeaping == this.fLeaping) {
-            return;
-        }
-        this.fLeaping = pLeaping;
-        this.notifyObservers(ModelChangeId.ACTING_PLAYER_SET_LEAPING, this.fLeaping);
-    }
-
-    public void setStandingUp(boolean pStandingUp) {
-        if (pStandingUp == this.fStandingUp) {
-            return;
-        }
-        this.fStandingUp = pStandingUp;
-        this.notifyObservers(ModelChangeId.ACTING_PLAYER_SET_STANDING_UP, this.fStandingUp);
-    }
-
     public boolean isStandingUp() {
         return this.fStandingUp;
     }
 
-    public void setSufferingBloodLust(boolean pSufferingBloodLust) {
-        if (pSufferingBloodLust == this.fSufferingBloodLust) {
-            return;
-        }
-        this.fSufferingBloodLust = pSufferingBloodLust;
-        this.notifyObservers(ModelChangeId.ACTING_PLAYER_SET_SUFFERING_BLOOD_LUST, this.fSufferingBloodLust);
-    }
-
-    public boolean isSufferingBloodLust() {
-        return this.fSufferingBloodLust;
-    }
-
-    public void setSufferingAnimosity(boolean pSufferingAnimosity) {
-        if (pSufferingAnimosity == this.fSufferingAnimosity) {
-            return;
-        }
-        this.fSufferingAnimosity = pSufferingAnimosity;
-        this.notifyObservers(ModelChangeId.ACTING_PLAYER_SET_SUFFERING_ANIMOSITY, this.fSufferingAnimosity);
-    }
-
-    public boolean isSufferingAnimosity() {
-        return this.fSufferingAnimosity;
-    }
-
-    public boolean hasFed() {
-        return this.fHasFed;
-    }
-
-    public void setHasFed(boolean pHasFed) {
-        if (pHasFed == this.fHasFed) {
-            return;
-        }
-        this.fHasFed = pHasFed;
-        this.notifyObservers(ModelChangeId.ACTING_PLAYER_SET_HAS_FED, this.fHasFed);
-    }
-
     public boolean hasFouled() {
         return this.fHasFouled;
-    }
-
-    public void setHasFouled(boolean pHasFouled) {
-        if (pHasFouled == this.fHasFouled) {
-            return;
-        }
-        this.fHasFouled = pHasFouled;
-        this.notifyObservers(ModelChangeId.ACTING_PLAYER_SET_HAS_FOULED, this.fHasFouled);
     }
 
     public Game getGame() {
@@ -289,13 +157,6 @@ implements IJsonSerializable {
 
     public boolean hasActed() {
         return this.hasMoved() || this.hasFouled() || this.hasBlocked() || this.hasPassed() || this.fUsedSkills.size() > 0;
-    }
-
-    private void notifyObservers(ModelChangeId pChangeId, Object pValue) {
-        if (this.getGame() == null || pChangeId == null) {
-            return;
-        }
-        this.getGame().notifyObservers(new ModelChange(pChangeId, null, pValue));
     }
 
     @Override

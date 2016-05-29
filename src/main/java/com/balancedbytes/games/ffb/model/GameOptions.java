@@ -107,7 +107,6 @@ public class GameOptions implements IJsonSerializable {
         if (this.getGame() == null || pChangeId == null) {
             return;
         }
-        this.getGame().notifyObservers(new ModelChange(pChangeId, null, pValue));
     }
 
     @Override

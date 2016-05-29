@@ -85,27 +85,6 @@ public class TeamSetup implements IJsonSerializable {
         return transformedSetup;
     }
 
-    public void applyTo(Game pGame) {
-        boolean homeSetup = this.getTeamId().equals(pGame.getTeamHome().getId());
-        Team team = homeSetup ? pGame.getTeamHome() : pGame.getTeamAway();
-        for (Player player : team.getPlayers()) {
-            FieldCoordinate playerCoordinate = this.getCoordinate(player.getNr());
-            PlayerState playerState = pGame.getFieldModel().getPlayerState(player);
-            if (!playerState.canBeSetUp()) continue;
-            if (playerCoordinate != null) {
-                pGame.getFieldModel().setPlayerState(player, playerState.changeBase(1).changeActive(true));
-                if (homeSetup) {
-                    pGame.getFieldModel().setPlayerCoordinate(player, playerCoordinate);
-                    continue;
-                }
-                pGame.getFieldModel().setPlayerCoordinate(player, playerCoordinate.transform());
-                continue;
-            }
-            pGame.getFieldModel().setPlayerState(player, playerState.changeBase(9));
-            UtilBox.putPlayerIntoBox(pGame, player);
-        }
-    }
-
     @Override
     public JsonObject toJsonValue() {
         JsonObject jsonObject = new JsonObject();

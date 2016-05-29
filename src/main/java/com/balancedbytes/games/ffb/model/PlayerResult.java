@@ -333,7 +333,6 @@ implements IJsonSerializable {
             return;
         }
         ModelChange modelChange = new ModelChange(pModelChangeId, this.getPlayerId(), pValue);
-        this.getGame().notifyObservers(modelChange);
     }
 
     @Override

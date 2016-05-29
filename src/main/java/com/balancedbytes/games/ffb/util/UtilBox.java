@@ -50,18 +50,6 @@ public class UtilBox {
         return null;
     }
 
-    public static void putAllPlayersIntoBox(Game pGame) {
-        UtilBox.refreshBoxes(pGame);
-        if (pGame != null) {
-            for (Player player : pGame.getPlayers()) {
-                PlayerState playerState = pGame.getFieldModel().getPlayerState(player);
-                if (!playerState.canBeSetUp()) continue;
-                pGame.getFieldModel().setPlayerState(player, playerState.changeBase(9));
-                UtilBox.putPlayerIntoBox(pGame, player);
-            }
-        }
-    }
-
     public static void putPlayerIntoBox(Game pGame, Player pPlayer) {
         if (pGame != null && pPlayer != null) {
             int boxX = 0;
@@ -98,13 +86,11 @@ public class UtilBox {
                 }
             }
             if (boxX != 0) {
-                pGame.getFieldModel().remove(pPlayer);
                 int y = 0;
                 FieldCoordinate freeCoordinate = new FieldCoordinate(boxX, y);
                 while (pGame.getFieldModel().getPlayer(freeCoordinate) != null) {
                     freeCoordinate = new FieldCoordinate(boxX, ++y);
                 }
-                pGame.getFieldModel().setPlayerCoordinate(pPlayer, freeCoordinate);
             }
         }
     }
@@ -139,10 +125,7 @@ public class UtilBox {
                 return pO1.getY() - pO2.getY();
             }
         });
-        for (int y = 0; y < coordinates.size(); ++y) {
-            Player player = pGame.getFieldModel().getPlayer((FieldCoordinate)coordinates.get(y));
-            pGame.getFieldModel().setPlayerCoordinate(player, new FieldCoordinate(pBoxX, y));
-        }
+
     }
 
 }

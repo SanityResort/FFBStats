@@ -211,7 +211,6 @@ public class InducementSet implements IJsonSerializable {
         }
         String key = this.getTurnData().isHomeData() ? "home" : "away";
         ModelChange modelChange = new ModelChange(pChangeId, key, pValue);
-        this.getTurnData().getGame().notifyObservers(modelChange);
     }
 
     @Override

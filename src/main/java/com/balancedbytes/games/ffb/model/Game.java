@@ -9,11 +9,6 @@ import com.balancedbytes.games.ffb.TurnMode;
 import com.balancedbytes.games.ffb.json.IJsonOption;
 import com.balancedbytes.games.ffb.json.IJsonSerializable;
 import com.balancedbytes.games.ffb.json.UtilJson;
-import com.balancedbytes.games.ffb.model.change.ModelChange;
-import com.balancedbytes.games.ffb.model.change.ModelChangeId;
-import com.balancedbytes.games.ffb.model.change.ModelChangeObservable;
-import com.balancedbytes.games.ffb.util.DateTool;
-import com.balancedbytes.games.ffb.util.StringTool;
 import com.eclipsesource.json.JsonObject;
 import com.eclipsesource.json.JsonValue;
 
@@ -21,8 +16,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class Game
-extends ModelChangeObservable
-implements IJsonSerializable {
+        implements IJsonSerializable {
     private long fId;
     private Date fScheduled;
     private Date fStarted;
@@ -70,7 +64,6 @@ implements IJsonSerializable {
             return;
         }
         this.fId = pId;
-        this.notifyObservers(ModelChangeId.GAME_SET_ID, null, this.fId);
     }
 
     public long getId() {
@@ -93,25 +86,11 @@ implements IJsonSerializable {
         return this.fHalf;
     }
 
-    public void setHalf(int pHalf) {
-        if (pHalf == this.fHalf) {
-            return;
-        }
-        this.fHalf = pHalf;
-        this.notifyObservers(ModelChangeId.GAME_SET_HALF, null, this.fHalf);
-    }
 
     public TurnMode getTurnMode() {
         return this.fTurnMode;
     }
 
-    public void setTurnMode(TurnMode pTurnMode) {
-        if (pTurnMode == this.fTurnMode) {
-            return;
-        }
-        this.fTurnMode = pTurnMode;
-        this.notifyObservers(ModelChangeId.GAME_SET_TURN_MODE, null, this.fTurnMode);
-    }
 
     public ActingPlayer getActingPlayer() {
         return this.fActingPlayer;
@@ -137,37 +116,16 @@ implements IJsonSerializable {
         return this.fHomePlaying;
     }
 
-    public void setHomePlaying(boolean pHomePlaying) {
-        if (pHomePlaying == this.fHomePlaying) {
-            return;
-        }
-        this.fHomePlaying = pHomePlaying;
-        this.notifyObservers(ModelChangeId.GAME_SET_HOME_PLAYING, null, this.fHomePlaying);
-    }
 
     public FieldCoordinate getPassCoordinate() {
         return this.fPassCoordinate;
     }
 
-    public void setPassCoordinate(FieldCoordinate pPassCoordinate) {
-        if (FieldCoordinate.equals(pPassCoordinate, this.fPassCoordinate)) {
-            return;
-        }
-        this.fPassCoordinate = pPassCoordinate;
-        this.notifyObservers(ModelChangeId.GAME_SET_PASS_COORDINATE, null, this.fPassCoordinate);
-    }
 
     public boolean isHomeFirstOffense() {
         return this.fHomeFirstOffense;
     }
 
-    public void setHomeFirstOffense(boolean pHomeFirstOffense) {
-        if (pHomeFirstOffense == this.fHomeFirstOffense) {
-            return;
-        }
-        this.fHomeFirstOffense = pHomeFirstOffense;
-        this.notifyObservers(ModelChangeId.GAME_SET_HOME_FIRST_OFFENSE, null, this.fHomeFirstOffense);
-    }
 
     public TurnData getTurnData() {
         return this.isHomePlaying() ? this.getTurnDataHome() : this.getTurnDataAway();
@@ -177,13 +135,6 @@ implements IJsonSerializable {
         return this.fSetupOffense;
     }
 
-    public void setSetupOffense(boolean pSetupOffense) {
-        if (pSetupOffense == this.fSetupOffense) {
-            return;
-        }
-        this.fSetupOffense = pSetupOffense;
-        this.notifyObservers(ModelChangeId.GAME_SET_SETUP_OFFENSE, null, this.fSetupOffense);
-    }
 
     public Team getTeamById(String pTeamId) {
         Team team = null;
@@ -232,37 +183,10 @@ implements IJsonSerializable {
         this.fGameResult.getTeamResultAway().setTeam(pTeam);
     }
 
-    public Date getScheduled() {
-        return this.fScheduled;
-    }
-
-    public void setScheduled(Date pScheduled) {
-        if (DateTool.isEqual(pScheduled, this.fScheduled)) {
-            return;
-        }
-        this.fScheduled = pScheduled;
-        this.notifyObservers(ModelChangeId.GAME_SET_SCHEDULED, null, this.fScheduled);
-    }
-
     public Date getStarted() {
         return this.fStarted;
     }
 
-    public void setStarted(Date pStarted) {
-        if (DateTool.isEqual(pStarted, this.fStarted)) {
-            return;
-        }
-        this.fStarted = pStarted;
-        this.notifyObservers(ModelChangeId.GAME_SET_STARTED, null, this.fStarted);
-    }
-
-    public void setDefenderId(String pDefenderId) {
-        if (StringTool.isEqual(pDefenderId, this.fDefenderId)) {
-            return;
-        }
-        this.fDefenderId = pDefenderId;
-        this.notifyObservers(ModelChangeId.GAME_SET_DEFENDER_ID, this.fDefenderId, null);
-    }
 
     public String getDefenderId() {
         return this.fDefenderId;
@@ -270,26 +194,6 @@ implements IJsonSerializable {
 
     public Player getDefender() {
         return this.getPlayerById(this.getDefenderId());
-    }
-
-    public void setDefenderAction(PlayerAction pDefenderAction) {
-        if (pDefenderAction == this.fDefenderAction) {
-            return;
-        }
-        this.fDefenderAction = pDefenderAction;
-        this.notifyObservers(ModelChangeId.GAME_SET_DEFENDER_ACTION, null, this.fDefenderAction);
-    }
-
-    public PlayerAction getDefenderAction() {
-        return this.fDefenderAction;
-    }
-
-    public void setThrowerId(String pThrowerId) {
-        if (StringTool.isEqual(pThrowerId, this.fThrowerId)) {
-            return;
-        }
-        this.fThrowerId = pThrowerId;
-        this.notifyObservers(ModelChangeId.GAME_SET_THROWER_ID, this.fThrowerId, null);
     }
 
     public String getThrowerId() {
@@ -300,40 +204,9 @@ implements IJsonSerializable {
         return this.getPlayerById(this.getThrowerId());
     }
 
-    public void setThrowerAction(PlayerAction pThrowerAction) {
-        if (pThrowerAction == this.fThrowerAction) {
-            return;
-        }
-        this.fThrowerAction = pThrowerAction;
-        this.notifyObservers(ModelChangeId.GAME_SET_THROWER_ACTION, null, this.fThrowerAction);
-    }
 
     public PlayerAction getThrowerAction() {
         return this.fThrowerAction;
-    }
-
-    public void setWaitingForOpponent(boolean pWaitingForOpponent) {
-        if (pWaitingForOpponent == this.fWaitingForOpponent) {
-            return;
-        }
-        this.fWaitingForOpponent = pWaitingForOpponent;
-        this.notifyObservers(ModelChangeId.GAME_SET_WAITING_FOR_OPPONENT, null, this.fWaitingForOpponent);
-    }
-
-    public boolean isWaitingForOpponent() {
-        return this.fWaitingForOpponent;
-    }
-
-    public Date getFinished() {
-        return this.fFinished;
-    }
-
-    public void setFinished(Date pFinished) {
-        if (DateTool.isEqual(pFinished, this.fFinished)) {
-            return;
-        }
-        this.fFinished = pFinished;
-        this.notifyObservers(ModelChangeId.GAME_SET_FINISHED, null, this.fFinished);
     }
 
     public long getGameTime() {
@@ -352,111 +225,23 @@ implements IJsonSerializable {
         this.fTurnTime = pTurnTime;
     }
 
-    public boolean isTurnTimeEnabled() {
-        return this.getFinished() == null && (TurnMode.REGULAR == this.getTurnMode() || TurnMode.BLITZ == this.getTurnMode());
-    }
-
-    public boolean isTimeoutPossible() {
-        return this.fTimeoutPossible;
-    }
-
-    public void setTimeoutPossible(boolean pTimeout) {
-        if (pTimeout == this.fTimeoutPossible) {
-            return;
-        }
-        this.fTimeoutPossible = pTimeout;
-        this.notifyObservers(ModelChangeId.GAME_SET_TIMEOUT_POSSIBLE, null, this.fTimeoutPossible);
-    }
-
-    public void setTimeoutEnforced(boolean pTimeoutEnforced) {
-        if (pTimeoutEnforced == this.fTimeoutEnforced) {
-            return;
-        }
-        this.fTimeoutEnforced = pTimeoutEnforced;
-        this.notifyObservers(ModelChangeId.GAME_SET_TIMEOUT_ENFORCED, null, this.fTimeoutEnforced);
-    }
-
-    public boolean isTimeoutEnforced() {
-        return this.fTimeoutEnforced;
-    }
-
-    public void setConcessionPossible(boolean pConcessionPossible) {
-        if (pConcessionPossible == this.fConcessionPossible) {
-            return;
-        }
-        this.fConcessionPossible = pConcessionPossible;
-        this.notifyObservers(ModelChangeId.GAME_SET_CONCESSION_POSSIBLE, null, this.fConcessionPossible);
-    }
-
-    public boolean isConcessionPossible() {
-        return this.fConcessionPossible;
-    }
-
-    public void setTesting(boolean pTesting) {
-        if (pTesting == this.fTesting) {
-            return;
-        }
-        this.fTesting = pTesting;
-        this.notifyObservers(ModelChangeId.GAME_SET_TESTING, null, this.fTesting);
-    }
-
-    public boolean isTesting() {
-        return this.fTesting;
-    }
-
     public GameOptions getOptions() {
         return this.fOptions;
     }
 
-    public Team findTeam(Player pPlayer) {
-        if (this.getTeamHome().hasPlayer(pPlayer)) {
-            return this.getTeamHome();
-        }
-        if (this.getTeamAway().hasPlayer(pPlayer)) {
-            return this.getTeamAway();
-        }
-        return null;
-    }
-
-    private void notifyObservers(ModelChangeId pChangeId, String pKey, Object pValue) {
-        if (pChangeId == null) {
-            return;
-        }
-        ModelChange modelChange = new ModelChange(pChangeId, pKey, pValue);
-        this.notifyObservers(modelChange);
-    }
 
     public Game transform() {
         Game transformedGame = new Game();
         transformedGame.setId(this.getId());
-        transformedGame.setTurnMode(this.getTurnMode());
-        transformedGame.setHalf(this.getHalf());
         transformedGame.fActingPlayer = this.getActingPlayer();
-        transformedGame.setScheduled(this.getScheduled());
-        transformedGame.setStarted(this.getStarted());
-        transformedGame.setFinished(this.getFinished());
-        transformedGame.setSetupOffense(this.isSetupOffense());
-        transformedGame.setWaitingForOpponent(this.isWaitingForOpponent());
-        transformedGame.setDefenderId(this.getDefenderId());
-        transformedGame.setDefenderAction(this.getDefenderAction());
         transformedGame.setTurnTime(this.getTurnTime());
         transformedGame.setGameTime(this.getGameTime());
-        transformedGame.setTimeoutPossible(this.isTimeoutPossible());
-        transformedGame.setTimeoutEnforced(this.isTimeoutEnforced());
-        transformedGame.setTesting(this.isTesting());
-        transformedGame.setThrowerId(this.getThrowerId());
-        transformedGame.setThrowerAction(this.getThrowerAction());
         transformedGame.getOptions().init(this.getOptions());
-        transformedGame.setHomePlaying(!this.isHomePlaying());
-        transformedGame.setHomeFirstOffense(!this.isHomeFirstOffense());
         transformedGame.fFieldModel = this.getFieldModel().transform();
         transformedGame.setTeamHome(this.getTeamAway());
         transformedGame.getTurnDataHome().init(this.getTurnDataAway());
         transformedGame.setTeamAway(this.getTeamHome());
         transformedGame.getTurnDataAway().init(this.getTurnDataHome());
-        if (this.getPassCoordinate() != null) {
-            transformedGame.setPassCoordinate(this.getPassCoordinate().transform());
-        }
         transformedGame.fGameResult = this.getGameResult().transform();
         return transformedGame;
     }
@@ -515,12 +300,12 @@ implements IJsonSerializable {
         this.fTimeoutEnforced = IJsonOption.TIMEOUT_ENFORCED.getFrom(jsonObject);
         this.fConcessionPossible = IJsonOption.CONCESSION_POSSIBLE.getFrom(jsonObject);
         this.fTesting = IJsonOption.TESTING.getFrom(jsonObject);
-        this.fTurnMode = (TurnMode)IJsonOption.TURN_MODE.getFrom(jsonObject);
+        this.fTurnMode = (TurnMode) IJsonOption.TURN_MODE.getFrom(jsonObject);
         this.fDefenderId = IJsonOption.DEFENDER_ID.getFrom(jsonObject);
-        this.fDefenderAction = (PlayerAction)IJsonOption.DEFENDER_ACTION.getFrom(jsonObject);
+        this.fDefenderAction = (PlayerAction) IJsonOption.DEFENDER_ACTION.getFrom(jsonObject);
         this.fPassCoordinate = IJsonOption.PASS_COORDINATE.getFrom(jsonObject);
         this.fThrowerId = IJsonOption.THROWER_ID.getFrom(jsonObject);
-        this.fThrowerAction = (PlayerAction)IJsonOption.THROWER_ACTION.getFrom(jsonObject);
+        this.fThrowerAction = (PlayerAction) IJsonOption.THROWER_ACTION.getFrom(jsonObject);
         this.fTeamAway.initFrom(IJsonOption.TEAM_AWAY.getFrom(jsonObject));
         this.fTurnDataAway.initFrom(IJsonOption.TURN_DATA_AWAY.getFrom(jsonObject));
         this.fTeamHome.initFrom(IJsonOption.TEAM_HOME.getFrom(jsonObject));
