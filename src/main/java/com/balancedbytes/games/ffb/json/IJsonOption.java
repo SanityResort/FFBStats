@@ -4,12 +4,6 @@
 package com.balancedbytes.games.ffb.json;
 
 import com.balancedbytes.games.ffb.BlockResultFactory;
-import com.balancedbytes.games.ffb.CardEffectFactory;
-import com.balancedbytes.games.ffb.CardFactory;
-import com.balancedbytes.games.ffb.CardTypeFactory;
-import com.balancedbytes.games.ffb.ClientModeFactory;
-import com.balancedbytes.games.ffb.ClientStateIdFactory;
-import com.balancedbytes.games.ffb.ConcedeGameStatusFactory;
 import com.balancedbytes.games.ffb.DirectionFactory;
 import com.balancedbytes.games.ffb.InducementTypeFactory;
 import com.balancedbytes.games.ffb.InjuryTypeFactory;
@@ -71,14 +65,11 @@ public interface IJsonOption {
     public static final JsonFieldCoordinateOption BOMB_COORDINATE = new JsonFieldCoordinateOption("bombCoordinate");
     public static final JsonBooleanOption BOMB_MOVING = new JsonBooleanOption("bombMoving");
     public static final JsonFieldCoordinateOption BOTTOM_RIGHT = new JsonFieldCoordinateOption("bottomRight");
-    public static final JsonEnumWithNameOption CARD = new JsonEnumWithNameOption("card", new CardFactory());
     public static final JsonStringArrayOption CARDS = new JsonStringArrayOption("cards");
-    public static final JsonEnumWithNameOption CARD_EFFECT = new JsonEnumWithNameOption("cardEffect", new CardEffectFactory());
     public static final JsonStringArrayOption CARD_EFFECTS = new JsonStringArrayOption("cardEffects");
     public static final JsonStringArrayOption CARDS_ACTIVE = new JsonStringArrayOption("cardsActive");
     public static final JsonStringArrayOption CARDS_AVAILABLE = new JsonStringArrayOption("cardsAvailable");
     public static final JsonStringArrayOption CARDS_DEACTIVATED = new JsonStringArrayOption("cardsDeactivated");
-    public static final JsonEnumWithNameOption CARD_TYPE = new JsonEnumWithNameOption("cardType", new CardTypeFactory());
     public static final JsonIntOption CASUALTIES = new JsonIntOption("casualties");
     public static final JsonIntArrayOption CASUALTY_ROLL = new JsonIntArrayOption("casualtyRoll");
     public static final JsonIntArrayOption CASUALTY_ROLL_DECAY = new JsonIntArrayOption("casualtyRollDecay");
@@ -89,10 +80,8 @@ public interface IJsonOption {
     public static final JsonBooleanOption CHOICE_HEADS = new JsonBooleanOption("choiceHeads");
     public static final JsonBooleanOption CHOICE_RECEIVE = new JsonBooleanOption("choiceReceive");
     public static final JsonStringOption CHOOSING_TEAM_ID = new JsonStringOption("choosingTeamId");
-    public static final JsonEnumWithNameOption CLIENT_MODE = new JsonEnumWithNameOption("clientMode", new ClientModeFactory());
     public static final JsonStringArrayOption CLIENT_PROPERTY_NAMES = new JsonStringArrayOption("clientPropertyNames");
     public static final JsonStringArrayOption CLIENT_PROPERTY_VALUES = new JsonStringArrayOption("clientPropertyValues");
-    public static final JsonEnumWithNameOption CLIENT_STATE_ID = new JsonEnumWithNameOption("clientStateId", new ClientStateIdFactory());
     public static final JsonStringOption CLIENT_VERSION = new JsonStringOption("clientVersion");
     public static final JsonStringOption COACH = new JsonStringOption("coach");
     public static final JsonBooleanOption COIN_CHOICE_HEADS = new JsonBooleanOption("coinChoiceHeads");
@@ -100,7 +89,6 @@ public interface IJsonOption {
     public static final JsonArrayOption COMMAND_ARRAY = new JsonArrayOption("commandArray");
     public static final JsonIntOption COMMAND_NR = new JsonIntOption("commandNr");
     public static final JsonIntOption COMPLETIONS = new JsonIntOption("completions");
-    public static final JsonEnumWithNameOption CONCEDE_GAME_STATUS = new JsonEnumWithNameOption("concedeGameStatus", new ConcedeGameStatusFactory());
     public static final JsonBooleanOption CONCEDED = new JsonBooleanOption("conceded");
     public static final JsonStringOption CONCEDING_TEAM_ID = new JsonStringOption("concedingTeamId");
     public static final JsonBooleanOption CONCESSION_POSSIBLE = new JsonBooleanOption("concessionPossible");
