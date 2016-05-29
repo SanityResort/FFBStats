@@ -3,26 +3,17 @@
  */
 package com.balancedbytes.games.ffb.net.commands;
 
-import com.balancedbytes.games.ffb.IEnumWithName;
 import com.balancedbytes.games.ffb.SoundId;
 import com.balancedbytes.games.ffb.json.IJsonOption;
-import com.balancedbytes.games.ffb.json.JsonEnumWithNameOption;
-import com.balancedbytes.games.ffb.json.JsonIntOption;
-import com.balancedbytes.games.ffb.json.JsonLongOption;
-import com.balancedbytes.games.ffb.json.JsonObjectOption;
 import com.balancedbytes.games.ffb.json.UtilJson;
 import com.balancedbytes.games.ffb.model.Animation;
-import com.balancedbytes.games.ffb.model.change.ModelChangeList;
 import com.balancedbytes.games.ffb.net.NetCommandId;
-import com.balancedbytes.games.ffb.net.commands.ServerCommand;
-import com.balancedbytes.games.ffb.net.commands.UtilNetCommand;
 import com.balancedbytes.games.ffb.report.ReportList;
 import com.eclipsesource.json.JsonObject;
 import com.eclipsesource.json.JsonValue;
 
 public class ServerCommandModelSync
 extends ServerCommand {
-    private ModelChangeList fModelChanges = new ModelChangeList();
     private ReportList fReportList = new ReportList();
     private Animation fAnimation;
     private SoundId fSound;
@@ -32,9 +23,8 @@ extends ServerCommand {
     public ServerCommandModelSync() {
     }
 
-    public ServerCommandModelSync(ModelChangeList pModelChanges, ReportList pReportList, Animation pAnimation, SoundId pSound, long pGameTime, long pTurnTime) {
+    public ServerCommandModelSync(ReportList pReportList, Animation pAnimation, SoundId pSound, long pGameTime, long pTurnTime) {
         this();
-        this.fModelChanges.add(pModelChanges);
         this.fReportList.add(pReportList);
         this.fAnimation = pAnimation;
         this.fSound = pSound;
@@ -45,10 +35,6 @@ extends ServerCommand {
     @Override
     public NetCommandId getId() {
         return NetCommandId.SERVER_MODEL_SYNC;
-    }
-
-    public ModelChangeList getModelChanges() {
-        return this.fModelChanges;
     }
 
     public ReportList getReportList() {
@@ -73,7 +59,7 @@ extends ServerCommand {
 
     public ServerCommandModelSync transform() {
         Animation transformedAnimation = this.getAnimation() != null ? this.getAnimation().transform() : null;
-        ServerCommandModelSync transformedCommand = new ServerCommandModelSync(this.getModelChanges(), this.getReportList().transform(), transformedAnimation, this.getSound(), this.getGameTime(), this.getTurnTime());
+        ServerCommandModelSync transformedCommand = new ServerCommandModelSync(this.getReportList().transform(), transformedAnimation, this.getSound(), this.getGameTime(), this.getTurnTime());
         transformedCommand.setCommandNr(this.getCommandNr());
         return transformedCommand;
     }
@@ -83,9 +69,6 @@ extends ServerCommand {
         JsonObject jsonObject = new JsonObject();
         IJsonOption.NET_COMMAND_ID.addTo(jsonObject, this.getId());
         IJsonOption.COMMAND_NR.addTo(jsonObject, this.getCommandNr());
-        if (this.fModelChanges != null) {
-            IJsonOption.MODEL_CHANGE_LIST.addTo(jsonObject, this.fModelChanges.toJsonValue());
-        }
         if (this.fReportList != null) {
             IJsonOption.REPORT_LIST.addTo(jsonObject, this.fReportList.toJsonValue());
         }
@@ -103,11 +86,6 @@ extends ServerCommand {
         JsonObject jsonObject = UtilJson.toJsonObject(pJsonValue);
         UtilNetCommand.validateCommandId(this, (NetCommandId)IJsonOption.NET_COMMAND_ID.getFrom(jsonObject));
         this.setCommandNr(IJsonOption.COMMAND_NR.getFrom(jsonObject));
-        JsonObject modelChangeListObject = IJsonOption.MODEL_CHANGE_LIST.getFrom(jsonObject);
-        this.fModelChanges = new ModelChangeList();
-        if (modelChangeListObject != null) {
-            this.fModelChanges.initFrom(modelChangeListObject);
-        }
         this.fReportList = new ReportList();
         JsonObject reportListObject = IJsonOption.REPORT_LIST.getFrom(jsonObject);
         if (reportListObject != null) {
