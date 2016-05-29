@@ -10,8 +10,6 @@ import com.balancedbytes.games.ffb.InducementType;
 import com.balancedbytes.games.ffb.json.IJsonOption;
 import com.balancedbytes.games.ffb.json.IJsonSerializable;
 import com.balancedbytes.games.ffb.json.UtilJson;
-import com.balancedbytes.games.ffb.model.change.ModelChange;
-import com.balancedbytes.games.ffb.model.change.ModelChangeId;
 import com.balancedbytes.games.ffb.util.ArrayTool;
 import com.eclipsesource.json.JsonArray;
 import com.eclipsesource.json.JsonObject;
@@ -24,31 +22,19 @@ import java.util.Map;
 import java.util.Set;
 
 public class InducementSet implements IJsonSerializable {
-    public static final String XML_TAG = "inducementSet";
-    private static final String _XML_TAG_STAR_PLAYER_SET = "starPlayerSet";
-    private static final String _XML_TAG_STAR_PLAYER = "starPlayer";
-    private static final String _XML_TAG_CARD_SET = "cardSet";
-    private static final String _XML_TAG_CARD = "card";
-    private static final String _XML_ATTRIBUTE_POSITION_ID = "positionId";
-    private static final String _XML_ATTRIBUTE_NAME = "name";
     private Map<InducementType, Inducement> fInducements = new HashMap<InducementType, Inducement>();
     private Set<Card> fCardsAvailable = new HashSet<Card>();
     private Set<Card> fCardsActive = new HashSet<Card>();
     private Set<Card> fCardsDeactivated = new HashSet<Card>();
     private Set<String> fStarPlayerPositionIds = new HashSet<String>();
-    private transient TurnData fTurnData;
 
     public InducementSet() {
     }
 
     public InducementSet(TurnData pTurnData) {
         this();
-        this.fTurnData = pTurnData;
     }
 
-    public TurnData getTurnData() {
-        return this.fTurnData;
-    }
 
     public Inducement get(InducementType pType) {
         if (pType != null) {
@@ -66,20 +52,6 @@ public class InducementSet implements IJsonSerializable {
             return;
         }
         this.fInducements.put(pInducement.getType(), pInducement);
-        this.notifyObservers(ModelChangeId.INDUCEMENT_SET_ADD_INDUCEMENT, pInducement);
-    }
-
-    public void removeInducement(Inducement pInducement) {
-        if (pInducement == null) {
-            return;
-        }
-        this.fInducements.remove(pInducement.getType());
-        this.notifyObservers(ModelChangeId.INDUCEMENT_SET_REMOVE_INDUCEMENT, pInducement);
-    }
-
-    public boolean hasUsesLeft(InducementType pType) {
-        Inducement inducement = this.get(pType);
-        return inducement != null && inducement.getUsesLeft() > 0;
     }
 
     public void addAvailableCard(Card pCard) {
@@ -87,24 +59,10 @@ public class InducementSet implements IJsonSerializable {
             return;
         }
         this.fCardsAvailable.add(pCard);
-        this.notifyObservers(ModelChangeId.INDUCEMENT_SET_ADD_AVAILABLE_CARD, pCard);
-    }
-
-    public boolean removeAvailableCard(Card pCard) {
-        if (pCard == null) {
-            return false;
-        }
-        boolean removed = this.fCardsAvailable.remove(pCard);
-        this.notifyObservers(ModelChangeId.INDUCEMENT_SET_REMOVE_AVAILABLE_CARD, pCard);
-        return removed;
     }
 
     public Card[] getAvailableCards() {
         return this.fCardsAvailable.toArray(new Card[this.fCardsAvailable.size()]);
-    }
-
-    public boolean isAvailable(Card pCard) {
-        return this.fCardsAvailable.contains(pCard);
     }
 
     public boolean activateCard(Card pCard) {
@@ -115,7 +73,6 @@ public class InducementSet implements IJsonSerializable {
         if (removed) {
             this.fCardsActive.add(pCard);
         }
-        this.notifyObservers(ModelChangeId.INDUCEMENT_SET_ACTIVATE_CARD, pCard);
         return removed;
     }
 
@@ -127,7 +84,6 @@ public class InducementSet implements IJsonSerializable {
         if (removed) {
             this.fCardsDeactivated.add(pCard);
         }
-        this.notifyObservers(ModelChangeId.INDUCEMENT_SET_DEACTIVATE_CARD, pCard);
         return removed;
     }
 
@@ -185,33 +141,11 @@ public class InducementSet implements IJsonSerializable {
         this.fCardsDeactivated.clear();
     }
 
-    public int getNrOfInducements() {
-        return this.fInducements.size();
-    }
-
-    public int totalInducements() {
-        int total = 0;
-        for (Inducement inducement : this.getInducements()) {
-            total += inducement.getValue();
-        }
-        return total += this.getAllCards().length;
-    }
 
     public String[] getStarPlayerPositionIds() {
         return this.fStarPlayerPositionIds.toArray(new String[this.fStarPlayerPositionIds.size()]);
     }
 
-    public void addStarPlayerPositionId(String pStarPlayerPositionId) {
-        this.fStarPlayerPositionIds.add(pStarPlayerPositionId);
-    }
-
-    private void notifyObservers(ModelChangeId pChangeId, Object pValue) {
-        if (this.getTurnData() == null || pChangeId == null) {
-            return;
-        }
-        String key = this.getTurnData().isHomeData() ? "home" : "away";
-        ModelChange modelChange = new ModelChange(pChangeId, key, pValue);
-    }
 
     @Override
     public JsonObject toJsonValue() {

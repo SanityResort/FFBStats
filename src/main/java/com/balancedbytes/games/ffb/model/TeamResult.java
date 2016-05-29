@@ -6,20 +6,11 @@ package com.balancedbytes.games.ffb.model;
 import com.balancedbytes.games.ffb.PlayerState;
 import com.balancedbytes.games.ffb.json.IJsonOption;
 import com.balancedbytes.games.ffb.json.IJsonSerializable;
-import com.balancedbytes.games.ffb.json.JsonArrayOption;
-import com.balancedbytes.games.ffb.json.JsonBooleanOption;
-import com.balancedbytes.games.ffb.json.JsonIntOption;
 import com.balancedbytes.games.ffb.json.UtilJson;
-import com.balancedbytes.games.ffb.model.Game;
-import com.balancedbytes.games.ffb.model.GameResult;
-import com.balancedbytes.games.ffb.model.Player;
-import com.balancedbytes.games.ffb.model.PlayerResult;
-import com.balancedbytes.games.ffb.model.Team;
-import com.balancedbytes.games.ffb.model.change.ModelChange;
-import com.balancedbytes.games.ffb.model.change.ModelChangeId;
 import com.eclipsesource.json.JsonArray;
 import com.eclipsesource.json.JsonObject;
 import com.eclipsesource.json.JsonValue;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -71,7 +62,6 @@ implements IJsonSerializable {
             return;
         }
         this.fConceded = pConceded;
-        this.notifyObservers(ModelChangeId.TEAM_RESULT_SET_CONCEDED, this.fConceded);
     }
 
     public boolean hasConceded() {
@@ -83,7 +73,6 @@ implements IJsonSerializable {
             return;
         }
         this.fRaisedDead = pRaisedDead;
-        this.notifyObservers(ModelChangeId.TEAM_RESULT_SET_RAISED_DEAD, this.fRaisedDead);
     }
 
     public int getRaisedDead() {
@@ -99,7 +88,6 @@ implements IJsonSerializable {
             return;
         }
         this.fFame = pFame;
-        this.notifyObservers(ModelChangeId.TEAM_RESULT_SET_FAME, this.fFame);
     }
 
     public int getSpectators() {
@@ -111,7 +99,6 @@ implements IJsonSerializable {
             return;
         }
         this.fSpectators = pSpectators;
-        this.notifyObservers(ModelChangeId.TEAM_RESULT_SET_SPECTATORS, this.fSpectators);
     }
 
     public int getWinnings() {
@@ -123,7 +110,6 @@ implements IJsonSerializable {
             return;
         }
         this.fWinnings = pWinnings;
-        this.notifyObservers(ModelChangeId.TEAM_RESULT_SET_WINNINGS, this.fWinnings);
     }
 
     public int getFanFactorModifier() {
@@ -135,7 +121,6 @@ implements IJsonSerializable {
             return;
         }
         this.fFanFactorModifier = pFanFactorModifier;
-        this.notifyObservers(ModelChangeId.TEAM_RESULT_SET_FAN_FACTOR_MODIFIER, this.fFanFactorModifier);
     }
 
     public int getScore() {
@@ -147,7 +132,6 @@ implements IJsonSerializable {
             return;
         }
         this.fScore = pScore;
-        this.notifyObservers(ModelChangeId.TEAM_RESULT_SET_SCORE, this.fScore);
     }
 
     public void sufferInjury(PlayerState pPlayerState) {
@@ -188,7 +172,6 @@ implements IJsonSerializable {
             return;
         }
         this.fSeriousInjurySuffered = pSeriousInjurySuffered;
-        this.notifyObservers(ModelChangeId.TEAM_RESULT_SET_SERIOUS_INJURY_SUFFERED, this.fSeriousInjurySuffered);
     }
 
     public int getRipSuffered() {
@@ -200,7 +183,6 @@ implements IJsonSerializable {
             return;
         }
         this.fRipSuffered = pRipSuffered;
-        this.notifyObservers(ModelChangeId.TEAM_RESULT_SET_RIP_SUFFERED, this.fRipSuffered);
     }
 
     public int getSpirallingExpenses() {
@@ -212,7 +194,6 @@ implements IJsonSerializable {
             return;
         }
         this.fSpirallingExpenses = pSpirallingExpenses;
-        this.notifyObservers(ModelChangeId.TEAM_RESULT_SET_SPIRALLING_EXPENSES, this.fSpirallingExpenses);
     }
 
     public int getPettyCashTransferred() {
@@ -224,7 +205,6 @@ implements IJsonSerializable {
             return;
         }
         this.fPettyCashTransferred = pPettyCash;
-        this.notifyObservers(ModelChangeId.TEAM_RESULT_SET_PETTY_CASH_TRANSFERRED, this.fPettyCashTransferred);
     }
 
     public int getPettyCashUsed() {
@@ -236,7 +216,6 @@ implements IJsonSerializable {
             return;
         }
         this.fPettyCashUsed = pPettyCash;
-        this.notifyObservers(ModelChangeId.TEAM_RESULT_SET_PETTY_CASH_USED, this.fPettyCashUsed);
     }
 
     public int getTeamValue() {
@@ -248,7 +227,6 @@ implements IJsonSerializable {
             return;
         }
         this.fTeamValue = pTeamValue;
-        this.notifyObservers(ModelChangeId.TEAM_RESULT_SET_TEAM_VALUE, this.fTeamValue);
     }
 
     public int totalCompletions() {
@@ -359,13 +337,6 @@ implements IJsonSerializable {
         }
     }
 
-    private void notifyObservers(ModelChangeId pChangeId, Object pValue) {
-        if (this.getGame() == null || pChangeId == null) {
-            return;
-        }
-        String key = this.isHomeData() ? "home" : "away";
-        ModelChange modelChange = new ModelChange(pChangeId, key, pValue);
-    }
 
     @Override
     public JsonObject toJsonValue() {

@@ -3,22 +3,11 @@
  */
 package com.balancedbytes.games.ffb.model;
 
-import com.balancedbytes.games.ffb.IEnumWithName;
 import com.balancedbytes.games.ffb.SendToBoxReason;
 import com.balancedbytes.games.ffb.SeriousInjury;
 import com.balancedbytes.games.ffb.json.IJsonOption;
 import com.balancedbytes.games.ffb.json.IJsonSerializable;
-import com.balancedbytes.games.ffb.json.JsonBooleanOption;
-import com.balancedbytes.games.ffb.json.JsonEnumWithNameOption;
-import com.balancedbytes.games.ffb.json.JsonIntOption;
-import com.balancedbytes.games.ffb.json.JsonStringOption;
 import com.balancedbytes.games.ffb.json.UtilJson;
-import com.balancedbytes.games.ffb.model.Game;
-import com.balancedbytes.games.ffb.model.Player;
-import com.balancedbytes.games.ffb.model.Team;
-import com.balancedbytes.games.ffb.model.TeamResult;
-import com.balancedbytes.games.ffb.model.change.ModelChange;
-import com.balancedbytes.games.ffb.model.change.ModelChangeId;
 import com.balancedbytes.games.ffb.util.StringTool;
 import com.eclipsesource.json.JsonObject;
 import com.eclipsesource.json.JsonValue;
@@ -38,7 +27,6 @@ implements IJsonSerializable {
     private int fCurrentSpps;
     private boolean fDefecting;
     private SeriousInjury fSeriousInjury;
-    private SeriousInjury fSeriousInjuryDecay;
     private SendToBoxReason fSendToBoxReason;
     private int fSendToBoxTurn;
     private int fSendToBoxHalf;
@@ -72,93 +60,34 @@ implements IJsonSerializable {
         return this.fSeriousInjury;
     }
 
-    public void setSeriousInjury(SeriousInjury pSeriousInjury) {
-        if (pSeriousInjury == this.fSeriousInjury) {
-            return;
-        }
-        this.fSeriousInjury = pSeriousInjury;
-        this.notifyObservers(ModelChangeId.PLAYER_RESULT_SET_SERIOUS_INJURY, this.fSeriousInjury);
-    }
-
-    public SeriousInjury getSeriousInjuryDecay() {
-        return this.fSeriousInjuryDecay;
-    }
-
-    public void setSeriousInjuryDecay(SeriousInjury pSeriousInjuryDecay) {
-        if (pSeriousInjuryDecay == this.fSeriousInjuryDecay) {
-            return;
-        }
-        this.fSeriousInjuryDecay = pSeriousInjuryDecay;
-        this.notifyObservers(ModelChangeId.PLAYER_RESULT_SET_SERIOUS_INJURY_DECAY, this.fSeriousInjuryDecay);
-    }
 
     public SendToBoxReason getSendToBoxReason() {
         return this.fSendToBoxReason;
     }
 
-    public void setSendToBoxReason(SendToBoxReason pSendToBoxReason) {
-        if (pSendToBoxReason == this.fSendToBoxReason) {
-            return;
-        }
-        this.fSendToBoxReason = pSendToBoxReason;
-        this.notifyObservers(ModelChangeId.PLAYER_RESULT_SET_SEND_TO_BOX_REASON, this.fSendToBoxReason);
-    }
 
     public int getSendToBoxTurn() {
         return this.fSendToBoxTurn;
     }
 
-    public void setSendToBoxTurn(int pSendToBoxTurn) {
-        if (pSendToBoxTurn == this.fSendToBoxTurn) {
-            return;
-        }
-        this.fSendToBoxTurn = pSendToBoxTurn;
-        this.notifyObservers(ModelChangeId.PLAYER_RESULT_SET_SEND_TO_BOX_TURN, this.fSendToBoxTurn);
-    }
 
     public int getSendToBoxHalf() {
         return this.fSendToBoxHalf;
     }
 
-    public void setSendToBoxHalf(int pSendToBoxHalf) {
-        if (pSendToBoxHalf == this.fSendToBoxHalf) {
-            return;
-        }
-        this.fSendToBoxHalf = pSendToBoxHalf;
-        this.notifyObservers(ModelChangeId.PLAYER_RESULT_SET_SEND_TO_BOX_HALF, this.fSendToBoxHalf);
-    }
+
 
     public int getTurnsPlayed() {
         return this.fTurnsPlayed;
     }
 
-    public void setSendToBoxByPlayerId(String pSendToBoxByPlayerId) {
-        if (StringTool.isEqual(pSendToBoxByPlayerId, this.fSendToBoxByPlayerId)) {
-            return;
-        }
-        this.fSendToBoxByPlayerId = pSendToBoxByPlayerId;
-        this.notifyObservers(ModelChangeId.PLAYER_RESULT_SET_SEND_TO_BOX_BY_PLAYER_ID, this.fSendToBoxByPlayerId);
-    }
 
     public String getSendToBoxByPlayerId() {
         return this.fSendToBoxByPlayerId;
     }
 
-    public void setTurnsPlayed(int pTurnsPlayed) {
-        if (pTurnsPlayed == this.fTurnsPlayed) {
-            return;
-        }
-        this.fTurnsPlayed = pTurnsPlayed;
-        this.notifyObservers(ModelChangeId.PLAYER_RESULT_SET_TURNS_PLAYED, this.fTurnsPlayed);
-    }
 
-    public void setHasUsedSecretWeapon(boolean pHasUsedSecretWeapon) {
-        if (pHasUsedSecretWeapon == this.fHasUsedSecretWeapon) {
-            return;
-        }
-        this.fHasUsedSecretWeapon = pHasUsedSecretWeapon;
-        this.notifyObservers(ModelChangeId.PLAYER_RESULT_SET_HAS_USED_SECRET_WEAPON, this.fHasUsedSecretWeapon);
-    }
+
 
     public boolean hasUsedSecretWeapon() {
         return this.fHasUsedSecretWeapon;
@@ -168,133 +97,61 @@ implements IJsonSerializable {
         return this.fCompletions;
     }
 
-    public void setCompletions(int pCompletions) {
-        if (pCompletions == this.fCompletions) {
-            return;
-        }
-        this.fCompletions = pCompletions;
-        this.notifyObservers(ModelChangeId.PLAYER_RESULT_SET_COMPLETIONS, this.fCompletions);
-    }
 
     public int getTouchdowns() {
         return this.fTouchdowns;
     }
 
-    public void setTouchdowns(int pTouchdowns) {
-        if (pTouchdowns == this.fTouchdowns) {
-            return;
-        }
-        this.fTouchdowns = pTouchdowns;
-        this.notifyObservers(ModelChangeId.PLAYER_RESULT_SET_TOUCHDOWNS, this.fTouchdowns);
-    }
+
 
     public int getInterceptions() {
         return this.fInterceptions;
     }
 
-    public void setInterceptions(int pInterceptions) {
-        if (pInterceptions == this.fInterceptions) {
-            return;
-        }
-        this.fInterceptions = pInterceptions;
-        this.notifyObservers(ModelChangeId.PLAYER_RESULT_SET_INTERCEPTIONS, this.fInterceptions);
-    }
 
     public int getCasualties() {
         return this.fCasualties;
     }
 
-    public void setCasualties(int pCasualties) {
-        if (pCasualties == this.fCasualties) {
-            return;
-        }
-        this.fCasualties = pCasualties;
-        this.notifyObservers(ModelChangeId.PLAYER_RESULT_SET_CASUALTIES, this.fCasualties);
-    }
+
 
     public int getPlayerAwards() {
         return this.fPlayerAwards;
     }
 
-    public void setPlayerAwards(int pPlayerAwards) {
-        if (pPlayerAwards == this.fPlayerAwards) {
-            return;
-        }
-        this.fPlayerAwards = pPlayerAwards;
-        this.notifyObservers(ModelChangeId.PLAYER_RESULT_SET_PLAYER_AWARDS, this.fPlayerAwards);
-    }
 
     public int getBlocks() {
         return this.fBlocks;
     }
 
-    public void setBlocks(int pBlocks) {
-        if (pBlocks == this.fBlocks) {
-            return;
-        }
-        this.fBlocks = pBlocks;
-        this.notifyObservers(ModelChangeId.PLAYER_RESULT_SET_BLOCKS, this.fBlocks);
-    }
+
 
     public int getFouls() {
         return this.fFouls;
     }
 
-    public void setFouls(int pFouls) {
-        if (pFouls == this.fFouls) {
-            return;
-        }
-        this.fFouls = pFouls;
-        this.notifyObservers(ModelChangeId.PLAYER_RESULT_SET_FOULS, this.fFouls);
-    }
+
 
     public int getRushing() {
         return this.fRushing;
     }
 
-    public void setRushing(int pRushing) {
-        if (pRushing == this.fRushing) {
-            return;
-        }
-        this.fRushing = pRushing;
-        this.notifyObservers(ModelChangeId.PLAYER_RESULT_SET_RUSHING, this.fRushing);
-    }
+
 
     public int getPassing() {
         return this.fPassing;
     }
 
-    public void setPassing(int pPassing) {
-        if (pPassing == this.fPassing) {
-            return;
-        }
-        this.fPassing = pPassing;
-        this.notifyObservers(ModelChangeId.PLAYER_RESULT_SET_PASSING, this.fPassing);
-    }
 
     public int getCurrentSpps() {
         return this.fCurrentSpps;
     }
 
-    public void setCurrentSpps(int pCurrentSpps) {
-        if (pCurrentSpps == this.fCurrentSpps) {
-            return;
-        }
-        this.fCurrentSpps = pCurrentSpps;
-        this.notifyObservers(ModelChangeId.PLAYER_RESULT_SET_CURRENT_SPPS, this.fCurrentSpps);
-    }
 
     public boolean isDefecting() {
         return this.fDefecting;
     }
 
-    public void setDefecting(boolean pDefecting) {
-        if (pDefecting == this.fDefecting) {
-            return;
-        }
-        this.fDefecting = pDefecting;
-        this.notifyObservers(ModelChangeId.PLAYER_RESULT_SET_DEFECTING, this.fDefecting);
-    }
 
     public int totalEarnedSpps() {
         return this.getPlayerAwards() * 5 + this.getTouchdowns() * 3 + this.getCasualties() * 2 + this.getInterceptions() * 2 + this.getCompletions();
@@ -326,13 +183,6 @@ implements IJsonSerializable {
             this.fSendToBoxByPlayerId = pPlayerResult.getSendToBoxByPlayerId();
             this.fHasUsedSecretWeapon = pPlayerResult.hasUsedSecretWeapon();
         }
-    }
-
-    private void notifyObservers(ModelChangeId pModelChangeId, Object pValue) {
-        if (this.getGame() == null || pModelChangeId == null || !StringTool.isProvided(this.getPlayerId())) {
-            return;
-        }
-        ModelChange modelChange = new ModelChange(pModelChangeId, this.getPlayerId(), pValue);
     }
 
     @Override

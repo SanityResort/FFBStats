@@ -3,19 +3,10 @@
  */
 package com.balancedbytes.games.ffb.model;
 
-import com.balancedbytes.games.ffb.IEnumWithName;
 import com.balancedbytes.games.ffb.LeaderState;
 import com.balancedbytes.games.ffb.json.IJsonOption;
 import com.balancedbytes.games.ffb.json.IJsonSerializable;
-import com.balancedbytes.games.ffb.json.JsonBooleanOption;
-import com.balancedbytes.games.ffb.json.JsonEnumWithNameOption;
-import com.balancedbytes.games.ffb.json.JsonIntOption;
-import com.balancedbytes.games.ffb.json.JsonObjectOption;
 import com.balancedbytes.games.ffb.json.UtilJson;
-import com.balancedbytes.games.ffb.model.Game;
-import com.balancedbytes.games.ffb.model.InducementSet;
-import com.balancedbytes.games.ffb.model.change.ModelChange;
-import com.balancedbytes.games.ffb.model.change.ModelChangeId;
 import com.eclipsesource.json.JsonObject;
 import com.eclipsesource.json.JsonValue;
 
@@ -56,7 +47,6 @@ implements IJsonSerializable {
             return;
         }
         this.fTurnNr = pTurnNr;
-        this.notifyObservers(ModelChangeId.TURN_DATA_SET_TURN_NR, this.fTurnNr);
     }
 
     public boolean isTurnStarted() {
@@ -68,7 +58,6 @@ implements IJsonSerializable {
             return;
         }
         this.fTurnStarted = pTurnStarted;
-        this.notifyObservers(ModelChangeId.TURN_DATA_SET_TURN_STARTED, this.fTurnStarted);
     }
 
     public boolean isFirstTurnAfterKickoff() {
@@ -80,7 +69,6 @@ implements IJsonSerializable {
             return;
         }
         this.fFirstTurnAfterKickoff = pFirstTurnAfterKickoff;
-        this.notifyObservers(ModelChangeId.TURN_DATA_SET_FIRST_TURN_AFTER_KICKOFF, this.fFirstTurnAfterKickoff);
     }
 
     public int getReRolls() {
@@ -92,7 +80,6 @@ implements IJsonSerializable {
             return;
         }
         this.fReRolls = pReRolls;
-        this.notifyObservers(ModelChangeId.TURN_DATA_SET_RE_ROLLS, this.fReRolls);
     }
 
     public boolean isBlitzUsed() {
@@ -104,7 +91,6 @@ implements IJsonSerializable {
             return;
         }
         this.fBlitzUsed = pBlitzUsed;
-        this.notifyObservers(ModelChangeId.TURN_DATA_SET_BLITZ_USED, this.fBlitzUsed);
     }
 
     public boolean isFoulUsed() {
@@ -116,7 +102,6 @@ implements IJsonSerializable {
             return;
         }
         this.fFoulUsed = pFoulUsed;
-        this.notifyObservers(ModelChangeId.TURN_DATA_SET_FOUL_USED, this.fFoulUsed);
     }
 
     public boolean isReRollUsed() {
@@ -128,7 +113,6 @@ implements IJsonSerializable {
             return;
         }
         this.fReRollUsed = pReRollUsed;
-        this.notifyObservers(ModelChangeId.TURN_DATA_SET_RE_ROLL_USED, this.fReRollUsed);
     }
 
     public boolean isHandOverUsed() {
@@ -140,7 +124,6 @@ implements IJsonSerializable {
             return;
         }
         this.fHandOverUsed = pHandOverUsed;
-        this.notifyObservers(ModelChangeId.TURN_DATA_SET_HAND_OVER_USED, this.fHandOverUsed);
     }
 
     public boolean isPassUsed() {
@@ -152,7 +135,6 @@ implements IJsonSerializable {
             return;
         }
         this.fPassUsed = pPassUsed;
-        this.notifyObservers(ModelChangeId.TURN_DATA_SET_PASS_USED, this.fPassUsed);
     }
 
     public int getApothecaries() {
@@ -164,7 +146,6 @@ implements IJsonSerializable {
             return;
         }
         this.fApothecaries = pApothecaries;
-        this.notifyObservers(ModelChangeId.TURN_DATA_SET_APOTHECARIES, this.fApothecaries);
     }
 
     public boolean isHomeData() {
@@ -220,14 +201,6 @@ implements IJsonSerializable {
             this.fLeaderState = pTurnData.getLeaderState();
             this.fFirstTurnAfterKickoff = pTurnData.isFirstTurnAfterKickoff();
         }
-    }
-
-    private void notifyObservers(ModelChangeId pChangeId, Object pValue) {
-        if (this.getGame() == null || pChangeId == null) {
-            return;
-        }
-        String key = this.isHomeData() ? "home" : "away";
-        ModelChange modelChange = new ModelChange(pChangeId, key, pValue);
     }
 
     @Override
