@@ -77,7 +77,7 @@ public class StatsController {
         }
 
         StatsCollection stats = collector.evaluate();
-        model.addAttribute("stats", new GameDistribution(stats));
+        model.addAttribute("game", new GameDistribution(stats));
         model.addAttribute("gameId", gameId);
         return "stats";
     }

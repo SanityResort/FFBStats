@@ -5,6 +5,8 @@
     <title th:text="'Dice Stats for Game ' + ${gameId}">Fumbbl Dice Stats</title>
 </head>
 <body>
-    <p th:text="'Stats are '+${stats.home}+'!'" />
+<p th:text="${game.home}"></p>
+    <div th:include="team" th:with="teamDis=${game.home}"></div>
+<div th:include="team" th:with="teamDis=${game.away}"></div>
 </body>
 </html>
