@@ -18,21 +18,15 @@ INetCommandHandler {
 
     private static final Logger logger = LoggerFactory.getLogger(CommandHandler.class);
 
-//    private FfbStatsClient client;
     private StatsCollector statsCollector;
-    private Thread statCollectorThread;
-    private final List<ServerCommand> replayCommands = new ArrayList<>();
 
-    public CommandHandler(/*FfbStatsClient client*/) {
-  //      this.client = client;
-        statsCollector = new StatsCollector(replayCommands);
-        statCollectorThread = new Thread(statsCollector);
-        statCollectorThread.start();
+    public CommandHandler(StatsCollector statsCollector ) {
+        this.statsCollector = statsCollector;
     }
 
     @Override
     public void handleCommand(NetCommand pNetCommand) {
-
+        List<ServerCommand> replayCommands = statsCollector.getReplayCommands();
         logger.info("Handling command: " + pNetCommand.getId());
         switch (pNetCommand.getId()) {
             case SERVER_GAME_STATE:
@@ -43,7 +37,6 @@ INetCommandHandler {
                 ServerCommandReplay replayCommand = (ServerCommandReplay) pNetCommand;
                 replayCommands.addAll(Arrays.asList(replayCommand.getReplayCommands()));
                 if (replayCommands.size() == replayCommand.getTotalNrOfCommands()) {
-    //                client.downloadDone();
                     synchronized (replayCommands) {
                         replayCommands.notify();
                     }

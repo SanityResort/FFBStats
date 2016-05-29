@@ -9,7 +9,6 @@ import com.eclipsesource.json.JsonValue;
 import org.eclipse.jetty.websocket.WebSocket;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-//import org.eclipse.jetty.websocket.WebSocket;
 
 import java.io.IOException;
 import java.util.concurrent.CountDownLatch;
@@ -68,7 +67,7 @@ implements WebSocket.OnTextMessage
 
     public void onClose(int pCloseCode, String pCloseReason) {
         logger.info("Connection closed: {} - {}", pCloseCode, pCloseReason);
-  //      this.fConnection = null;
+        this.fConnection = null;
         this.fCloseLatch.countDown();
     }
 
