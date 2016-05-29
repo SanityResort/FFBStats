@@ -50,7 +50,6 @@ public class StatsController {
             WebSocketClient fWebSocketClient = webSocketClientFactory.newWebSocketClient();
             fWebSocketClient.open(uri, commandSocket).get();
 
-            logger.info("Url: " + uri);
         } catch (Exception e) {
             if (webSocketClientFactory.isRunning()) {
                 try {
@@ -59,9 +58,9 @@ public class StatsController {
                     logger.error("Could not stop factory for clean up", e1);
                 }
             }
+            logger.error("Could not start websocket", e);
             throw new IllegalStateException("Could not start websocket", e);
         }
-        logger.info("Starting wait");
         synchronized (replayCommands)  {
             try {
                 replayCommands.wait();
@@ -70,14 +69,12 @@ public class StatsController {
             }
         }
 
-        logger.info("Was notified");
         try {
             webSocketClientFactory.stop();
             commandSocket.awaitClose(1, TimeUnit.SECONDS);
         } catch (Exception pAnyException) {
             pAnyException.printStackTrace();
         }
-        logger.info("Cleaned up websockets");
 
         StatsCollection stats = collector.evaluate();
         return stats.toString();

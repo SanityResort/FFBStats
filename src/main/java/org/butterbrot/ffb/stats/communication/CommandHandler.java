@@ -25,7 +25,6 @@ public class CommandHandler implements INetCommandHandler {
     @Override
     public void handleCommand(NetCommand pNetCommand) {
         List<ServerCommand> replayCommands = statsCollector.getReplayCommands();
-        logger.info("Handling command: " + pNetCommand.getId());
         switch (pNetCommand.getId()) {
             case SERVER_GAME_STATE:
                 statsCollector.setAwayTeam(((ServerCommandGameState) pNetCommand).getGame().getTeamAway());
