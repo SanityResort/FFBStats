@@ -3,12 +3,6 @@
  */
 package com.balancedbytes.games.ffb;
 
-import com.balancedbytes.games.ffb.IEnumWithId;
-import com.balancedbytes.games.ffb.IEnumWithIdFactory;
-import com.balancedbytes.games.ffb.IEnumWithName;
-import com.balancedbytes.games.ffb.IEnumWithNameFactory;
-import com.balancedbytes.games.ffb.SeriousInjury;
-
 public class SeriousInjuryFactory
 implements IEnumWithIdFactory,
 IEnumWithNameFactory {

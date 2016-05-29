@@ -3,10 +3,6 @@
  */
 package com.balancedbytes.games.ffb;
 
-import com.balancedbytes.games.ffb.CardEffect;
-import com.balancedbytes.games.ffb.IEnumWithName;
-import com.balancedbytes.games.ffb.IEnumWithNameFactory;
-
 public class CardEffectFactory
 implements IEnumWithNameFactory {
     @Override

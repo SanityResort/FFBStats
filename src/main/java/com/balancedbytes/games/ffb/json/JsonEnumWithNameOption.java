@@ -5,7 +5,6 @@ package com.balancedbytes.games.ffb.json;
 
 import com.balancedbytes.games.ffb.IEnumWithName;
 import com.balancedbytes.games.ffb.IEnumWithNameFactory;
-import com.balancedbytes.games.ffb.json.JsonAbstractOption;
 import com.eclipsesource.json.JsonObject;
 import com.eclipsesource.json.JsonValue;
 

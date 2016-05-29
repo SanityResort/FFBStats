@@ -3,12 +3,6 @@
  */
 package com.balancedbytes.games.ffb;
 
-import com.balancedbytes.games.ffb.Card;
-import com.balancedbytes.games.ffb.IEnumWithId;
-import com.balancedbytes.games.ffb.IEnumWithIdFactory;
-import com.balancedbytes.games.ffb.IEnumWithName;
-import com.balancedbytes.games.ffb.IEnumWithNameFactory;
-
 public class CardFactory
 implements IEnumWithIdFactory,
 IEnumWithNameFactory {

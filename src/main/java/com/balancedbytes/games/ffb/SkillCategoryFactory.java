@@ -3,12 +3,8 @@
  */
 package com.balancedbytes.games.ffb;
 
-import com.balancedbytes.games.ffb.IEnumWithId;
-import com.balancedbytes.games.ffb.IEnumWithIdFactory;
-import com.balancedbytes.games.ffb.IEnumWithName;
-import com.balancedbytes.games.ffb.IEnumWithNameFactory;
-import com.balancedbytes.games.ffb.SkillCategory;
 import com.balancedbytes.games.ffb.util.StringTool;
+
 import java.util.ArrayList;
 
 public class SkillCategoryFactory

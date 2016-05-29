@@ -3,13 +3,6 @@
  */
 package com.balancedbytes.games.ffb;
 
-import com.balancedbytes.games.ffb.CardTarget;
-import com.balancedbytes.games.ffb.CardType;
-import com.balancedbytes.games.ffb.IEnumWithId;
-import com.balancedbytes.games.ffb.IEnumWithName;
-import com.balancedbytes.games.ffb.InducementDuration;
-import com.balancedbytes.games.ffb.InducementPhase;
-import com.balancedbytes.games.ffb.InducementPhaseFactory;
 import java.util.Comparator;
 
 public enum Card implements IEnumWithId,

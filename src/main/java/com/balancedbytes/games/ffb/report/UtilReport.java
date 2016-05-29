@@ -3,9 +3,6 @@
  */
 package com.balancedbytes.games.ffb.report;
 
-import com.balancedbytes.games.ffb.report.IReport;
-import com.balancedbytes.games.ffb.report.ReportId;
-
 public class UtilReport {
     public static void validateReportId(IReport pReport, ReportId pReceivedId) {
         if (pReport == null) {

@@ -3,9 +3,6 @@
  */
 package com.balancedbytes.games.ffb;
 
-import com.balancedbytes.games.ffb.IEnumWithId;
-import com.balancedbytes.games.ffb.IEnumWithName;
-import com.balancedbytes.games.ffb.PlayerGender;
 import com.balancedbytes.games.ffb.model.Player;
 
 public enum SkillUse implements IEnumWithId,

@@ -4,7 +4,6 @@
 package com.balancedbytes.games.ffb.report;
 
 import com.balancedbytes.games.ffb.json.IJsonSerializable;
-import com.balancedbytes.games.ffb.report.ReportId;
 
 public interface IReport
 extends IJsonSerializable {

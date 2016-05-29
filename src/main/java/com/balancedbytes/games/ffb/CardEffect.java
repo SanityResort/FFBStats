@@ -3,8 +3,6 @@
  */
 package com.balancedbytes.games.ffb;
 
-import com.balancedbytes.games.ffb.IEnumWithName;
-
 public enum CardEffect implements IEnumWithName
 {
     DISTRACTED("Distracted"),

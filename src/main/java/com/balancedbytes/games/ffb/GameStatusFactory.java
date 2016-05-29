@@ -3,10 +3,6 @@
  */
 package com.balancedbytes.games.ffb;
 
-import com.balancedbytes.games.ffb.GameStatus;
-import com.balancedbytes.games.ffb.IEnumWithName;
-import com.balancedbytes.games.ffb.IEnumWithNameFactory;
-
 public class GameStatusFactory
 implements IEnumWithNameFactory {
     public GameStatus forId(int pId) {
