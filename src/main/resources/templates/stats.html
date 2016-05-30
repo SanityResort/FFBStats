@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <title th:text="'Dice Stats for Game ' + ${gameId}">Fumbbl Dice Stats</title>
+    <link rel="stylesheet" th:href="@{/css/stats.css}" type="text/css"/>
 </head>
 <body>
-<p th:text="${game.home}"></p>
-    <div th:include="team" th:with="teamDis=${game.home}"></div>
-<div th:include="team" th:with="teamDis=${game.away}"></div>
+    <h1 class="gameTitle" th:text="'Dice Stats for Game ' + ${gameId}"></h1>
+    <div class="home" th:include="team" th:with="teamDis=${game.home}"></div>
+    <div class="away" th:include="team" th:with="teamDis=${game.away}"></div>
 </body>
 </html>
