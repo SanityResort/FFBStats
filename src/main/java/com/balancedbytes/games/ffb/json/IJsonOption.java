@@ -25,7 +25,6 @@ import com.balancedbytes.games.ffb.SoundIdFactory;
 import com.balancedbytes.games.ffb.SpecialEffectFactory;
 import com.balancedbytes.games.ffb.TeamStatusFactory;
 import com.balancedbytes.games.ffb.TurnModeFactory;
-import com.balancedbytes.games.ffb.WeatherFactory;
 import com.balancedbytes.games.ffb.net.NetCommandIdFactory;
 import com.balancedbytes.games.ffb.report.ReportIdFactory;
 
@@ -402,7 +401,6 @@ public interface IJsonOption {
     public static final JsonIntOption VALUE = new JsonIntOption("value");
     public static final JsonStringOption VICTIM_ID = new JsonStringOption("victimId");
     public static final JsonBooleanOption WAITING_FOR_OPPONENT = new JsonBooleanOption("waitingForOpponent");
-    public static final JsonEnumWithNameOption WEATHER = new JsonEnumWithNameOption("weather", new WeatherFactory());
     public static final JsonIntArrayOption WEATHER_ROLL = new JsonIntArrayOption("weatherRoll");
     public static final JsonIntOption WINNINGS = new JsonIntOption("winnings");
     public static final JsonIntOption WINNINGS_AWAY = new JsonIntOption("winningsAway");
