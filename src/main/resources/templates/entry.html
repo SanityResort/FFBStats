@@ -1,9 +1,14 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-</head>
 <body>
-
+<table>
+    <tr class="entry" th:fragment="entry(data)">
+        <td class="entry__label" th:text="${data.label}">Label</td>
+        <td class="entry__percentage">
+            <span class="entry__bar" th:text="${data.percentage} + '%'" th:style="'width:' + ${data.percentage} + '%'">Percentage</span>
+        </td>
+        <td class="entry__count" th:text="${data.count}">Count</td> -->
+    </tr>
+</table>
 </body>
 </html>

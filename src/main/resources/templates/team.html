@@ -1,11 +1,22 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-</head>
 <body>
 <div th:fragment="team(teamDis)">
     <h1 th:text="${teamDis.teamName}"></h1>
+    <div th:each="distributionData : ${teamDis.distributions}" th:remove="tag">
+        <table>
+            <caption th:text="${distributionData.caption}"> Caption </caption>
+            <tbody>
+                <tr th:each="statEntry : ${distributionData.entries}">
+                    <td class="entry__label" th:text="${statEntry.label}">Label</td>
+                    <td class="entry__percentage">
+                        <span class="entry__bar" th:text="${statEntry.percentage} + '%'" th:style="'width:' + ${statEntry.percentage} + '%'">Percentage</span>
+                    </td>
+                    <td class="entry__count" th:text="${statEntry.count}">Count</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </div>
 </body>
 </html>
