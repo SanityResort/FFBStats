@@ -1,6 +1,3 @@
-/*
- * Decompiled with CFR 0_114.
- */
 package com.balancedbytes.games.ffb.net.commands;
 
 import com.balancedbytes.games.ffb.json.IJsonOption;
@@ -10,14 +7,13 @@ import com.balancedbytes.games.ffb.net.NetCommandId;
 import com.eclipsesource.json.JsonObject;
 import com.eclipsesource.json.JsonValue;
 
-public class ServerCommandGameState
-extends ServerCommand {
+public class ServerCommandGameState extends ServerCommand {
     private Game fGame;
 
     public ServerCommandGameState() {
     }
 
-    public ServerCommandGameState(Game pGame) {
+    private ServerCommandGameState(Game pGame) {
         this();
         this.fGame = pGame;
     }
@@ -33,11 +29,6 @@ extends ServerCommand {
 
     public ServerCommandGameState transform() {
         return new ServerCommandGameState(this.getGame().transform());
-    }
-
-    @Override
-    public boolean isReplayable() {
-        return false;
     }
 
     @Override

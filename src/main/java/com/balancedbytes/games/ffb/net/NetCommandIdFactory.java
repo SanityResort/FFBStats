@@ -1,14 +1,9 @@
-/*
- * Decompiled with CFR 0_114.
- */
 package com.balancedbytes.games.ffb.net;
 
 import com.balancedbytes.games.ffb.IEnumWithIdFactory;
 import com.balancedbytes.games.ffb.IEnumWithNameFactory;
 
-public class NetCommandIdFactory
-implements IEnumWithIdFactory,
-IEnumWithNameFactory {
+public class NetCommandIdFactory implements IEnumWithIdFactory, IEnumWithNameFactory {
     @Override
     public NetCommandId forName(String pName) {
         for (NetCommandId commandId : NetCommandId.values()) {

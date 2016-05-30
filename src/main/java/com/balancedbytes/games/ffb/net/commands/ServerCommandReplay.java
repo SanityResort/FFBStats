@@ -1,6 +1,3 @@
-/*
- * Decompiled with CFR 0_114.
- */
 package com.balancedbytes.games.ffb.net.commands;
 
 import com.balancedbytes.games.ffb.json.IJsonOption;
@@ -15,9 +12,7 @@ import com.eclipsesource.json.JsonValue;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ServerCommandReplay
-extends ServerCommand {
-    public static final int MAX_NR_OF_COMMANDS = 100;
+public class ServerCommandReplay extends ServerCommand {
     private List<ServerCommand> fReplayCommands = new ArrayList<ServerCommand>();
     private int fTotalNrOfCommands;
 
@@ -40,43 +35,12 @@ extends ServerCommand {
         }
     }
 
-    public int getNrOfCommands() {
-        return this.fReplayCommands.size();
-    }
-
-    public void setTotalNrOfCommands(int pTotalNrOfCommands) {
-        this.fTotalNrOfCommands = pTotalNrOfCommands;
-    }
-
-    public int getTotalNrOfCommands() {
+   public int getTotalNrOfCommands() {
         return this.fTotalNrOfCommands;
     }
 
     public ServerCommand[] getReplayCommands() {
         return this.fReplayCommands.toArray(new ServerCommand[this.fReplayCommands.size()]);
-    }
-
-    @Override
-    public boolean isReplayable() {
-        return false;
-    }
-
-    public int findHighestCommandNr() {
-        int highestCommandNr = 0;
-        for (ServerCommand serverCommand : this.fReplayCommands) {
-            if (serverCommand.getCommandNr() <= highestCommandNr) continue;
-            highestCommandNr = serverCommand.getCommandNr();
-        }
-        return highestCommandNr;
-    }
-
-    public int findLowestCommandNr() {
-        int lowestCommandNr = Integer.MAX_VALUE;
-        for (ServerCommand serverCommand : this.fReplayCommands) {
-            if (serverCommand.getCommandNr() >= lowestCommandNr) continue;
-            lowestCommandNr = serverCommand.getCommandNr();
-        }
-        return lowestCommandNr;
     }
 
     @Override

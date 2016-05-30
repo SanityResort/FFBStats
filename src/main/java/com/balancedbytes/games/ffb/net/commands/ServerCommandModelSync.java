@@ -1,9 +1,5 @@
-/*
- * Decompiled with CFR 0_114.
- */
 package com.balancedbytes.games.ffb.net.commands;
 
-import com.balancedbytes.games.ffb.SoundId;
 import com.balancedbytes.games.ffb.json.IJsonOption;
 import com.balancedbytes.games.ffb.json.UtilJson;
 import com.balancedbytes.games.ffb.net.NetCommandId;
@@ -11,22 +7,15 @@ import com.balancedbytes.games.ffb.report.ReportList;
 import com.eclipsesource.json.JsonObject;
 import com.eclipsesource.json.JsonValue;
 
-public class ServerCommandModelSync
-extends ServerCommand {
+public class ServerCommandModelSync extends ServerCommand {
     private ReportList fReportList = new ReportList();
-    private SoundId fSound;
-    private long fGameTime;
-    private long fTurnTime;
 
     public ServerCommandModelSync() {
     }
 
-    public ServerCommandModelSync(ReportList pReportList, SoundId pSound, long pGameTime, long pTurnTime) {
+    private ServerCommandModelSync(ReportList pReportList) {
         this();
         this.fReportList.add(pReportList);
-        this.fSound = pSound;
-        this.fGameTime = pGameTime;
-        this.fTurnTime = pTurnTime;
     }
 
     @Override
@@ -38,21 +27,8 @@ extends ServerCommand {
         return this.fReportList;
     }
 
-
-    public SoundId getSound() {
-        return this.fSound;
-    }
-
-    public long getGameTime() {
-        return this.fGameTime;
-    }
-
-    public long getTurnTime() {
-        return this.fTurnTime;
-    }
-
     public ServerCommandModelSync transform() {
-        ServerCommandModelSync transformedCommand = new ServerCommandModelSync(this.getReportList().transform(), this.getSound(), this.getGameTime(), this.getTurnTime());
+        ServerCommandModelSync transformedCommand = new ServerCommandModelSync(this.getReportList().transform());
         transformedCommand.setCommandNr(this.getCommandNr());
         return transformedCommand;
     }
@@ -67,11 +43,6 @@ extends ServerCommand {
         if (reportListObject != null) {
             this.fReportList.initFrom(reportListObject);
         }
-        JsonObject animationObject = IJsonOption.ANIMATION.getFrom(jsonObject);
-
-        this.fSound = (SoundId)IJsonOption.SOUND.getFrom(jsonObject);
-        this.fGameTime = IJsonOption.GAME_TIME.getFrom(jsonObject);
-        this.fTurnTime = IJsonOption.TURN_TIME.getFrom(jsonObject);
         return this;
     }
 }

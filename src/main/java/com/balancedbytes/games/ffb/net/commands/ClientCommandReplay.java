@@ -1,6 +1,3 @@
-/*
- * Decompiled with CFR 0_114.
- */
 package com.balancedbytes.games.ffb.net.commands;
 
 import com.balancedbytes.games.ffb.json.IJsonOption;
@@ -10,8 +7,7 @@ import com.balancedbytes.games.ffb.net.NetCommandId;
 import com.eclipsesource.json.JsonObject;
 import com.eclipsesource.json.JsonValue;
 
-public class ClientCommandReplay
-extends NetCommand {
+public class ClientCommandReplay extends NetCommand {
     private long fGameId;
     private int fReplayToCommandNr;
 
@@ -26,14 +22,6 @@ extends NetCommand {
     @Override
     public NetCommandId getId() {
         return NetCommandId.CLIENT_REPLAY;
-    }
-
-    public long getGameId() {
-        return this.fGameId;
-    }
-
-    public int getReplayToCommandNr() {
-        return this.fReplayToCommandNr;
     }
 
     public JsonObject toJsonValue() {
