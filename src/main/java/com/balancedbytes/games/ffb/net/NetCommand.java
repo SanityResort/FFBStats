@@ -3,10 +3,10 @@
  */
 package com.balancedbytes.games.ffb.net;
 
-import com.balancedbytes.games.ffb.json.IJsonSerializable;
+import com.balancedbytes.games.ffb.json.IJsonReadable;
 
 public abstract class NetCommand
-implements IJsonSerializable {
+implements IJsonReadable {
     private int fSize;
 
     public abstract NetCommandId getId();

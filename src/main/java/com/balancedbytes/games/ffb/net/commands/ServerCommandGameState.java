@@ -41,17 +41,6 @@ extends ServerCommand {
     }
 
     @Override
-    public JsonObject toJsonValue() {
-        JsonObject jsonObject = new JsonObject();
-        IJsonOption.NET_COMMAND_ID.addTo(jsonObject, this.getId());
-        IJsonOption.COMMAND_NR.addTo(jsonObject, this.getCommandNr());
-        if (this.fGame != null) {
-            IJsonOption.GAME.addTo(jsonObject, this.fGame.toJsonValue());
-        }
-        return jsonObject;
-    }
-
-    @Override
     public ServerCommandGameState initFrom(JsonValue pJsonValue) {
         JsonObject jsonObject = UtilJson.toJsonObject(pJsonValue);
         UtilNetCommand.validateCommandId(this, (NetCommandId)IJsonOption.NET_COMMAND_ID.getFrom(jsonObject));

@@ -37,13 +37,6 @@ extends ReportSkillRoll {
     }
 
     @Override
-    public JsonObject toJsonValue() {
-        JsonObject jsonObject = UtilJson.toJsonObject(super.toJsonValue());
-        IJsonOption.CONFUSION_SKILL.addTo(jsonObject, this.fConfusionSkill);
-        return jsonObject;
-    }
-
-    @Override
     public ReportConfusionRoll initFrom(JsonValue pJsonValue) {
         super.initFrom(pJsonValue);
         JsonObject jsonObject = UtilJson.toJsonObject(pJsonValue);

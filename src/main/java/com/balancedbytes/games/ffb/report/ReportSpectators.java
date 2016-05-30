@@ -64,19 +64,6 @@ implements IReport {
     }
 
     @Override
-    public JsonObject toJsonValue() {
-        JsonObject jsonObject = new JsonObject();
-        IJsonOption.REPORT_ID.addTo(jsonObject, this.getId());
-        IJsonOption.SPECTATOR_ROLL_HOME.addTo(jsonObject, this.fSpectatorRollHome);
-        IJsonOption.SPECTATORS_HOME.addTo(jsonObject, this.fSpectatorsHome);
-        IJsonOption.FAME_HOME.addTo(jsonObject, this.fFameHome);
-        IJsonOption.SPECTATOR_ROLL_AWAY.addTo(jsonObject, this.fSpectatorRollAway);
-        IJsonOption.SPECTATORS_AWAY.addTo(jsonObject, this.fSpectatorsAway);
-        IJsonOption.FAME_AWAY.addTo(jsonObject, this.fFameAway);
-        return jsonObject;
-    }
-
-    @Override
     public ReportSpectators initFrom(JsonValue pJsonValue) {
         JsonObject jsonObject = UtilJson.toJsonObject(pJsonValue);
         UtilReport.validateReportId(this, (ReportId)IJsonOption.REPORT_ID.getFrom(jsonObject));

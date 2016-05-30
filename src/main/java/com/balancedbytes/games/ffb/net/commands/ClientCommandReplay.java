@@ -36,7 +36,6 @@ extends NetCommand {
         return this.fReplayToCommandNr;
     }
 
-    @Override
     public JsonObject toJsonValue() {
         JsonObject jsonObject = new JsonObject();
         IJsonOption.NET_COMMAND_ID.addTo(jsonObject, this.getId());

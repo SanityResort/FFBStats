@@ -4,7 +4,7 @@
 package com.balancedbytes.games.ffb.report;
 
 import com.balancedbytes.games.ffb.json.IJsonOption;
-import com.balancedbytes.games.ffb.json.IJsonSerializable;
+import com.balancedbytes.games.ffb.json.IJsonReadable;
 import com.balancedbytes.games.ffb.json.UtilJson;
 import com.eclipsesource.json.JsonArray;
 import com.eclipsesource.json.JsonObject;
@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ReportList
-implements IJsonSerializable {
+implements IJsonReadable {
     private List<IReport> fReports;
 
     private ReportList(int pInitialCapacity) {
@@ -72,17 +72,6 @@ implements IJsonSerializable {
             transformedList.add(report.transform());
         }
         return transformedList;
-    }
-
-    @Override
-    public JsonObject toJsonValue() {
-        JsonObject jsonObject = new JsonObject();
-        JsonArray reportArray = new JsonArray();
-        for (IReport report : this.fReports) {
-            reportArray.add(report.toJsonValue());
-        }
-        IJsonOption.REPORTS.addTo(jsonObject, reportArray);
-        return jsonObject;
     }
 
     @Override

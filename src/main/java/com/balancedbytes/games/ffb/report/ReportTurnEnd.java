@@ -82,24 +82,6 @@ implements IReport {
     }
 
     @Override
-    public JsonObject toJsonValue() {
-        JsonObject jsonObject = new JsonObject();
-        IJsonOption.REPORT_ID.addTo(jsonObject, this.getId());
-        IJsonOption.PLAYER_ID_TOUCHDOWN.addTo(jsonObject, this.fPlayerIdTouchdown);
-        JsonArray knockoutRecoveryArray = new JsonArray();
-        for (KnockoutRecovery knockoutRecovery : this.fKnockoutRecoveries) {
-            knockoutRecoveryArray.add(knockoutRecovery.toJsonValue());
-        }
-        IJsonOption.KNOCKOUT_RECOVERY_ARRAY.addTo(jsonObject, knockoutRecoveryArray);
-        JsonArray heatExhaustionArray = new JsonArray();
-        for (HeatExhaustion heatExhaustion : this.fHeatExhaustions) {
-            heatExhaustionArray.add(heatExhaustion.toJsonValue());
-        }
-        IJsonOption.HEAT_EXHAUSTION_ARRAY.addTo(jsonObject, heatExhaustionArray);
-        return jsonObject;
-    }
-
-    @Override
     public ReportTurnEnd initFrom(JsonValue pJsonValue) {
         JsonArray heatExhaustionArray;
         JsonObject jsonObject = UtilJson.toJsonObject(pJsonValue);

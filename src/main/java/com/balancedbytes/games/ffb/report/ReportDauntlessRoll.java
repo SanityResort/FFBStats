@@ -36,13 +36,6 @@ extends ReportSkillRoll {
     }
 
     @Override
-    public JsonObject toJsonValue() {
-        JsonObject jsonObject = UtilJson.toJsonObject(super.toJsonValue());
-        IJsonOption.STRENGTH.addTo(jsonObject, this.fStrength);
-        return jsonObject;
-    }
-
-    @Override
     public ReportDauntlessRoll initFrom(JsonValue pJsonValue) {
         super.initFrom(pJsonValue);
         JsonObject jsonObject = UtilJson.toJsonObject(pJsonValue);

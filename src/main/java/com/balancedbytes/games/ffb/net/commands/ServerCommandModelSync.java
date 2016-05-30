@@ -58,21 +58,6 @@ extends ServerCommand {
     }
 
     @Override
-    public JsonObject toJsonValue() {
-        JsonObject jsonObject = new JsonObject();
-        IJsonOption.NET_COMMAND_ID.addTo(jsonObject, this.getId());
-        IJsonOption.COMMAND_NR.addTo(jsonObject, this.getCommandNr());
-        if (this.fReportList != null) {
-            IJsonOption.REPORT_LIST.addTo(jsonObject, this.fReportList.toJsonValue());
-        }
-
-        IJsonOption.SOUND.addTo(jsonObject, this.fSound);
-        IJsonOption.GAME_TIME.addTo(jsonObject, this.fGameTime);
-        IJsonOption.TURN_TIME.addTo(jsonObject, this.fTurnTime);
-        return jsonObject;
-    }
-
-    @Override
     public ServerCommandModelSync initFrom(JsonValue pJsonValue) {
         JsonObject jsonObject = UtilJson.toJsonObject(pJsonValue);
         UtilNetCommand.validateCommandId(this, (NetCommandId)IJsonOption.NET_COMMAND_ID.getFrom(jsonObject));

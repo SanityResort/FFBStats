@@ -32,13 +32,6 @@ extends ReportSkillRoll {
     }
 
     @Override
-    public JsonObject toJsonValue() {
-        JsonObject jsonObject = UtilJson.toJsonObject(super.toJsonValue());
-        IJsonOption.BOMB.addTo(jsonObject, this.fBomb);
-        return jsonObject;
-    }
-
-    @Override
     public ReportCatchRoll initFrom(JsonValue pJsonValue) {
         super.initFrom(pJsonValue);
         JsonObject jsonObject = UtilJson.toJsonObject(pJsonValue);

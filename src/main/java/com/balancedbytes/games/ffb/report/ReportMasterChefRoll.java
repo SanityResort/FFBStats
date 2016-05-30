@@ -46,16 +46,6 @@ implements IReport {
     }
 
     @Override
-    public JsonObject toJsonValue() {
-        JsonObject jsonObject = new JsonObject();
-        IJsonOption.REPORT_ID.addTo(jsonObject, this.getId());
-        IJsonOption.TEAM_ID.addTo(jsonObject, this.fTeamId);
-        IJsonOption.MASTER_CHEF_ROLL.addTo(jsonObject, this.fMasterChefRoll);
-        IJsonOption.RE_ROLLS_STOLEN.addTo(jsonObject, this.fReRollsStolen);
-        return jsonObject;
-    }
-
-    @Override
     public ReportMasterChefRoll initFrom(JsonValue pJsonValue) {
         JsonObject jsonObject = UtilJson.toJsonObject(pJsonValue);
         UtilReport.validateReportId(this, (ReportId)IJsonOption.REPORT_ID.getFrom(jsonObject));

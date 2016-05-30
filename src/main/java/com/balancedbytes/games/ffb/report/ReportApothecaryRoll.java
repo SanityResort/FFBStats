@@ -54,17 +54,6 @@ implements IReport {
     }
 
     @Override
-    public JsonObject toJsonValue() {
-        JsonObject jsonObject = new JsonObject();
-        IJsonOption.REPORT_ID.addTo(jsonObject, this.getId());
-        IJsonOption.PLAYER_ID.addTo(jsonObject, this.fPlayerId);
-        IJsonOption.CASUALTY_ROLL.addTo(jsonObject, this.fCasualtyRoll);
-        IJsonOption.PLAYER_STATE.addTo(jsonObject, this.fPlayerState);
-        IJsonOption.SERIOUS_INJURY.addTo(jsonObject, this.fSeriousInjury);
-        return jsonObject;
-    }
-
-    @Override
     public ReportApothecaryRoll initFrom(JsonValue pJsonValue) {
         JsonObject jsonObject = UtilJson.toJsonObject(pJsonValue);
         UtilReport.validateReportId(this, (ReportId)IJsonOption.REPORT_ID.getFrom(jsonObject));

@@ -71,7 +71,7 @@ implements WebSocket.OnTextMessage
         return this.fCloseLatch.await(duration, unit);
     }
 
-    private boolean send(NetCommand pCommand) throws IOException {
+    private boolean send(ClientCommandReplay pCommand) throws IOException {
         if (pCommand == null || !this.isOpen()) {
             return false;
         }

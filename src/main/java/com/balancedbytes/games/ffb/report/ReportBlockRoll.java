@@ -40,15 +40,6 @@ implements IReport {
     }
 
     @Override
-    public JsonObject toJsonValue() {
-        JsonObject jsonObject = new JsonObject();
-        IJsonOption.REPORT_ID.addTo(jsonObject, this.getId());
-        IJsonOption.CHOOSING_TEAM_ID.addTo(jsonObject, this.fChoosingTeamId);
-        IJsonOption.BLOCK_ROLL.addTo(jsonObject, this.fBlockRoll);
-        return jsonObject;
-    }
-
-    @Override
     public ReportBlockRoll initFrom(JsonValue pJsonValue) {
         JsonObject jsonObject = UtilJson.toJsonObject(pJsonValue);
         UtilReport.validateReportId(this, (ReportId)IJsonOption.REPORT_ID.getFrom(jsonObject));

@@ -7,7 +7,7 @@ import com.balancedbytes.games.ffb.FieldCoordinate;
 import com.balancedbytes.games.ffb.PlayerAction;
 import com.balancedbytes.games.ffb.TurnMode;
 import com.balancedbytes.games.ffb.json.IJsonOption;
-import com.balancedbytes.games.ffb.json.IJsonSerializable;
+import com.balancedbytes.games.ffb.json.IJsonReadable;
 import com.balancedbytes.games.ffb.json.UtilJson;
 import com.eclipsesource.json.JsonObject;
 import com.eclipsesource.json.JsonValue;
@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class Game
-        implements IJsonSerializable {
+        implements IJsonReadable {
     private long fId;
     private Date fScheduled;
     private Date fStarted;
@@ -179,35 +179,6 @@ public class Game
         return transformedGame;
     }
 
-    @Override
-    public JsonObject toJsonValue() {
-        JsonObject jsonObject = new JsonObject();
-        IJsonOption.GAME_ID.addTo(jsonObject, this.fId);
-        IJsonOption.SCHEDULED.addTo(jsonObject, this.fScheduled);
-        IJsonOption.STARTED.addTo(jsonObject, this.fStarted);
-        IJsonOption.FINISHED.addTo(jsonObject, this.fFinished);
-        IJsonOption.HOME_PLAYING.addTo(jsonObject, this.fHomePlaying);
-        IJsonOption.HALF.addTo(jsonObject, this.fHalf);
-        IJsonOption.HOME_FIRST_OFFENSE.addTo(jsonObject, this.fHomeFirstOffense);
-        IJsonOption.SETUP_OFFENSE.addTo(jsonObject, this.fSetupOffense);
-        IJsonOption.WAITING_FOR_OPPONENT.addTo(jsonObject, this.fWaitingForOpponent);
-        IJsonOption.TURN_TIME.addTo(jsonObject, this.fTurnTime);
-        IJsonOption.GAME_TIME.addTo(jsonObject, this.fGameTime);
-        IJsonOption.TIMEOUT_POSSIBLE.addTo(jsonObject, this.fTimeoutPossible);
-        IJsonOption.TIMEOUT_ENFORCED.addTo(jsonObject, this.fTimeoutEnforced);
-        IJsonOption.CONCESSION_POSSIBLE.addTo(jsonObject, this.fConcessionPossible);
-        IJsonOption.TESTING.addTo(jsonObject, this.fTesting);
-        IJsonOption.TURN_MODE.addTo(jsonObject, this.fTurnMode);
-        IJsonOption.DEFENDER_ID.addTo(jsonObject, this.fDefenderId);
-        IJsonOption.DEFENDER_ACTION.addTo(jsonObject, this.fDefenderAction);
-        IJsonOption.PASS_COORDINATE.addTo(jsonObject, this.fPassCoordinate);
-        IJsonOption.THROWER_ID.addTo(jsonObject, this.fThrowerId);
-        IJsonOption.THROWER_ACTION.addTo(jsonObject, this.fThrowerAction);
-        IJsonOption.TEAM_AWAY.addTo(jsonObject, this.fTeamAway.toJsonValue());
-        IJsonOption.TEAM_HOME.addTo(jsonObject, this.fTeamHome.toJsonValue());
-
-        return jsonObject;
-    }
 
     @Override
     public Game initFrom(JsonValue pJsonValue) {

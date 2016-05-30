@@ -70,17 +70,6 @@ extends ReportSkillRoll {
     }
 
     @Override
-    public JsonObject toJsonValue() {
-        JsonObject jsonObject = UtilJson.toJsonObject(super.toJsonValue());
-        IJsonOption.PASSING_DISTANCE.addTo(jsonObject, this.fPassingDistance);
-        IJsonOption.FUMBLE.addTo(jsonObject, this.fFumble);
-        IJsonOption.SAFE_THROW_HOLD.addTo(jsonObject, this.fSafeThrowHold);
-        IJsonOption.HAIL_MARY_PASS.addTo(jsonObject, this.fHailMaryPass);
-        IJsonOption.BOMB.addTo(jsonObject, this.fBomb);
-        return jsonObject;
-    }
-
-    @Override
     public ReportPassRoll initFrom(JsonValue pJsonValue) {
         super.initFrom(pJsonValue);
         JsonObject jsonObject = UtilJson.toJsonObject(pJsonValue);

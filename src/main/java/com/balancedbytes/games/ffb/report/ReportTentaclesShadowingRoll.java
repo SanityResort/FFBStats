@@ -65,19 +65,6 @@ implements IReport {
     }
 
     @Override
-    public JsonObject toJsonValue() {
-        JsonObject jsonObject = new JsonObject();
-        IJsonOption.REPORT_ID.addTo(jsonObject, this.getId());
-        IJsonOption.SKILL.addTo(jsonObject, this.fSkill);
-        IJsonOption.DEFENDER_ID.addTo(jsonObject, this.fDefenderId);
-        IJsonOption.TENTACLE_ROLL.addTo(jsonObject, this.fRoll);
-        IJsonOption.SUCCESSFUL.addTo(jsonObject, this.fSuccessful);
-        IJsonOption.MINIMUM_ROLL.addTo(jsonObject, this.fMinimumRoll);
-        IJsonOption.RE_ROLLED.addTo(jsonObject, this.fReRolled);
-        return jsonObject;
-    }
-
-    @Override
     public ReportTentaclesShadowingRoll initFrom(JsonValue pJsonValue) {
         JsonObject jsonObject = UtilJson.toJsonObject(pJsonValue);
         UtilReport.validateReportId(this, (ReportId)IJsonOption.REPORT_ID.getFrom(jsonObject));

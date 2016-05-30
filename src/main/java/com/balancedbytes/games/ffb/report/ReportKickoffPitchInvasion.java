@@ -121,17 +121,6 @@ implements IReport {
     }
 
     @Override
-    public JsonObject toJsonValue() {
-        JsonObject jsonObject = new JsonObject();
-        IJsonOption.REPORT_ID.addTo(jsonObject, this.getId());
-        IJsonOption.ROLLS_HOME.addTo(jsonObject, this.fRollsHome);
-        IJsonOption.PLAYERS_AFFECTED_HOME.addTo(jsonObject, this.fPlayersAffectedHome);
-        IJsonOption.ROLLS_AWAY.addTo(jsonObject, this.fRollsAway);
-        IJsonOption.PLAYERS_AFFECTED_AWAY.addTo(jsonObject, this.fPlayersAffectedAway);
-        return jsonObject;
-    }
-
-    @Override
     public ReportKickoffPitchInvasion initFrom(JsonValue pJsonValue) {
         JsonObject jsonObject = UtilJson.toJsonObject(pJsonValue);
         UtilReport.validateReportId(this, (ReportId)IJsonOption.REPORT_ID.getFrom(jsonObject));

@@ -52,17 +52,6 @@ implements IReport {
     }
 
     @Override
-    public JsonObject toJsonValue() {
-        JsonObject jsonObject = new JsonObject();
-        IJsonOption.REPORT_ID.addTo(jsonObject, this.getId());
-        IJsonOption.FAN_FACTOR_ROLL_HOME.addTo(jsonObject, this.fFanFactorRollHome);
-        IJsonOption.FAN_FACTOR_MODIFIER_HOME.addTo(jsonObject, this.fFanFactorModifierHome);
-        IJsonOption.FAN_FACTOR_ROLL_AWAY.addTo(jsonObject, this.fFanFactorRollAway);
-        IJsonOption.FAN_FACTOR_MODIFIER_AWAY.addTo(jsonObject, this.fFanFactorModifierAway);
-        return jsonObject;
-    }
-
-    @Override
     public ReportFanFactorRoll initFrom(JsonValue pJsonValue) {
         JsonObject jsonObject = UtilJson.toJsonObject(pJsonValue);
         UtilReport.validateReportId(this, (ReportId)IJsonOption.REPORT_ID.getFrom(jsonObject));

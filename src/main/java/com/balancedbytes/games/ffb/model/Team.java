@@ -5,7 +5,7 @@ package com.balancedbytes.games.ffb.model;
 
 import com.balancedbytes.games.ffb.PlayerType;
 import com.balancedbytes.games.ffb.json.IJsonOption;
-import com.balancedbytes.games.ffb.json.IJsonSerializable;
+import com.balancedbytes.games.ffb.json.IJsonReadable;
 import com.balancedbytes.games.ffb.json.UtilJson;
 import com.eclipsesource.json.JsonArray;
 import com.eclipsesource.json.JsonObject;
@@ -16,7 +16,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Team implements IJsonSerializable {
+public class Team implements IJsonReadable {
 
     private String fId;
     private String fName;
@@ -227,29 +227,6 @@ public class Team implements IJsonSerializable {
         };
     }
 
-    @Override
-    public JsonObject toJsonValue() {
-        JsonObject jsonObject = new JsonObject();
-        IJsonOption.TEAM_ID.addTo(jsonObject, this.fId);
-        IJsonOption.TEAM_NAME.addTo(jsonObject, this.fName);
-        IJsonOption.COACH.addTo(jsonObject, this.fCoach);
-        IJsonOption.RACE.addTo(jsonObject, this.fRace);
-        IJsonOption.RE_ROLLS.addTo(jsonObject, this.fReRolls);
-        IJsonOption.APOTHECARIES.addTo(jsonObject, this.fApothecaries);
-        IJsonOption.CHEERLEADERS.addTo(jsonObject, this.fCheerleaders);
-        IJsonOption.ASSISTANT_COACHES.addTo(jsonObject, this.fAssistantCoaches);
-        IJsonOption.FAN_FACTOR.addTo(jsonObject, this.fFanFactor);
-        IJsonOption.TEAM_VALUE.addTo(jsonObject, this.fTeamValue);
-        IJsonOption.TREASURY.addTo(jsonObject, this.fTreasury);
-        IJsonOption.BASE_ICON_PATH.addTo(jsonObject, this.fBaseIconPath);
-        IJsonOption.LOGO_URL.addTo(jsonObject, this.fLogoUrl);
-        JsonArray playerArray = new JsonArray();
-        for (Player player : this.getPlayers()) {
-            playerArray.add(player.toJsonValue());
-        }
-        IJsonOption.PLAYER_ARRAY.addTo(jsonObject, playerArray);
-        return jsonObject;
-    }
 
     @Override
     public Team initFrom(JsonValue pJsonValue) {

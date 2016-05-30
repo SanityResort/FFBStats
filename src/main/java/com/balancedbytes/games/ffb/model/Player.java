@@ -11,7 +11,7 @@ import com.balancedbytes.games.ffb.Skill;
 import com.balancedbytes.games.ffb.SkillCategory;
 import com.balancedbytes.games.ffb.SkillFactory;
 import com.balancedbytes.games.ffb.json.IJsonOption;
-import com.balancedbytes.games.ffb.json.IJsonSerializable;
+import com.balancedbytes.games.ffb.json.IJsonReadable;
 import com.balancedbytes.games.ffb.json.UtilJson;
 import com.eclipsesource.json.JsonArray;
 import com.eclipsesource.json.JsonObject;
@@ -20,7 +20,7 @@ import com.eclipsesource.json.JsonValue;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Player implements IJsonSerializable {
+public class Player implements IJsonReadable {
 
     private String fId;
     private int fNr;
@@ -244,37 +244,6 @@ public class Player implements IJsonSerializable {
         for (Skill skill : pPlayer.getSkills()) {
             this.addSkill(skill);
         }
-    }
-
-    @Override
-    public JsonObject toJsonValue() {
-        JsonObject jsonObject = new JsonObject();
-        IJsonOption.PLAYER_ID.addTo(jsonObject, this.fId);
-        IJsonOption.PLAYER_NR.addTo(jsonObject, this.fNr);
-        IJsonOption.POSITION_ID.addTo(jsonObject, this.fPositionId);
-        IJsonOption.PLAYER_NAME.addTo(jsonObject, this.fName);
-        IJsonOption.PLAYER_GENDER.addTo(jsonObject, this.fPlayerGender);
-        IJsonOption.PLAYER_TYPE.addTo(jsonObject, this.fPlayerType);
-        IJsonOption.MOVEMENT.addTo(jsonObject, this.fMovement);
-        IJsonOption.STRENGTH.addTo(jsonObject, this.fStrength);
-        IJsonOption.AGILITY.addTo(jsonObject, this.fAgility);
-        IJsonOption.ARMOUR.addTo(jsonObject, this.fArmour);
-        JsonArray lastingInjuries = new JsonArray();
-        for (SeriousInjury injury : this.fLastingInjuries) {
-            lastingInjuries.add(UtilJson.toJsonValue(injury));
-        }
-        IJsonOption.LASTING_INJURIES.addTo(jsonObject, lastingInjuries);
-        IJsonOption.RECOVERING_INJURY.addTo(jsonObject, this.fRecoveringInjury);
-        IJsonOption.URL_PORTRAIT.addTo(jsonObject, this.fUrlPortrait);
-        IJsonOption.URL_ICON_SET.addTo(jsonObject, this.fUrlIconSet);
-        IJsonOption.NR_OF_ICONS.addTo(jsonObject, this.fNrOfIcons);
-        IJsonOption.POSITION_ICON_INDEX.addTo(jsonObject, this.fIconSetIndex);
-        JsonArray skillArray = new JsonArray();
-        for (Skill skill : this.fSkills) {
-            skillArray.add(UtilJson.toJsonValue(skill));
-        }
-        IJsonOption.SKILL_ARRAY.addTo(jsonObject, skillArray);
-        return jsonObject;
     }
 
     @Override

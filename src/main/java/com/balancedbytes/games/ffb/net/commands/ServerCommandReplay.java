@@ -80,20 +80,6 @@ extends ServerCommand {
     }
 
     @Override
-    public JsonObject toJsonValue() {
-        JsonObject jsonObject = new JsonObject();
-        IJsonOption.NET_COMMAND_ID.addTo(jsonObject, this.getId());
-        IJsonOption.COMMAND_NR.addTo(jsonObject, this.getCommandNr());
-        IJsonOption.TOTAL_NR_OF_COMMANDS.addTo(jsonObject, this.fTotalNrOfCommands);
-        JsonArray commandArray = new JsonArray();
-        for (ServerCommand replayCommand : this.getReplayCommands()) {
-            commandArray.add(replayCommand.toJsonValue());
-        }
-        IJsonOption.COMMAND_ARRAY.addTo(jsonObject, commandArray);
-        return jsonObject;
-    }
-
-    @Override
     public ServerCommandReplay initFrom(JsonValue pJsonValue) {
         JsonObject jsonObject = UtilJson.toJsonObject(pJsonValue);
         UtilNetCommand.validateCommandId(this, (NetCommandId)IJsonOption.NET_COMMAND_ID.getFrom(jsonObject));

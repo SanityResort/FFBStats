@@ -153,35 +153,6 @@ implements IReport {
     }
 
     @Override
-    public JsonObject toJsonValue() {
-        JsonObject jsonObject = new JsonObject();
-        IJsonOption.REPORT_ID.addTo(jsonObject, this.getId());
-        IJsonOption.DEFENDER_ID.addTo(jsonObject, this.fDefenderId);
-        IJsonOption.INJURY_TYPE.addTo(jsonObject, this.fInjuryType);
-        IJsonOption.ARMOR_BROKEN.addTo(jsonObject, this.fArmorBroken);
-        IJsonOption.ARMOR_ROLL.addTo(jsonObject, this.fArmorRoll);
-        IJsonOption.INJURY_ROLL.addTo(jsonObject, this.fInjuryRoll);
-        IJsonOption.CASUALTY_ROLL.addTo(jsonObject, this.fCasualtyRoll);
-        IJsonOption.SERIOUS_INJURY.addTo(jsonObject, this.fSeriousInjury);
-        IJsonOption.CASUALTY_ROLL_DECAY.addTo(jsonObject, this.fCasualtyRollDecay);
-        IJsonOption.SERIOUS_INJURY_DECAY.addTo(jsonObject, this.fSeriousInjuryDecay);
-        IJsonOption.INJURY.addTo(jsonObject, this.fInjury);
-        IJsonOption.INJURY_DECAY.addTo(jsonObject, this.fInjuryDecay);
-        IJsonOption.ATTACKER_ID.addTo(jsonObject, this.fAttackerId);
-        JsonArray armorModifiers = new JsonArray();
-        for (ArmorModifier armorModifier : this.getArmorModifiers()) {
-            armorModifiers.add(UtilJson.toJsonValue(armorModifier));
-        }
-        IJsonOption.ARMOR_MODIFIERS.addTo(jsonObject, armorModifiers);
-        JsonArray injuryModifiers = new JsonArray();
-        for (InjuryModifier injuryModifier : this.getInjuryModifiers()) {
-            injuryModifiers.add(UtilJson.toJsonValue(injuryModifier));
-        }
-        IJsonOption.INJURY_MODIFIERS.addTo(jsonObject, injuryModifiers);
-        return jsonObject;
-    }
-
-    @Override
     public ReportInjury initFrom(JsonValue pJsonValue) {
         JsonObject jsonObject = UtilJson.toJsonObject(pJsonValue);
         UtilReport.validateReportId(this, (ReportId)IJsonOption.REPORT_ID.getFrom(jsonObject));

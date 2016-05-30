@@ -38,14 +38,6 @@ extends ReportSkillRoll {
     }
 
     @Override
-    public JsonObject toJsonValue() {
-        JsonObject jsonObject = UtilJson.toJsonObject(super.toJsonValue());
-        IJsonOption.THROWN_PLAYER_ID.addTo(jsonObject, this.fThrownPlayerId);
-        IJsonOption.PASSING_DISTANCE.addTo(jsonObject, this.fPassingDistance);
-        return jsonObject;
-    }
-
-    @Override
     public ReportThrowTeamMateRoll initFrom(JsonValue pJsonValue) {
         super.initFrom(pJsonValue);
         JsonObject jsonObject = UtilJson.toJsonObject(pJsonValue);

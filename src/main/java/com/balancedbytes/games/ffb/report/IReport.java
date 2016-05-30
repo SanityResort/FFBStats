@@ -3,10 +3,10 @@
  */
 package com.balancedbytes.games.ffb.report;
 
-import com.balancedbytes.games.ffb.json.IJsonSerializable;
+import com.balancedbytes.games.ffb.json.IJsonReadable;
 
 public interface IReport
-extends IJsonSerializable {
+extends IJsonReadable {
     public static final String XML_TAG = "report";
     public static final String XML_ATTRIBUTE_ID = "id";
 

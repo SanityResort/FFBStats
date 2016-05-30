@@ -52,17 +52,6 @@ implements IReport {
     }
 
     @Override
-    public JsonObject toJsonValue() {
-        JsonObject jsonObject = new JsonObject();
-        IJsonOption.REPORT_ID.addTo(jsonObject, this.getId());
-        IJsonOption.ROLL_HOME.addTo(jsonObject, this.fRollHome);
-        IJsonOption.RE_ROLLS_LEFT_HOME.addTo(jsonObject, this.fReRollsLeftHome);
-        IJsonOption.ROLL_AWAY.addTo(jsonObject, this.fRollAway);
-        IJsonOption.RE_ROLLS_LEFT_AWAY.addTo(jsonObject, this.fReRollsLeftAway);
-        return jsonObject;
-    }
-
-    @Override
     public ReportPenaltyShootout initFrom(JsonValue pJsonValue) {
         JsonObject jsonObject = UtilJson.toJsonObject(pJsonValue);
         UtilReport.validateReportId(this, (ReportId)IJsonOption.REPORT_ID.getFrom(jsonObject));
