@@ -63,7 +63,7 @@ public class StatsController {
         }
         synchronized (replayCommands)  {
             try {
-                replayCommands.wait();
+                replayCommands.wait(10000);
             } catch (InterruptedException e) {
                 //
             }

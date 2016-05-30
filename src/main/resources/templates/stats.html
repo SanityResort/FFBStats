@@ -7,7 +7,7 @@
 </head>
 <body>
     <h1 class="gameTitle" th:text="'Dice Stats for Game ' + ${gameId}"></h1>
-    <div class="home" th:include="team" th:with="teamDis=${game.home}"></div>
+    <div class="home" th:include="team(teamDis=${game.home})"></div>
     <div class="away" th:include="team" th:with="teamDis=${game.away}"></div>
 </body>
 </html>
