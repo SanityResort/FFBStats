@@ -46,21 +46,5 @@ IEnumWithNameFactory {
         }
         return new InjuryModifier[0];
     }
-
-    public InjuryModifier getNigglingInjuryModifier(Player pPlayer) {
-        if (pPlayer != null) {
-            int nigglingInjuries = 0;
-            for (SeriousInjury injury : pPlayer.getLastingInjuries()) {
-                if (InjuryAttribute.NI != injury.getInjuryAttribute()) continue;
-                ++nigglingInjuries;
-            }
-            for (InjuryModifier modifier : InjuryModifier.values()) {
-                if (!modifier.isNigglingInjuryModifier() || modifier.getModifier() != nigglingInjuries) continue;
-                return modifier;
-            }
-        }
-        return null;
-    }
-
 }
 

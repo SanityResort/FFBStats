@@ -47,12 +47,5 @@ IEnumWithName
     public String getName() {
         return this.fName;
     }
-
-    public String getDescription(Player pPlayer) {
-        if (pPlayer != null) {
-            return this.fDescription.replaceAll("%g", pPlayer.getPlayerGender().getGenitive());
-        }
-        return this.fDescription;
-    }
 }
 
