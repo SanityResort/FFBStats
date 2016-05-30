@@ -24,10 +24,10 @@ implements WebSocket.OnTextMessage
     private boolean fCommandCompression;
     private final CountDownLatch fCloseLatch;
     private final CommandHandler statsHandler;
-    private final long gameId;
+    private final long replayId;
 
-    public StatsCommandSocket(long gameId, boolean compression, CommandHandler statsHandler) {
-        this.gameId = gameId;
+    public StatsCommandSocket(long replayId, boolean compression, CommandHandler statsHandler) {
+        this.replayId = replayId;
         this.statsHandler = statsHandler;
         this.fNetCommandFactory = new NetCommandFactory();
         this.fCloseLatch = new CountDownLatch(1);
@@ -39,7 +39,7 @@ implements WebSocket.OnTextMessage
         this.fConnection.setMaxIdleTime(Integer.MAX_VALUE);
         this.fConnection.setMaxTextMessageSize(65536);
         try {
-            send(new ClientCommandReplay(gameId, 0));
+            send(new ClientCommandReplay(replayId, 0));
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -34,15 +34,15 @@ public class StatsController {
     private int port;
     private boolean compression;
 
-    @RequestMapping(value = "/stats/{gameId}")
-    public String stats(@PathVariable(value = "gameId") String gameId, Model model)  {
-        logger.info("Creating stats for game: {}", gameId);
+    @RequestMapping(value = "/stats/{replayId}")
+    public String stats(@PathVariable(value = "replayId") String replayId, Model model)  {
+        logger.info("Creating stats for game: {}", replayId);
 
         List<ServerCommand> replayCommands = new ArrayList<>();
         StatsCollector collector = new StatsCollector(replayCommands);
         CommandHandler statsHandler = new CommandHandler(collector);
         WebSocketClientFactory webSocketClientFactory = new WebSocketClientFactory();
-        StatsCommandSocket commandSocket = new StatsCommandSocket(Long.valueOf(gameId), compression, statsHandler);
+        StatsCommandSocket commandSocket = new StatsCommandSocket(Long.valueOf(replayId), compression, statsHandler);
 
         try {
             webSocketClientFactory.start();
@@ -78,7 +78,7 @@ public class StatsController {
 
         StatsCollection stats = collector.evaluate();
         model.addAttribute("game", new GameDistribution(stats));
-        model.addAttribute("gameId", gameId);
+        model.addAttribute("replayId", replayId);
         return "stats";
     }
 
