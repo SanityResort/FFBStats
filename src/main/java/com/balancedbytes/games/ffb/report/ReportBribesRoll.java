@@ -1,6 +1,3 @@
-/*
- * Decompiled with CFR 0_114.
- */
 package com.balancedbytes.games.ffb.report;
 
 import com.balancedbytes.games.ffb.json.IJsonOption;
@@ -8,18 +5,15 @@ import com.balancedbytes.games.ffb.json.UtilJson;
 import com.eclipsesource.json.JsonObject;
 import com.eclipsesource.json.JsonValue;
 
-public class ReportBribesRoll
-implements IReport {
+public class ReportBribesRoll implements IReport {
     private String fPlayerId;
-    private boolean fSuccessful;
     private int fRoll;
 
-    public ReportBribesRoll() {
+    ReportBribesRoll() {
     }
 
-    public ReportBribesRoll(String pPlayerId, boolean pSuccessful, int pRoll) {
+    private ReportBribesRoll(String pPlayerId, int pRoll) {
         this.fPlayerId = pPlayerId;
-        this.fSuccessful = pSuccessful;
         this.fRoll = pRoll;
     }
 
@@ -32,17 +26,13 @@ implements IReport {
         return this.fPlayerId;
     }
 
-    public boolean isSuccessful() {
-        return this.fSuccessful;
-    }
-
     public int getRoll() {
         return this.fRoll;
     }
 
     @Override
     public IReport transform() {
-        return new ReportBribesRoll(this.getPlayerId(), this.isSuccessful(), this.getRoll());
+        return new ReportBribesRoll(this.getPlayerId(), this.getRoll());
     }
 
     @Override
@@ -50,7 +40,6 @@ implements IReport {
         JsonObject jsonObject = UtilJson.toJsonObject(pJsonValue);
         UtilReport.validateReportId(this, (ReportId)IJsonOption.REPORT_ID.getFrom(jsonObject));
         this.fPlayerId = IJsonOption.PLAYER_ID.getFrom(jsonObject);
-        this.fSuccessful = IJsonOption.SUCCESSFUL.getFrom(jsonObject);
         this.fRoll = IJsonOption.ROLL.getFrom(jsonObject);
         return this;
     }

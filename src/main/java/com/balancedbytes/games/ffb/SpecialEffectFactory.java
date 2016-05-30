@@ -1,11 +1,6 @@
-/*
- * Decompiled with CFR 0_114.
- */
 package com.balancedbytes.games.ffb;
 
-public class SpecialEffectFactory
-implements IEnumWithIdFactory,
-IEnumWithNameFactory {
+public class SpecialEffectFactory implements IEnumWithIdFactory, IEnumWithNameFactory {
     @Override
     public SpecialEffect forName(String pName) {
         for (SpecialEffect effect : SpecialEffect.values()) {

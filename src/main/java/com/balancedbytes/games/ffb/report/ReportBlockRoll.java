@@ -1,6 +1,3 @@
-/*
- * Decompiled with CFR 0_114.
- */
 package com.balancedbytes.games.ffb.report;
 
 import com.balancedbytes.games.ffb.json.IJsonOption;
@@ -8,15 +5,14 @@ import com.balancedbytes.games.ffb.json.UtilJson;
 import com.eclipsesource.json.JsonObject;
 import com.eclipsesource.json.JsonValue;
 
-public class ReportBlockRoll
-implements IReport {
+public class ReportBlockRoll implements IReport {
     private int[] fBlockRoll;
     private String fChoosingTeamId;
 
-    public ReportBlockRoll() {
+    ReportBlockRoll() {
     }
 
-    public ReportBlockRoll(String pChoosingTeamId, int[] pBlockRoll) {
+    private ReportBlockRoll(String pChoosingTeamId, int[] pBlockRoll) {
         this.fChoosingTeamId = pChoosingTeamId;
         this.fBlockRoll = pBlockRoll;
     }

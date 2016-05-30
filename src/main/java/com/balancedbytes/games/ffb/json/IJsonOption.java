@@ -6,14 +6,12 @@ import com.balancedbytes.games.ffb.PlayerActionFactory;
 import com.balancedbytes.games.ffb.ReRollSourceFactory;
 import com.balancedbytes.games.ffb.SeriousInjuryFactory;
 import com.balancedbytes.games.ffb.SkillFactory;
-import com.balancedbytes.games.ffb.SoundIdFactory;
 import com.balancedbytes.games.ffb.SpecialEffectFactory;
 import com.balancedbytes.games.ffb.net.NetCommandIdFactory;
 import com.balancedbytes.games.ffb.report.ReportIdFactory;
 
 public interface IJsonOption {
     JsonStringOption ACTING_PLAYER_ID = new JsonStringOption("actingPlayerId");
-    JsonObjectOption ANIMATION = new JsonObjectOption("animation");
     JsonBooleanOption ARMOR_BROKEN = new JsonBooleanOption("armorBroken");
     JsonArrayOption ARMOR_MODIFIERS = new JsonArrayOption("armorModifiers");
     JsonIntArrayOption ARMOR_ROLL = new JsonIntArrayOption("armorRoll");
@@ -39,7 +37,6 @@ public interface IJsonOption {
     JsonBooleanOption FUMBLE = new JsonBooleanOption("fumble");
     JsonObjectOption GAME = new JsonObjectOption("game");
     JsonLongOption GAME_ID = new JsonLongOption("gameId");
-    JsonLongOption GAME_TIME = new JsonLongOption("gameTime");
     JsonBooleanOption HAIL_MARY_PASS = new JsonBooleanOption("hailMaryPass");
     JsonArrayOption HEAT_EXHAUSTION_ARRAY = new JsonArrayOption("heatExhaustionArray");
     JsonPlayerStateOption INJURY = new JsonPlayerStateOption("injury");
@@ -80,7 +77,6 @@ public interface IJsonOption {
     JsonEnumWithNameOption SERIOUS_INJURY = new JsonEnumWithNameOption("seriousInjury", new SeriousInjuryFactory());
     JsonEnumWithNameOption SERIOUS_INJURY_DECAY = new JsonEnumWithNameOption("seriousInjuryDecay", new SeriousInjuryFactory());
     JsonEnumWithNameOption SKILL = new JsonEnumWithNameOption("skill", new SkillFactory());
-    JsonEnumWithNameOption SOUND = new JsonEnumWithNameOption("sound", new SoundIdFactory());
     JsonEnumWithNameOption SPECIAL_EFFECT = new JsonEnumWithNameOption("specialEffect", new SpecialEffectFactory());
     JsonIntArrayOption SPECTATOR_ROLL_AWAY = new JsonIntArrayOption("spectatorRollAway");
     JsonIntArrayOption SPECTATOR_ROLL_HOME = new JsonIntArrayOption("spectatorRollHome");
@@ -95,7 +91,6 @@ public interface IJsonOption {
     JsonIntArrayOption TENTACLE_ROLL = new JsonIntArrayOption("tentacleRoll");
     JsonStringOption THROWN_PLAYER_ID = new JsonStringOption("thrownPlayerId");
     JsonIntOption TOTAL_NR_OF_COMMANDS = new JsonIntOption("totalNrOfCommands");
-    JsonLongOption TURN_TIME = new JsonLongOption("turnTime");
     JsonIntOption WINNINGS_AWAY = new JsonIntOption("winningsAway");
     JsonIntOption WINNINGS_HOME = new JsonIntOption("winningsHome");
     JsonIntOption WINNINGS_ROLL_AWAY = new JsonIntOption("winningsRollAway");

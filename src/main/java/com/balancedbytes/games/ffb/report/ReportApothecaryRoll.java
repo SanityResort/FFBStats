@@ -1,30 +1,20 @@
-/*
- * Decompiled with CFR 0_114.
- */
 package com.balancedbytes.games.ffb.report;
 
-import com.balancedbytes.games.ffb.PlayerState;
-import com.balancedbytes.games.ffb.SeriousInjury;
 import com.balancedbytes.games.ffb.json.IJsonOption;
 import com.balancedbytes.games.ffb.json.UtilJson;
 import com.eclipsesource.json.JsonObject;
 import com.eclipsesource.json.JsonValue;
 
-public class ReportApothecaryRoll
-implements IReport {
+public class ReportApothecaryRoll implements IReport {
     private String fPlayerId;
     private int[] fCasualtyRoll;
-    private PlayerState fPlayerState;
-    private SeriousInjury fSeriousInjury;
 
-    public ReportApothecaryRoll() {
+    ReportApothecaryRoll() {
     }
 
-    public ReportApothecaryRoll(String pPlayerId, int[] pCasualtyRoll, PlayerState pPlayerState, SeriousInjury pSeriousInjury) {
+    private ReportApothecaryRoll(String pPlayerId, int[] pCasualtyRoll) {
         this.fPlayerId = pPlayerId;
         this.fCasualtyRoll = pCasualtyRoll;
-        this.fPlayerState = pPlayerState;
-        this.fSeriousInjury = pSeriousInjury;
     }
 
     @Override
@@ -40,17 +30,9 @@ implements IReport {
         return this.fCasualtyRoll;
     }
 
-    public PlayerState getPlayerState() {
-        return this.fPlayerState;
-    }
-
-    public SeriousInjury getSeriousInjury() {
-        return this.fSeriousInjury;
-    }
-
     @Override
     public IReport transform() {
-        return new ReportApothecaryRoll(this.getPlayerId(), this.getCasualtyRoll(), this.getPlayerState(), this.getSeriousInjury());
+        return new ReportApothecaryRoll(this.getPlayerId(), this.getCasualtyRoll());
     }
 
     @Override
@@ -59,8 +41,6 @@ implements IReport {
         UtilReport.validateReportId(this, (ReportId)IJsonOption.REPORT_ID.getFrom(jsonObject));
         this.fPlayerId = IJsonOption.PLAYER_ID.getFrom(jsonObject);
         this.fCasualtyRoll = IJsonOption.CASUALTY_ROLL.getFrom(jsonObject);
-        this.fPlayerState = IJsonOption.PLAYER_STATE.getFrom(jsonObject);
-        this.fSeriousInjury = (SeriousInjury)IJsonOption.SERIOUS_INJURY.getFrom(jsonObject);
         return this;
     }
 }
