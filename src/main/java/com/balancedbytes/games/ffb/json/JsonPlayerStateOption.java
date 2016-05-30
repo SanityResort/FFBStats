@@ -1,14 +1,10 @@
-/*
- * Decompiled with CFR 0_114.
- */
 package com.balancedbytes.games.ffb.json;
 
 import com.balancedbytes.games.ffb.PlayerState;
 import com.eclipsesource.json.JsonObject;
 
-public class JsonPlayerStateOption
-extends JsonAbstractOption {
-    public JsonPlayerStateOption(String pKey) {
+public class JsonPlayerStateOption extends JsonAbstractOption {
+    JsonPlayerStateOption(String pKey) {
         super(pKey);
     }
 

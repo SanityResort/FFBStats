@@ -1,14 +1,10 @@
-/*
- * Decompiled with CFR 0_114.
- */
 package com.balancedbytes.games.ffb.json;
 
 import com.eclipsesource.json.JsonObject;
 import com.eclipsesource.json.JsonValue;
 
-public class JsonBooleanOption
-extends JsonAbstractOption {
-    public JsonBooleanOption(String pKey) {
+public class JsonBooleanOption extends JsonAbstractOption {
+    JsonBooleanOption(String pKey) {
         super(pKey);
     }
 

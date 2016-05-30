@@ -1,6 +1,3 @@
-/*
- * Decompiled with CFR 0_114.
- */
 package com.balancedbytes.games.ffb.json;
 
 import com.eclipsesource.json.JsonArray;
@@ -8,9 +5,8 @@ import com.eclipsesource.json.JsonObject;
 
 import java.util.Collection;
 
-public class JsonBooleanArrayOption
-extends JsonAbstractOption {
-    public JsonBooleanArrayOption(String pKey) {
+public class JsonBooleanArrayOption extends JsonAbstractOption {
+    JsonBooleanArrayOption(String pKey) {
         super(pKey);
     }
 
@@ -34,8 +30,8 @@ extends JsonAbstractOption {
             return null;
         }
         JsonArray jsonArray = new JsonArray();
-        for (int i = 0; i < pBooleanArray.length; ++i) {
-            jsonArray.add(pBooleanArray[i]);
+        for (boolean aPBooleanArray : pBooleanArray) {
+            jsonArray.add(aPBooleanArray);
         }
         return jsonArray;
     }

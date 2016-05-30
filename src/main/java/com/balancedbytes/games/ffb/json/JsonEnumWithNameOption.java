@@ -1,6 +1,3 @@
-/*
- * Decompiled with CFR 0_114.
- */
 package com.balancedbytes.games.ffb.json;
 
 import com.balancedbytes.games.ffb.IEnumWithName;
@@ -8,11 +5,10 @@ import com.balancedbytes.games.ffb.IEnumWithNameFactory;
 import com.eclipsesource.json.JsonObject;
 import com.eclipsesource.json.JsonValue;
 
-public class JsonEnumWithNameOption
-extends JsonAbstractOption {
+public class JsonEnumWithNameOption extends JsonAbstractOption {
     private IEnumWithNameFactory fFactory;
 
-    public JsonEnumWithNameOption(String pKey, IEnumWithNameFactory pFactory) {
+    JsonEnumWithNameOption(String pKey, IEnumWithNameFactory pFactory) {
         super(pKey);
         this.fFactory = pFactory;
         if (this.fFactory == null) {

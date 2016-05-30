@@ -1,6 +1,3 @@
-/*
- * Decompiled with CFR 0_114.
- */
 package com.balancedbytes.games.ffb.json;
 
 import com.eclipsesource.json.JsonObject;
@@ -16,11 +13,11 @@ public abstract class JsonAbstractOption {
         this.fKey = pKey;
     }
 
-    public String getKey() {
+    private String getKey() {
         return this.fKey;
     }
 
-    public boolean isDefinedIn(JsonObject pJsonObject) {
+    boolean isDefinedIn(JsonObject pJsonObject) {
         return this.getValueFrom(pJsonObject) != null;
     }
 

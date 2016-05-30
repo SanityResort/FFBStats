@@ -1,14 +1,10 @@
-/*
- * Decompiled with CFR 0_114.
- */
 package com.balancedbytes.games.ffb.json;
 
 import com.eclipsesource.json.JsonObject;
 import com.eclipsesource.json.JsonValue;
 
-public class JsonIntOption
-extends JsonAbstractOption {
-    public JsonIntOption(String pKey) {
+public class JsonIntOption extends JsonAbstractOption {
+    JsonIntOption(String pKey) {
         super(pKey);
     }
 
