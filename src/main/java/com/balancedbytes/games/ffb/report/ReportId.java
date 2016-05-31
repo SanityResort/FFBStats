@@ -1,14 +1,10 @@
-/*
- * Decompiled with CFR 0_114.
- */
 package com.balancedbytes.games.ffb.report;
 
 import com.balancedbytes.games.ffb.IEnumWithId;
 import com.balancedbytes.games.ffb.IEnumWithName;
 import org.butterbrot.ffb.stats.adapter.DummyReport;
 
-public enum ReportId implements IEnumWithId,
-IEnumWithName
+public enum ReportId implements IEnumWithId, IEnumWithName
 {
     ALWAYS_HUNGRY_ROLL(1, "alwaysHungryRoll"),
     CATCH_ROLL(2, "catchRoll"),
@@ -93,7 +89,7 @@ IEnumWithName
     private int fId;
     private String fName;
 
-    private ReportId(int pId, String pName) {
+    ReportId(int pId, String pName) {
         this.fId = pId;
         this.fName = pName;
     }
@@ -114,13 +110,13 @@ IEnumWithName
                 return new ReportSkillRoll(ALWAYS_HUNGRY_ROLL);
             }
             case CATCH_ROLL: {
-                return new ReportCatchRoll();
+                return new ReportSkillRoll(CATCH_ROLL);
             }
             case CONFUSION_ROLL: {
-                return new ReportConfusionRoll();
+                return new ReportSkillRoll(CONFUSION_ROLL);
             }
             case DAUNTLESS_ROLL: {
-                return new ReportDauntlessRoll();
+                return new ReportSkillRoll(DAUNTLESS_ROLL);
             }
             case DODGE_ROLL: {
                 return new ReportSkillRoll(DODGE_ROLL);
@@ -141,13 +137,13 @@ IEnumWithName
                 return new ReportInjury();
             }
             case INTERCEPTION_ROLL: {
-                return new ReportInterceptionRoll();
+                return new ReportSkillRoll(INTERCEPTION_ROLL);
             }
             case LEAP_ROLL: {
                 return new ReportSkillRoll(LEAP_ROLL);
             }
             case PASS_ROLL: {
-                return new ReportPassRoll();
+                return new ReportSkillRoll(PASS_ROLL);
             }
             case PICK_UP_ROLL: {
                 return new ReportSkillRoll(PICK_UP_ROLL);
@@ -186,7 +182,7 @@ IEnumWithName
                 return new ReportKickoffPitchInvasion();
             }
             case THROW_TEAM_MATE_ROLL: {
-                return new ReportThrowTeamMateRoll();
+                return new ReportSkillRoll(THROW_TEAM_MATE_ROLL);
             }
             case WINNINGS_ROLL: {
                 return new ReportWinningsRoll();
