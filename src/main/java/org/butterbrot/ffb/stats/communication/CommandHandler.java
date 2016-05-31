@@ -34,9 +34,7 @@ public class CommandHandler implements INetCommandHandler {
                 ServerCommandReplay replayCommand = (ServerCommandReplay) pNetCommand;
                 replayCommands.addAll(Arrays.asList(replayCommand.getReplayCommands()));
                 if (replayCommands.size() == replayCommand.getTotalNrOfCommands()) {
-                    synchronized (replayCommands) {
-                        replayCommands.notify();
-                    }
+                    stop();
                 }
                 break;
             default:
@@ -45,6 +43,12 @@ public class CommandHandler implements INetCommandHandler {
 
     }
 
+    public void stop(){
+        List<ServerCommand> replayCommands = statsCollector.getReplayCommands();
+        synchronized (replayCommands) {
+            replayCommands.notify();
+        }
+    }
 
 }
 

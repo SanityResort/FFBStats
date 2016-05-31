@@ -76,9 +76,13 @@ public class StatsController {
             pAnyException.printStackTrace();
         }
 
+        model.addAttribute("replayId", replayId);
+
+        if (replayCommands.isEmpty()) {
+            return "error";
+        }
         StatsCollection stats = collector.evaluate();
         model.addAttribute("game", new GameDistribution(stats));
-        model.addAttribute("replayId", replayId);
         return "stats";
     }
 

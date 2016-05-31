@@ -63,7 +63,7 @@ implements WebSocket.OnTextMessage
             statsHandler.handleCommand(netCommand);
         } catch (Exception e) {
             logger.error("Exception: ", e);
-            throw e;
+            statsHandler.stop();
         }
     }
 

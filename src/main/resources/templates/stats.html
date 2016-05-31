@@ -6,7 +6,7 @@
     <link rel="stylesheet" th:href="@{/css/stats.css}" type="text/css"/>
 </head>
 <body>
-    <h1 class="gameTitle" th:text="'Dice Stats for Replay ' + ${html}"></h1>
+    <h1 class="gameTitle" th:text="'Dice Stats for Replay ' + ${replayId}"></h1>
     <section class="home" th:replace="team(teamDis=${game.home})"></section>
     <section class="away" th:replace="team(teamDis=${game.away})"></section>
 </body>
