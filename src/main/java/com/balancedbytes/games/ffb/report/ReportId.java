@@ -84,7 +84,8 @@ public enum ReportId implements IEnumWithId, IEnumWithName
     PETTY_CASH(77, "pettyCash"),
     INDUCEMENTS_BOUGHT(78, "inducementsBought"),
     CARDS_BOUGHT(79, "cardsBought"),
-    CARD_EFFECT_ROLL(80, "cardEffectRoll"), DUMMY(81,"dummy" );
+    CARD_EFFECT_ROLL(80, "cardEffectRoll"),
+    DUMMY(81,"dummy" );
     
     private int fId;
     private String fName;
@@ -219,6 +220,9 @@ public enum ReportId implements IEnumWithId, IEnumWithName
             }
             case SPELL_EFFECT_ROLL: {
                 return new ReportSpecialEffectRoll();
+            }
+            case PILING_ON: {
+                return new ReportPilingOn();
             }
             default:
                 return new DummyReport();

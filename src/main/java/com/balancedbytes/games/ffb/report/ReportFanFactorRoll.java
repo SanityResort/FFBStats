@@ -1,6 +1,3 @@
-/*
- * Decompiled with CFR 0_114.
- */
 package com.balancedbytes.games.ffb.report;
 
 import com.balancedbytes.games.ffb.json.IJsonOption;
@@ -8,21 +5,16 @@ import com.balancedbytes.games.ffb.json.UtilJson;
 import com.eclipsesource.json.JsonObject;
 import com.eclipsesource.json.JsonValue;
 
-public class ReportFanFactorRoll
-implements IReport {
+public class ReportFanFactorRoll implements IReport {
     private int[] fFanFactorRollHome;
-    private int fFanFactorModifierHome;
     private int[] fFanFactorRollAway;
-    private int fFanFactorModifierAway;
 
-    public ReportFanFactorRoll() {
+    ReportFanFactorRoll() {
     }
 
-    public ReportFanFactorRoll(int[] pFanFactorRollHome, int pFanFactorModifierHome, int[] pFanFactorRollAway, int pFanFactorModifierAway) {
+    private ReportFanFactorRoll(int[] pFanFactorRollHome, int[] pFanFactorRollAway) {
         this.fFanFactorRollHome = pFanFactorRollHome;
-        this.fFanFactorModifierHome = pFanFactorModifierHome;
         this.fFanFactorRollAway = pFanFactorRollAway;
-        this.fFanFactorModifierAway = pFanFactorModifierAway;
     }
 
     @Override
@@ -34,21 +26,13 @@ implements IReport {
         return this.fFanFactorRollHome;
     }
 
-    public int getFanFactorModifierHome() {
-        return this.fFanFactorModifierHome;
-    }
-
     public int[] getFanFactorRollAway() {
         return this.fFanFactorRollAway;
     }
 
-    public int getFanFactorModifierAway() {
-        return this.fFanFactorModifierAway;
-    }
-
     @Override
     public IReport transform() {
-        return new ReportFanFactorRoll(this.getFanFactorRollAway(), this.getFanFactorModifierAway(), this.getFanFactorRollHome(), this.getFanFactorModifierHome());
+        return new ReportFanFactorRoll(this.getFanFactorRollAway(), this.getFanFactorRollHome());
     }
 
     @Override
@@ -56,9 +40,7 @@ implements IReport {
         JsonObject jsonObject = UtilJson.toJsonObject(pJsonValue);
         UtilReport.validateReportId(this, (ReportId)IJsonOption.REPORT_ID.getFrom(jsonObject));
         this.fFanFactorRollHome = IJsonOption.FAN_FACTOR_ROLL_HOME.getFrom(jsonObject);
-        this.fFanFactorModifierHome = IJsonOption.FAN_FACTOR_MODIFIER_HOME.getFrom(jsonObject);
         this.fFanFactorRollAway = IJsonOption.FAN_FACTOR_ROLL_AWAY.getFrom(jsonObject);
-        this.fFanFactorModifierAway = IJsonOption.FAN_FACTOR_MODIFIER_AWAY.getFrom(jsonObject);
         return this;
     }
 }

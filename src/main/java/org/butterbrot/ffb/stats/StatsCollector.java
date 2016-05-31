@@ -16,6 +16,7 @@ import com.balancedbytes.games.ffb.report.ReportKickoffThrowARock;
 import com.balancedbytes.games.ffb.report.ReportList;
 import com.balancedbytes.games.ffb.report.ReportMasterChefRoll;
 import com.balancedbytes.games.ffb.report.ReportPenaltyShootout;
+import com.balancedbytes.games.ffb.report.ReportPilingOn;
 import com.balancedbytes.games.ffb.report.ReportPlayerAction;
 import com.balancedbytes.games.ffb.report.ReportReRoll;
 import com.balancedbytes.games.ffb.report.ReportSkillRoll;
@@ -55,6 +56,7 @@ public class StatsCollector {
         ReportBlockRoll currentBlockRoll = null;
         boolean lastReportWasBlockRoll = false;
         boolean blockRerolled = false;
+        boolean rerollingInjury = false;
         for (ServerCommand command : replayCommands) {
             ServerCommandModelSync modelSync = (ServerCommandModelSync) command;
             ReportList reportList = modelSync.getReportList();
@@ -72,7 +74,7 @@ public class StatsCollector {
                     }
                 } else if (report instanceof ReportInjury) {
                     ReportInjury injury = (ReportInjury) report;
-                    if (ArrayTool.isProvided(injury.getArmorRoll())) {
+                    if (!rerollingInjury && ArrayTool.isProvided(injury.getArmorRoll())) {
                         collection.addArmourRoll(injury.getArmorRoll(), injury.getDefenderId());
                     }
                     if (injury.isArmorBroken()) {
@@ -134,16 +136,16 @@ public class StatsCollector {
                     lastReportWasBlockRoll = false;
                     blockRerolled = false;
                     ReportPlayerAction action = ((ReportPlayerAction) report);
+                    currentBlockRoll = null;
+                    rerollingInjury = false;
                     switch (action.getPlayerAction()) {
                         case BLITZ:
                         case BLITZ_MOVE:
                         case BLOCK:
                             currentBlocker = action.getActingPlayerId();
-                            currentBlockRoll = null;
                             break;
                         default:
                             currentBlocker = null;
-                            currentBlockRoll = null;
                     }
                 } else if (report instanceof ReportBlockRoll) {
                     ReportBlockRoll block = (ReportBlockRoll) report;
@@ -169,6 +171,8 @@ public class StatsCollector {
                         }
                     }
 
+                }  else if (report instanceof ReportPilingOn) {
+                    rerollingInjury = ((ReportPilingOn) report).isReRollInjury();
                 }
             }
         }

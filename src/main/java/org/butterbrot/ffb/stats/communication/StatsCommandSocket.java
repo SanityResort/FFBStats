@@ -46,20 +46,25 @@ implements WebSocket.OnTextMessage
     }
 
     public void onMessage(String pTextMessage) {
-        JsonValue jsonValue;
-        if (!StringTool.isProvided(pTextMessage) || !this.isOpen()) {
-            return;
-        }
         try {
-            jsonValue = UtilJson.inflateFromBase64(pTextMessage);
-        } catch (IOException pIoException) {
-            jsonValue = null;
+            JsonValue jsonValue;
+            if (!StringTool.isProvided(pTextMessage) || !this.isOpen()) {
+                return;
+            }
+            try {
+                jsonValue = UtilJson.inflateFromBase64(pTextMessage);
+            } catch (IOException pIoException) {
+                jsonValue = null;
+            }
+            NetCommand netCommand = this.fNetCommandFactory.forJsonValue(jsonValue);
+            if (netCommand == null) {
+                return;
+            }
+            statsHandler.handleCommand(netCommand);
+        } catch (Exception e) {
+            logger.error("Exception: ", e);
+            throw e;
         }
-        NetCommand netCommand = this.fNetCommandFactory.forJsonValue(jsonValue);
-        if (netCommand == null) {
-            return;
-        }
-        statsHandler.handleCommand(netCommand);
     }
 
     public void onClose(int pCloseCode, String pCloseReason) {
