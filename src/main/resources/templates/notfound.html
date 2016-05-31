@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title th:text="'Replay ' + ${replayId} +  ' not found'">Fumbbl Dice Stats</title>
+    <link rel="stylesheet" th:href="@{/css/stats.css}" type="text/css"/>
+</head>
+<body>
+<h1 class="headline" th:text="'Replay ' + ${replayId} +  ' not found'"></h1>
+
+<p>The replay you specified could not be loaded. Make sure the id is valid.</p>
+
+</body>
+</html>

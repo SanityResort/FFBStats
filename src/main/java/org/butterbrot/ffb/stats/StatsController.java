@@ -79,11 +79,15 @@ public class StatsController {
         model.addAttribute("replayId", replayId);
 
         if (replayCommands.isEmpty()) {
+            return "notfound";
+        }
+        try {
+            StatsCollection stats = collector.evaluate();
+            model.addAttribute("game", new GameDistribution(stats));
+            return "stats";
+        } catch (Exception e) {
             return "error";
         }
-        StatsCollection stats = collector.evaluate();
-        model.addAttribute("game", new GameDistribution(stats));
-        return "stats";
     }
 
     // for local testing
