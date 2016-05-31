@@ -1,6 +1,6 @@
 package org.butterbrot.ffb.stats.model;
 
-import com.balancedbytes.games.ffb.BlockResult;
+import refactored.com.balancedbytes.games.ffb.BlockResult;
 
 import java.util.ArrayList;
 import java.util.HashMap;

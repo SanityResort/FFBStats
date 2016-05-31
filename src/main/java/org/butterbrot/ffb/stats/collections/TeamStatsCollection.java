@@ -1,7 +1,7 @@
 package org.butterbrot.ffb.stats.collections;
 
-import com.balancedbytes.games.ffb.BlockResult;
-import com.balancedbytes.games.ffb.BlockResultFactory;
+import refactored.com.balancedbytes.games.ffb.BlockResult;
+import refactored.com.balancedbytes.games.ffb.BlockResultFactory;
 
 import java.util.HashMap;
 import java.util.Map;

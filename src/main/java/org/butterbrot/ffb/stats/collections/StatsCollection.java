@@ -1,7 +1,7 @@
 package org.butterbrot.ffb.stats.collections;
 
-import com.balancedbytes.games.ffb.model.Player;
-import com.balancedbytes.games.ffb.model.Team;
+import refactored.com.balancedbytes.games.ffb.model.Player;
+import refactored.com.balancedbytes.games.ffb.model.Team;
 
 import java.util.HashMap;
 import java.util.Map;
