@@ -1,5 +1,6 @@
 package org.butterbrot.ffb.stats;
 
+import org.butterbrot.ffb.stats.collections.StatsCollection;
 import refactored.com.balancedbytes.games.ffb.HeatExhaustion;
 import refactored.com.balancedbytes.games.ffb.KnockoutRecovery;
 import refactored.com.balancedbytes.games.ffb.model.Team;
@@ -27,7 +28,6 @@ import refactored.com.balancedbytes.games.ffb.report.ReportTentaclesShadowingRol
 import refactored.com.balancedbytes.games.ffb.report.ReportTurnEnd;
 import refactored.com.balancedbytes.games.ffb.report.ReportWinningsRoll;
 import refactored.com.balancedbytes.games.ffb.util.ArrayTool;
-import org.butterbrot.ffb.stats.collections.StatsCollection;
 
 import java.util.List;
 
@@ -109,15 +109,23 @@ public class StatsCollector {
                 } else if (report instanceof ReportKickoffPitchInvasion) {
                     ReportKickoffPitchInvasion invasion = (ReportKickoffPitchInvasion) report;
                     for (int roll : invasion.getRollsHome()) {
-                        collection.getAway().addSingleRoll(roll);
+                        if (roll > 0) {
+                            collection.getAway().addSingleRoll(roll);
+                        }
                     }
                     for (int roll : invasion.getRollsAway()) {
-                        collection.getHome().addSingleRoll(roll);
+                        if (roll > 0) {
+                            collection.getHome().addSingleRoll(roll);
+                        }
                     }
                 } else if (report instanceof ReportWinningsRoll) {
                     ReportWinningsRoll winnings = (ReportWinningsRoll) report;
-                    collection.getHome().addSingleRoll(winnings.getWinningsRollHome());
-                    collection.getAway().addSingleRoll(winnings.getWinningsRollAway());
+                    if (winnings.getWinningsRollHome() > 0) {
+                        collection.getHome().addSingleRoll(winnings.getWinningsRollHome());
+                    }
+                    if (winnings.getWinningsRollAway() > 0) {
+                        collection.getAway().addSingleRoll(winnings.getWinningsRollAway());
+                    }
                 } else if (report instanceof ReportBribesRoll) {
                     ReportBribesRoll bribe = (ReportBribesRoll) report;
                     collection.addSingleRoll(bribe.getRoll(), bribe.getPlayerId());
@@ -172,7 +180,7 @@ public class StatsCollector {
                         }
                     }
 
-                }  else if (report instanceof ReportPilingOn) {
+                } else if (report instanceof ReportPilingOn) {
                     reRollingInjury = ((ReportPilingOn) report).isReRollInjury();
                 } else if (report instanceof ReportStandUpRoll) {
                     ReportStandUpRoll standUpRoll = (ReportStandUpRoll) report;
