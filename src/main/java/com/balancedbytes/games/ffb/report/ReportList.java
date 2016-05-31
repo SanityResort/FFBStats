@@ -1,6 +1,3 @@
-/*
- * Decompiled with CFR 0_114.
- */
 package com.balancedbytes.games.ffb.report;
 
 import com.balancedbytes.games.ffb.json.IJsonOption;
@@ -13,8 +10,7 @@ import com.eclipsesource.json.JsonValue;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ReportList
-implements IJsonReadable {
+public class ReportList implements IJsonReadable {
     private List<IReport> fReports;
 
     private ReportList(int pInitialCapacity) {

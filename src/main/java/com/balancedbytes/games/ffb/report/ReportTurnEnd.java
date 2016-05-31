@@ -1,6 +1,3 @@
-/*
- * Decompiled with CFR 0_114.
- */
 package com.balancedbytes.games.ffb.report;
 
 import com.balancedbytes.games.ffb.HeatExhaustion;
@@ -15,18 +12,15 @@ import com.eclipsesource.json.JsonValue;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ReportTurnEnd
-implements IReport {
-    private String fPlayerIdTouchdown;
+public class ReportTurnEnd implements IReport {
     private List<KnockoutRecovery> fKnockoutRecoveries = new ArrayList<KnockoutRecovery>();
     private List<HeatExhaustion> fHeatExhaustions = new ArrayList<HeatExhaustion>();
 
-    public ReportTurnEnd() {
+    ReportTurnEnd() {
     }
 
-    public ReportTurnEnd(String pPlayerIdTouchdown, KnockoutRecovery[] pKnockoutRecoveries, HeatExhaustion[] pHeatExhaustions) {
+    private ReportTurnEnd(KnockoutRecovery[] pKnockoutRecoveries, HeatExhaustion[] pHeatExhaustions) {
         this();
-        this.fPlayerIdTouchdown = pPlayerIdTouchdown;
         this.add(pKnockoutRecoveries);
         this.add(pHeatExhaustions);
     }
@@ -34,10 +28,6 @@ implements IReport {
     @Override
     public ReportId getId() {
         return ReportId.TURN_END;
-    }
-
-    public String getPlayerIdTouchdown() {
-        return this.fPlayerIdTouchdown;
     }
 
     public KnockoutRecovery[] getKnockoutRecoveries() {
@@ -78,7 +68,7 @@ implements IReport {
 
     @Override
     public IReport transform() {
-        return new ReportTurnEnd(this.getPlayerIdTouchdown(), this.getKnockoutRecoveries(), this.getHeatExhaustions());
+        return new ReportTurnEnd(this.getKnockoutRecoveries(), this.getHeatExhaustions());
     }
 
     @Override
@@ -86,7 +76,6 @@ implements IReport {
         JsonArray heatExhaustionArray;
         JsonObject jsonObject = UtilJson.toJsonObject(pJsonValue);
         UtilReport.validateReportId(this, (ReportId)IJsonOption.REPORT_ID.getFrom(jsonObject));
-        this.fPlayerIdTouchdown = IJsonOption.PLAYER_ID_TOUCHDOWN.getFrom(jsonObject);
         JsonArray knockoutRecoveryArray = IJsonOption.KNOCKOUT_RECOVERY_ARRAY.getFrom(jsonObject);
         if (knockoutRecoveryArray != null) {
             for (int i = 0; i < knockoutRecoveryArray.size(); ++i) {

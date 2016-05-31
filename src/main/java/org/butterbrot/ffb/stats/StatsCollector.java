@@ -22,6 +22,7 @@ import com.balancedbytes.games.ffb.report.ReportReRoll;
 import com.balancedbytes.games.ffb.report.ReportSkillRoll;
 import com.balancedbytes.games.ffb.report.ReportSpecialEffectRoll;
 import com.balancedbytes.games.ffb.report.ReportSpectators;
+import com.balancedbytes.games.ffb.report.ReportStandUpRoll;
 import com.balancedbytes.games.ffb.report.ReportTentaclesShadowingRoll;
 import com.balancedbytes.games.ffb.report.ReportTurnEnd;
 import com.balancedbytes.games.ffb.report.ReportWinningsRoll;
@@ -56,7 +57,7 @@ public class StatsCollector {
         ReportBlockRoll currentBlockRoll = null;
         boolean lastReportWasBlockRoll = false;
         boolean blockRerolled = false;
-        boolean rerollingInjury = false;
+        boolean reRollingInjury = false;
         for (ServerCommand command : replayCommands) {
             ServerCommandModelSync modelSync = (ServerCommandModelSync) command;
             ReportList reportList = modelSync.getReportList();
@@ -74,7 +75,7 @@ public class StatsCollector {
                     }
                 } else if (report instanceof ReportInjury) {
                     ReportInjury injury = (ReportInjury) report;
-                    if (!rerollingInjury && ArrayTool.isProvided(injury.getArmorRoll())) {
+                    if (!reRollingInjury && ArrayTool.isProvided(injury.getArmorRoll())) {
                         collection.addArmourRoll(injury.getArmorRoll(), injury.getDefenderId());
                     }
                     if (injury.isArmorBroken()) {
@@ -137,7 +138,7 @@ public class StatsCollector {
                     blockRerolled = false;
                     ReportPlayerAction action = ((ReportPlayerAction) report);
                     currentBlockRoll = null;
-                    rerollingInjury = false;
+                    reRollingInjury = false;
                     switch (action.getPlayerAction()) {
                         case BLITZ:
                         case BLITZ_MOVE:
@@ -172,7 +173,10 @@ public class StatsCollector {
                     }
 
                 }  else if (report instanceof ReportPilingOn) {
-                    rerollingInjury = ((ReportPilingOn) report).isReRollInjury();
+                    reRollingInjury = ((ReportPilingOn) report).isReRollInjury();
+                } else if (report instanceof ReportStandUpRoll) {
+                    ReportStandUpRoll standUpRoll = (ReportStandUpRoll) report;
+                    collection.addSingleRoll(standUpRoll.getRoll(), standUpRoll.getPlayerId());
                 }
             }
         }

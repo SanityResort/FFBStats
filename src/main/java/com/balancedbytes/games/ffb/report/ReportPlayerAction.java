@@ -1,6 +1,3 @@
-/*
- * Decompiled with CFR 0_114.
- */
 package com.balancedbytes.games.ffb.report;
 
 import com.balancedbytes.games.ffb.PlayerAction;
@@ -9,15 +6,14 @@ import com.balancedbytes.games.ffb.json.UtilJson;
 import com.eclipsesource.json.JsonObject;
 import com.eclipsesource.json.JsonValue;
 
-public class ReportPlayerAction
-implements IReport {
+public class ReportPlayerAction implements IReport {
     private String fActingPlayerId;
     private PlayerAction fPlayerAction;
 
-    public ReportPlayerAction() {
+    ReportPlayerAction() {
     }
 
-    public ReportPlayerAction(String pActingPlayerId, PlayerAction pPlayerAction) {
+    private ReportPlayerAction(String pActingPlayerId, PlayerAction pPlayerAction) {
         this();
         this.fActingPlayerId = pActingPlayerId;
         this.fPlayerAction = pPlayerAction;

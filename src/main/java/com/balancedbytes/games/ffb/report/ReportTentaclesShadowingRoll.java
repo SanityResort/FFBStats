@@ -1,6 +1,3 @@
-/*
- * Decompiled with CFR 0_114.
- */
 package com.balancedbytes.games.ffb.report;
 
 import com.balancedbytes.games.ffb.Skill;
@@ -9,34 +6,21 @@ import com.balancedbytes.games.ffb.json.UtilJson;
 import com.eclipsesource.json.JsonObject;
 import com.eclipsesource.json.JsonValue;
 
-public class ReportTentaclesShadowingRoll
-implements IReport {
-    private Skill fSkill;
+public class ReportTentaclesShadowingRoll implements IReport {
     private String fDefenderId;
     private int[] fRoll;
-    private boolean fSuccessful;
-    private int fMinimumRoll;
-    private boolean fReRolled;
 
     public ReportTentaclesShadowingRoll() {
     }
 
-    public ReportTentaclesShadowingRoll(Skill pSkill, String pDefenderId, int[] pRoll, boolean pSuccessful, int pMinimumRoll, boolean pReRolled) {
-        this.fSkill = pSkill;
+    public ReportTentaclesShadowingRoll( String pDefenderId, int[] pRoll) {
         this.fDefenderId = pDefenderId;
         this.fRoll = pRoll;
-        this.fSuccessful = pSuccessful;
-        this.fMinimumRoll = pMinimumRoll;
-        this.fReRolled = pReRolled;
     }
 
     @Override
     public ReportId getId() {
         return ReportId.TENTACLES_SHADOWING_ROLL;
-    }
-
-    public Skill getSkill() {
-        return this.fSkill;
     }
 
     public String getDefenderId() {
@@ -47,33 +31,17 @@ implements IReport {
         return this.fRoll;
     }
 
-    public boolean isSuccessful() {
-        return this.fSuccessful;
-    }
-
-    public int getMinimumRoll() {
-        return this.fMinimumRoll;
-    }
-
-    public boolean isReRolled() {
-        return this.fReRolled;
-    }
-
     @Override
     public IReport transform() {
-        return new ReportTentaclesShadowingRoll(this.getSkill(), this.getDefenderId(), this.getRoll(), this.isSuccessful(), this.getMinimumRoll(), this.isReRolled());
+        return new ReportTentaclesShadowingRoll(this.getDefenderId(), this.getRoll());
     }
 
     @Override
     public ReportTentaclesShadowingRoll initFrom(JsonValue pJsonValue) {
         JsonObject jsonObject = UtilJson.toJsonObject(pJsonValue);
         UtilReport.validateReportId(this, (ReportId)IJsonOption.REPORT_ID.getFrom(jsonObject));
-        this.fSkill = (Skill)IJsonOption.SKILL.getFrom(jsonObject);
         this.fDefenderId = IJsonOption.DEFENDER_ID.getFrom(jsonObject);
         this.fRoll = IJsonOption.TENTACLE_ROLL.getFrom(jsonObject);
-        this.fSuccessful = IJsonOption.SUCCESSFUL.getFrom(jsonObject);
-        this.fMinimumRoll = IJsonOption.MINIMUM_ROLL.getFrom(jsonObject);
-        this.fReRolled = IJsonOption.RE_ROLLED.getFrom(jsonObject);
         return this;
     }
 }

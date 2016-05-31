@@ -1,6 +1,3 @@
-/*
- * Decompiled with CFR 0_114.
- */
 package com.balancedbytes.games.ffb.report;
 
 import com.balancedbytes.games.ffb.json.IJsonOption;
@@ -8,19 +5,16 @@ import com.balancedbytes.games.ffb.json.UtilJson;
 import com.eclipsesource.json.JsonObject;
 import com.eclipsesource.json.JsonValue;
 
-public class ReportMasterChefRoll
-implements IReport {
+public class ReportMasterChefRoll implements IReport {
     private String fTeamId;
     private int[] fMasterChefRoll;
-    private int fReRollsStolen;
 
-    public ReportMasterChefRoll() {
+    ReportMasterChefRoll() {
     }
 
-    public ReportMasterChefRoll(String pTeamId, int[] pRoll, int pReRollsStolen) {
+    private ReportMasterChefRoll(String pTeamId, int[] pRoll) {
         this.fTeamId = pTeamId;
         this.fMasterChefRoll = pRoll;
-        this.fReRollsStolen = pReRollsStolen;
     }
 
     @Override
@@ -36,13 +30,9 @@ implements IReport {
         return this.fMasterChefRoll;
     }
 
-    public int getReRollsStolen() {
-        return this.fReRollsStolen;
-    }
-
     @Override
     public IReport transform() {
-        return new ReportMasterChefRoll(this.getTeamId(), this.getMasterChefRoll(), this.getReRollsStolen());
+        return new ReportMasterChefRoll(this.getTeamId(), this.getMasterChefRoll());
     }
 
     @Override
@@ -51,7 +41,6 @@ implements IReport {
         UtilReport.validateReportId(this, (ReportId)IJsonOption.REPORT_ID.getFrom(jsonObject));
         this.fTeamId = IJsonOption.TEAM_ID.getFrom(jsonObject);
         this.fMasterChefRoll = IJsonOption.MASTER_CHEF_ROLL.getFrom(jsonObject);
-        this.fReRollsStolen = IJsonOption.RE_ROLLS_STOLEN.getFrom(jsonObject);
         return this;
     }
 }

@@ -1,14 +1,9 @@
-/*
- * Decompiled with CFR 0_114.
- */
 package com.balancedbytes.games.ffb.report;
 
 import com.balancedbytes.games.ffb.IEnumWithIdFactory;
 import com.balancedbytes.games.ffb.IEnumWithNameFactory;
 
-public class ReportIdFactory
-implements IEnumWithIdFactory,
-IEnumWithNameFactory {
+public class ReportIdFactory implements IEnumWithIdFactory, IEnumWithNameFactory {
     @Override
     public ReportId forId(int pId) {
         if (pId > 0) {
