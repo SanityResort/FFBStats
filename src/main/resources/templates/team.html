@@ -3,20 +3,16 @@
 <body>
 <section th:fragment="team(teamDis)">
     <h2 th:text="${teamDis.teamName}"></h2>
-    <div th:each="distributionData : ${teamDis.distributions}" th:remove="tag">
-        <table>
-            <caption th:text="${distributionData.caption}"> Caption</caption>
-            <tbody>
-            <tr th:each="statEntry : ${distributionData.entries}">
-                <td class="entry__label" th:text="${statEntry.label}">Label</td>
-                <td class="entry__percentage">
+    <div class="table" th:each="distributionData : ${teamDis.distributions}">
+        <div class=".caption" th:text="${distributionData.caption}"> Caption</div>
+        <div class="row" th:each="statEntry : ${distributionData.entries}">
+            <div class="entry__label" th:text="${statEntry.label}">Label</div>
+            <div class="entry__percentage">
                     <span class="entry__bar" th:text="${statEntry.percentage} + '%'"
                           th:style="'width:' + ${statEntry.percentage} + '%'">Percentage</span>
-                </td>
-                <td class="entry__count" th:text="${statEntry.count}">Count</td>
-            </tr>
-            </tbody>
-        </table>
+            </div>
+            <div class="entry__count" th:text="${statEntry.count}">Count</div>
+        </div>
     </div>
 </section>
 </body>

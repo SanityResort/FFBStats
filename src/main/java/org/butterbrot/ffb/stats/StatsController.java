@@ -20,7 +20,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import java.net.InetAddress;
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 @Controller
@@ -34,59 +36,73 @@ public class StatsController {
     private int port;
     private boolean compression;
 
+    private Map<String, GameDistribution> cache = new HashMap<>();
+
+
     @RequestMapping(value = "/stats/{replayId}")
     public String stats(@PathVariable(value = "replayId") String replayId, Model model)  {
-        logger.info("Creating stats for game: {}", replayId);
+        if (!cache.containsKey(replayId)) {
 
-        List<ServerCommand> replayCommands = new ArrayList<>();
-        StatsCollector collector = new StatsCollector(replayCommands);
-        CommandHandler statsHandler = new CommandHandler(collector);
-        WebSocketClientFactory webSocketClientFactory = new WebSocketClientFactory();
-        StatsCommandSocket commandSocket = new StatsCommandSocket(Long.valueOf(replayId), compression, statsHandler);
+            logger.info("Creating stats for game: {}", replayId);
 
-        try {
-            webSocketClientFactory.start();
-            URI uri = new URI("ws", null, InetAddress.getByName(server).getCanonicalHostName(), port, "/command", null, null);
-            WebSocketClient fWebSocketClient = webSocketClientFactory.newWebSocketClient();
-            fWebSocketClient.open(uri, commandSocket).get();
+            List<ServerCommand> replayCommands = new ArrayList<>();
+            StatsCollector collector = new StatsCollector(replayCommands);
+            CommandHandler statsHandler = new CommandHandler(collector);
+            WebSocketClientFactory webSocketClientFactory = new WebSocketClientFactory();
+            StatsCommandSocket commandSocket = new StatsCommandSocket(Long.valueOf(replayId), compression, statsHandler);
 
-        } catch (Exception e) {
-            if (webSocketClientFactory.isRunning()) {
+            try {
+                webSocketClientFactory.start();
+                URI uri = new URI("ws", null, InetAddress.getByName(server).getCanonicalHostName(), port, "/command", null, null);
+                WebSocketClient fWebSocketClient = webSocketClientFactory.newWebSocketClient();
+                fWebSocketClient.open(uri, commandSocket).get();
+
+            } catch (Exception e) {
+                if (webSocketClientFactory.isRunning()) {
+                    try {
+                        webSocketClientFactory.stop();
+                    } catch (Exception e1) {
+                        logger.error("Could not stop factory for clean up", e1);
+                    }
+                }
+                logger.error("Could not start websocket", e);
+                throw new IllegalStateException("Could not start websocket", e);
+            }
+            synchronized (replayCommands) {
                 try {
-                    webSocketClientFactory.stop();
-                } catch (Exception e1) {
-                    logger.error("Could not stop factory for clean up", e1);
+                    replayCommands.wait(10000);
+                } catch (InterruptedException e) {
+                    //
                 }
             }
-            logger.error("Could not start websocket", e);
-            throw new IllegalStateException("Could not start websocket", e);
-        }
-        synchronized (replayCommands)  {
+
             try {
-                replayCommands.wait(10000);
-            } catch (InterruptedException e) {
-                //
+                webSocketClientFactory.stop();
+                commandSocket.awaitClose(1, TimeUnit.SECONDS);
+            } catch (Exception pAnyException) {
+                pAnyException.printStackTrace();
             }
-        }
 
-        try {
-            webSocketClientFactory.stop();
-            commandSocket.awaitClose(1, TimeUnit.SECONDS);
-        } catch (Exception pAnyException) {
-            pAnyException.printStackTrace();
-        }
+            model.addAttribute("replayId", replayId);
 
-        model.addAttribute("replayId", replayId);
+            if (replayCommands.isEmpty()) {
+                return "notfound";
+            }
 
-        if (replayCommands.isEmpty()) {
-            return "notfound";
-        }
         try {
             StatsCollection stats = collector.evaluate();
-            model.addAttribute("game", new GameDistribution(stats));
+            GameDistribution game = new GameDistribution(stats);
+            cache.put(replayId, game);
+            model.addAttribute("game", game);
             return "stats";
         } catch (Exception e) {
             return "error";
+        }
+        } else {
+            model.addAttribute("replayId", replayId);
+            model.addAttribute("game",cache.get(replayId));
+            return "stats";
+
         }
     }
 

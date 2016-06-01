@@ -1,3 +1,33 @@
 body {
-    background: white;
+    background: #222;
+    color: #eee;
+    font-family: 'Economica', sans-serif;
+    text-align: center;
+}
+
+aside {
+    font-size: x-large;
+}
+
+section, .table {
+    border: 1px solid #eee;
+    display: inline-block;
+    width: 47%;
+}
+
+.table {
+    padding: 2px 0px;
+}
+
+.row {
+  display: flex;
+  margin: 2px auto;
+}
+
+.entry__percentage {
+  flex: 1 1;
+}
+
+.entry__label, .entry__count {
+  flex: 0 0 3em;
 }

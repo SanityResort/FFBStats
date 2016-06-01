@@ -18,15 +18,15 @@ public class TeamDistribution {
         this.distributions = new ArrayList<>();
         distributions.add(new Distribution("Total D6s", collection.getTotalSingleRolls(), Distribution.NUMBER_LABELS));
         distributions.add(new Distribution("Single D6s", collection.getSingleRolls(), Distribution.NUMBER_LABELS));
-        distributions.add(new Distribution("Total 2D6s", collection.getTotalDoubleRolls(), Distribution.NUMBER_LABELS));
         distributions.add(new Distribution("Armour Rolls", collection.getArmourRolls(), Distribution.NUMBER_LABELS));
         distributions.add(new Distribution("Injury Rolls", collection.getInjuryRolls(), Distribution.NUMBER_LABELS));
+        distributions.add(new Distribution("Total 2D6s", collection.getTotalDoubleRolls(), Distribution.NUMBER_LABELS));
         distributions.add(new Distribution("Other 2D6s", collection.getDoubleRolls(), Distribution.NUMBER_LABELS));
-        distributions.add(new Distribution("Total Block Dice",collection.getBlockDice()));
         distributions.add(new Distribution("Total Blocks", collection.getTotalBlocks(), Distribution.DICE_COUNT_LABLES));
         distributions.add(new Distribution("Rerolled Blocks", collection.getRerolledBlocks(), Distribution.DICE_COUNT_LABLES));
         distributions.add(new Distribution("Successful Blocks", collection.getSuccessfulBlocks(), Distribution.DICE_COUNT_LABLES));
         distributions.add(new Distribution("Failed Blocks", collection.getFailedBlocks(), Distribution.DICE_COUNT_LABLES));
+        distributions.add(new Distribution("Total Block Dice",collection.getBlockDice()));
     }
 
     public String getTeamName() {
