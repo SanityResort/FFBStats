@@ -1,27 +1,12 @@
+aside {
+    font-size: x-large;
+}
+
 body {
     background: #222;
     color: #eee;
     font-family: 'Economica', sans-serif;
     text-align: center;
-}
-
-aside {
-    font-size: x-large;
-}
-
-section, .table {
-    border: 1px solid #eee;
-    display: inline-block;
-    width: 47%;
-}
-
-.table {
-    padding: 2px 0px;
-}
-
-.row {
-  display: flex;
-  margin: 2px auto;
 }
 
 .entry__percentage {
@@ -30,4 +15,31 @@ section, .table {
 
 .entry__label, .entry__count {
   flex: 0 0 3em;
+}
+
+.list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+main {
+    display: flex;
+    justify-content: space-around;
+}
+
+.row {
+  display: flex;
+  margin: 2px auto;
+}
+
+section {
+    flex: 0 0 47%;
+}
+
+.table {
+    border: 1px solid #eee;
+    flex: 0 0 49%;
+    margin: 4px auto;
+    padding: 2px 0px;
 }

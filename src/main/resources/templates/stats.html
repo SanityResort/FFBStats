@@ -7,10 +7,14 @@
     <link href='https://fonts.googleapis.com/css?family=Economica:400,700' rel='stylesheet' type='text/css'/>
 </head>
 <body>
-<h1 class="headline"> <span th:text="'Dice Stats for Replay ' + ${replayId}" th:remove="tag"></span><sup>*</sup></h1>
-<aside><p>Some stats differ from FUMBBL match reports. Frenzy follow up blocks are reported as separate blocks. Stab and
-    Chainsaw blocks are not reported as blocks, only the armour/injury rolls are.</p></aside>
-<section class="home" th:replace="team(teamDis=${game.home})"></section>
-<section class="away" th:replace="team(teamDis=${game.away})"></section>
+<header>
+    <h1 th:text="'Dice Stats for Replay ' + ${replayId}"></h1>
+    <aside><p>Some stats differ from FUMBBL match reports. Frenzy follow up blocks are reported as separate blocks. Stab
+        and Chainsaw blocks are not reported as blocks, only the armour/injury rolls are.</p></aside>
+</header>
+<main>
+    <section th:replace="team(teamDis=${game.home})"></section>
+    <section th:replace="team(teamDis=${game.away})"></section>
+</main>
 </body>
 </html>

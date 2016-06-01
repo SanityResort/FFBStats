@@ -3,6 +3,7 @@
 <body>
 <section th:fragment="team(teamDis)">
     <h2 th:text="${teamDis.teamName}"></h2>
+    <div class="list">
     <div class="table" th:each="distributionData : ${teamDis.distributions}">
         <div class=".caption" th:text="${distributionData.caption}"> Caption</div>
         <div class="row" th:each="statEntry : ${distributionData.entries}">
@@ -13,6 +14,7 @@
             </div>
             <div class="entry__count" th:text="${statEntry.count}">Count</div>
         </div>
+    </div>
     </div>
 </section>
 </body>
