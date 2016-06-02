@@ -41,7 +41,7 @@ implements WebSocket.OnTextMessage
         try {
             send(new ClientCommandReplay(replayId, 0));
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error("Sending command failed", e);
         }
     }
 

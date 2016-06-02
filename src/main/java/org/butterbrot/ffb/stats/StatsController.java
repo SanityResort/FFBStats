@@ -1,9 +1,10 @@
 package org.butterbrot.ffb.stats;
 
-import refactored.com.balancedbytes.games.ffb.net.commands.ServerCommand;
+import com.google.common.cache.Cache;
+import com.google.common.cache.CacheBuilder;
+import org.butterbrot.ffb.stats.collections.StatsCollection;
 import org.butterbrot.ffb.stats.communication.CommandHandler;
 import org.butterbrot.ffb.stats.communication.StatsCommandSocket;
-import org.butterbrot.ffb.stats.collections.StatsCollection;
 import org.butterbrot.ffb.stats.model.GameDistribution;
 import org.eclipse.jetty.websocket.WebSocketClient;
 import org.eclipse.jetty.websocket.WebSocketClientFactory;
@@ -12,22 +13,25 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import refactored.com.balancedbytes.games.ffb.net.commands.ServerCommand;
 
+import javax.annotation.Resource;
 import java.net.InetAddress;
 import java.net.URI;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
 @Controller
 @EnableAutoConfiguration
-@ConfigurationProperties(prefix = "connection")
+@ComponentScan
 public class StatsController {
 
     private static final Logger logger = LoggerFactory.getLogger(StatsController.class);
@@ -36,72 +40,32 @@ public class StatsController {
     private int port;
     private boolean compression;
 
-    private Map<String, GameDistribution> cache = new HashMap<>();
+    private Cache<String, GameDistribution> cache = CacheBuilder.newBuilder().maximumSize(10000).expireAfterAccess(7, TimeUnit.DAYS).build();
 
+    @Resource
+    private StatsProvider provider;
 
     @RequestMapping(value = "/stats/{replayId}")
-    public String stats(@PathVariable(value = "replayId") String replayId, Model model)  {
-        if (!cache.containsKey(replayId)) {
-
-            logger.info("Creating stats for game: {}", replayId);
-
-            List<ServerCommand> replayCommands = new ArrayList<>();
-            StatsCollector collector = new StatsCollector(replayCommands);
-            CommandHandler statsHandler = new CommandHandler(collector);
-            WebSocketClientFactory webSocketClientFactory = new WebSocketClientFactory();
-            StatsCommandSocket commandSocket = new StatsCommandSocket(Long.valueOf(replayId), compression, statsHandler);
-
-            try {
-                webSocketClientFactory.start();
-                URI uri = new URI("ws", null, InetAddress.getByName(server).getCanonicalHostName(), port, "/command", null, null);
-                WebSocketClient fWebSocketClient = webSocketClientFactory.newWebSocketClient();
-                fWebSocketClient.open(uri, commandSocket).get();
-
-            } catch (Exception e) {
-                if (webSocketClientFactory.isRunning()) {
-                    try {
-                        webSocketClientFactory.stop();
-                    } catch (Exception e1) {
-                        logger.error("Could not stop factory for clean up", e1);
-                    }
-                }
-                logger.error("Could not start websocket", e);
-                throw new IllegalStateException("Could not start websocket", e);
-            }
-            synchronized (replayCommands) {
-                try {
-                    replayCommands.wait(10000);
-                } catch (InterruptedException e) {
-                    //
-                }
-            }
-
-            try {
-                webSocketClientFactory.stop();
-                commandSocket.awaitClose(1, TimeUnit.SECONDS);
-            } catch (Exception pAnyException) {
-                pAnyException.printStackTrace();
-            }
-
-            model.addAttribute("replayId", replayId);
-
-            if (replayCommands.isEmpty()) {
-                return "notfound";
-            }
+    public String stats(@PathVariable(value = "replayId") final String replayId, Model model) {
+        model.addAttribute("replayId", replayId);
 
         try {
-            StatsCollection stats = collector.evaluate();
-            GameDistribution game = new GameDistribution(stats);
-            cache.put(replayId, game);
-            model.addAttribute("game", game);
+            GameDistribution gameDistribution = cache.get(replayId, new Callable<GameDistribution>() {
+                @Override
+                public GameDistribution call() throws Exception {
+                    return provider.stats(replayId);
+                }
+            });
+
+            model.addAttribute("game", gameDistribution);
             return "stats";
-        } catch (Exception e) {
+        } catch (ExecutionException e) {
+
+            if (e.getCause() instanceof IllegalArgumentException) {
+                return "notfound";
+            }
+            logger.error("Could not load replay", e.getCause());
             return "error";
-        }
-        } else {
-            model.addAttribute("replayId", replayId);
-            model.addAttribute("game",cache.get(replayId));
-            return "stats";
 
         }
     }
