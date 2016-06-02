@@ -2,6 +2,7 @@ package org.butterbrot.ffb.stats;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
+import com.google.common.util.concurrent.UncheckedExecutionException;
 import org.butterbrot.ffb.stats.collections.StatsCollection;
 import org.butterbrot.ffb.stats.communication.CommandHandler;
 import org.butterbrot.ffb.stats.communication.StatsCommandSocket;
@@ -61,12 +62,15 @@ public class StatsController {
             return "stats";
         } catch (ExecutionException e) {
 
-            if (e.getCause() instanceof IllegalArgumentException) {
+            if (e.getCause() instanceof NoSuchReplayException) {
                 return "notfound";
             }
             logger.error("Could not load replay", e.getCause());
             return "error";
 
+        } catch (UncheckedExecutionException e) {
+            logger.error("Could not load replay", e.getCause());
+            return "error";
         }
     }
 
