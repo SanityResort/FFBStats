@@ -16,11 +16,11 @@ public class Distribution {
     public static final Map<Integer, String> DICE_COUNT_LABLES = new HashMap<>();
 
     static {
-        for (int i = 1; i<13; i++) {
-            NUMBER_LABELS.put(i, String.valueOf(i)+"s");
+        for (int i = 1; i < 13; i++) {
+            NUMBER_LABELS.put(i, String.valueOf(i) + "s");
         }
-        for (BlockResult blockResult: BlockResult.values()) {
-            SYMBOL_LABELS.put(blockResult, blockResult.getName()+"s");
+        for (BlockResult blockResult : BlockResult.values()) {
+            SYMBOL_LABELS.put(blockResult, blockResult.getName() + "s");
         }
 
         DICE_COUNT_LABLES.put(-3, "-3dbs");
@@ -29,6 +29,7 @@ public class Distribution {
         DICE_COUNT_LABLES.put(2, "2dbs");
         DICE_COUNT_LABLES.put(3, "3dbs");
     }
+
     private String caption;
     private List<DistributionEntry> entries;
 
@@ -37,18 +38,17 @@ public class Distribution {
         entries = new ArrayList<>();
         Set<BlockResult> keys = new TreeSet<>();
         keys.addAll(stats.keySet());
-        int sum=0;
+        int sum = 0;
         int max = 0;
-        for (BlockResult key: keys) {
+        for (BlockResult key : keys) {
             int count = stats.get(key);
-            sum+=count;
+            sum += count;
             max = Math.max(max, count);
 
         }
-        for (BlockResult key: keys) {
+        for (BlockResult key : keys) {
             int count = stats.get(key);
-            double percentage = sum == 0? 0: 100*count/max;
-            entries.add(new DistributionEntry(count, percentage, SYMBOL_LABELS.get(key)));
+            entries.add(new DistributionEntry(count, getPercentage(count, sum), getPercentage(count, max), SYMBOL_LABELS.get(key)));
         }
     }
 
@@ -57,19 +57,23 @@ public class Distribution {
         entries = new ArrayList<>();
         Set<Integer> keys = new TreeSet<>();
         keys.addAll(stats.keySet());
-        int sum=0;
+        int sum = 0;
         int max = 0;
-        for (Integer key: keys) {
+        for (Integer key : keys) {
             int count = stats.get(key);
-            sum+=count;
+            sum += count;
             max = Math.max(max, count);
 
         }
-        for (Integer key: keys) {
+        for (Integer key : keys) {
             int count = stats.get(key);
-            double percentage = sum == 0? 0: 100*count/max;
-            entries.add(new DistributionEntry(count, percentage, labels.get(key)));
+            entries.add(new DistributionEntry(count, getPercentage(count, sum), getPercentage(count, max), labels.get(key)));
         }
+    }
+
+    private double getPercentage(int count, int total) {
+        double percentage = total == 0 ? 0 : (double) count / total;
+        return (double) Math.round(percentage * 10000) / 100;
     }
 
     public String getCaption() {

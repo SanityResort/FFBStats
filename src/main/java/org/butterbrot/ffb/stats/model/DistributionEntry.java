@@ -2,12 +2,14 @@ package org.butterbrot.ffb.stats.model;
 
 public class DistributionEntry {
     private int count;
-    private double percentage;
+    private double totalPercentage;
+    private double relativePercentage;
     private String label;
 
-    public DistributionEntry(int count, double percentage, String label) {
+    public DistributionEntry(int count, double totalPercentage, double relativePercentage, String label) {
         this.count = count;
-        this.percentage = percentage;
+        this.totalPercentage = totalPercentage;
+        this.relativePercentage = relativePercentage;
         this.label = label;
     }
 
@@ -15,8 +17,12 @@ public class DistributionEntry {
         return count;
     }
 
-    public double getPercentage() {
-        return percentage;
+    public double getTotalPercentage() {
+        return totalPercentage;
+    }
+
+    public double getRelativePercentage() {
+        return relativePercentage;
     }
 
     public String getLabel() {

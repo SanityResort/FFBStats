@@ -9,12 +9,30 @@ body {
     text-align: center;
 }
 
-.entry__percentage {
-  flex: 1 1;
+.entry-count, .entry-label {
+  flex: 0 0 3em;
 }
 
-.entry__label, .entry__count {
-  flex: 0 0 3em;
+.entry-percentage {
+  flex: 1 1;
+  position: relative;
+  top: 0px;
+  left: 0px;
+}
+
+.entry-percentage__bar {
+    background: #D42F2F;
+    box-shadow: 0px 0px 1px 1px #999;
+    height: 100%;
+    left: 0px;
+    position: absolute;
+    top 0px;
+    z-index: -1;
+}
+
+.entry-percentage__value {
+    text-align: center;
+    width: 100%;
 }
 
 .list {
