@@ -1,5 +1,27 @@
-aside {
-    font-size: x-large;
+.help, .helpcontent, .legal {
+    font-size: medium;
+}
+
+.helpcontent {
+    background: #3C6369;
+    border: 1px solid;
+    display: none;
+    border-radius: 15px;
+    left: 30%;
+    padding: 1em;
+    position: fixed;
+    text-align: initial;
+    top: 10px;
+    width: 40%;
+    z-index: 2;
+}
+
+.helpcontent dt {
+    font-weight: bold;
+}
+
+.help:hover + .helpcontent, .helpcontent:hover {
+    display:block;
 }
 
 body {
