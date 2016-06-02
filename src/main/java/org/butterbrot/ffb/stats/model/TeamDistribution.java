@@ -10,6 +10,7 @@ public class TeamDistribution {
     private String coach;
     private String race;
     private List<Distribution> distributions;
+    private Distribution blockDistribution;
 
     public TeamDistribution(TeamStatsCollection collection) {
         this.teamName = collection.getTeamName();
@@ -26,7 +27,7 @@ public class TeamDistribution {
         distributions.add(new Distribution("Rerolled Blocks", collection.getRerolledBlocks(), Distribution.DICE_COUNT_LABLES));
         distributions.add(new Distribution("Successful Blocks", collection.getSuccessfulBlocks(), Distribution.DICE_COUNT_LABLES));
         distributions.add(new Distribution("Failed Blocks", collection.getFailedBlocks(), Distribution.DICE_COUNT_LABLES));
-        distributions.add(new Distribution("Total Block Dice",collection.getBlockDice()));
+        blockDistribution = new Distribution("Total Block Dice",collection.getBlockDice());
     }
 
     public String getTeamName() {
@@ -43,5 +44,9 @@ public class TeamDistribution {
 
     public List<Distribution> getDistributions() {
         return distributions;
+    }
+
+    public Distribution getBlockDistribution() {
+        return blockDistribution;
     }
 }

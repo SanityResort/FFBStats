@@ -21,6 +21,19 @@
                 <div class="entry-count" th:text="${statEntry.count}">Count</div>
             </div>
         </div>
+        <div class="table" th:with="distributionData = ${teamDis.blockDistribution}">
+            <div class=".caption" th:text="${distributionData.caption} + ' (' + ${distributionData.sum}+ ')'"> Caption
+            </div>
+            <div class="row" th:each="statEntry : ${distributionData.entries}">
+                <div class="entry-label"><img th:src="@{/icons/skull.png}"/></div>
+                <div class="entry-percentage padded">
+                    <span class="entry-percentage__bar" th:if="${statEntry.relativePercentage} > 0"
+                          th:style="'width:' + ${statEntry.relativePercentage} + '%'"></span>
+                   <div class="entry-percentage__value" th:text="${statEntry.totalPercentage} + '%'">Percentage</div>
+                </div>
+                <div class="entry-count padded" th:text="${statEntry.count}">Count</div>
+            </div>
+        </div>
     </div>
 </section>
 </body>

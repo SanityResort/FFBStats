@@ -15,6 +15,7 @@ body {
 
 .entry-count, .entry-label {
   flex: 0 0 3em;
+    margin: auto
 }
 
 .entry-percentage {
@@ -22,10 +23,11 @@ body {
   position: relative;
   top: 0px;
   left: 0px;
+  margin: auto
 }
 
 .entry-percentage__bar {
-    background: #D42F2F;
+    background: #9E1212;
     box-shadow: 0px 0px 1px 1px #999;
     height: 100%;
     left: 0px;
@@ -48,6 +50,9 @@ body {
 main {
     display: flex;
     justify-content: space-around;
+}
+
+.padded {
 }
 
 .race {
