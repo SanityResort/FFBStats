@@ -1,29 +1,3 @@
-.help, .helpcontent, .legal {
-    font-size: medium;
-}
-
-.helpcontent {
-    background: #3C6369;
-    border: 1px solid;
-    display: none;
-    border-radius: 15px;
-    left: 30%;
-    padding: 1em;
-    position: fixed;
-    text-align: initial;
-    top: 10px;
-    width: 40%;
-    z-index: 2;
-}
-
-.helpcontent dt {
-    font-weight: bold;
-}
-
-.help:hover + .helpcontent, .helpcontent:hover {
-    display:block;
-}
-
 body {
     background: slategrey;
     color: #eee;
@@ -63,6 +37,32 @@ body {
     z-index: 1;
 }
 
+.help, .helpcontent, .legal {
+    font-size: medium;
+}
+
+.help:hover + .helpcontent, .helpcontent:hover {
+    display:block;
+}
+
+.helpcontent {
+    background: #3C6369;
+    border: 1px solid;
+    display: none;
+    border-radius: 15px;
+    left: 30%;
+    padding: 1em;
+    position: fixed;
+    text-align: initial;
+    top: 10px;
+    width: 40%;
+    z-index: 2;
+}
+
+.helpcontent dt {
+    font-weight: bold;
+}
+
 .list {
     display: flex;
     flex-wrap: wrap;
@@ -87,11 +87,17 @@ main {
 .table {
     background: #222;
     border: 1px solid #eee;
+    border-radius: 10px;
     margin: 4px auto;
     padding: 2px 0px;
 }
 
 @media (min-width: 1000px) {
+
+    .helpcontent {
+        left: 30%;
+        width: 40%;
+    }
 
     section {
         flex: 0 0 47%;
@@ -103,6 +109,11 @@ main {
 }
 
 @media (min-width: 600px) and (max-width: 999px) {
+
+    .helpcontent {
+        left: 18%;
+        width: 60%;
+    }
 
     main {
         flex-wrap: wrap;
@@ -118,6 +129,11 @@ main {
 }
 
 @media (max-width: 599px) {
+
+    .helpcontent {
+        left: 7%;
+        width: 80%;
+    }
 
     main {
         flex-wrap: wrap;
