@@ -9,6 +9,10 @@ body {
     text-align: center;
 }
 
+.coach {
+    font-size: large;
+}
+
 .entry-count, .entry-label {
   flex: 0 0 3em;
 }
@@ -44,6 +48,10 @@ body {
 main {
     display: flex;
     justify-content: space-around;
+}
+
+.race {
+    font-size: small;
 }
 
 .row {

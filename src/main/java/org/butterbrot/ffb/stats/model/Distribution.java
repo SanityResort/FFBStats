@@ -9,11 +9,11 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
-public class Distribution {
+class Distribution {
 
-    public static final Map<Integer, String> NUMBER_LABELS = new HashMap<>();
+    static final Map<Integer, String> NUMBER_LABELS = new HashMap<>();
     private static final Map<BlockResult, String> SYMBOL_LABELS = new HashMap<>();
-    public static final Map<Integer, String> DICE_COUNT_LABLES = new HashMap<>();
+    static final Map<Integer, String> DICE_COUNT_LABLES = new HashMap<>();
 
     static {
         for (int i = 1; i < 13; i++) {
@@ -32,42 +32,35 @@ public class Distribution {
 
     private String caption;
     private List<DistributionEntry> entries;
+    private int sum;
+    private int max;
 
-    public Distribution(String caption, Map<BlockResult, Integer> stats) {
-        this.caption = caption;
-        entries = new ArrayList<>();
+    Distribution(String caption, Map<BlockResult, Integer> stats) {
+        init(caption, stats);
         Set<BlockResult> keys = new TreeSet<>();
         keys.addAll(stats.keySet());
-        int sum = 0;
-        int max = 0;
-        for (BlockResult key : keys) {
-            int count = stats.get(key);
-            sum += count;
-            max = Math.max(max, count);
-
-        }
         for (BlockResult key : keys) {
             int count = stats.get(key);
             entries.add(new DistributionEntry(count, getPercentage(count, sum), getPercentage(count, max), SYMBOL_LABELS.get(key)));
         }
     }
 
-    public Distribution(String caption, Map<Integer, Integer> stats, Map<Integer, String> labels) {
-        this.caption = caption;
-        entries = new ArrayList<>();
+    Distribution(String caption, Map<Integer, Integer> stats, Map<Integer, String> labels) {
+        init(caption, stats);
         Set<Integer> keys = new TreeSet<>();
         keys.addAll(stats.keySet());
-        int sum = 0;
-        int max = 0;
-        for (Integer key : keys) {
-            int count = stats.get(key);
-            sum += count;
-            max = Math.max(max, count);
-
-        }
         for (Integer key : keys) {
             int count = stats.get(key);
             entries.add(new DistributionEntry(count, getPercentage(count, sum), getPercentage(count, max), labels.get(key)));
+        }
+    }
+
+    private void init(String caption, Map<?, Integer> stats){
+        this.caption = caption;
+        entries = new ArrayList<>();
+        for (int value : stats.values()) {
+            sum += value;
+            max = Math.max(max, value);
         }
     }
 
@@ -82,5 +75,9 @@ public class Distribution {
 
     public List<DistributionEntry> getEntries() {
         return entries;
+    }
+
+    public int getSum() {
+        return sum;
     }
 }

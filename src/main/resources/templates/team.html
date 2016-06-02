@@ -2,10 +2,15 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <body>
 <section th:fragment="team(teamDis)">
-    <h2 th:text="${teamDis.teamName}"></h2>
+    <h2><span th:text="${teamDis.teamName}" th:remove="tag"></span>
+        <div class="race" th:text="'(' + ${teamDis.race} + ')'"></div>
+        <div class="coach" th:text="'Coached by ' + ${teamDis.coach}"></div>
+    </h2>
+
     <div class="list">
         <div class="table" th:each="distributionData : ${teamDis.distributions}">
-            <div class=".caption" th:text="${distributionData.caption}"> Caption</div>
+            <div class=".caption" th:text="${distributionData.caption} + ' (' + ${distributionData.sum}+ ')'"> Caption
+            </div>
             <div class="row" th:each="statEntry : ${distributionData.entries}">
                 <div class="entry-label" th:text="${statEntry.label}">Label</div>
                 <div class="entry-percentage">
