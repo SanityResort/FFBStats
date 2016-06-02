@@ -3,7 +3,7 @@ aside {
 }
 
 body {
-    background: #7B8079;
+    background: slategrey;
     color: #eee;
     font-family: 'Economica', sans-serif;
     text-align: center;
@@ -47,8 +47,9 @@ main {
 }
 
 .row {
-  display: flex;
-  margin: 2px auto;
+    background: #565658;
+    display: flex;
+    margin: 2px auto;
 }
 
 section {
