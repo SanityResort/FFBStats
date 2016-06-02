@@ -60,14 +60,51 @@ main {
     margin: 2px auto;
 }
 
-section {
-    flex: 0 0 47%;
-}
-
 .table {
     background: #222;
     border: 1px solid #eee;
-    flex: 0 0 49%;
     margin: 4px auto;
     padding: 2px 0px;
+}
+
+@media (min-width: 1000px) {
+
+    section {
+        flex: 0 0 47%;
+    }
+
+    .table {
+        flex: 0 0 49%;
+    }
+}
+
+@media (min-width: 600px) and (max-width: 999px) {
+
+    main {
+        flex-wrap: wrap;
+    }
+
+    section {
+        flex: 0 0 100%;
+    }
+
+    .table {
+        flex: 0 0 49%;
+    }
+}
+
+@media (max-width: 599px) {
+
+    main {
+        flex-wrap: wrap;
+    }
+
+    section {
+        flex: 0 0 100%;
+    }
+
+    .table {
+        flex: 0 0 100%;
+    }
+
 }
