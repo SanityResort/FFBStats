@@ -20,7 +20,7 @@ class Distribution {
             NUMBER_LABELS.put(i, String.valueOf(i) + "s");
         }
         for (BlockResult blockResult : BlockResult.values()) {
-            SYMBOL_LABELS.put(blockResult, blockResult.getName() + "s");
+            SYMBOL_LABELS.put(blockResult, blockResult.name());
         }
 
         DICE_COUNT_LABLES.put(-3, "-3dbs");
