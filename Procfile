@@ -1,1 +1,1 @@
-web: java -Dserver.port=$PORT -jar  target/ffbstats-1.0.0.jar
+web: sh target/bin/webapp

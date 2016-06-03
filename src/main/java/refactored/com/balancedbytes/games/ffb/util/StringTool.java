@@ -92,10 +92,5 @@ public class StringTool {
         }
         return enumeration.toString();
     }
-
-    public static void main(String[] args) {
-        System.out.println(StringTool.bind("Dies ist ein $1 Test der Bind-Methode $2", new String[]{"erster", "!"}));
-        System.out.println(StringTool.formatThousands(2130000));
-    }
 }
 
