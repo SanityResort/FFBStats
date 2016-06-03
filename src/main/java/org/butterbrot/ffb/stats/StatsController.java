@@ -74,6 +74,10 @@ public class StatsController {
         }
     }
 
+    @RequestMapping("/")
+    public String index() {
+        return "index";
+    }
     // for local testing
     public static void main(String[] args) {
         SpringApplication.run(StatsController.class, args);
