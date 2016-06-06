@@ -13,6 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Controller;
@@ -33,6 +34,7 @@ import java.util.concurrent.TimeUnit;
 @Controller
 @EnableAutoConfiguration
 @ComponentScan
+@SpringBootApplication
 public class StatsController {
 
     private static final Logger logger = LoggerFactory.getLogger(StatsController.class);
