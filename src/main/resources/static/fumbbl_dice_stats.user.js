@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         FUMBBL Dice Stats
 // @namespace    http://ffbstats.butterbrot.org/
-// @version      0.3
+// @version      0.4
 // @author       Candlejack
 // @match        http*://fumbbl.com/FUMBBL.php?page=match*
 // @match        http*://fumbbl.com/p/match?*
