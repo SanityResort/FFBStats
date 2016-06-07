@@ -1,6 +1,9 @@
 package org.butterbrot.ffb.stats;
 
+import java.util.List;
+
 import org.butterbrot.ffb.stats.collections.StatsCollection;
+
 import refactored.com.balancedbytes.games.ffb.HeatExhaustion;
 import refactored.com.balancedbytes.games.ffb.KnockoutRecovery;
 import refactored.com.balancedbytes.games.ffb.model.Team;
@@ -29,8 +32,6 @@ import refactored.com.balancedbytes.games.ffb.report.ReportTurnEnd;
 import refactored.com.balancedbytes.games.ffb.report.ReportWinningsRoll;
 import refactored.com.balancedbytes.games.ffb.util.ArrayTool;
 
-import java.util.List;
-
 public class StatsCollector {
     private List<ServerCommand> replayCommands;
     private StatsCollection collection = new StatsCollection();
@@ -54,6 +55,7 @@ public class StatsCollector {
     StatsCollection evaluate() {
 
         String currentBlocker = null;
+        String currentMover = null;
         ReportBlockRoll currentBlockRoll = null;
         boolean lastReportWasBlockRoll = false;
         boolean blockRerolled = false;
@@ -64,7 +66,7 @@ public class StatsCollector {
             for (IReport report : reportList.getReports()) {
                 if (report instanceof ReportSkillRoll) {
                     ReportSkillRoll skillReport = ((ReportSkillRoll) report);
-                    if (skillReport.getRoll() > 0 ) {
+                    if (skillReport.getRoll() > 0) {
                         collection.addSingleRoll(skillReport.getRoll(), skillReport.getPlayerId());
                     }
                 } else if (report instanceof ReportFanFactorRoll) {
@@ -90,7 +92,8 @@ public class StatsCollector {
                         }
                     }
                     if (currentBlocker != null && currentBlockRoll != null) {
-                        collection.addBlockKnockDown(currentBlockRoll.getBlockRoll().length, injury.getDefenderId(), currentBlockRoll.getChoosingTeamId(), currentBlocker);
+                        collection.addBlockKnockDown(currentBlockRoll.getBlockRoll().length, injury.getDefenderId(),
+                            currentBlockRoll.getChoosingTeamId(), currentBlocker);
                     }
                 } else if (report instanceof ReportTentaclesShadowingRoll) {
                     ReportTentaclesShadowingRoll tentShadow = (ReportTentaclesShadowingRoll) report;
@@ -150,17 +153,27 @@ public class StatsCollector {
                     currentBlockRoll = null;
                     reRollingInjury = false;
                     switch (action.getPlayerAction()) {
-                        case BLITZ:
-                        case BLITZ_MOVE:
-                        case BLOCK:
-                            currentBlocker = action.getActingPlayerId();
-                            break;
-                        default:
-                            currentBlocker = null;
+                    case BLITZ:
+                    case BLITZ_MOVE:
+                    case BLOCK:
+                        currentBlocker = action.getActingPlayerId();
+                        currentMover = null;
+                        break;
+                    case MOVE:
+                        currentBlocker = null;
+                        currentMover = action.getActingPlayerId();
+                        break;
+                    default:
+                        currentMover = null;
+                        currentBlocker = null;
                     }
                 } else if (report instanceof ReportBlockRoll) {
                     ReportBlockRoll block = (ReportBlockRoll) report;
-                    collection.addBlockRolls(block.getBlockRoll(), currentBlocker, block.getChoosingTeamId(), blockRerolled);
+                    // if the currentBlocker is null, then we must use the currentMover as blocker. this happens e.g.
+                    // for fanatics, as they do not declare block but only move actions.
+                    collection.addBlockRolls(block.getBlockRoll(),
+                        currentBlocker == null ? currentMover : currentBlocker, block.getChoosingTeamId(),
+                        blockRerolled);
                     currentBlockRoll = block;
                     lastReportWasBlockRoll = true;
                 } else if (report instanceof ReportReRoll) {
