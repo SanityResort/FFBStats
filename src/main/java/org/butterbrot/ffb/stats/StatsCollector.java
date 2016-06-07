@@ -64,7 +64,9 @@ public class StatsCollector {
             for (IReport report : reportList.getReports()) {
                 if (report instanceof ReportSkillRoll) {
                     ReportSkillRoll skillReport = ((ReportSkillRoll) report);
-                    collection.addSingleRoll(skillReport.getRoll(), skillReport.getPlayerId());
+                    if (skillReport.getRoll() > 0 ) {
+                        collection.addSingleRoll(skillReport.getRoll(), skillReport.getPlayerId());
+                    }
                 } else if (report instanceof ReportFanFactorRoll) {
                     ReportFanFactorRoll ffReport = ((ReportFanFactorRoll) report);
                     for (int roll : ffReport.getFanFactorRollAway()) {
