@@ -69,6 +69,9 @@ public class StatsCollector {
                     if (skillReport.getRoll() > 0) {
                         collection.addSingleRoll(skillReport.getRoll(), skillReport.getPlayerId());
                     }
+                    // set the block roll to null, when some other skill roll was made, like dodge or gfi.
+                    // this should take are that a fanatic falling down due to a gfi is not counted as a failed block.
+                    currentBlockRoll = null;
                 } else if (report instanceof ReportFanFactorRoll) {
                     ReportFanFactorRoll ffReport = ((ReportFanFactorRoll) report);
                     for (int roll : ffReport.getFanFactorRollAway()) {
@@ -82,7 +85,9 @@ public class StatsCollector {
                     if (!reRollingInjury && ArrayTool.isProvided(injury.getArmorRoll())) {
                         collection.addArmourRoll(injury.getArmorRoll(), injury.getDefenderId());
                     }
-                    if (injury.isArmorBroken()) {
+                    // if the armour is broken report the injury roll, but only if both injury dice are not 0. this
+                    // should prevent errors when fanatic armour is broken, as this might be reported with weird data.
+                    if (injury.isArmorBroken() && injury.getInjuryRoll()[0] * injury.getInjuryRoll()[1] > 0) {
                         collection.addInjuryRoll(injury.getInjuryRoll(), injury.getDefenderId());
                         if (ArrayTool.isProvided(injury.getCasualtyRoll())) {
                             collection.addSingleRoll(injury.getCasualtyRoll()[0], injury.getDefenderId());
