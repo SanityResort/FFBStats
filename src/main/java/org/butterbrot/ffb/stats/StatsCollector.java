@@ -91,9 +91,10 @@ public class StatsCollector {
                             collection.addSingleRoll(injury.getCasualtyRollDecay()[0], injury.getDefenderId());
                         }
                     }
-                    if (currentBlocker != null && currentBlockRoll != null) {
+                    if ((currentMover != null || currentBlocker != null) && currentBlockRoll != null) {
                         collection.addBlockKnockDown(currentBlockRoll.getBlockRoll().length, injury.getDefenderId(),
-                            currentBlockRoll.getChoosingTeamId(), currentBlocker);
+                            currentBlockRoll.getChoosingTeamId(),
+                            currentBlocker == null ? currentMover : currentBlocker);
                     }
                 } else if (report instanceof ReportTentaclesShadowingRoll) {
                     ReportTentaclesShadowingRoll tentShadow = (ReportTentaclesShadowingRoll) report;
@@ -145,7 +146,11 @@ public class StatsCollector {
                     collection.getHome().addSingleRoll(shootout.getRollHome());
                 } else if (report instanceof ReportSpecialEffectRoll) {
                     ReportSpecialEffectRoll effect = (ReportSpecialEffectRoll) report;
-                    collection.addSingleOpposingRoll(effect.getRoll(), effect.getPlayerId());
+                    // bomb fumbles have no dice roll for the bomber (goes down automatically), also fireballs on lying
+                    // players prolly have that effect
+                    if (effect.getRoll() > 0) {
+                        collection.addSingleOpposingRoll(effect.getRoll(), effect.getPlayerId());
+                    }
                 } else if (report instanceof ReportPlayerAction) {
                     lastReportWasBlockRoll = false;
                     blockRerolled = false;
