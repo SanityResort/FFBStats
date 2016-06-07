@@ -135,6 +135,10 @@ public class TeamStatsCollection {
         increment(rerolledBlocks, count);
     }
 
+    public void removeBlock(int count) {
+        decrement(totalBlocks, count);
+    }
+
     public void addSuccessfulBlock(int count) {
         increment(successfulBlocks, count);
     }
@@ -171,6 +175,11 @@ public class TeamStatsCollection {
 
     private void increment(Map<Integer, Integer> rolls, int roll) {
         rolls.put(roll, rolls.get(roll) + 1);
+    }
+
+
+    private void decrement(Map<Integer, Integer> rolls, int roll) {
+        rolls.put(roll, rolls.get(roll) - 1);
     }
 
     public String toString() {

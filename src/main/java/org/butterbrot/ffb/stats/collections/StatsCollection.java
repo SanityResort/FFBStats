@@ -1,15 +1,16 @@
 package org.butterbrot.ffb.stats.collections;
 
-import refactored.com.balancedbytes.games.ffb.model.Player;
-import refactored.com.balancedbytes.games.ffb.model.Team;
-
 import java.util.HashMap;
 import java.util.Map;
+
+import refactored.com.balancedbytes.games.ffb.model.Player;
+import refactored.com.balancedbytes.games.ffb.model.Team;
 
 public class StatsCollection {
 
     private TeamStatsCollection home;
     private TeamStatsCollection away;
+    private int blockCount = 0;
 
     private Map<String, TeamStatsCollection> teams = new HashMap<>();
 
@@ -65,13 +66,24 @@ public class StatsCollection {
         TeamStatsCollection chooserTeam = teams.get(choosingTeam);
         int count = rolls.length * (chooserTeam == blockerTeam ? 1 : -1);
         if (count == -1) {
-            throw new IllegalStateException("Dice count must not be -1, 1 dice blocks must be chosen by the blocker team, something went horribly wrong");
+            throw new IllegalStateException(
+                    "Dice count must not be -1, 1 dice blocks must be chosen by the blocker team, something went horribly wrong");
         }
         if (rerolled) {
             blockerTeam.addRerolledBlock(count);
-        } else {
-            blockerTeam.addBlock(count);
+            if (count < 0) {
+                // work around a bug in report data. it seems that the choosing team does not get set properly for -2db
+                // or -3db blocks that get rerolled. the block before the reroll is reported with the wrong choosing
+                // team, so a -2db for team a got reported as a 2db for team b. it seems that the choosing team is only
+                // set properly if an block die actually was chosen, otherwise the default value, i.e. the blocking
+                // team, remains.
+                // so we have to remove the wrong report and add a corrected report.
+
+                blockerTeam.addBlock(count);
+                getOpposition(blockerTeam).removeBlock(count * -1);
+            }
         }
+        blockerTeam.addBlock(count);
     }
 
     public void addBlockKnockDown(int diceCount, String knockedDownPlayer, String choosingTeam, String blocker) {
@@ -79,7 +91,8 @@ public class StatsCollection {
         TeamStatsCollection chooserTeam = teams.get(choosingTeam);
         int count = diceCount * (chooserTeam == blockerTeam ? 1 : -1);
         if (count == -1) {
-            throw new IllegalStateException("Dice count must not be -1, 1 dice blocks must be chosen by the blocker team, something went horribly wrong");
+            throw new IllegalStateException(
+                    "Dice count must not be -1, 1 dice blocks must be chosen by the blocker team, something went horribly wrong");
         }
         if (knockedDownPlayer.equals(blocker)) {
             blockerTeam.addFailedBlock(count);
