@@ -3,7 +3,8 @@
 // @namespace    http://ffbstats.butterbrot.org/
 // @version      0.3
 // @author       Candlejack
-// @match        http*://fumbbl.com/FUMBBL.php?page=match&id=*
+// @match        http*://fumbbl.com/FUMBBL.php?page=match*
+// @match        http*://fumbbl.com/p/match?*
 // @require      http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js
 // ==/UserScript==
 
