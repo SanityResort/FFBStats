@@ -114,11 +114,7 @@ main {
         left: 18%;
         width: 60%;
     }
-
-    main {
-        flex-wrap: wrap;
-    }
-
+    
     section {
         flex: 0 0 47%;
     }
