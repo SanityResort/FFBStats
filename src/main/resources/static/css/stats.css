@@ -45,7 +45,7 @@ body {
     font-size: medium;
 }
 
-.help:hover + .helpcontent, .helpcontent:hover, .help:focus + .helpcontent, .helpcontent:focus  {
+.help:hover + .helpcontent, .helpcontent:hover, .help:focus + .helpcontent  {
     display: block;
 }
 
@@ -55,6 +55,7 @@ body {
     display: none;
     border-radius: 15px;
     left: 30%;
+    overflow-y: scroll;
     padding: 1em;
     position: fixed;
     text-align: initial;
