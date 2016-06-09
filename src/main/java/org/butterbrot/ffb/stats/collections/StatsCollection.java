@@ -8,6 +8,7 @@ import refactored.com.balancedbytes.games.ffb.model.Team;
 
 public class StatsCollection {
 
+    private boolean finished = false;
     private TeamStatsCollection home;
     private TeamStatsCollection away;
     private int blockCount = 0;
@@ -99,6 +100,14 @@ public class StatsCollection {
         } else {
             blockerTeam.addSuccessfulBlock(count);
         }
+    }
+
+    public boolean isFinished() {
+        return finished;
+    }
+
+    public void setFinished(boolean finished) {
+        this.finished = finished;
     }
 
     private TeamStatsCollection getOpposition(TeamStatsCollection team) {

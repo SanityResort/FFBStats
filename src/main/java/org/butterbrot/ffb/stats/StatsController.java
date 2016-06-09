@@ -60,6 +60,10 @@ public class StatsController {
                 }
             });
 
+            if (!gameDistribution.isFinished()) {
+                cache.invalidate(replayId);
+            }
+
             model.addAttribute("game", gameDistribution);
             return "stats";
         } catch (ExecutionException e) {

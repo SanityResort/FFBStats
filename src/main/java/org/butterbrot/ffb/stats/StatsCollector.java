@@ -141,6 +141,7 @@ public class StatsCollector {
                     if (winnings.getWinningsRollAway() > 0) {
                         collection.getAway().addSingleRoll(winnings.getWinningsRollAway());
                     }
+                    collection.setFinished(true);
                 } else if (report instanceof ReportBribesRoll) {
                     ReportBribesRoll bribe = (ReportBribesRoll) report;
                     collection.addSingleRoll(bribe.getRoll(), bribe.getPlayerId());
