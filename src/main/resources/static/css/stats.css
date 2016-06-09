@@ -45,7 +45,7 @@ body {
     font-size: medium;
 }
 
-.help:hover + .helpcontent, .helpcontent:hover {
+.help:hover + .helpcontent, .helpcontent:hover, .help:focus + .helpcontent, .helpcontent:focus  {
     display: block;
 }
 
