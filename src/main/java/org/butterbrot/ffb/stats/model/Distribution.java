@@ -17,17 +17,17 @@ class Distribution {
 
     static {
         for (int i = 1; i < 13; i++) {
-            NUMBER_LABELS.put(i, String.valueOf(i) + "s");
+            NUMBER_LABELS.put(i, String.valueOf(i));
         }
         for (BlockResult blockResult : BlockResult.values()) {
             SYMBOL_LABELS.put(blockResult, blockResult.name());
         }
 
-        DICE_COUNT_LABLES.put(-3, "-3dbs");
-        DICE_COUNT_LABLES.put(-2, "-2dbs");
-        DICE_COUNT_LABLES.put(1, "1dbs");
-        DICE_COUNT_LABLES.put(2, "2dbs");
-        DICE_COUNT_LABLES.put(3, "3dbs");
+        DICE_COUNT_LABLES.put(-3, "-3db");
+        DICE_COUNT_LABLES.put(-2, "-2db");
+        DICE_COUNT_LABLES.put(1, "1db");
+        DICE_COUNT_LABLES.put(2, "2db");
+        DICE_COUNT_LABLES.put(3, "3db");
     }
 
     private String caption;

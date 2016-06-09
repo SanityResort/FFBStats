@@ -74,11 +74,15 @@ public class StatsCollector {
                     currentBlockRoll = null;
                 } else if (report instanceof ReportFanFactorRoll) {
                     ReportFanFactorRoll ffReport = ((ReportFanFactorRoll) report);
-                    for (int roll : ffReport.getFanFactorRollAway()) {
-                        collection.getAway().addSingleRoll(roll);
+                    if (ArrayTool.isProvided(ffReport.getFanFactorRollAway())) {
+                        for (int roll : ffReport.getFanFactorRollAway()) {
+                            collection.getAway().addSingleRoll(roll);
+                        }
                     }
-                    for (int roll : ffReport.getFanFactorRollHome()) {
-                        collection.getHome().addSingleRoll(roll);
+                    if (ArrayTool.isProvided(ffReport.getFanFactorRollHome())) {
+                        for (int roll : ffReport.getFanFactorRollHome()) {
+                            collection.getHome().addSingleRoll(roll);
+                        }
                     }
                 } else if (report instanceof ReportInjury) {
                     ReportInjury injury = (ReportInjury) report;
@@ -87,7 +91,7 @@ public class StatsCollector {
                     }
                     // if the armour is broken report the injury roll, but only if both injury dice are not 0. this
                     // should prevent errors when fanatic armour is broken, as this might be reported with weird data.
-                    if (injury.isArmorBroken() && injury.getInjuryRoll() != null && injury.getInjuryRoll()[0] * injury.getInjuryRoll()[1] > 0) {
+                    if (injury.isArmorBroken() && ArrayTool.isProvided(injury.getInjuryRoll()) && injury.getInjuryRoll()[0] * injury.getInjuryRoll()[1] > 0) {
                         collection.addInjuryRoll(injury.getInjuryRoll(), injury.getDefenderId());
                         if (ArrayTool.isProvided(injury.getCasualtyRoll())) {
                             collection.addSingleRoll(injury.getCasualtyRoll()[0], injury.getDefenderId());
