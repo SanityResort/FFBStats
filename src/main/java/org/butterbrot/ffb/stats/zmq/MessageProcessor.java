@@ -42,7 +42,9 @@ public class MessageProcessor implements Runnable {
 
     public void run() {
         receiver.connect(receiverEndpoint);
+        logger.info("Receiver connects to " + receiverEndpoint);
         sender.bind(senderEndpoint);
+        logger.info("Sender binds to " + senderEndpoint);
         try {
             while (true) {
                 logger.info("listening");
@@ -55,6 +57,7 @@ public class MessageProcessor implements Runnable {
                     Gson gson = new Gson();
                     String gameJson = gson.toJson(game);
                     sender.send(new Msg(gameJson.getBytes()), 0);
+                    logger.info("Message sent");
                 } catch (NoSuchReplayException e) {
                     logger.warn("Could not find replay for id {}", replayId);
                 } catch (Exception e) {
