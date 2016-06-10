@@ -80,24 +80,12 @@ public class StatsProvider {
     }
 
     // keep those for property injection
-    public String getServer() {
-        return server;
-    }
-
     public void setServer(String server) {
         this.server = server;
     }
 
-    public int getPort() {
-        return port;
-    }
-
     public void setPort(int port) {
         this.port = port;
-    }
-
-    public boolean isCompression() {
-        return compression;
     }
 
     public void setCompression(boolean compression) {

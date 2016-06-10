@@ -11,7 +11,7 @@ public class StatsCollection {
     private boolean finished = false;
     private TeamStatsCollection home;
     private TeamStatsCollection away;
-    private int blockCount = 0;
+    private int version = 1;
 
     private Map<String, TeamStatsCollection> teams = new HashMap<>();
 
