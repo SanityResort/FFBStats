@@ -1,6 +1,5 @@
 package org.butterbrot.zmq;
 
-import com.google.gson.Gson;
 import zmq.Ctx;
 import zmq.Msg;
 import zmq.SocketBase;
