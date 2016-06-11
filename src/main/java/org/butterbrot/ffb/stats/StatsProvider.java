@@ -81,7 +81,7 @@ public class StatsProvider {
         }
 
         StatsCollection stats = collector.evaluate();
-        return new GameDistribution(stats);
+        return new GameDistribution(stats, replayId);
 
     }
 
