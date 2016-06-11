@@ -11,9 +11,14 @@ public class StatsCollection {
     private boolean finished = false;
     private TeamStatsCollection home;
     private TeamStatsCollection away;
-    private int blockCount = 0;
+    private int version = 1;
+    private String replayId;
 
-    private Map<String, TeamStatsCollection> teams = new HashMap<>();
+    private transient Map <String, TeamStatsCollection> teams = new HashMap<>();
+
+    public void setReplayId(String replayId) {
+        this.replayId = replayId;
+    }
 
     public void setHomeTeam(Team team) {
         home = new TeamStatsCollection(team.getName(), team.getCoach(), team.getRace());

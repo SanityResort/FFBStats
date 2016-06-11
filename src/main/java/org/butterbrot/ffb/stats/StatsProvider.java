@@ -12,6 +12,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Service;
 import refactored.com.balancedbytes.games.ffb.net.commands.ServerCommand;
 
+import javax.annotation.PostConstruct;
 import java.net.InetAddress;
 import java.net.URI;
 import java.util.ArrayList;
@@ -28,7 +29,12 @@ public class StatsProvider {
     private int port;
     private boolean compression;
 
-    public GameDistribution stats(String replayId) throws NoSuchReplayException {
+    @PostConstruct
+    public void logProperties(){
+        logger.info("StatsProvider connects to {}:{} with compression set to {}", server, port, compression);
+    }
+
+    public StatsCollection stats(String replayId) throws NoSuchReplayException {
 
         logger.info("Creating stats for game: {}", replayId);
 
@@ -74,30 +80,20 @@ public class StatsProvider {
             throw new NoSuchReplayException();
         }
 
-        StatsCollection stats = collector.evaluate();
-        return new GameDistribution(stats);
-
+        return collector.evaluate(replayId);
     }
 
-    // keep those for property injection
-    public String getServer() {
-        return server;
+    public GameDistribution distribution(String replayId) throws NoSuchReplayException {
+        return new GameDistribution(stats(replayId), replayId);
     }
 
+        // keep those for property injection
     public void setServer(String server) {
         this.server = server;
     }
 
-    public int getPort() {
-        return port;
-    }
-
     public void setPort(int port) {
         this.port = port;
-    }
-
-    public boolean isCompression() {
-        return compression;
     }
 
     public void setCompression(boolean compression) {

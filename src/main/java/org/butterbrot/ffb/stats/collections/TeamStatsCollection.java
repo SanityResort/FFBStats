@@ -10,7 +10,7 @@ import java.util.TreeSet;
 
 public class TeamStatsCollection {
 
-    private BlockResultFactory factory = new BlockResultFactory();
+    private transient BlockResultFactory factory = new BlockResultFactory();
 
     private Map<Integer, Integer> singleRolls = initNonBlockStatsMap(6);
     private Map<Integer, Integer> totalSingleRolls = initNonBlockStatsMap(6);

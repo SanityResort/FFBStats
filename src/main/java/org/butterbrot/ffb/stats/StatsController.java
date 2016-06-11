@@ -35,15 +35,14 @@ import java.util.concurrent.TimeUnit;
 @EnableAutoConfiguration
 @ComponentScan
 @SpringBootApplication
+@ConfigurationProperties(prefix = "cache")
 public class StatsController {
 
     private static final Logger logger = LoggerFactory.getLogger(StatsController.class);
 
-    private String server;
-    private int port;
-    private boolean compression;
+    private int cacheSize;
 
-    private Cache<String, GameDistribution> cache = CacheBuilder.newBuilder().maximumSize(10000).expireAfterAccess(7, TimeUnit.DAYS).build();
+    private Cache<String, GameDistribution> cache = CacheBuilder.newBuilder().maximumSize(cacheSize).build();
 
     @Resource
     private StatsProvider provider;
@@ -56,7 +55,7 @@ public class StatsController {
             GameDistribution gameDistribution = cache.get(replayId, new Callable<GameDistribution>() {
                 @Override
                 public GameDistribution call() throws Exception {
-                    return provider.stats(replayId);
+                    return provider.distribution(replayId);
                 }
             });
 
@@ -89,30 +88,7 @@ public class StatsController {
         SpringApplication.run(StatsController.class, args);
     }
 
-    // keep those for property injection
-    public String getServer() {
-        return server;
+    public void setCacheSize(int cacheSize) {
+        this.cacheSize = cacheSize;
     }
-
-    public void setServer(String server) {
-        this.server = server;
-    }
-
-    public int getPort() {
-        return port;
-    }
-
-    public void setPort(int port) {
-        this.port = port;
-    }
-
-    public boolean isCompression() {
-        return compression;
-    }
-
-    public void setCompression(boolean compression) {
-        this.compression = compression;
-    }
-
-
 }

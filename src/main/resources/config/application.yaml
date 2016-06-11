@@ -2,3 +2,10 @@ connection:
   server: fumbbl.com
   port: 22223
   compression: false
+
+zmq:
+  senderEndpoint: tcp://localhost:44445
+  receiverEndpoint: tcp://localhost:44444
+
+cache:
+  cacheSize: 10000

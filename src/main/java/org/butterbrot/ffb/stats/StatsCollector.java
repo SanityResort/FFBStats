@@ -52,8 +52,8 @@ public class StatsCollector {
         return replayCommands;
     }
 
-    StatsCollection evaluate() {
-
+    StatsCollection evaluate(String replayId) {
+        collection.setReplayId(replayId);
         String currentBlocker = null;
         String currentMover = null;
         ReportBlockRoll currentBlockRoll = null;
