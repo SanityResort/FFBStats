@@ -55,7 +55,7 @@ public class StatsController {
             GameDistribution gameDistribution = cache.get(replayId, new Callable<GameDistribution>() {
                 @Override
                 public GameDistribution call() throws Exception {
-                    return provider.stats(replayId);
+                    return provider.distribution(replayId);
                 }
             });
 

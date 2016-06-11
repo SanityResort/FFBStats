@@ -5,6 +5,7 @@ import javax.annotation.Resource;
 
 import org.butterbrot.ffb.stats.NoSuchReplayException;
 import org.butterbrot.ffb.stats.StatsProvider;
+import org.butterbrot.ffb.stats.collections.StatsCollection;
 import org.butterbrot.ffb.stats.model.GameDistribution;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -53,9 +54,9 @@ public class MessageProcessor implements Runnable {
                 logger.info("Received Message: {}", replayId);
 
                 try {
-                    GameDistribution game = provider.stats(replayId);
+                    StatsCollection collection = provider.stats(replayId);
                     Gson gson = new Gson();
-                    String gameJson = gson.toJson(game);
+                    String gameJson = gson.toJson(collection);
                     sender.send(new Msg(gameJson.getBytes()), 0);
                     logger.info("Message sent");
                 } catch (NoSuchReplayException e) {

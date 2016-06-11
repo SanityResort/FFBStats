@@ -34,7 +34,7 @@ public class StatsProvider {
         logger.info("StatsProvider connects to {}:{} with compression set to {}", server, port, compression);
     }
 
-    public GameDistribution stats(String replayId) throws NoSuchReplayException {
+    public StatsCollection stats(String replayId) throws NoSuchReplayException {
 
         logger.info("Creating stats for game: {}", replayId);
 
@@ -80,12 +80,14 @@ public class StatsProvider {
             throw new NoSuchReplayException();
         }
 
-        StatsCollection stats = collector.evaluate();
-        return new GameDistribution(stats, replayId);
-
+        return collector.evaluate(replayId);
     }
 
-    // keep those for property injection
+    public GameDistribution distribution(String replayId) throws NoSuchReplayException {
+        return new GameDistribution(stats(replayId), replayId);
+    }
+
+        // keep those for property injection
     public void setServer(String server) {
         this.server = server;
     }
