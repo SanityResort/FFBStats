@@ -171,6 +171,7 @@ public class StatsCollector {
                     case BLITZ:
                     case BLITZ_MOVE:
                     case BLOCK:
+                    case MULTIPLE_BLOCK:
                         currentBlocker = action.getActingPlayerId();
                         currentMover = null;
                         break;
