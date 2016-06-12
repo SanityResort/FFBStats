@@ -59,7 +59,7 @@ public class MessageProcessor implements Runnable {
         logger.info("Receiver connects to " + receiverEndpoint);
         sender.bind(senderEndpoint);
         logger.info("Sender binds to " + senderEndpoint);
-        fileQueue.bind(fileQueueEndpoint);
+        fileQueue.connect(fileQueueEndpoint);
         logger.info("FileQueue binds to " + fileQueueEndpoint);
         try {
             while (true) {
@@ -70,9 +70,7 @@ public class MessageProcessor implements Runnable {
                 Msg response = fileQueue.recv(0);
                 logger.info("Received game data for replay {}", replayId);
 
-                try {
-
-                    GZIPInputStream gzipInputStream = new GZIPInputStream(new ByteArrayInputStream(response.data()));
+                try (ByteArrayInputStream byteIn = new ByteArrayInputStream(response.data());GZIPInputStream gzipInputStream = new GZIPInputStream(byteIn) ){
                     Stream<String> stringStream = new BufferedReader(new InputStreamReader(gzipInputStream)).lines();
                     String data = stringStream.reduce((s, s2) -> s + s2).get();
                     JsonObject root = new JsonParser().parse(data).getAsJsonObject();

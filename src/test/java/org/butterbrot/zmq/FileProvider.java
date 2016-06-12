@@ -20,7 +20,7 @@ public class FileProvider {
 
         Ctx ctx = ZMQ.init(1);
         SocketBase sb = ZMQ.socket(ctx, ZMQ.ZMQ_REP);
-        ZMQ.connect(sb, "tcp://localhost:44446");
+        ZMQ.bind(sb, "tcp://localhost:44446");
         while (true) {
             sb.recv(0);
             System.out.println("received");
