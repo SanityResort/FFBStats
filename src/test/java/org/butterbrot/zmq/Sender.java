@@ -12,7 +12,9 @@ public class Sender {
         SocketBase publisher = ZMQ.socket(context, ZMQ.ZMQ_PUSH);
         publisher.bind("tcp://localhost:44444");
         while (true) {
+            Thread.sleep(5000);
             publisher.send(new Msg("860124".getBytes(ZMQ.CHARSET)), 0);
+            System.out.println("sent");
         }
     }
 }

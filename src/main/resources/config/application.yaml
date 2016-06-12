@@ -6,6 +6,7 @@ connection:
 zmq:
   senderEndpoint: tcp://localhost:44445
   receiverEndpoint: tcp://localhost:44444
+  fileQueueEndpoint: tcp://localhost:44446
 
 cache:
   cacheSize: 10000

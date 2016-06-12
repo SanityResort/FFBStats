@@ -36,7 +36,7 @@ public class StatsCollector {
     private List<ServerCommand> replayCommands;
     private StatsCollection collection = new StatsCollection();
 
-    StatsCollector(final List<ServerCommand> replayCommands) {
+    public StatsCollector(final List<ServerCommand> replayCommands) {
         this.replayCommands = replayCommands;
     }
 
@@ -52,7 +52,7 @@ public class StatsCollector {
         return replayCommands;
     }
 
-    StatsCollection evaluate(String replayId) {
+    public StatsCollection evaluate(String replayId) {
         collection.setReplayId(replayId);
         String currentBlocker = null;
         String currentMover = null;
