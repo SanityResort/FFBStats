@@ -70,7 +70,14 @@ public class MessageProcessor implements Runnable {
                 Msg response = fileQueue.recv(0);
                 logger.info("Received game data for replay {}", replayId);
 
-                try (ByteArrayInputStream byteIn = new ByteArrayInputStream(response.data());GZIPInputStream gzipInputStream = new GZIPInputStream(byteIn) ){
+                byte[] responseData = response.data();
+
+                if ("ERROR".equalsIgnoreCase(new String(responseData))) {
+                    logger.error("File Queue returned an error for " + replayId + ". Skipping");
+                    continue;
+                }
+
+                try (ByteArrayInputStream byteIn = new ByteArrayInputStream(responseData);GZIPInputStream gzipInputStream = new GZIPInputStream(byteIn) ){
                     Stream<String> stringStream = new BufferedReader(new InputStreamReader(gzipInputStream)).lines();
                     String data = stringStream.reduce((s, s2) -> s + s2).get();
                     JsonObject root = new JsonParser().parse(data).getAsJsonObject();
