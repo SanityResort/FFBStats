@@ -74,6 +74,7 @@ public class MessageProcessor implements Runnable {
 
                 if ("ERROR".equalsIgnoreCase(new String(responseData))) {
                     logger.error("File Queue returned an error for " + replayId + ". Skipping");
+                    sender.send(new Msg("ERROR".getBytes()), 0);
                     continue;
                 }
 
@@ -110,6 +111,7 @@ public class MessageProcessor implements Runnable {
                 }
                 catch (Exception e) {
                     logger.error("Could not create stats for replayId " + replayId, e);
+                    sender.send(new Msg("ERROR".getBytes()), 0);
                 }
             }
         } finally {
