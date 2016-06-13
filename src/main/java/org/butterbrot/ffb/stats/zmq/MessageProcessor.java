@@ -1,16 +1,21 @@
 package org.butterbrot.ffb.stats.zmq;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
+import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.stream.Stream;
+import java.util.zip.GZIPInputStream;
+
 import org.butterbrot.ffb.stats.StatsCollector;
 import org.butterbrot.ffb.stats.collections.StatsCollection;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
+
 import refactored.com.balancedbytes.games.ffb.model.Team;
 import refactored.com.balancedbytes.games.ffb.net.NetCommandFactory;
 import refactored.com.balancedbytes.games.ffb.net.NetCommandId;
@@ -21,15 +26,11 @@ import zmq.Msg;
 import zmq.SocketBase;
 import zmq.ZMQ;
 
-import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.stream.Stream;
-import java.util.zip.GZIPInputStream;
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 @Component
 @ConfigurationProperties(prefix = "zmq")
@@ -78,8 +79,11 @@ public class MessageProcessor implements Runnable {
                     continue;
                 }
 
-                try (ByteArrayInputStream byteIn = new ByteArrayInputStream(responseData);GZIPInputStream gzipInputStream = new GZIPInputStream(byteIn) ){
-                    Stream<String> stringStream = new BufferedReader(new InputStreamReader(gzipInputStream)).lines();
+                try (ByteArrayInputStream byteIn = new ByteArrayInputStream(responseData);
+                        GZIPInputStream gzipInputStream = new GZIPInputStream(byteIn);
+                        InputStreamReader inputStreamReader = new InputStreamReader(gzipInputStream);
+                        BufferedReader buf = new BufferedReader(inputStreamReader)) {
+                    Stream<String> stringStream = buf.lines();
                     String data = stringStream.reduce((s, s2) -> s + s2).get();
                     JsonObject root = new JsonParser().parse(data).getAsJsonObject();
 
@@ -95,7 +99,8 @@ public class MessageProcessor implements Runnable {
                         JsonElement element = it.next();
                         String id = element.getAsJsonObject().get("netCommandId").getAsString();
                         if (NetCommandId.SERVER_MODEL_SYNC.getName().equals(id)) {
-                            replayCommands.add((ServerCommand) factory.forJsonValue(JsonValue.readFrom(element.toString())));
+                            replayCommands
+                                .add((ServerCommand) factory.forJsonValue(JsonValue.readFrom(element.toString())));
                         }
                     }
 
@@ -108,8 +113,7 @@ public class MessageProcessor implements Runnable {
                     sender.send(new Msg(gameJson.getBytes()), 0);
                     logger.info("Stats sent for replayId {}", replayId);
 
-                }
-                catch (Exception e) {
+                } catch (Exception e) {
                     logger.error("Could not create stats for replayId " + replayId, e);
                     sender.send(new Msg("ERROR".getBytes()), 0);
                 }
