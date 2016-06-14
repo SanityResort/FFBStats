@@ -64,6 +64,7 @@ public class MessageProcessor implements Runnable {
         logger.info("FileQueue binds to " + fileQueueEndpoint);
         try {
             while (true) {
+                System.gc();
                 Msg msg = receiver.recv(0);
                 String replayId = new String(msg.data());
                 logger.info("Received ReplayId: {}", replayId);
