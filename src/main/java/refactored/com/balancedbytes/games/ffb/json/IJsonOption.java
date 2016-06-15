@@ -1,6 +1,7 @@
 package refactored.com.balancedbytes.games.ffb.json;
 
 import refactored.com.balancedbytes.games.ffb.PlayerActionFactory;
+import refactored.com.balancedbytes.games.ffb.SpecialEffectFactory;
 import refactored.com.balancedbytes.games.ffb.net.NetCommandIdFactory;
 import refactored.com.balancedbytes.games.ffb.report.ReportIdFactory;
 
@@ -18,6 +19,8 @@ public interface IJsonOption {
     JsonIntOption COMMAND_NR = new JsonIntOption("commandNr");
     JsonStringOption DEFENDER_ID = new JsonStringOption("defenderId");
     JsonBooleanOption EXHAUSTED = new JsonBooleanOption("exhausted");
+    JsonIntOption FAME_AWAY = new JsonIntOption("fameAway");
+    JsonIntOption FAME_HOME = new JsonIntOption("fameHome");
     JsonIntArrayOption FAN_FACTOR_ROLL_AWAY = new JsonIntArrayOption("fanFactorRollAway");
     JsonIntArrayOption FAN_FACTOR_ROLL_HOME = new JsonIntArrayOption("fanFactorRollHome");
     JsonObjectOption GAME = new JsonObjectOption("game");
@@ -26,6 +29,7 @@ public interface IJsonOption {
     JsonIntArrayOption INJURY_ROLL = new JsonIntArrayOption("injuryRoll");
     JsonArrayOption KNOCKOUT_RECOVERY_ARRAY = new JsonArrayOption("knockoutRecoveryArray");
     JsonIntArrayOption MASTER_CHEF_ROLL = new JsonIntArrayOption("masterChefRoll");
+    JsonIntOption MINIMUM_ROLL = new JsonIntOption("minimumRoll");
     JsonEnumWithNameOption NET_COMMAND_ID = new JsonEnumWithNameOption("netCommandId", new NetCommandIdFactory());
     JsonEnumWithNameOption PLAYER_ACTION = new JsonEnumWithNameOption("playerAction", new PlayerActionFactory());
     JsonArrayOption PLAYER_ARRAY = new JsonArrayOption("playerArray");
@@ -41,8 +45,10 @@ public interface IJsonOption {
     JsonIntOption ROLL_HOME = new JsonIntOption("rollHome");
     JsonIntArrayOption ROLLS_AWAY = new JsonIntArrayOption("rollsAway");
     JsonIntArrayOption ROLLS_HOME = new JsonIntArrayOption("rollsHome");
+    JsonEnumWithNameOption SPECIAL_EFFECT = new JsonEnumWithNameOption("specialEffect", new SpecialEffectFactory());
     JsonIntArrayOption SPECTATOR_ROLL_AWAY = new JsonIntArrayOption("spectatorRollAway");
     JsonIntArrayOption SPECTATOR_ROLL_HOME = new JsonIntArrayOption("spectatorRollHome");
+    JsonBooleanOption SUCCESSFUL = new JsonBooleanOption("successful");
     JsonObjectOption TEAM_AWAY = new JsonObjectOption("teamAway");
     JsonObjectOption TEAM_HOME = new JsonObjectOption("teamHome");
     JsonStringOption TEAM_ID = new JsonStringOption("teamId");

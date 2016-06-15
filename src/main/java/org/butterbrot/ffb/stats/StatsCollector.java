@@ -6,6 +6,7 @@ import org.butterbrot.ffb.stats.collections.StatsCollection;
 
 import refactored.com.balancedbytes.games.ffb.HeatExhaustion;
 import refactored.com.balancedbytes.games.ffb.KnockoutRecovery;
+import refactored.com.balancedbytes.games.ffb.SpecialEffect;
 import refactored.com.balancedbytes.games.ffb.model.Team;
 import refactored.com.balancedbytes.games.ffb.net.commands.ServerCommand;
 import refactored.com.balancedbytes.games.ffb.net.commands.ServerCommandModelSync;
@@ -53,6 +54,8 @@ public class StatsCollector {
     }
 
     public StatsCollection evaluate(String replayId) {
+        int fameHome = 0;
+        int fameAway = 0;
         collection.setReplayId(replayId);
         String currentBlocker = null;
         String currentMover = null;
@@ -68,6 +71,7 @@ public class StatsCollector {
                     ReportSkillRoll skillReport = ((ReportSkillRoll) report);
                     if (skillReport.getRoll() > 0) {
                         collection.addSingleRoll(skillReport.getRoll(), skillReport.getPlayerId());
+                        collection.addSuccessRoll(skillReport.getPlayerId(), skillReport.isSuccessful(), skillReport.getMinimumRoll());
                     }
                     // set the block roll to null, when some other skill roll was made, like dodge or gfi.
                     // this should take are that a fanatic falling down due to a gfi is not counted as a failed block.
@@ -117,6 +121,8 @@ public class StatsCollector {
                     ReportSpectators specs = (ReportSpectators) report;
                     collection.getHome().addDoubleRoll(specs.getSpectatorRollHome());
                     collection.getAway().addDoubleRoll(specs.getSpectatorRollAway());
+                    fameHome = specs.getFameHome();
+                    fameAway = specs.getFameAway();
                 } else if (report instanceof ReportKickoffThrowARock) {
                     ReportKickoffThrowARock throwRock = (ReportKickoffThrowARock) report;
                     collection.getAway().addSingleRoll(throwRock.getRollAway());
@@ -124,13 +130,17 @@ public class StatsCollector {
                 } else if (report instanceof ReportKickoffPitchInvasion) {
                     ReportKickoffPitchInvasion invasion = (ReportKickoffPitchInvasion) report;
                     for (int roll : invasion.getRollsHome()) {
+                        int minimumRoll = 6 - fameAway;
                         if (roll > 0) {
                             collection.getAway().addSingleRoll(roll);
+                            collection.getAway().addSuccessRoll(roll >= minimumRoll, minimumRoll);
                         }
                     }
                     for (int roll : invasion.getRollsAway()) {
+                        int minimumRoll = 6 - fameHome;
                         if (roll > 0) {
                             collection.getHome().addSingleRoll(roll);
+                            collection.getHome().addSuccessRoll(roll >= minimumRoll, minimumRoll);
                         }
                     }
                 } else if (report instanceof ReportWinningsRoll) {
@@ -145,10 +155,12 @@ public class StatsCollector {
                 } else if (report instanceof ReportBribesRoll) {
                     ReportBribesRoll bribe = (ReportBribesRoll) report;
                     collection.addSingleRoll(bribe.getRoll(), bribe.getPlayerId());
+                    collection.addSuccessRoll(bribe.getPlayerId(), bribe.isSuccessful(), 2);
                 } else if (report instanceof ReportMasterChefRoll) {
                     ReportMasterChefRoll chef = (ReportMasterChefRoll) report;
                     for (int roll : chef.getMasterChefRoll()) {
                         collection.addSingleRoll(roll, chef.getTeamId());
+                        collection.addSuccessRoll(chef.getTeamId(), roll > 3, 4);
                     }
                 } else if (report instanceof ReportPenaltyShootout) {
                     ReportPenaltyShootout shootout = (ReportPenaltyShootout) report;
@@ -160,6 +172,7 @@ public class StatsCollector {
                     // players prolly have that effect
                     if (effect.getRoll() > 0) {
                         collection.addSingleOpposingRoll(effect.getRoll(), effect.getPlayerId());
+                        collection.addOpposingSuccessRoll(effect.getPlayerId(), effect.isSuccessful(), effect.getSpecialEffect() == SpecialEffect.LIGHTNING ? 2: 4);
                     }
                 } else if (report instanceof ReportPlayerAction) {
                     lastReportWasBlockRoll = false;
@@ -202,12 +215,14 @@ public class StatsCollector {
                     if (ArrayTool.isProvided(turn.getKnockoutRecoveries())) {
                         for (KnockoutRecovery recovery : turn.getKnockoutRecoveries()) {
                             collection.addSingleRoll(recovery.getRoll(), recovery.getPlayerId());
+                            collection.addSuccessRoll(recovery.getPlayerId(), recovery.isRecovering(), 4 - recovery.getBloodweiserBabes());
                         }
                     }
 
                     if (ArrayTool.isProvided(turn.getHeatExhaustions())) {
                         for (HeatExhaustion exhaustion : turn.getHeatExhaustions()) {
                             collection.addSingleOpposingRoll(exhaustion.getRoll(), exhaustion.getPlayerId());
+                            collection.addSuccessRoll(exhaustion.getPlayerId(), !exhaustion.isExhausted(), 2);
                         }
                     }
 
@@ -216,6 +231,7 @@ public class StatsCollector {
                 } else if (report instanceof ReportStandUpRoll) {
                     ReportStandUpRoll standUpRoll = (ReportStandUpRoll) report;
                     collection.addSingleRoll(standUpRoll.getRoll(), standUpRoll.getPlayerId());
+                    collection.addSuccessRoll(standUpRoll.getPlayerId(), standUpRoll.isSuccessful(), 4);
                 }
             }
         }

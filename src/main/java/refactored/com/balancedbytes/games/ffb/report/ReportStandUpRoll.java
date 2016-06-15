@@ -8,13 +8,15 @@ import repackaged.com.eclipsesource.json.JsonValue;
 public class ReportStandUpRoll implements IReport {
     private String fPlayerId;
     private int fRoll;
+    private boolean fSuccessful;
 
     ReportStandUpRoll() {
     }
 
-    private ReportStandUpRoll(String pPlayerId, int pRoll) {
+    private ReportStandUpRoll(String pPlayerId,  boolean pSuccessful, int pRoll) {
         this.fPlayerId = pPlayerId;
         this.fRoll = pRoll;
+        this.fSuccessful = pSuccessful;
     }
 
     @Override
@@ -30,15 +32,20 @@ public class ReportStandUpRoll implements IReport {
         return this.fRoll;
     }
 
+    public boolean isSuccessful() {
+        return this.fSuccessful;
+    }
+
     @Override
     public IReport transform() {
-        return new ReportStandUpRoll(this.getPlayerId(), this.getRoll());
+        return new ReportStandUpRoll(this.getPlayerId(), this.isSuccessful(), this.getRoll());
     }
 
     @Override
     public ReportStandUpRoll initFrom(JsonValue pJsonValue) {
         JsonObject jsonObject = UtilJson.toJsonObject(pJsonValue);
         UtilReport.validateReportId(this, (ReportId) IJsonOption.REPORT_ID.getFrom(jsonObject));
+        this.fSuccessful = IJsonOption.SUCCESSFUL.getFrom(jsonObject);
         this.fPlayerId = IJsonOption.PLAYER_ID.getFrom(jsonObject);
         this.fRoll = IJsonOption.ROLL.getFrom(jsonObject);
         return this;

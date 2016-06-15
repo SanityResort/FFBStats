@@ -8,13 +8,17 @@ import repackaged.com.eclipsesource.json.JsonValue;
 public class ReportSpectators implements IReport {
     private int[] fSpectatorRollHome;
     private int[] fSpectatorRollAway;
+    private int fFameHome;
+    private int fFameAway;
 
     ReportSpectators() {
     }
 
-    private ReportSpectators(int[] pRollHome, int[] pRollAway) {
+    private ReportSpectators(int[] pRollHome, int[] pRollAway, int pFameHome, int pFameAway) {
         this.fSpectatorRollHome = pRollHome;
         this.fSpectatorRollAway = pRollAway;
+        this.fFameHome = pFameHome;
+        this.fFameAway = pFameAway;
     }
 
     @Override
@@ -30,9 +34,17 @@ public class ReportSpectators implements IReport {
         return this.fSpectatorRollAway;
     }
 
+    public int getFameHome() {
+        return this.fFameHome;
+    }
+
+    public int getFameAway() {
+        return this.fFameAway;
+    }
+
     @Override
     public IReport transform() {
-        return new ReportSpectators(this.getSpectatorRollAway(), this.getSpectatorRollHome());
+        return new ReportSpectators(this.getSpectatorRollAway(), this.getSpectatorRollHome(), this.getFameHome(), this.getFameAway());
     }
 
     @Override
@@ -41,6 +53,8 @@ public class ReportSpectators implements IReport {
         UtilReport.validateReportId(this, (ReportId) IJsonOption.REPORT_ID.getFrom(jsonObject));
         this.fSpectatorRollHome = IJsonOption.SPECTATOR_ROLL_HOME.getFrom(jsonObject);
         this.fSpectatorRollAway = IJsonOption.SPECTATOR_ROLL_AWAY.getFrom(jsonObject);
+        this.fFameHome = IJsonOption.FAME_HOME.getFrom(jsonObject);
+        this.fFameAway = IJsonOption.FAME_AWAY.getFrom(jsonObject);
         return this;
     }
 }

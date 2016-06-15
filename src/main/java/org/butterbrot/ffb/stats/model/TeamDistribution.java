@@ -19,6 +19,8 @@ public class TeamDistribution {
         this.distributions = new ArrayList<>();
         distributions.add(new Distribution("Total D6s", collection.getTotalSingleRolls(), Distribution.NUMBER_LABELS));
         distributions.add(new Distribution("Single D6s", collection.getSingleRolls(), Distribution.NUMBER_LABELS));
+        distributions.add(new Distribution("Successful D6s", collection.getSuccessfulSingleRolls(), Distribution.NUMBER_LABELS));
+        distributions.add(new Distribution("Failed D6s", collection.getFailedSingleRolls(), Distribution.NUMBER_LABELS));
         distributions.add(new Distribution("Armour Rolls", collection.getArmourRolls(), Distribution.NUMBER_LABELS));
         distributions.add(new Distribution("Injury Rolls", collection.getInjuryRolls(), Distribution.NUMBER_LABELS));
         distributions.add(new Distribution("Total 2D6s", collection.getTotalDoubleRolls(), Distribution.NUMBER_LABELS));

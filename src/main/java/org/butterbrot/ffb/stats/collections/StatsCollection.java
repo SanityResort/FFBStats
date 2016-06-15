@@ -44,6 +44,15 @@ public class StatsCollection {
         return away;
     }
 
+    public void addSuccessRoll(String playerOrTeam, boolean successful, int minimumRoll) {
+        teams.get(playerOrTeam).addSuccessRoll(successful, minimumRoll);
+    }
+
+    public void addOpposingSuccessRoll(String playerOrTeam, boolean successful, int minimumRoll) {
+        TeamStatsCollection team = teams.get(playerOrTeam);
+        getOpposition(team).addSuccessRoll(successful, minimumRoll);
+    }
+
     public void addSingleRoll(int roll, String playerOrTeam) {
         teams.get(playerOrTeam).addSingleRoll(roll);
     }

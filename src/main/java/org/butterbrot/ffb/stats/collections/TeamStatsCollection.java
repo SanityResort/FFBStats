@@ -3,6 +3,7 @@ package org.butterbrot.ffb.stats.collections;
 import refactored.com.balancedbytes.games.ffb.BlockResult;
 import refactored.com.balancedbytes.games.ffb.BlockResultFactory;
 
+import javax.validation.constraints.Null;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -13,6 +14,8 @@ public class TeamStatsCollection {
     private transient BlockResultFactory factory = new BlockResultFactory();
 
     private Map<Integer, Integer> singleRolls = initNonBlockStatsMap(6);
+    private Map<Integer, Integer> successfulSingleRolls = initNonBlockStatsMap(2, 6);
+    private Map<Integer, Integer> failedSingleRolls = initNonBlockStatsMap(2, 6);
     private Map<Integer, Integer> totalSingleRolls = initNonBlockStatsMap(6);
     private Map<Integer, Integer> doubleRolls = initNonBlockStatsMap(2, 12);
     private Map<Integer, Integer> totalDoubleRolls = initNonBlockStatsMap(2, 12);
@@ -32,6 +35,14 @@ public class TeamStatsCollection {
         this.teamName = teamName;
         this.coach = coach;
         this.race = race;
+    }
+
+    public Map<Integer, Integer> getSuccessfulSingleRolls() {
+        return successfulSingleRolls;
+    }
+
+    public Map<Integer, Integer> getFailedSingleRolls() {
+        return failedSingleRolls;
     }
 
     public Map<Integer, Integer> getSingleRolls() {
@@ -90,8 +101,8 @@ public class TeamStatsCollection {
         return race;
     }
 
-    private  Map<BlockResult, Integer> initBlockDiceMap() {
-        Map<BlockResult, Integer>  blockDice = new HashMap<>();
+    private Map<BlockResult, Integer> initBlockDiceMap() {
+        Map<BlockResult, Integer> blockDice = new HashMap<>();
         for (BlockResult blockResult : BlockResult.values()) {
             blockDice.put(blockResult, 0);
         }
@@ -109,9 +120,10 @@ public class TeamStatsCollection {
     }
 
     private Map<Integer, Integer> initNonBlockStatsMap(int max) {
-        return initNonBlockStatsMap(1,max);
+        return initNonBlockStatsMap(1, max);
     }
-        private Map<Integer, Integer> initNonBlockStatsMap(int min, int max) {
+
+    private Map<Integer, Integer> initNonBlockStatsMap(int min, int max) {
         Map<Integer, Integer> stats = new HashMap<>();
         int i = min;
         while (i <= max) {
@@ -147,9 +159,18 @@ public class TeamStatsCollection {
         increment(failedBlocks, count);
     }
 
+    public void addSuccessRoll(boolean successful, int minimumRoll) {
+        if (minimumRoll > 1) {
+            if (successful) {
+                increment(successfulSingleRolls, Math.min(6, minimumRoll));
+            } else {
+                increment(failedSingleRolls, Math.min(6, minimumRoll));
+            }
+        }
+    }
+
     public void addSingleRoll(int roll) {
         increment(singleRolls, roll);
-        increment(totalSingleRolls, roll);
     }
 
     public void addDoubleRoll(int[] rolls) {
@@ -180,52 +201,5 @@ public class TeamStatsCollection {
 
     private void decrement(Map<Integer, Integer> rolls, int roll) {
         rolls.put(roll, rolls.get(roll) - 1);
-    }
-
-    public String toString() {
-        StringBuilder builder = new StringBuilder();
-        builder.append("Total single rolls: \n");
-        builder.append(mapToString(totalSingleRolls));
-        builder.append("Single rolls: \n");
-        builder.append(mapToString(singleRolls));
-        builder.append("Total double rolls: \n");
-        builder.append(mapToString(totalDoubleRolls));
-        builder.append("Double rolls: \n");
-        builder.append(mapToString(doubleRolls));
-        builder.append("Armour rolls: \n");
-        builder.append(mapToString(armourRolls));
-        builder.append("Injury rolls: \n");
-        builder.append(mapToString(injuryRolls));
-        builder.append("Total blocks: \n");
-        builder.append(mapToString(totalBlocks));
-        builder.append("Rerolled blocks: \n");
-        builder.append(mapToString(rerolledBlocks));
-        builder.append("Successful blocks: \n");
-        builder.append(mapToString(successfulBlocks));
-        builder.append("Failed blocks: \n");
-        builder.append(mapToString(failedBlocks));
-        builder.append("Block dice: \n");
-        builder.append(blockMapToString(blockDice));
-        return builder.toString();
-    }
-
-    private String mapToString(Map<Integer, Integer> map) {
-        StringBuilder builder = new StringBuilder();
-        Set<Integer> keys = new TreeSet<>();
-        keys.addAll(map.keySet());
-        for (Integer key : keys) {
-            builder.append("Amount of " + key + "s: " + map.get(key) + "\n");
-        }
-        return builder.toString();
-    }
-
-    private String blockMapToString(Map<BlockResult, Integer> map) {
-        StringBuilder builder = new StringBuilder();
-        Set<BlockResult> keys = new TreeSet<>();
-        keys.addAll(map.keySet());
-        for (BlockResult key : keys) {
-            builder.append("Amount of " + key.getName() + "s: " + map.get(key) + "\n");
-        }
-        return builder.toString();
     }
 }
