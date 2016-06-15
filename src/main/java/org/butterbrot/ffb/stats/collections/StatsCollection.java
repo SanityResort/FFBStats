@@ -12,7 +12,7 @@ public class StatsCollection {
     private boolean finished = false;
     private TeamStatsCollection home;
     private TeamStatsCollection away;
-    private int version = 1;
+    private int version = 2;
     private String replayId;
 
     private transient Map <String, TeamStatsCollection> teams = new HashMap<>();
