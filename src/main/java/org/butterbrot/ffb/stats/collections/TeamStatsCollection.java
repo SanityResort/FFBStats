@@ -2,12 +2,10 @@ package org.butterbrot.ffb.stats.collections;
 
 import refactored.com.balancedbytes.games.ffb.BlockResult;
 import refactored.com.balancedbytes.games.ffb.BlockResultFactory;
+import refactored.com.balancedbytes.games.ffb.report.ReportId;
 
-import javax.validation.constraints.Null;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
-import java.util.TreeSet;
 
 public class TeamStatsCollection {
 
@@ -15,7 +13,10 @@ public class TeamStatsCollection {
 
     private Map<Integer, Integer> singleRolls = initNonBlockStatsMap(6);
     private Map<Integer, Integer> successfulSingleRolls = initNonBlockStatsMap(2, 6);
-    private Map<Integer, Integer> failedSingleRolls = initNonBlockStatsMap(2, 6);
+    private Map<Integer, Integer> successfulDodgeRolls = initNonBlockStatsMap(2, 6);
+    private Map<Integer, Integer> successfulGfiRolls = initNonBlockStatsMap(2, 3);
+    private Map<Integer, Integer> failedDodgeRolls = initNonBlockStatsMap(2, 6);
+    private Map<Integer, Integer> failedGfiRolls = initNonBlockStatsMap(2, 3);
     private Map<Integer, Integer> totalSingleRolls = initNonBlockStatsMap(6);
     private Map<Integer, Integer> doubleRolls = initNonBlockStatsMap(2, 12);
     private Map<Integer, Integer> totalDoubleRolls = initNonBlockStatsMap(2, 12);
@@ -37,12 +38,24 @@ public class TeamStatsCollection {
         this.race = race;
     }
 
-    public Map<Integer, Integer> getSuccessfulSingleRolls() {
-        return successfulSingleRolls;
+    public Map<Integer, Integer> getSuccessfulDodgeRolls() {
+        return successfulDodgeRolls;
     }
 
-    public Map<Integer, Integer> getFailedSingleRolls() {
-        return failedSingleRolls;
+    public Map<Integer, Integer> getSuccessfulGfiRolls() {
+        return successfulGfiRolls;
+    }
+
+    public Map<Integer, Integer> getFailedDodgeRolls() {
+        return failedDodgeRolls;
+    }
+
+    public Map<Integer, Integer> getFailedGfiRolls() {
+        return failedGfiRolls;
+    }
+
+    public Map<Integer, Integer> getSuccessfulSingleRolls() {
+        return successfulSingleRolls;
     }
 
     public Map<Integer, Integer> getSingleRolls() {
@@ -159,12 +172,24 @@ public class TeamStatsCollection {
         increment(failedBlocks, count);
     }
 
-    public void addSuccessRoll(boolean successful, int minimumRoll) {
+    public void addSuccessRoll(ReportId reportId, int minimumRoll) {
         if (minimumRoll > 1) {
-            if (successful) {
-                increment(successfulSingleRolls, Math.min(6, minimumRoll));
-            } else {
-                increment(failedSingleRolls, Math.min(6, minimumRoll));
+            int maxedRolled = Math.min(6, minimumRoll);
+            increment(successfulSingleRolls, maxedRolled);
+            if (ReportId.DODGE_ROLL == reportId) {
+                increment(successfulDodgeRolls, maxedRolled);
+            } else if (ReportId.GO_FOR_IT_ROLL == reportId) {
+                increment(successfulGfiRolls, Math.min(3, minimumRoll));
+            }
+        }
+    }
+
+    public void addFailedRoll(ReportId reportId, int minimumRoll){
+        if (minimumRoll > 1) {
+            if (ReportId.DODGE_ROLL == reportId) {
+                increment(failedDodgeRolls, Math.min(6, minimumRoll));
+            } else if (ReportId.GO_FOR_IT_ROLL == reportId) {
+                increment(failedGfiRolls, Math.min(3, minimumRoll));
             }
         }
     }

@@ -5,6 +5,7 @@ import java.util.Map;
 
 import refactored.com.balancedbytes.games.ffb.model.Player;
 import refactored.com.balancedbytes.games.ffb.model.Team;
+import refactored.com.balancedbytes.games.ffb.report.ReportId;
 
 public class StatsCollection {
 
@@ -44,13 +45,17 @@ public class StatsCollection {
         return away;
     }
 
-    public void addSuccessRoll(String playerOrTeam, boolean successful, int minimumRoll) {
-        teams.get(playerOrTeam).addSuccessRoll(successful, minimumRoll);
+    public void addSuccessRoll(String playerOrTeam, ReportId reportId, int minimumRoll) {
+        teams.get(playerOrTeam).addSuccessRoll(reportId, minimumRoll);
     }
 
-    public void addOpposingSuccessRoll(String playerOrTeam, boolean successful, int minimumRoll) {
+    public void addFailedRoll(String playerOrTeam, ReportId reportId, int minimumRoll) {
+        teams.get(playerOrTeam).addFailedRoll(reportId, minimumRoll);
+    }
+
+    public void addOpposingSuccessRoll(String playerOrTeam, ReportId reportId, int minimumRoll) {
         TeamStatsCollection team = teams.get(playerOrTeam);
-        getOpposition(team).addSuccessRoll(successful, minimumRoll);
+        getOpposition(team).addSuccessRoll(reportId, minimumRoll);
     }
 
     public void addSingleRoll(int roll, String playerOrTeam) {
