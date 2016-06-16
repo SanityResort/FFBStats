@@ -21,7 +21,11 @@ public class StatsCollection {
     private int version = 3;
     private String replayId;
     private String weather;
-    private List<Drive> drives = new ArrayList<>();
+    private List<Drive> firstHalf = new ArrayList<>();
+    private List<Drive> secondHalf = new ArrayList<>();
+    private List<Drive> overtime = new ArrayList<>();
+    private transient List<Drive> currentHalf = firstHalf;
+
 
     private transient Map <String, TeamStatsCollection> teams = new HashMap<>();
 
@@ -152,29 +156,41 @@ public class StatsCollection {
         return home;
     }
 
+    public void startSecondHalf() {
+        currentHalf = secondHalf;
+    }
+
+    public void startOvertime() {
+        currentHalf = overtime;
+    }
+
     public void addDrive(KickoffResult kickoffResult) {
-        drives.add(new Drive(kickoffResult.getName()));
+        currentHalf.add(new Drive(kickoffResult.getName()));
     }
 
     public void addKickOffRolls(int[] home, int[] away) {
-        drives.get(drives.size()-1).setKickOffRollsAway(away);
-        drives.get(drives.size()-1).setKickOffRollsHome(home);
+        currentHalf.get(currentHalf.size()-1).setKickOffRollsAway(away);
+        currentHalf.get(currentHalf.size()-1).setKickOffRollsHome(home);
     }
 
     public void addHeatRoll(int roll, String player) {
         if (teams.get(player).equals(home)) {
-            drives.get(drives.size()-1).addHeatRollAway(roll);
+            currentHalf.get(currentHalf.size()-1).addHeatRollAway(roll);
         } else {
-            drives.get(drives.size()-1).addHeatRollHome(roll);
+            currentHalf.get(currentHalf.size()-1).addHeatRollHome(roll);
         }
     }
 
     public void addKoRoll(int roll, String player) {
         if (teams.get(player).equals(home)) {
-            drives.get(drives.size()-1).addKoRollHome(roll);
+            currentHalf.get(currentHalf.size()-1).addKoRollHome(roll);
         } else {
-            drives.get(drives.size()-1).addKoRollAway(roll);
+            currentHalf.get(currentHalf.size()-1).addKoRollAway(roll);
         }
+    }
+
+    public void addTurn(boolean isHomeActive, TurnMode turnMode, int turnNumber) {
+        currentHalf.get(currentHalf.size()-1).addTurn(new Turn(isHomeActive, turnMode.getName(), turnNumber, new TeamStatsCollection(), new TeamStatsCollection()));
     }
 
     private static final class Drive {

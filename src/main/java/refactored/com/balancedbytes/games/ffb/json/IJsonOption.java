@@ -70,5 +70,6 @@ public interface IJsonOption {
     JsonValueOption MODEL_CHANGE_VALUE = new JsonValueOption("modelChangeValue");
     JsonArrayOption MODEL_CHANGE_ARRAY = new JsonArrayOption("modelChangeArray");
     JsonObjectOption MODEL_CHANGE_LIST = new JsonObjectOption("modelChangeList");
+    JsonIntOption HALF = new JsonIntOption("half");
 }
 

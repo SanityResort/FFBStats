@@ -3,6 +3,7 @@ package refactored.com.balancedbytes.games.ffb.report;
 import refactored.com.balancedbytes.games.ffb.IEnumWithId;
 import refactored.com.balancedbytes.games.ffb.IEnumWithName;
 import org.butterbrot.ffb.stats.adapter.DummyReport;
+import refactored.com.balancedbytes.games.ffb.ReportStartHalf;
 
 public enum ReportId implements IEnumWithId, IEnumWithName
 {
@@ -233,7 +234,9 @@ public enum ReportId implements IEnumWithId, IEnumWithName
             case KICKOFF_RESULT: {
                 return new ReportKickoffResult();
             }
-
+            case START_HALF: {
+                return new ReportStartHalf();
+            }
             default:
                 return new DummyReport();
         }

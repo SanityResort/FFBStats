@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import org.butterbrot.ffb.stats.collections.StatsCollection;
 import refactored.com.balancedbytes.games.ffb.HeatExhaustion;
 import refactored.com.balancedbytes.games.ffb.KnockoutRecovery;
+import refactored.com.balancedbytes.games.ffb.ReportStartHalf;
 import refactored.com.balancedbytes.games.ffb.SpecialEffect;
 import refactored.com.balancedbytes.games.ffb.TurnMode;
 import refactored.com.balancedbytes.games.ffb.model.Team;
@@ -73,6 +74,8 @@ public class StatsCollector {
         boolean lastReportWasBlockRoll = false;
         boolean blockRerolled = false;
         boolean reRollingInjury = false;
+        boolean startSecondHalf = false;
+        boolean startOvertime = false;
         for (ServerCommand command : replayCommands) {
             ServerCommandModelSync modelSync = (ServerCommandModelSync) command;
             for (ModelChange change: modelSync.getModelChanges().getChanges()) {
@@ -88,9 +91,10 @@ public class StatsCollector {
                     turnNumber = (int) change.getValue();
                 }
             }
+
             ReportList reportList = modelSync.getReportList();
             for (IReport report : reportList.getReports()) {
-                //System.out.println(new Gson().toJson(report));
+                System.out.println(new Gson().toJson(report));
                 if (report instanceof ReportSkillRoll) {
                     ReportSkillRoll skillReport = ((ReportSkillRoll) report);
                     if (skillReport.getRoll() > 0) {
@@ -286,6 +290,19 @@ public class StatsCollector {
                         }
                     }
 
+                    if (startSecondHalf) {
+                        collection.startSecondHalf();
+                        startSecondHalf = false;
+                    }
+                    if (startOvertime) {
+                        collection.startOvertime();
+                        startOvertime = false;
+                    }
+
+                    if(TurnMode.BLITZ == turnMode || TurnMode.REGULAR == turnMode) {
+                        collection.addTurn(isHomePlaying, turnMode, turnNumber);
+                    }
+
                 } else if (report instanceof ReportPilingOn) {
                     reRollingInjury = ((ReportPilingOn) report).isReRollInjury();
                 } else if (report instanceof ReportStandUpRoll) {
@@ -296,6 +313,13 @@ public class StatsCollector {
                     }
                 } else if (report instanceof ReportWeather) {
                     collection.setWeather(((ReportWeather) report).getWeather().getName());
+                } else if (report instanceof ReportStartHalf) {
+                    if (((ReportStartHalf)report).getHalf() == 2) {
+                        startSecondHalf = true;
+                    } else if (((ReportStartHalf)report).getHalf() > 2) {
+                        startOvertime = true;
+                        startSecondHalf = false;
+                    }
                 }
             }
         }

@@ -31,6 +31,8 @@ public class TeamStatsCollection {
     private String teamName;
     private String coach;
     private String race;
+    public TeamStatsCollection() {
+    }
 
     public TeamStatsCollection(String teamName, String coach, String race) {
         this.teamName = teamName;
