@@ -28,6 +28,7 @@ import refactored.com.balancedbytes.games.ffb.report.ReportSpectators;
 import refactored.com.balancedbytes.games.ffb.report.ReportStandUpRoll;
 import refactored.com.balancedbytes.games.ffb.report.ReportTentaclesShadowingRoll;
 import refactored.com.balancedbytes.games.ffb.report.ReportTurnEnd;
+import refactored.com.balancedbytes.games.ffb.report.ReportWeather;
 import refactored.com.balancedbytes.games.ffb.report.ReportWinningsRoll;
 import refactored.com.balancedbytes.games.ffb.util.ArrayTool;
 
@@ -258,6 +259,8 @@ public class StatsCollector {
                     if (standUpRoll.isSuccessful()) {
                         collection.addSuccessRoll(standUpRoll.getPlayerId(), standUpRoll.getId(), 4);
                     }
+                } else if (report instanceof ReportWeather) {
+                    collection.setWeather(((ReportWeather) report).getWeather().getName());
                 }
             }
         }

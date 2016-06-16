@@ -2,6 +2,7 @@ package refactored.com.balancedbytes.games.ffb.json;
 
 import refactored.com.balancedbytes.games.ffb.PlayerActionFactory;
 import refactored.com.balancedbytes.games.ffb.SpecialEffectFactory;
+import refactored.com.balancedbytes.games.ffb.WeatherFactory;
 import refactored.com.balancedbytes.games.ffb.net.NetCommandIdFactory;
 import refactored.com.balancedbytes.games.ffb.report.ReportIdFactory;
 
@@ -58,5 +59,7 @@ public interface IJsonOption {
     JsonIntOption WINNINGS_ROLL_AWAY = new JsonIntOption("winningsRollAway");
     JsonIntOption WINNINGS_ROLL_HOME = new JsonIntOption("winningsRollHome");
     JsonBooleanOption RE_ROLL_INJURY = new JsonBooleanOption("reRollInjury");
+    JsonEnumWithNameOption WEATHER = new JsonEnumWithNameOption("weather", new WeatherFactory());
+    JsonIntArrayOption WEATHER_ROLL = new JsonIntArrayOption("weatherRoll");
 }
 

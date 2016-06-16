@@ -12,13 +12,18 @@ public class StatsCollection {
     private boolean finished = false;
     private TeamStatsCollection home;
     private TeamStatsCollection away;
-    private int version = 2;
+    private int version = 3;
     private String replayId;
+    private String weather;
 
     private transient Map <String, TeamStatsCollection> teams = new HashMap<>();
 
     public void setReplayId(String replayId) {
         this.replayId = replayId;
+    }
+
+    public void setWeather(String weather) {
+        this.weather = weather;
     }
 
     public void setHomeTeam(Team team) {
