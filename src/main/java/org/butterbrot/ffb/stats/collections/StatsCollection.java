@@ -5,9 +5,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import refactored.com.balancedbytes.games.ffb.KickoffResult;
+import refactored.com.balancedbytes.games.ffb.TurnMode;
 import refactored.com.balancedbytes.games.ffb.model.Player;
 import refactored.com.balancedbytes.games.ffb.model.Team;
 import refactored.com.balancedbytes.games.ffb.report.ReportId;
+
+import static javafx.scene.input.KeyCode.T;
 
 public class StatsCollection {
 
@@ -17,6 +21,7 @@ public class StatsCollection {
     private int version = 3;
     private String replayId;
     private String weather;
+    private List<Drive> drives = new ArrayList<>();
 
     private transient Map <String, TeamStatsCollection> teams = new HashMap<>();
 
@@ -147,16 +152,72 @@ public class StatsCollection {
         return home;
     }
 
+    public void addDrive(KickoffResult kickoffResult) {
+        drives.add(new Drive(kickoffResult.getName()));
+    }
+
+    public void addKickOffRolls(int[] home, int[] away) {
+        drives.get(drives.size()-1).setKickOffRollsAway(away);
+        drives.get(drives.size()-1).setKickOffRollsHome(home);
+    }
+
+    public void addHeatRoll(int roll, String player) {
+        if (teams.get(player).equals(home)) {
+            drives.get(drives.size()-1).addHeatRollAway(roll);
+        } else {
+            drives.get(drives.size()-1).addHeatRollHome(roll);
+        }
+    }
+
+    public void addKoRoll(int roll, String player) {
+        if (teams.get(player).equals(home)) {
+            drives.get(drives.size()-1).addKoRollHome(roll);
+        } else {
+            drives.get(drives.size()-1).addKoRollAway(roll);
+        }
+    }
+
     private static final class Drive {
         private final List<Turn> turns = new ArrayList<>();
         private final String kickOff;
+
+        private int[] kickOffRollsHome;
+        private int[] kickOffRollsAway;
+        private List<Integer> koRollsHome = new ArrayList<>();
+        private List<Integer> koRollsAway = new ArrayList<>();
+        private List<Integer> heatRollsHome = new ArrayList<>();
+        private List<Integer> heatRollsAway = new ArrayList<>();
 
         private Drive(String kickOff) {
             this.kickOff = kickOff;
         }
 
+        public void setKickOffRollsHome(int[] kickOffRollsHome) {
+            this.kickOffRollsHome = kickOffRollsHome;
+        }
+
+        public void setKickOffRollsAway(int[] kickOffRollsAway) {
+            this.kickOffRollsAway = kickOffRollsAway;
+        }
+
         void addTurn(Turn turn){
             turns.add(turn);
+        }
+
+        void addKoRollHome(int roll){
+            koRollsHome.add(roll);
+        }
+
+        void addKoRollAway(int roll){
+            koRollsAway.add(roll);
+        }
+
+        void addHeatRollHome(int roll){
+            heatRollsHome.add(roll);
+        }
+
+        void addHeatRollAway(int roll){
+            heatRollsAway.add(roll);
         }
     }
 

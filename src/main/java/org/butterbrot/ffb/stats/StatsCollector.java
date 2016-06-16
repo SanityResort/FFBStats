@@ -1,5 +1,6 @@
 package org.butterbrot.ffb.stats;
 
+import com.google.gson.Gson;
 import org.butterbrot.ffb.stats.collections.StatsCollection;
 import refactored.com.balancedbytes.games.ffb.HeatExhaustion;
 import refactored.com.balancedbytes.games.ffb.KnockoutRecovery;
@@ -17,7 +18,9 @@ import refactored.com.balancedbytes.games.ffb.report.ReportBribesRoll;
 import refactored.com.balancedbytes.games.ffb.report.ReportFanFactorRoll;
 import refactored.com.balancedbytes.games.ffb.report.ReportId;
 import refactored.com.balancedbytes.games.ffb.report.ReportInjury;
+import refactored.com.balancedbytes.games.ffb.report.ReportKickoffExtraReRoll;
 import refactored.com.balancedbytes.games.ffb.report.ReportKickoffPitchInvasion;
+import refactored.com.balancedbytes.games.ffb.report.ReportKickoffResult;
 import refactored.com.balancedbytes.games.ffb.report.ReportKickoffThrowARock;
 import refactored.com.balancedbytes.games.ffb.report.ReportList;
 import refactored.com.balancedbytes.games.ffb.report.ReportMasterChefRoll;
@@ -87,6 +90,7 @@ public class StatsCollector {
             }
             ReportList reportList = modelSync.getReportList();
             for (IReport report : reportList.getReports()) {
+                //System.out.println(new Gson().toJson(report));
                 if (report instanceof ReportSkillRoll) {
                     ReportSkillRoll skillReport = ((ReportSkillRoll) report);
                     if (skillReport.getRoll() > 0) {
@@ -153,10 +157,19 @@ public class StatsCollector {
                     collection.getAway().addDoubleRoll(specs.getSpectatorRollAway());
                     fameHome = specs.getFameHome();
                     fameAway = specs.getFameAway();
+                } else if (report instanceof ReportKickoffResult) {
+                    ReportKickoffResult kickoff = (ReportKickoffResult) report;
+                    collection.addDrive(kickoff.getKickoffResult());
                 } else if (report instanceof ReportKickoffThrowARock) {
                     ReportKickoffThrowARock throwRock = (ReportKickoffThrowARock) report;
                     collection.getAway().addSingleRoll(throwRock.getRollAway());
                     collection.getHome().addSingleRoll(throwRock.getRollHome());
+                    collection.addKickOffRolls(new int[]{throwRock.getRollHome()}, new int[]{throwRock.getRollAway()});
+                } else if (report instanceof ReportKickoffExtraReRoll) {
+                    ReportKickoffExtraReRoll extraReRoll = (ReportKickoffExtraReRoll) report;
+                    collection.getAway().addSingleRoll(extraReRoll.getRollAway());
+                    collection.getHome().addSingleRoll(extraReRoll.getRollHome());
+                    collection.addKickOffRolls(new int[]{extraReRoll.getRollHome()}, new int[]{extraReRoll.getRollAway()});
                 } else if (report instanceof ReportKickoffPitchInvasion) {
                     ReportKickoffPitchInvasion invasion = (ReportKickoffPitchInvasion) report;
                     for (int roll : invasion.getRollsHome()) {
@@ -177,6 +190,7 @@ public class StatsCollector {
                             }
                         }
                     }
+                    collection.addKickOffRolls(invasion.getRollsHome(), invasion.getRollsAway());
                 } else if (report instanceof ReportWinningsRoll) {
                     ReportWinningsRoll winnings = (ReportWinningsRoll) report;
                     if (winnings.getWinningsRollHome() > 0) {
@@ -255,6 +269,7 @@ public class StatsCollector {
                     if (ArrayTool.isProvided(turn.getKnockoutRecoveries())) {
                         for (KnockoutRecovery recovery : turn.getKnockoutRecoveries()) {
                             collection.addSingleRoll(recovery.getRoll(), recovery.getPlayerId());
+                            collection.addKoRoll(recovery.getRoll(), recovery.getPlayerId());
                             if (recovery.isRecovering()) {
                                 collection.addSuccessRoll(recovery.getPlayerId(), report.getId(), 4 - recovery.getBloodweiserBabes());
                             }
@@ -264,6 +279,7 @@ public class StatsCollector {
                     if (ArrayTool.isProvided(turn.getHeatExhaustions())) {
                         for (HeatExhaustion exhaustion : turn.getHeatExhaustions()) {
                             collection.addSingleOpposingRoll(exhaustion.getRoll(), exhaustion.getPlayerId());
+                            collection.addHeatRoll(exhaustion.getRoll(), exhaustion.getPlayerId());
                             if (!exhaustion.isExhausted()) {
                                 collection.addSuccessRoll(exhaustion.getPlayerId(), report.getId(), 2);
                             }

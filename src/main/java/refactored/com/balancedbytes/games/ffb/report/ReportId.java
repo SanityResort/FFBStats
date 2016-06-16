@@ -224,6 +224,16 @@ public enum ReportId implements IEnumWithId, IEnumWithName
             case PILING_ON: {
                 return new ReportPilingOn();
             }
+            case WEATHER: {
+                return new ReportWeather();
+            }
+            case KICKOFF_EXTRA_REROLL: {
+                return new ReportKickoffExtraReRoll();
+            }
+            case KICKOFF_RESULT: {
+                return new ReportKickoffResult();
+            }
+
             default:
                 return new DummyReport();
         }

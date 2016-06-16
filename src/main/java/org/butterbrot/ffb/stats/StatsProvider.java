@@ -1,5 +1,6 @@
 package org.butterbrot.ffb.stats;
 
+import com.google.gson.Gson;
 import org.butterbrot.ffb.stats.collections.StatsCollection;
 import org.butterbrot.ffb.stats.communication.CommandHandler;
 import org.butterbrot.ffb.stats.communication.StatsCommandSocket;
@@ -84,7 +85,9 @@ public class StatsProvider {
     }
 
     public GameDistribution distribution(String replayId) throws NoSuchReplayException {
-        return new GameDistribution(stats(replayId), replayId);
+        StatsCollection stats = stats(replayId);
+        System.out.println( new Gson().toJson(stats));
+        return new GameDistribution(stats, replayId);
     }
 
         // keep those for property injection
