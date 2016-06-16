@@ -12,6 +12,7 @@ import refactored.com.balancedbytes.games.ffb.report.ReportApothecaryRoll;
 import refactored.com.balancedbytes.games.ffb.report.ReportBlockRoll;
 import refactored.com.balancedbytes.games.ffb.report.ReportBribesRoll;
 import refactored.com.balancedbytes.games.ffb.report.ReportFanFactorRoll;
+import refactored.com.balancedbytes.games.ffb.report.ReportId;
 import refactored.com.balancedbytes.games.ffb.report.ReportInjury;
 import refactored.com.balancedbytes.games.ffb.report.ReportKickoffPitchInvasion;
 import refactored.com.balancedbytes.games.ffb.report.ReportKickoffThrowARock;
@@ -75,7 +76,13 @@ public class StatsCollector {
                         } else {
                             collection.addFailedRoll(skillReport.getPlayerId(), skillReport.getId(), skillReport.getMinimumRoll());
                         }
+                    } else if (ReportId.DODGE_ROLL == skillReport.getId()) {
+                        // skill roll was 0 for a dodge, which means the dodge failed due to diving tackle and we have to remove the previously reported success and report the failure instead.
+                        collection.addFailedRoll(skillReport.getPlayerId(), skillReport.getId(), skillReport.getMinimumRoll());
+                        collection.removeSuccessRoll(skillReport.getPlayerId(), skillReport.getId(), skillReport.getMinimumRoll() - 2);
                     }
+
+
                     // set the block roll to null, when some other skill roll was made, like dodge or gfi.
                     // this should take are that a fanatic falling down due to a gfi is not counted as a failed block.
                     currentBlockRoll = null;

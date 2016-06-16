@@ -184,6 +184,18 @@ public class TeamStatsCollection {
         }
     }
 
+    public void removeSuccessRoll(ReportId reportId, int minimumRoll) {
+        if (minimumRoll > 1) {
+            int maxedRolled = Math.min(6, minimumRoll);
+            decrement(successfulSingleRolls, maxedRolled);
+            if (ReportId.DODGE_ROLL == reportId) {
+                decrement(successfulDodgeRolls, maxedRolled);
+            } else if (ReportId.GO_FOR_IT_ROLL == reportId) {
+                decrement(successfulGfiRolls, Math.min(3, minimumRoll));
+            }
+        }
+    }
+
     public void addFailedRoll(ReportId reportId, int minimumRoll){
         if (minimumRoll > 1) {
             if (ReportId.DODGE_ROLL == reportId) {

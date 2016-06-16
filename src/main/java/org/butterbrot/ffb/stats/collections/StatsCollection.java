@@ -49,6 +49,10 @@ public class StatsCollection {
         teams.get(playerOrTeam).addSuccessRoll(reportId, minimumRoll);
     }
 
+    public void removeSuccessRoll(String playerOrTeam, ReportId reportId, int minimumRoll) {
+        teams.get(playerOrTeam).removeSuccessRoll(reportId, minimumRoll);
+    }
+
     public void addFailedRoll(String playerOrTeam, ReportId reportId, int minimumRoll) {
         teams.get(playerOrTeam).addFailedRoll(reportId, minimumRoll);
     }
