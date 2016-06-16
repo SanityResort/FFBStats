@@ -1,8 +1,10 @@
 package refactored.com.balancedbytes.games.ffb.json;
 
+import refactored.com.balancedbytes.games.ffb.KickoffResultFactory;
 import refactored.com.balancedbytes.games.ffb.PlayerActionFactory;
 import refactored.com.balancedbytes.games.ffb.SpecialEffectFactory;
 import refactored.com.balancedbytes.games.ffb.WeatherFactory;
+import refactored.com.balancedbytes.games.ffb.model.change.ModelChangeIdFactory;
 import refactored.com.balancedbytes.games.ffb.net.NetCommandIdFactory;
 import refactored.com.balancedbytes.games.ffb.report.ReportIdFactory;
 
@@ -61,5 +63,12 @@ public interface IJsonOption {
     JsonBooleanOption RE_ROLL_INJURY = new JsonBooleanOption("reRollInjury");
     JsonEnumWithNameOption WEATHER = new JsonEnumWithNameOption("weather", new WeatherFactory());
     JsonIntArrayOption WEATHER_ROLL = new JsonIntArrayOption("weatherRoll");
+    JsonEnumWithNameOption KICKOFF_RESULT = new JsonEnumWithNameOption("kickoffResult", new KickoffResultFactory());
+    JsonIntArrayOption KICKOFF_ROLL = new JsonIntArrayOption("kickoffRoll");
+    JsonEnumWithNameOption MODEL_CHANGE_ID = new JsonEnumWithNameOption("modelChangeId", new ModelChangeIdFactory());
+    JsonStringOption MODEL_CHANGE_KEY = new JsonStringOption("modelChangeKey");
+    JsonValueOption MODEL_CHANGE_VALUE = new JsonValueOption("modelChangeValue");
+    JsonArrayOption MODEL_CHANGE_ARRAY = new JsonArrayOption("modelChangeArray");
+    JsonObjectOption MODEL_CHANGE_LIST = new JsonObjectOption("modelChangeList");
 }
 

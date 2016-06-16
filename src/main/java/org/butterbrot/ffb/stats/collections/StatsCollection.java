@@ -1,6 +1,8 @@
 package org.butterbrot.ffb.stats.collections;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import refactored.com.balancedbytes.games.ffb.model.Player;
@@ -145,12 +147,34 @@ public class StatsCollection {
         return home;
     }
 
-    public String toString() {
-        StringBuilder builder = new StringBuilder();
-        builder.append("HOME TEAM\n");
-        builder.append(home.toString());
-        builder.append("AWAY TEAM\n");
-        builder.append(away.toString());
-        return builder.toString();
+    private static final class Drive {
+        private final List<Turn> turns = new ArrayList<>();
+        private final String kickOff;
+
+        private Drive(String kickOff) {
+            this.kickOff = kickOff;
+        }
+
+        void addTurn(Turn turn){
+            turns.add(turn);
+        }
+    }
+
+    private static final class Turn {
+        private final boolean isHomeActive;
+        private final String turnMode;
+        private final int number;
+
+        private final TeamStatsCollection home;
+        private final TeamStatsCollection away;
+
+
+        public Turn(boolean isHomeActive, String turnMode, int number, TeamStatsCollection home, TeamStatsCollection away) {
+            this.isHomeActive = isHomeActive;
+            this.turnMode = turnMode;
+            this.number = number;
+            this.home = home;
+            this.away = away;
+        }
     }
 }

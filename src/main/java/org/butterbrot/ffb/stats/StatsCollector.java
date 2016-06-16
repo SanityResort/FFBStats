@@ -4,7 +4,10 @@ import org.butterbrot.ffb.stats.collections.StatsCollection;
 import refactored.com.balancedbytes.games.ffb.HeatExhaustion;
 import refactored.com.balancedbytes.games.ffb.KnockoutRecovery;
 import refactored.com.balancedbytes.games.ffb.SpecialEffect;
+import refactored.com.balancedbytes.games.ffb.TurnMode;
 import refactored.com.balancedbytes.games.ffb.model.Team;
+import refactored.com.balancedbytes.games.ffb.model.change.ModelChange;
+import refactored.com.balancedbytes.games.ffb.model.change.ModelChangeId;
 import refactored.com.balancedbytes.games.ffb.net.commands.ServerCommand;
 import refactored.com.balancedbytes.games.ffb.net.commands.ServerCommandModelSync;
 import refactored.com.balancedbytes.games.ffb.report.IReport;
@@ -57,6 +60,9 @@ public class StatsCollector {
     public StatsCollection evaluate(String replayId) {
         int fameHome = 0;
         int fameAway = 0;
+        boolean isHomePlaying = false;
+        TurnMode turnMode = null;
+        int turnNumber = 0;
         collection.setReplayId(replayId);
         String currentBlocker = null;
         String currentMover = null;
@@ -66,6 +72,19 @@ public class StatsCollector {
         boolean reRollingInjury = false;
         for (ServerCommand command : replayCommands) {
             ServerCommandModelSync modelSync = (ServerCommandModelSync) command;
+            for (ModelChange change: modelSync.getModelChanges().getChanges()) {
+                if (ModelChangeId.GAME_SET_HOME_PLAYING == change.getChangeId()) {
+                    isHomePlaying = (boolean) change.getValue();
+                }
+
+                if (ModelChangeId.GAME_SET_TURN_MODE == change.getChangeId()) {
+                    turnMode = (TurnMode) change.getValue();
+                }
+
+                if (ModelChangeId.TURN_DATA_SET_TURN_NR == change.getChangeId()) {
+                    turnNumber = (int) change.getValue();
+                }
+            }
             ReportList reportList = modelSync.getReportList();
             for (IReport report : reportList.getReports()) {
                 if (report instanceof ReportSkillRoll) {
