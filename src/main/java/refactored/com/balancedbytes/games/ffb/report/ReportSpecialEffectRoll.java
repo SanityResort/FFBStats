@@ -6,8 +6,6 @@ import refactored.com.balancedbytes.games.ffb.json.UtilJson;
 import repackaged.com.eclipsesource.json.JsonObject;
 import repackaged.com.eclipsesource.json.JsonValue;
 
-import static org.codehaus.groovy.tools.shell.util.Logger.io;
-
 public class ReportSpecialEffectRoll implements IReport {
     private SpecialEffect fSpecialEffect;
     private String fPlayerId;
