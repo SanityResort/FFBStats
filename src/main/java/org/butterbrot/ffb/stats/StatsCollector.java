@@ -1,10 +1,15 @@
 package org.butterbrot.ffb.stats;
 
+import com.google.gson.Gson;
 import org.butterbrot.ffb.stats.collections.StatsCollection;
 import refactored.com.balancedbytes.games.ffb.HeatExhaustion;
 import refactored.com.balancedbytes.games.ffb.KnockoutRecovery;
+import refactored.com.balancedbytes.games.ffb.ReportStartHalf;
 import refactored.com.balancedbytes.games.ffb.SpecialEffect;
+import refactored.com.balancedbytes.games.ffb.TurnMode;
 import refactored.com.balancedbytes.games.ffb.model.Team;
+import refactored.com.balancedbytes.games.ffb.model.change.ModelChange;
+import refactored.com.balancedbytes.games.ffb.model.change.ModelChangeId;
 import refactored.com.balancedbytes.games.ffb.net.commands.ServerCommand;
 import refactored.com.balancedbytes.games.ffb.net.commands.ServerCommandModelSync;
 import refactored.com.balancedbytes.games.ffb.report.IReport;
@@ -14,7 +19,9 @@ import refactored.com.balancedbytes.games.ffb.report.ReportBribesRoll;
 import refactored.com.balancedbytes.games.ffb.report.ReportFanFactorRoll;
 import refactored.com.balancedbytes.games.ffb.report.ReportId;
 import refactored.com.balancedbytes.games.ffb.report.ReportInjury;
+import refactored.com.balancedbytes.games.ffb.report.ReportKickoffExtraReRoll;
 import refactored.com.balancedbytes.games.ffb.report.ReportKickoffPitchInvasion;
+import refactored.com.balancedbytes.games.ffb.report.ReportKickoffResult;
 import refactored.com.balancedbytes.games.ffb.report.ReportKickoffThrowARock;
 import refactored.com.balancedbytes.games.ffb.report.ReportList;
 import refactored.com.balancedbytes.games.ffb.report.ReportMasterChefRoll;
@@ -28,6 +35,7 @@ import refactored.com.balancedbytes.games.ffb.report.ReportSpectators;
 import refactored.com.balancedbytes.games.ffb.report.ReportStandUpRoll;
 import refactored.com.balancedbytes.games.ffb.report.ReportTentaclesShadowingRoll;
 import refactored.com.balancedbytes.games.ffb.report.ReportTurnEnd;
+import refactored.com.balancedbytes.games.ffb.report.ReportWeather;
 import refactored.com.balancedbytes.games.ffb.report.ReportWinningsRoll;
 import refactored.com.balancedbytes.games.ffb.util.ArrayTool;
 
@@ -56,6 +64,9 @@ public class StatsCollector {
     public StatsCollection evaluate(String replayId) {
         int fameHome = 0;
         int fameAway = 0;
+        boolean isHomePlaying = false;
+        TurnMode turnMode = null;
+        int turnNumber = 0;
         collection.setReplayId(replayId);
         String currentBlocker = null;
         String currentMover = null;
@@ -63,10 +74,27 @@ public class StatsCollector {
         boolean lastReportWasBlockRoll = false;
         boolean blockRerolled = false;
         boolean reRollingInjury = false;
+        boolean startSecondHalf = false;
+        boolean startOvertime = false;
         for (ServerCommand command : replayCommands) {
             ServerCommandModelSync modelSync = (ServerCommandModelSync) command;
+            for (ModelChange change: modelSync.getModelChanges().getChanges()) {
+                if (ModelChangeId.GAME_SET_HOME_PLAYING == change.getChangeId()) {
+                    isHomePlaying = (boolean) change.getValue();
+                }
+
+                if (ModelChangeId.GAME_SET_TURN_MODE == change.getChangeId()) {
+                    turnMode = (TurnMode) change.getValue();
+                }
+
+                if (ModelChangeId.TURN_DATA_SET_TURN_NR == change.getChangeId()) {
+                    turnNumber = (int) change.getValue();
+                }
+            }
+
             ReportList reportList = modelSync.getReportList();
             for (IReport report : reportList.getReports()) {
+              //  System.out.println(new Gson().toJson(report));
                 if (report instanceof ReportSkillRoll) {
                     ReportSkillRoll skillReport = ((ReportSkillRoll) report);
                     if (skillReport.getRoll() > 0) {
@@ -133,10 +161,19 @@ public class StatsCollector {
                     collection.getAway().addDoubleRoll(specs.getSpectatorRollAway());
                     fameHome = specs.getFameHome();
                     fameAway = specs.getFameAway();
+                } else if (report instanceof ReportKickoffResult) {
+                    ReportKickoffResult kickoff = (ReportKickoffResult) report;
+                    collection.addDrive(kickoff.getKickoffResult());
                 } else if (report instanceof ReportKickoffThrowARock) {
                     ReportKickoffThrowARock throwRock = (ReportKickoffThrowARock) report;
                     collection.getAway().addSingleRoll(throwRock.getRollAway());
                     collection.getHome().addSingleRoll(throwRock.getRollHome());
+                    collection.addKickOffRolls(new int[]{throwRock.getRollHome()}, new int[]{throwRock.getRollAway()});
+                } else if (report instanceof ReportKickoffExtraReRoll) {
+                    ReportKickoffExtraReRoll extraReRoll = (ReportKickoffExtraReRoll) report;
+                    collection.getAway().addSingleRoll(extraReRoll.getRollAway());
+                    collection.getHome().addSingleRoll(extraReRoll.getRollHome());
+                    collection.addKickOffRolls(new int[]{extraReRoll.getRollHome()}, new int[]{extraReRoll.getRollAway()});
                 } else if (report instanceof ReportKickoffPitchInvasion) {
                     ReportKickoffPitchInvasion invasion = (ReportKickoffPitchInvasion) report;
                     for (int roll : invasion.getRollsHome()) {
@@ -157,6 +194,7 @@ public class StatsCollector {
                             }
                         }
                     }
+                    collection.addKickOffRolls(invasion.getRollsHome(), invasion.getRollsAway());
                 } else if (report instanceof ReportWinningsRoll) {
                     ReportWinningsRoll winnings = (ReportWinningsRoll) report;
                     if (winnings.getWinningsRollHome() > 0) {
@@ -235,6 +273,7 @@ public class StatsCollector {
                     if (ArrayTool.isProvided(turn.getKnockoutRecoveries())) {
                         for (KnockoutRecovery recovery : turn.getKnockoutRecoveries()) {
                             collection.addSingleRoll(recovery.getRoll(), recovery.getPlayerId());
+                            collection.addKoRoll(recovery.getRoll(), recovery.getPlayerId());
                             if (recovery.isRecovering()) {
                                 collection.addSuccessRoll(recovery.getPlayerId(), report.getId(), 4 - recovery.getBloodweiserBabes());
                             }
@@ -244,10 +283,24 @@ public class StatsCollector {
                     if (ArrayTool.isProvided(turn.getHeatExhaustions())) {
                         for (HeatExhaustion exhaustion : turn.getHeatExhaustions()) {
                             collection.addSingleOpposingRoll(exhaustion.getRoll(), exhaustion.getPlayerId());
+                            collection.addHeatRoll(exhaustion.getRoll(), exhaustion.getPlayerId());
                             if (!exhaustion.isExhausted()) {
                                 collection.addSuccessRoll(exhaustion.getPlayerId(), report.getId(), 2);
                             }
                         }
+                    }
+
+                    if (startSecondHalf) {
+                        collection.startSecondHalf();
+                        startSecondHalf = false;
+                    }
+                    if (startOvertime) {
+                        collection.startOvertime();
+                        startOvertime = false;
+                    }
+
+                    if(TurnMode.BLITZ == turnMode || TurnMode.REGULAR == turnMode) {
+                        collection.addTurn(isHomePlaying, turnMode, turnNumber);
                     }
 
                 } else if (report instanceof ReportPilingOn) {
@@ -257,6 +310,15 @@ public class StatsCollector {
                     collection.addSingleRoll(standUpRoll.getRoll(), standUpRoll.getPlayerId());
                     if (standUpRoll.isSuccessful()) {
                         collection.addSuccessRoll(standUpRoll.getPlayerId(), standUpRoll.getId(), 4);
+                    }
+                } else if (report instanceof ReportWeather) {
+                    collection.setWeather(((ReportWeather) report).getWeather().getName());
+                } else if (report instanceof ReportStartHalf) {
+                    if (((ReportStartHalf)report).getHalf() == 2) {
+                        startSecondHalf = true;
+                    } else if (((ReportStartHalf)report).getHalf() > 2) {
+                        startOvertime = true;
+                        startSecondHalf = false;
                     }
                 }
             }
