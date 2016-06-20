@@ -12,11 +12,11 @@ public class TeamStatsCollection {
     private transient BlockResultFactory factory = new BlockResultFactory();
 
     private Map<Integer, Integer> singleRolls = initNonBlockStatsMap(6);
-    private Map<Integer, Integer> successfulSingleRolls = initNonBlockStatsMap(2, 6);
-    private Map<Integer, Integer> successfulDodgeRolls = initNonBlockStatsMap(2, 6);
-    private Map<Integer, Integer> successfulGfiRolls = initNonBlockStatsMap(2, 3);
-    private Map<Integer, Integer> failedDodgeRolls = initNonBlockStatsMap(2, 6);
-    private Map<Integer, Integer> failedGfiRolls = initNonBlockStatsMap(2, 3);
+    private Map<String, Integer> successfulSingleRolls = initSkillRollsMap(2, 6);
+    private Map<String, Integer> successfulDodgeRolls = initSkillRollsMap(2, 6);
+    private Map<String, Integer> successfulGfiRolls = initSkillRollsMap(2, 3);
+    private Map<String, Integer> failedDodgeRolls = initSkillRollsMap(2, 6);
+    private Map<String, Integer> failedGfiRolls = initSkillRollsMap(2, 3);
     private Map<Integer, Integer> totalSingleRolls = initNonBlockStatsMap(6);
     private Map<Integer, Integer> doubleRolls = initNonBlockStatsMap(2, 12);
     private Map<Integer, Integer> totalDoubleRolls = initNonBlockStatsMap(2, 12);
@@ -40,23 +40,23 @@ public class TeamStatsCollection {
         this.race = race;
     }
 
-    public Map<Integer, Integer> getSuccessfulDodgeRolls() {
+    public Map<String, Integer> getSuccessfulDodgeRolls() {
         return successfulDodgeRolls;
     }
 
-    public Map<Integer, Integer> getSuccessfulGfiRolls() {
+    public Map<String, Integer> getSuccessfulGfiRolls() {
         return successfulGfiRolls;
     }
 
-    public Map<Integer, Integer> getFailedDodgeRolls() {
+    public Map<String, Integer> getFailedDodgeRolls() {
         return failedDodgeRolls;
     }
 
-    public Map<Integer, Integer> getFailedGfiRolls() {
+    public Map<String, Integer> getFailedGfiRolls() {
         return failedGfiRolls;
     }
 
-    public Map<Integer, Integer> getSuccessfulSingleRolls() {
+    public Map<String, Integer> getSuccessfulSingleRolls() {
         return successfulSingleRolls;
     }
 
@@ -147,6 +147,15 @@ public class TeamStatsCollection {
         return stats;
     }
 
+    private Map<String, Integer> initSkillRollsMap(int min, int max) {
+        Map<String, Integer> stats = new HashMap<>();
+        int i = min;
+        while (i <= max) {
+            stats.put(i++ + "+", 0);
+        }
+        return stats;
+    }
+
     public void addBlockDice(int[] rolls) {
         for (int roll : rolls) {
             BlockResult blockResult = factory.forRoll(roll);
@@ -177,11 +186,11 @@ public class TeamStatsCollection {
     public void addSuccessRoll(ReportId reportId, int minimumRoll) {
         if (minimumRoll > 1) {
             int maxedRolled = Math.min(6, minimumRoll);
-            increment(successfulSingleRolls, maxedRolled);
+            incrementSkillRolls(successfulSingleRolls, maxedRolled);
             if (ReportId.DODGE_ROLL == reportId) {
-                increment(successfulDodgeRolls, maxedRolled);
+                incrementSkillRolls(successfulDodgeRolls, maxedRolled);
             } else if (ReportId.GO_FOR_IT_ROLL == reportId) {
-                increment(successfulGfiRolls, Math.min(3, minimumRoll));
+                incrementSkillRolls(successfulGfiRolls, Math.min(3, minimumRoll));
             }
         }
     }
@@ -189,11 +198,11 @@ public class TeamStatsCollection {
     public void removeSuccessRoll(ReportId reportId, int minimumRoll) {
         if (minimumRoll > 1) {
             int maxedRolled = Math.min(6, minimumRoll);
-            decrement(successfulSingleRolls, maxedRolled);
+            decrementSkillRolls(successfulSingleRolls, maxedRolled);
             if (ReportId.DODGE_ROLL == reportId) {
-                decrement(successfulDodgeRolls, maxedRolled);
+                decrementSkillRolls(successfulDodgeRolls, maxedRolled);
             } else if (ReportId.GO_FOR_IT_ROLL == reportId) {
-                decrement(successfulGfiRolls, Math.min(3, minimumRoll));
+                decrementSkillRolls(successfulGfiRolls, Math.min(3, minimumRoll));
             }
         }
     }
@@ -201,9 +210,9 @@ public class TeamStatsCollection {
     public void addFailedRoll(ReportId reportId, int minimumRoll){
         if (minimumRoll > 1) {
             if (ReportId.DODGE_ROLL == reportId) {
-                increment(failedDodgeRolls, Math.min(6, minimumRoll));
+                incrementSkillRolls(failedDodgeRolls, Math.min(6, minimumRoll));
             } else if (ReportId.GO_FOR_IT_ROLL == reportId) {
-                increment(failedGfiRolls, Math.min(3, minimumRoll));
+                incrementSkillRolls(failedGfiRolls, Math.min(3, minimumRoll));
             }
         }
     }
@@ -237,6 +246,15 @@ public class TeamStatsCollection {
         rolls.put(roll, rolls.get(roll) + 1);
     }
 
+    private void incrementSkillRolls(Map<String, Integer> rolls, int roll) {
+        String key = roll+"+";
+        rolls.put(key, rolls.get(key) + 1);
+    }
+
+    private void decrementSkillRolls(Map<String, Integer> rolls, int roll) {
+        String key = roll+"+";
+        rolls.put(key, rolls.get(key) - 1);
+    }
 
     private void decrement(Map<Integer, Integer> rolls, int roll) {
         rolls.put(roll, rolls.get(roll) - 1);

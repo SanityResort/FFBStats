@@ -6,7 +6,7 @@
 
     <groupId>org.butterbrot</groupId>
     <artifactId>ffbstats</artifactId>
-    <version>1.7.0</version>
+    <version>1.7.1</version>
     <packaging>war</packaging>
     <build>
         <plugins>

@@ -12,6 +12,7 @@ import java.util.TreeSet;
 class Distribution {
 
     static final Map<Integer, String> NUMBER_LABELS = new HashMap<>();
+    static final Map<String, String> SKILL_ROLL_LABELS = new HashMap<>();
     private static final Map<BlockResult, String> SYMBOL_LABELS = new HashMap<>();
     static final Map<Integer, String> DICE_COUNT_LABLES = new HashMap<>();
 
@@ -19,6 +20,11 @@ class Distribution {
         for (int i = 1; i < 13; i++) {
             NUMBER_LABELS.put(i, String.valueOf(i));
         }
+
+        for (int i = 1; i < 13; i++) {
+            SKILL_ROLL_LABELS.put(i+"+",i+"+");
+        }
+
         for (BlockResult blockResult : BlockResult.values()) {
             SYMBOL_LABELS.put(blockResult, blockResult.name());
         }
@@ -45,11 +51,11 @@ class Distribution {
         }
     }
 
-    Distribution(String caption, Map<Integer, Integer> stats, Map<Integer, String> labels) {
+    Distribution(String caption, Map<?, Integer> stats, Map<?, String> labels) {
         init(caption, stats);
-        Set<Integer> keys = new TreeSet<>();
+        Set<Object> keys = new TreeSet<>();
         keys.addAll(stats.keySet());
-        for (Integer key : keys) {
+        for (Object key : keys) {
             int count = stats.get(key);
             entries.add(new DistributionEntry(count, getPercentage(count, sum), getPercentage(count, max), labels.get(key)));
         }
