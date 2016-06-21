@@ -80,8 +80,7 @@ public class StatsCollector {
         TurnMode turnMode = null;
         int turnNumber = 0;
         collection.setReplayId(replayId);
-        String currentBlocker = null;
-        String currentMover = null;
+        String activePlayer = null;
         ReportBlockRoll currentBlockRoll = null;
         boolean lastReportWasBlockRoll = false;
         boolean blockRerolled = false;
@@ -157,10 +156,9 @@ public class StatsCollector {
                             }
                         }
                     }
-                    if ((currentMover != null || currentBlocker != null) && currentBlockRoll != null) {
+                    if (activePlayer != null && currentBlockRoll != null) {
                         collection.addBlockKnockDown(currentBlockRoll.getBlockRoll().length, injury.getDefenderId(),
-                                currentBlockRoll.getChoosingTeamId(),
-                                currentBlocker == null ? currentMover : currentBlocker);
+                                currentBlockRoll.getChoosingTeamId(), activePlayer);
                     }
                 } else if (report instanceof ReportTentaclesShadowingRoll) {
                     ReportTentaclesShadowingRoll tentShadow = (ReportTentaclesShadowingRoll) report;
@@ -258,24 +256,17 @@ public class StatsCollector {
                         case BLITZ_MOVE:
                         case BLOCK:
                         case MULTIPLE_BLOCK:
-                            currentBlocker = action.getActingPlayerId();
-                            currentMover = null;
+                            activePlayer = action.getActingPlayerId();
                             break;
                         case MOVE:
-                            currentBlocker = null;
-                            currentMover = action.getActingPlayerId();
+                            activePlayer = action.getActingPlayerId();
                             break;
                         default:
-                            currentMover = null;
-                            currentBlocker = null;
+                            activePlayer = null;
                     }
                 } else if (report instanceof ReportBlockRoll) {
                     ReportBlockRoll block = (ReportBlockRoll) report;
-                    // if the currentBlocker is null, then we must use the currentMover as blocker. this happens e.g.
-                    // for fanatics, as they do not declare block but only move actions.
-                    collection.addBlockRolls(block.getBlockRoll(),
-                            currentBlocker == null ? currentMover : currentBlocker, block.getChoosingTeamId(),
-                            blockRerolled);
+                    collection.addBlockRolls(block.getBlockRoll(), activePlayer, block.getChoosingTeamId(), blockRerolled);
                     currentBlockRoll = block;
                     lastReportWasBlockRoll = true;
                 } else if (report instanceof ReportReRoll) {
@@ -319,7 +310,7 @@ public class StatsCollector {
                     }
 
                 } else if (report instanceof ReportPilingOn) {
-                    poReport  = ((ReportPilingOn) report);
+                    poReport = ((ReportPilingOn) report);
                 } else if (report instanceof ReportStandUpRoll) {
                     ReportStandUpRoll standUpRoll = (ReportStandUpRoll) report;
                     collection.addSingleRoll(standUpRoll.getRoll(), standUpRoll.getPlayerId());
