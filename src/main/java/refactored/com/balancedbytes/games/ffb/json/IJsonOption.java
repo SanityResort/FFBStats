@@ -12,6 +12,7 @@ public interface IJsonOption {
     JsonStringOption ACTING_PLAYER_ID = new JsonStringOption("actingPlayerId");
     JsonBooleanOption ARMOR_BROKEN = new JsonBooleanOption("armorBroken");
     JsonIntArrayOption ARMOR_ROLL = new JsonIntArrayOption("armorRoll");
+    JsonIntOption ARMOUR = new JsonIntOption("armour");
     JsonIntArrayOption BLOCK_ROLL = new JsonIntArrayOption("blockRoll");
     JsonIntOption BLOODWEISER_BABES = new JsonIntOption("bloodweiserBabes");
     JsonIntArrayOption CASUALTY_ROLL = new JsonIntArrayOption("casualtyRoll");
@@ -71,5 +72,7 @@ public interface IJsonOption {
     JsonArrayOption MODEL_CHANGE_ARRAY = new JsonArrayOption("modelChangeArray");
     JsonObjectOption MODEL_CHANGE_LIST = new JsonObjectOption("modelChangeList");
     JsonIntOption HALF = new JsonIntOption("half");
+    JsonArrayOption ARMOR_MODIFIERS = new JsonArrayOption("armorModifiers");
+    JsonArrayOption INJURY_MODIFIERS = new JsonArrayOption("injuryModifiers");
 }
 

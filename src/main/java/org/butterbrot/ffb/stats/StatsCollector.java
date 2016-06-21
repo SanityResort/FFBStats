@@ -1,12 +1,12 @@
 package org.butterbrot.ffb.stats;
 
-import com.google.gson.Gson;
 import org.butterbrot.ffb.stats.collections.StatsCollection;
 import refactored.com.balancedbytes.games.ffb.HeatExhaustion;
 import refactored.com.balancedbytes.games.ffb.KnockoutRecovery;
 import refactored.com.balancedbytes.games.ffb.ReportStartHalf;
 import refactored.com.balancedbytes.games.ffb.SpecialEffect;
 import refactored.com.balancedbytes.games.ffb.TurnMode;
+import refactored.com.balancedbytes.games.ffb.model.Player;
 import refactored.com.balancedbytes.games.ffb.model.Team;
 import refactored.com.balancedbytes.games.ffb.model.change.ModelChange;
 import refactored.com.balancedbytes.games.ffb.model.change.ModelChangeId;
@@ -39,11 +39,14 @@ import refactored.com.balancedbytes.games.ffb.report.ReportWeather;
 import refactored.com.balancedbytes.games.ffb.report.ReportWinningsRoll;
 import refactored.com.balancedbytes.games.ffb.util.ArrayTool;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class StatsCollector {
     private List<ServerCommand> replayCommands;
     private StatsCollection collection = new StatsCollection();
+    private Map<String, Integer> armourValues = new HashMap<>();
 
     public StatsCollector(final List<ServerCommand> replayCommands) {
         this.replayCommands = replayCommands;
@@ -51,11 +54,20 @@ public class StatsCollector {
 
     public void setHomeTeam(Team team) {
         collection.setHomeTeam(team);
+        addArmourValues(team);
     }
 
     public void setAwayTeam(Team team) {
         collection.setAwayTeam(team);
+        addArmourValues(team);
     }
+
+    private void addArmourValues(Team team) {
+        for (Player player : team.getPlayers()) {
+            armourValues.put(player.getId(), player.getArmour());
+        }
+    }
+
 
     public List<ServerCommand> getReplayCommands() {
         return replayCommands;
@@ -78,7 +90,7 @@ public class StatsCollector {
         boolean startOvertime = false;
         for (ServerCommand command : replayCommands) {
             ServerCommandModelSync modelSync = (ServerCommandModelSync) command;
-            for (ModelChange change: modelSync.getModelChanges().getChanges()) {
+            for (ModelChange change : modelSync.getModelChanges().getChanges()) {
                 if (ModelChangeId.GAME_SET_HOME_PLAYING == change.getChangeId()) {
                     isHomePlaying = (boolean) change.getValue();
                 }
@@ -94,7 +106,7 @@ public class StatsCollector {
 
             ReportList reportList = modelSync.getReportList();
             for (IReport report : reportList.getReports()) {
-              //  System.out.println(new Gson().toJson(report));
+                //  System.out.println(new Gson().toJson(report));
                 if (report instanceof ReportSkillRoll) {
                     ReportSkillRoll skillReport = ((ReportSkillRoll) report);
                     if (skillReport.getRoll() > 0) {
@@ -131,15 +143,18 @@ public class StatsCollector {
                     if (!reRollingInjury && ArrayTool.isProvided(injury.getArmorRoll())) {
                         collection.addArmourRoll(injury.getArmorRoll(), injury.getDefenderId());
                     }
-                    // if the armour is broken report the injury roll, but only if both injury dice are not 0. this
-                    // should prevent errors when fanatic armour is broken, as this might be reported with weird data.
-                    if (injury.isArmorBroken() && ArrayTool.isProvided(injury.getInjuryRoll()) && injury.getInjuryRoll()[0] * injury.getInjuryRoll()[1] > 0) {
-                        collection.addInjuryRoll(injury.getInjuryRoll(), injury.getDefenderId());
-                        if (ArrayTool.isProvided(injury.getCasualtyRoll())) {
-                            collection.addSingleRoll(injury.getCasualtyRoll()[0], injury.getDefenderId());
-                        }
-                        if (ArrayTool.isProvided(injury.getCasualtyRollDecay())) {
-                            collection.addSingleRoll(injury.getCasualtyRollDecay()[0], injury.getDefenderId());
+                    if (injury.isArmorBroken()) {
+
+                        // if the armour is broken report the injury roll, but only if both injury dice are not 0. this
+                        // should prevent errors when fanatic armour is broken, as this might be reported with weird data.
+                        if (ArrayTool.isProvided(injury.getInjuryRoll()) && injury.getInjuryRoll()[0] * injury.getInjuryRoll()[1] > 0) {
+                            collection.addInjuryRoll(injury.getInjuryRoll(), injury.getDefenderId());
+                            if (ArrayTool.isProvided(injury.getCasualtyRoll())) {
+                                collection.addSingleRoll(injury.getCasualtyRoll()[0], injury.getDefenderId());
+                            }
+                            if (ArrayTool.isProvided(injury.getCasualtyRollDecay())) {
+                                collection.addSingleRoll(injury.getCasualtyRollDecay()[0], injury.getDefenderId());
+                            }
                         }
                     }
                     if ((currentMover != null || currentBlocker != null) && currentBlockRoll != null) {
@@ -299,7 +314,7 @@ public class StatsCollector {
                         startOvertime = false;
                     }
 
-                    if(TurnMode.BLITZ == turnMode || TurnMode.REGULAR == turnMode) {
+                    if (TurnMode.BLITZ == turnMode || TurnMode.REGULAR == turnMode) {
                         collection.addTurn(isHomePlaying, turnMode, turnNumber);
                     }
 
@@ -314,9 +329,9 @@ public class StatsCollector {
                 } else if (report instanceof ReportWeather) {
                     collection.setWeather(((ReportWeather) report).getWeather().getName());
                 } else if (report instanceof ReportStartHalf) {
-                    if (((ReportStartHalf)report).getHalf() == 2) {
+                    if (((ReportStartHalf) report).getHalf() == 2) {
                         startSecondHalf = true;
-                    } else if (((ReportStartHalf)report).getHalf() > 2) {
+                    } else if (((ReportStartHalf) report).getHalf() > 2) {
                         startOvertime = true;
                         startSecondHalf = false;
                     }

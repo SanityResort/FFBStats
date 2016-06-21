@@ -12,6 +12,7 @@ public class Player implements IJsonReadable {
     public String getId() {
         return this.fId;
     }
+    private int fArmour;
 
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -27,12 +28,16 @@ public class Player implements IJsonReadable {
         return this.getId().equals(other.getId());
     }
 
+    public int getArmour() {
+        return this.fArmour;
+    }
+
     @Override
     public Player initFrom(JsonValue pJsonValue) {
         JsonObject jsonObject = UtilJson.toJsonObject(pJsonValue);
         this.fId = IJsonOption.PLAYER_ID.getFrom(jsonObject);
+        this.fArmour = IJsonOption.ARMOUR.getFrom(jsonObject);
         return this;
     }
-
 }
 

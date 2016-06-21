@@ -2,7 +2,9 @@ package org.butterbrot.ffb.stats.collections;
 
 import refactored.com.balancedbytes.games.ffb.BlockResult;
 import refactored.com.balancedbytes.games.ffb.BlockResultFactory;
+import refactored.com.balancedbytes.games.ffb.model.Team;
 import refactored.com.balancedbytes.games.ffb.report.ReportId;
+import refactored.com.balancedbytes.games.ffb.report.ReportInjury;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -27,6 +29,7 @@ public class TeamStatsCollection {
     private Map<Integer, Integer> rerolledBlocks = initBlockStatsMap();
     private Map<Integer, Integer> successfulBlocks = initBlockStatsMap();
     private Map<Integer, Integer> failedBlocks = initBlockStatsMap();
+    private Map<String, ArmourBreaks> armourBreaks = new HashMap<>();
 
     private String teamName;
     private String coach;
@@ -155,6 +158,8 @@ public class TeamStatsCollection {
         }
         return stats;
     }
+
+
 
     public void addBlockDice(int[] rolls) {
         for (int roll : rolls) {
