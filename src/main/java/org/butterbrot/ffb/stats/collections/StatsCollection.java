@@ -1,12 +1,15 @@
 package org.butterbrot.ffb.stats.collections;
 
+import refactored.com.balancedbytes.games.ffb.ArmorModifier;
 import refactored.com.balancedbytes.games.ffb.KickoffResult;
 import refactored.com.balancedbytes.games.ffb.TurnMode;
 import refactored.com.balancedbytes.games.ffb.model.Player;
 import refactored.com.balancedbytes.games.ffb.model.Team;
 import refactored.com.balancedbytes.games.ffb.report.ReportId;
+import refactored.com.balancedbytes.games.ffb.report.ReportInjury;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,8 +28,7 @@ public class StatsCollection {
     private List<Drive> secondHalf = new ArrayList<>();
     private List<Drive> overtime = new ArrayList<>();
     private transient List<Drive> currentHalf = firstHalf;
-
-
+    private transient Map<String, Integer> armourValues = new HashMap<>();
     private transient Map<String, TeamStatsCollection> teams = new HashMap<>();
 
     public void setReplayId(String replayId) {
@@ -42,6 +44,7 @@ public class StatsCollection {
         teams.put(team.getId(), home);
         for (Player player : team.getPlayers()) {
             teams.put(player.getId(), home);
+            armourValues.put(player.getId(), player.getArmour());
         }
     }
 
@@ -50,6 +53,7 @@ public class StatsCollection {
         teams.put(team.getId(), away);
         for (Player player : team.getPlayers()) {
             teams.put(player.getId(), away);
+            armourValues.put(player.getId(), player.getArmour());
         }
     }
 
@@ -210,6 +214,44 @@ public class StatsCollection {
 
     public void addTurn(boolean isHomeActive, TurnMode turnMode, int turnNumber) {
         currentHalf.get(currentHalf.size() - 1).addTurn(new Turn(isHomeActive, turnMode.getName(), turnNumber, home));
+    }
+
+    public void addArmourAndInjuryStats(Collection<ReportInjury> injuries) {
+        for (ReportInjury injury: injuries) {
+            TeamStatsCollection team = getOpposition(teams.get(injury.getDefenderId()));
+            TeamStatsCollection turnTeam = turnTeam(team);
+            int effectiveAV = armourValues.get(injury.getDefenderId());
+            List<ArmorModifier> armorModifiers = injury.getArmorModifiers();
+            if (armorModifiers.contains(ArmorModifier.CLAWS)) {
+                effectiveAV = Math.min(7, effectiveAV);
+            }
+            boolean poUsedForArmour = injury.getPoReport() != null && !injury.getPoReport().isReRollInjury();
+            boolean mbUsed = false;
+            boolean dpUsed = false;
+            for (ArmorModifier modifier: armorModifiers) {
+                switch (modifier) {
+                    case MIGHTY_BLOW:
+                        mbUsed = true; break;
+                    case DIRTY_PLAYER:
+                        dpUsed = true;
+                        break;
+                    default:
+                        effectiveAV-=modifier.getModifier();
+                }
+            }
+
+            effectiveAV = Math.max(0,effectiveAV);
+            team.addArmourBreak(effectiveAV,mbUsed,poUsedForArmour,dpUsed);
+            turnTeam.addArmourBreak(effectiveAV,mbUsed,poUsedForArmour,dpUsed);
+
+            if (injury.getInjury() != null) {
+                InjuryState injuryState = InjuryState.fromValue(injury.getInjury().getId());
+                if (injuryState != null) {
+                    team.addCausedInjury(injury.getDefenderId(), injuryState);
+                    turnTeam.addCausedInjury(injury.getDefenderId(), injuryState);
+                }
+            }
+        }
     }
 
     private TeamStatsCollection getOpposition(TeamStatsCollection team) {

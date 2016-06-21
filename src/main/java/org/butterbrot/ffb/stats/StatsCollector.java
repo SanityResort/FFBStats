@@ -1,5 +1,6 @@
 package org.butterbrot.ffb.stats;
 
+import com.google.gson.Gson;
 import org.butterbrot.ffb.stats.collections.StatsCollection;
 import refactored.com.balancedbytes.games.ffb.HeatExhaustion;
 import refactored.com.balancedbytes.games.ffb.KnockoutRecovery;
@@ -39,14 +40,16 @@ import refactored.com.balancedbytes.games.ffb.report.ReportWeather;
 import refactored.com.balancedbytes.games.ffb.report.ReportWinningsRoll;
 import refactored.com.balancedbytes.games.ffb.util.ArrayTool;
 
+import java.util.ArrayDeque;
+import java.util.Deque;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Stack;
 
 public class StatsCollector {
     private List<ServerCommand> replayCommands;
     private StatsCollection collection = new StatsCollection();
-    private Map<String, Integer> armourValues = new HashMap<>();
 
     public StatsCollector(final List<ServerCommand> replayCommands) {
         this.replayCommands = replayCommands;
@@ -54,18 +57,10 @@ public class StatsCollector {
 
     public void setHomeTeam(Team team) {
         collection.setHomeTeam(team);
-        addArmourValues(team);
     }
 
     public void setAwayTeam(Team team) {
         collection.setAwayTeam(team);
-        addArmourValues(team);
-    }
-
-    private void addArmourValues(Team team) {
-        for (Player player : team.getPlayers()) {
-            armourValues.put(player.getId(), player.getArmour());
-        }
     }
 
 
@@ -87,6 +82,7 @@ public class StatsCollector {
         boolean startSecondHalf = false;
         boolean startOvertime = false;
         ReportPilingOn poReport = null;
+        Deque<ReportInjury> injuries = new ArrayDeque<>();
         for (ServerCommand command : replayCommands) {
             ServerCommandModelSync modelSync = (ServerCommandModelSync) command;
             for (ModelChange change : modelSync.getModelChanges().getChanges()) {
@@ -105,7 +101,7 @@ public class StatsCollector {
 
             ReportList reportList = modelSync.getReportList();
             for (IReport report : reportList.getReports()) {
-                //  System.out.println(new Gson().toJson(report));
+                  System.out.println(new Gson().toJson(report));
                 if (report instanceof ReportSkillRoll) {
                     ReportSkillRoll skillReport = ((ReportSkillRoll) report);
                     if (skillReport.getRoll() > 0) {
@@ -143,7 +139,11 @@ public class StatsCollector {
                         collection.addArmourRoll(injury.getArmorRoll(), injury.getDefenderId());
                     }
                     if (injury.isArmorBroken()) {
-
+                        injuries.addLast(injury);
+                        if (poReport != null) {
+                            injury.setPoReport(poReport);
+                            poReport = null;
+                        }
                         // if the armour is broken report the injury roll, but only if both injury dice are not 0. this
                         // should prevent errors when fanatic armour is broken, as this might be reported with weird data.
                         if (ArrayTool.isProvided(injury.getInjuryRoll()) && injury.getInjuryRoll()[0] * injury.getInjuryRoll()[1] > 0) {
@@ -304,13 +304,19 @@ public class StatsCollector {
                         collection.startOvertime();
                         startOvertime = false;
                     }
-
+                    collection.addArmourAndInjuryStats(injuries);
+                    injuries.clear();
                     if (TurnMode.BLITZ == turnMode || TurnMode.REGULAR == turnMode) {
                         collection.addTurn(isHomePlaying, turnMode, turnNumber);
                     }
 
+
+
                 } else if (report instanceof ReportPilingOn) {
-                    poReport = ((ReportPilingOn) report);
+                    if (((ReportPilingOn) report).isUsed()) {
+                        poReport = ((ReportPilingOn) report);
+                        injuries.pollLast();
+                    }
                 } else if (report instanceof ReportStandUpRoll) {
                     ReportStandUpRoll standUpRoll = (ReportStandUpRoll) report;
                     collection.addSingleRoll(standUpRoll.getRoll(), standUpRoll.getPlayerId());

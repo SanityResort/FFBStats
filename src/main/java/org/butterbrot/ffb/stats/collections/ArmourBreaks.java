@@ -5,6 +5,7 @@ public class ArmourBreaks {
     private int withMB;
     private int withPO;
     private int withPOMB;
+    private int withDP;
 
     public void addArmourBreak(boolean mbUsed, boolean poUsed) {
         if (mbUsed) {
@@ -13,10 +14,14 @@ public class ArmourBreaks {
             } else {
                 withMB++;
             }
-        } else  if (poUsed){
+        } else if (poUsed) {
             withPO++;
         } else {
             unmodified++;
         }
+    }
+
+    public void addDpArmourBreak() {
+        withDP++;
     }
 }

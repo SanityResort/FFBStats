@@ -2,11 +2,11 @@ package org.butterbrot.ffb.stats.collections;
 
 import refactored.com.balancedbytes.games.ffb.BlockResult;
 import refactored.com.balancedbytes.games.ffb.BlockResultFactory;
-import refactored.com.balancedbytes.games.ffb.model.Team;
 import refactored.com.balancedbytes.games.ffb.report.ReportId;
-import refactored.com.balancedbytes.games.ffb.report.ReportInjury;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class TeamStatsCollection {
@@ -30,6 +30,7 @@ public class TeamStatsCollection {
     private Map<Integer, Integer> successfulBlocks = initBlockStatsMap();
     private Map<Integer, Integer> failedBlocks = initBlockStatsMap();
     private Map<String, ArmourBreaks> armourBreaks = new HashMap<>();
+    private List<Injury> causedInjuries = new ArrayList<>();
 
     private String teamName;
     private String coach;
@@ -245,6 +246,22 @@ public class TeamStatsCollection {
         increment(totalDoubleRolls, rolls[0] + rolls[1]);
         increment(totalSingleRolls, rolls[0]);
         increment(totalSingleRolls, rolls[1]);
+    }
+
+    public void addArmourBreak(int effectiveAV, boolean mbUsed, boolean poUsed, boolean dpUsed) {
+        String key = "AV"+effectiveAV;
+        if (!armourBreaks.containsKey(key)) {
+            armourBreaks.put(key, new ArmourBreaks());
+        }
+        if (dpUsed) {
+            armourBreaks.get(key).addDpArmourBreak();
+        } else {
+            armourBreaks.get(key).addArmourBreak(mbUsed, poUsed);
+        }
+    }
+
+    public void addCausedInjury(String playerId, InjuryState state) {
+        causedInjuries.add(new Injury(playerId,state));
     }
 
     private void increment(Map<Integer, Integer> rolls, int roll) {

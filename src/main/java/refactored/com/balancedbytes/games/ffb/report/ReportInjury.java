@@ -29,6 +29,7 @@ public class ReportInjury
     private PlayerState fInjury;
     private List<ArmorModifier> fArmorModifiers = new ArrayList<ArmorModifier>();
     private List<InjuryModifier> fInjuryModifiers = new ArrayList<InjuryModifier>();
+    private ReportPilingOn poReport;
 
     public ReportInjury() {
     }
@@ -87,6 +88,14 @@ public class ReportInjury
         return fInjuryModifiers;
     }
 
+    public ReportPilingOn getPoReport() {
+        return poReport;
+    }
+
+    public void setPoReport(ReportPilingOn poReport) {
+        this.poReport = poReport;
+    }
+
     @Override
     public IReport transform() {
         return new ReportInjury(this.getDefenderId(), this.isArmorBroken(), this.getArmorRoll(), this.getInjuryRoll(), this.getCasualtyRoll(),
@@ -106,6 +115,7 @@ public class ReportInjury
         this.fCasualtyRollDecay = IJsonOption.CASUALTY_ROLL_DECAY.getFrom(jsonObject);
         this.fInjuryRoll = IJsonOption.INJURY_ROLL.getFrom(jsonObject);
         this.fArmorModifiers.clear();
+        this.fInjury = IJsonOption.INJURY.getFrom(jsonObject);
         ArmorModifierFactory armorModifierFactory = new ArmorModifierFactory();
         JsonArray armorModifiers = IJsonOption.ARMOR_MODIFIERS.getFrom(jsonObject);
         for (int i = 0; i < armorModifiers.size(); ++i) {
