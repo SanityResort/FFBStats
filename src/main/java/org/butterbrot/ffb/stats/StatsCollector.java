@@ -85,9 +85,9 @@ public class StatsCollector {
         ReportBlockRoll currentBlockRoll = null;
         boolean lastReportWasBlockRoll = false;
         boolean blockRerolled = false;
-        boolean reRollingInjury = false;
         boolean startSecondHalf = false;
         boolean startOvertime = false;
+        ReportPilingOn poReport = null;
         for (ServerCommand command : replayCommands) {
             ServerCommandModelSync modelSync = (ServerCommandModelSync) command;
             for (ModelChange change : modelSync.getModelChanges().getChanges()) {
@@ -140,7 +140,7 @@ public class StatsCollector {
                     }
                 } else if (report instanceof ReportInjury) {
                     ReportInjury injury = (ReportInjury) report;
-                    if (!reRollingInjury && ArrayTool.isProvided(injury.getArmorRoll())) {
+                    if (poReport != null && poReport.isUsed() && !poReport.isReRollInjury() && ArrayTool.isProvided(injury.getArmorRoll())) {
                         collection.addArmourRoll(injury.getArmorRoll(), injury.getDefenderId());
                     }
                     if (injury.isArmorBroken()) {
@@ -252,7 +252,7 @@ public class StatsCollector {
                     blockRerolled = false;
                     ReportPlayerAction action = ((ReportPlayerAction) report);
                     currentBlockRoll = null;
-                    reRollingInjury = false;
+                    poReport = null;
                     switch (action.getPlayerAction()) {
                         case BLITZ:
                         case BLITZ_MOVE:
@@ -319,7 +319,7 @@ public class StatsCollector {
                     }
 
                 } else if (report instanceof ReportPilingOn) {
-                    reRollingInjury = ((ReportPilingOn) report).isReRollInjury();
+                    poReport  = ((ReportPilingOn) report);
                 } else if (report instanceof ReportStandUpRoll) {
                     ReportStandUpRoll standUpRoll = (ReportStandUpRoll) report;
                     collection.addSingleRoll(standUpRoll.getRoll(), standUpRoll.getPlayerId());
