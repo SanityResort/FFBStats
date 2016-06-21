@@ -74,5 +74,6 @@ public interface IJsonOption {
     JsonIntOption HALF = new JsonIntOption("half");
     JsonArrayOption ARMOR_MODIFIERS = new JsonArrayOption("armorModifiers");
     JsonArrayOption INJURY_MODIFIERS = new JsonArrayOption("injuryModifiers");
+    JsonBooleanOption USED = new JsonBooleanOption("used");
 }
 

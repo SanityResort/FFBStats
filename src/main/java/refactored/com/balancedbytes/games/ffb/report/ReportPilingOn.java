@@ -8,12 +8,14 @@ import repackaged.com.eclipsesource.json.JsonValue;
 public class ReportPilingOn implements IReport {
     private String fPlayerId;
     private boolean fReRollInjury;
+    private boolean fUsed;
 
     ReportPilingOn() {
     }
 
-    private ReportPilingOn(String pPlayerId, boolean pReRollInjury) {
+    private ReportPilingOn(String pPlayerId, boolean pUsed, boolean pReRollInjury) {
         this.fPlayerId = pPlayerId;
+        this.fUsed = pUsed;
         this.fReRollInjury = pReRollInjury;
     }
 
@@ -26,13 +28,17 @@ public class ReportPilingOn implements IReport {
         return this.fPlayerId;
     }
 
+    public boolean isUsed() {
+        return this.fUsed;
+    }
+
     public boolean isReRollInjury() {
         return this.fReRollInjury;
     }
 
     @Override
     public IReport transform() {
-        return new ReportPilingOn(this.getPlayerId(), this.isReRollInjury());
+        return new ReportPilingOn(this.getPlayerId(), this.isUsed(), this.isReRollInjury());
     }
 
     @Override
@@ -40,6 +46,7 @@ public class ReportPilingOn implements IReport {
         JsonObject jsonObject = UtilJson.toJsonObject(pJsonValue);
         UtilReport.validateReportId(this, (ReportId) IJsonOption.REPORT_ID.getFrom(jsonObject));
         this.fPlayerId = IJsonOption.PLAYER_ID.getFrom(jsonObject);
+        this.fUsed = IJsonOption.USED.getFrom(jsonObject);
         this.fReRollInjury = IJsonOption.RE_ROLL_INJURY.getFrom(jsonObject);
         return this;
     }
