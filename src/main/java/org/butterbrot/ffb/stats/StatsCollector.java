@@ -54,6 +54,7 @@ public class StatsCollector {
 
     public void setHomeTeam(Team team) {
         collection.setHomeTeam(team);
+        turnOverFinder.addHomePlayers(team);
     }
 
     public void setAwayTeam(Team team) {
@@ -310,12 +311,7 @@ public class StatsCollector {
                     collection.addArmourAndInjuryStats(injuries);
                     injuries.clear();
                     if (isActionTurn) {
-                        turnOverFinder.findTurnover().ifPresent(new Consumer<TurnOver>() {
-                            @Override
-                            public void accept(TurnOver turnOver) {
-                                collection.addTurnOver(turnOver);
-                            }
-                        });
+                        turnOverFinder.findTurnover().ifPresent(turnOver -> collection.addTurnOver(turnOver));
                     }
 
                     turnOverFinder.reset();
