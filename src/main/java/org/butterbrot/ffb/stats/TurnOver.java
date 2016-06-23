@@ -6,14 +6,14 @@ public class TurnOver {
     private ReportId action;
     private int minRollOrDiceCount;
     private boolean wasReRolled;
-    private boolean reRolledWithTeamReroll;
+    private boolean wasReRolledWithTeamReRoll;
     private String activePlayer;
 
-    public TurnOver(ReportId action, int minRollOrDiceCount, boolean wasReRolled, boolean reRolledWithTeamReroll, String activePlayer) {
+    public TurnOver(ReportId action, int minRollOrDiceCount, boolean wasReRolled, boolean wasReRolledWithTeamReRoll, String activePlayer) {
         this.action = action;
         this.minRollOrDiceCount = minRollOrDiceCount;
         this.wasReRolled = wasReRolled;
-        this.reRolledWithTeamReroll = reRolledWithTeamReroll;
+        this.wasReRolledWithTeamReRoll = wasReRolledWithTeamReRoll;
         this.activePlayer = activePlayer;
     }
 
@@ -25,12 +25,12 @@ public class TurnOver {
         return minRollOrDiceCount;
     }
 
-    public boolean isWasReRolled() {
+    public boolean isReRolled() {
         return wasReRolled;
     }
 
     public boolean isReRolledWithTeamReroll() {
-        return reRolledWithTeamReroll;
+        return wasReRolledWithTeamReRoll;
     }
 
     public String getActivePlayer() {

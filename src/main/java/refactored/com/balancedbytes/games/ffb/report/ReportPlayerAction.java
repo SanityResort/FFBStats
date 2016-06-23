@@ -13,7 +13,7 @@ public class ReportPlayerAction implements IReport {
     ReportPlayerAction() {
     }
 
-    private ReportPlayerAction(String pActingPlayerId, PlayerAction pPlayerAction) {
+    public ReportPlayerAction(String pActingPlayerId, PlayerAction pPlayerAction) {
         this();
         this.fActingPlayerId = pActingPlayerId;
         this.fPlayerAction = pPlayerAction;
