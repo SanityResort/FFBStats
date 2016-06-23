@@ -101,7 +101,7 @@ public class StatsCollector {
 
             ReportList reportList = modelSync.getReportList();
             for (IReport report : reportList.getReports()) {
-                  System.out.println(new Gson().toJson(report));
+                //  System.out.println(new Gson().toJson(report));
                 if (report instanceof ReportSkillRoll) {
                     ReportSkillRoll skillReport = ((ReportSkillRoll) report);
                     if (skillReport.getRoll() > 0) {
