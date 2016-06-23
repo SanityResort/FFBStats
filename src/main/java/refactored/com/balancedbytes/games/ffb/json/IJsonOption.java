@@ -2,6 +2,7 @@ package refactored.com.balancedbytes.games.ffb.json;
 
 import refactored.com.balancedbytes.games.ffb.KickoffResultFactory;
 import refactored.com.balancedbytes.games.ffb.PlayerActionFactory;
+import refactored.com.balancedbytes.games.ffb.ReRollSourceFactory;
 import refactored.com.balancedbytes.games.ffb.SpecialEffectFactory;
 import refactored.com.balancedbytes.games.ffb.WeatherFactory;
 import refactored.com.balancedbytes.games.ffb.model.change.ModelChangeIdFactory;
@@ -76,5 +77,6 @@ public interface IJsonOption {
     JsonArrayOption INJURY_MODIFIERS = new JsonArrayOption("injuryModifiers");
     JsonBooleanOption USED = new JsonBooleanOption("used");
     JsonPlayerStateOption INJURY = new JsonPlayerStateOption("injury");
+    JsonEnumWithNameOption RE_ROLL_SOURCE = new JsonEnumWithNameOption("reRollSource", new ReRollSourceFactory());
 }
 

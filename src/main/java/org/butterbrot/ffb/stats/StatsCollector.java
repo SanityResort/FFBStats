@@ -50,6 +50,7 @@ import java.util.Stack;
 public class StatsCollector {
     private List<ServerCommand> replayCommands;
     private StatsCollection collection = new StatsCollection();
+    private TurnoverFinder turnoverFinder = new TurnoverFinder();
 
     public StatsCollector(final List<ServerCommand> replayCommands) {
         this.replayCommands = replayCommands;
