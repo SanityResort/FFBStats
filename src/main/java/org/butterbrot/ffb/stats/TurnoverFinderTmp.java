@@ -7,7 +7,7 @@ import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.Optional;
 
-public class TurnoverFinder {
+public class TurnoverFinderTmp {
 
     private String activePlayer;
 
@@ -26,7 +26,7 @@ public class TurnoverFinder {
         activePlayer = null;
     }
 
-    public Optional<Turnover> findTurnover() {
+    public Optional<TurnoverTmp> findTurnover() {
 
 
         return Optional.empty();

@@ -2,14 +2,14 @@ package org.butterbrot.ffb.stats;
 
 import refactored.com.balancedbytes.games.ffb.report.ReportId;
 
-public class Turnover {
+public class TurnoverTmp {
     private ReportId action;
     private int minRollOrDiceCount;
     private boolean wasReRolled;
     private boolean reRolledWithTeamReroll;
     private String activePlayer;
 
-    public Turnover(ReportId action, int minRollOrDiceCount, boolean wasReRolled, boolean reRolledWithTeamReroll, String activePlayer) {
+    public TurnoverTmp(ReportId action, int minRollOrDiceCount, boolean wasReRolled, boolean reRolledWithTeamReroll, String activePlayer) {
         this.action = action;
         this.minRollOrDiceCount = minRollOrDiceCount;
         this.wasReRolled = wasReRolled;
