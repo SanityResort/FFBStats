@@ -46,7 +46,7 @@ import java.util.function.Consumer;
 public class StatsCollector {
     private List<ServerCommand> replayCommands;
     private StatsCollection collection = new StatsCollection();
-    private TurnoverFinderTmp turnOverFinder = new TurnoverFinderTmp();
+    private TurnOverFinder turnOverFinder = new TurnOverFinder();
 
     public StatsCollector(final List<ServerCommand> replayCommands) {
         this.replayCommands = replayCommands;
@@ -310,9 +310,9 @@ public class StatsCollector {
                     collection.addArmourAndInjuryStats(injuries);
                     injuries.clear();
                     if (isActionTurn) {
-                        turnOverFinder.findTurnover().ifPresent(new Consumer<TurnoverTmp>() {
+                        turnOverFinder.findTurnover().ifPresent(new Consumer<TurnOver>() {
                             @Override
-                            public void accept(TurnoverTmp turnOver) {
+                            public void accept(TurnOver turnOver) {
                                 collection.addTurnOver(turnOver);
                             }
                         });

@@ -1,6 +1,6 @@
 package org.butterbrot.ffb.stats.collections;
 
-import org.butterbrot.ffb.stats.TurnoverTmp;
+import org.butterbrot.ffb.stats.TurnOver;
 import refactored.com.balancedbytes.games.ffb.ArmorModifier;
 import refactored.com.balancedbytes.games.ffb.KickoffResult;
 import refactored.com.balancedbytes.games.ffb.TurnMode;
@@ -255,7 +255,7 @@ public class StatsCollection {
         }
     }
 
-    public void addTurnOver(TurnoverTmp turnOver) {
+    public void addTurnOver(TurnOver turnOver) {
         TeamStatsCollection team = teams.get(turnOver.getActivePlayer());
         team.addTurnOver(turnOver);
         turnTeam(team).addTurnOver(turnOver);
