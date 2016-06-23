@@ -1,5 +1,6 @@
 package org.butterbrot.ffb.stats.collections;
 
+import org.butterbrot.ffb.stats.Turnover;
 import refactored.com.balancedbytes.games.ffb.BlockResult;
 import refactored.com.balancedbytes.games.ffb.BlockResultFactory;
 import refactored.com.balancedbytes.games.ffb.report.ReportId;
@@ -31,6 +32,7 @@ public class TeamStatsCollection {
     private Map<Integer, Integer> failedBlocks = initBlockStatsMap();
     private Map<String, ArmourBreaks> armourBreaks = new HashMap<>();
     private List<Injury> causedInjuries = new ArrayList<>();
+    private List<Turnover> turnOvers = new ArrayList<>();
 
     private String teamName;
     private String coach;
@@ -160,7 +162,9 @@ public class TeamStatsCollection {
         return stats;
     }
 
-
+    public void addTurnOver(Turnover turnOver) {
+        turnOvers.add(turnOver);
+    }
 
     public void addBlockDice(int[] rolls) {
         for (int roll : rolls) {

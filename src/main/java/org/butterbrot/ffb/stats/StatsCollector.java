@@ -1,13 +1,11 @@
 package org.butterbrot.ffb.stats;
 
-import com.google.gson.Gson;
 import org.butterbrot.ffb.stats.collections.StatsCollection;
 import refactored.com.balancedbytes.games.ffb.HeatExhaustion;
 import refactored.com.balancedbytes.games.ffb.KnockoutRecovery;
 import refactored.com.balancedbytes.games.ffb.ReportStartHalf;
 import refactored.com.balancedbytes.games.ffb.SpecialEffect;
 import refactored.com.balancedbytes.games.ffb.TurnMode;
-import refactored.com.balancedbytes.games.ffb.model.Player;
 import refactored.com.balancedbytes.games.ffb.model.Team;
 import refactored.com.balancedbytes.games.ffb.model.change.ModelChange;
 import refactored.com.balancedbytes.games.ffb.model.change.ModelChangeId;
@@ -42,15 +40,13 @@ import refactored.com.balancedbytes.games.ffb.util.ArrayTool;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Stack;
+import java.util.function.Consumer;
 
 public class StatsCollector {
     private List<ServerCommand> replayCommands;
     private StatsCollection collection = new StatsCollection();
-    private TurnoverFinder turnoverFinder = new TurnoverFinder();
+    private TurnoverFinder turnOverFinder = new TurnoverFinder();
 
     public StatsCollector(final List<ServerCommand> replayCommands) {
         this.replayCommands = replayCommands;
@@ -83,6 +79,7 @@ public class StatsCollector {
         boolean startSecondHalf = false;
         boolean startOvertime = false;
         ReportPilingOn poReport = null;
+        boolean isActionTurn = false;
         Deque<ReportInjury> injuries = new ArrayDeque<>();
         for (ServerCommand command : replayCommands) {
             ServerCommandModelSync modelSync = (ServerCommandModelSync) command;
@@ -102,6 +99,9 @@ public class StatsCollector {
 
             ReportList reportList = modelSync.getReportList();
             for (IReport report : reportList.getReports()) {
+                if (isActionTurn) {
+                    turnOverFinder.add(report);
+                }
                 //  System.out.println(new Gson().toJson(report));
                 if (report instanceof ReportSkillRoll) {
                     ReportSkillRoll skillReport = ((ReportSkillRoll) report);
@@ -252,6 +252,8 @@ public class StatsCollector {
                     ReportPlayerAction action = ((ReportPlayerAction) report);
                     currentBlockRoll = null;
                     poReport = null;
+                    turnOverFinder.reset();
+                    turnOverFinder.add(action);
                     switch (action.getPlayerAction()) {
                         case BLITZ:
                         case BLITZ_MOVE:
@@ -307,8 +309,21 @@ public class StatsCollector {
                     }
                     collection.addArmourAndInjuryStats(injuries);
                     injuries.clear();
+                    if (isActionTurn) {
+                        turnOverFinder.findTurnover().ifPresent(new Consumer<Turnover>() {
+                            @Override
+                            public void accept(Turnover turnOver) {
+                                collection.addTurnOver(turnOver);
+                            }
+                        });
+                    }
+
+                    turnOverFinder.reset();
                     if (TurnMode.BLITZ == turnMode || TurnMode.REGULAR == turnMode) {
                         collection.addTurn(isHomePlaying, turnMode, turnNumber);
+                        isActionTurn = true;
+                     } else {
+                        isActionTurn = false;
                     }
 
 
