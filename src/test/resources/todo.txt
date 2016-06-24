@@ -1,3 +1,4 @@
+turnover
 - pass
 - handover
 - catch
@@ -15,3 +16,14 @@
 - kick back
 - bloodlust
 - touchdown
+
+
+stats
+- timeout
+- bloodlust
+- confusion
+- reroll
+- apo
+- scatterball
+- wizard
+- touchdown home/away

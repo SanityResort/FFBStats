@@ -13,14 +13,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ReportTurnEnd implements IReport {
+    private String playerIdTouchdown;
     private List<KnockoutRecovery> fKnockoutRecoveries = new ArrayList<KnockoutRecovery>();
     private List<HeatExhaustion> fHeatExhaustions = new ArrayList<HeatExhaustion>();
 
     ReportTurnEnd() {
     }
 
-    private ReportTurnEnd(KnockoutRecovery[] pKnockoutRecoveries, HeatExhaustion[] pHeatExhaustions) {
+    public ReportTurnEnd(String pPlayerIdTouchdown, KnockoutRecovery[] pKnockoutRecoveries, HeatExhaustion[] pHeatExhaustions) {
         this();
+        this.playerIdTouchdown = pPlayerIdTouchdown;
         this.add(pKnockoutRecoveries);
         this.add(pHeatExhaustions);
     }
@@ -28,6 +30,10 @@ public class ReportTurnEnd implements IReport {
     @Override
     public ReportId getId() {
         return ReportId.TURN_END;
+    }
+
+    public String getPlayerIdTouchdown() {
+        return this.playerIdTouchdown;
     }
 
     public KnockoutRecovery[] getKnockoutRecoveries() {
@@ -68,7 +74,7 @@ public class ReportTurnEnd implements IReport {
 
     @Override
     public IReport transform() {
-        return new ReportTurnEnd(this.getKnockoutRecoveries(), this.getHeatExhaustions());
+        return new ReportTurnEnd(this.getPlayerIdTouchdown(), this.getKnockoutRecoveries(), this.getHeatExhaustions());
     }
 
     @Override
@@ -77,6 +83,7 @@ public class ReportTurnEnd implements IReport {
         JsonObject jsonObject = UtilJson.toJsonObject(pJsonValue);
         UtilReport.validateReportId(this, (ReportId)IJsonOption.REPORT_ID.getFrom(jsonObject));
         JsonArray knockoutRecoveryArray = IJsonOption.KNOCKOUT_RECOVERY_ARRAY.getFrom(jsonObject);
+        this.playerIdTouchdown = IJsonOption.PLAYER_ID_TOUCHDOWN.getFrom(jsonObject);
         if (knockoutRecoveryArray != null) {
             for (int i = 0; i < knockoutRecoveryArray.size(); ++i) {
                 this.add(new KnockoutRecovery().initFrom(knockoutRecoveryArray.get(i)));

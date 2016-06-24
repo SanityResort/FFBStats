@@ -78,5 +78,6 @@ public interface IJsonOption {
     JsonBooleanOption USED = new JsonBooleanOption("used");
     JsonPlayerStateOption INJURY = new JsonPlayerStateOption("injury");
     JsonEnumWithNameOption RE_ROLL_SOURCE = new JsonEnumWithNameOption("reRollSource", new ReRollSourceFactory());
+    JsonStringOption PLAYER_ID_TOUCHDOWN = new JsonStringOption("playerIdTouchdown");
 }
 
