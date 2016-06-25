@@ -1,5 +1,6 @@
 package org.butterbrot.ffb.stats;
 
+import com.google.gson.Gson;
 import org.butterbrot.ffb.stats.collections.StatsCollection;
 import refactored.com.balancedbytes.games.ffb.HeatExhaustion;
 import refactored.com.balancedbytes.games.ffb.KnockoutRecovery;
@@ -103,7 +104,7 @@ public class StatsCollector {
                 if (isActionTurn) {
                     turnOverFinder.add(report);
                 }
-                //  System.out.println(new Gson().toJson(report));
+                  System.out.println(new Gson().toJson(report));
                 if (report instanceof ReportSkillRoll) {
                     ReportSkillRoll skillReport = ((ReportSkillRoll) report);
                     if (skillReport.getRoll() > 0) {

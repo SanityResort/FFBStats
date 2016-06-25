@@ -452,4 +452,14 @@ public class TurnOverFinderPassCatchTest extends AbstractTurnOverFinderTest {
         assertTrue("Was rerolled", turnOver.isReRolled());
         assertFalse("Was not rerolled with team reroll", turnOver.isReRolledWithTeamReroll());
     }
+
+    @Test
+    public void failedPassFumbleFromDumpOff() throws Exception {
+        turnOverFinder.add(new ReportPlayerAction(actingPlayer, PlayerAction.MOVE));
+        turnOverFinder.add(ReportPassRoll.regularPass(opponent, false,  1, 3, true,false,false));
+        turnOverFinder.add(new ReportScatterBall());
+        turnOverFinder.add(new ReportTurnEnd(null, null, null));
+        Optional<TurnOver> turnOverOpt = turnOverFinder.findTurnover();
+        assertFalse("Fumble from opponent player is not a turnover", turnOverOpt.isPresent());
+    }
 }
