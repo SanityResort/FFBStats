@@ -79,5 +79,9 @@ public interface IJsonOption {
     JsonPlayerStateOption INJURY = new JsonPlayerStateOption("injury");
     JsonEnumWithNameOption RE_ROLL_SOURCE = new JsonEnumWithNameOption("reRollSource", new ReRollSourceFactory());
     JsonStringOption PLAYER_ID_TOUCHDOWN = new JsonStringOption("playerIdTouchdown");
+    JsonBooleanOption FUMBLE = new JsonBooleanOption("fumble");
+    JsonBooleanOption SAFE_THROW_HOLD = new JsonBooleanOption("safeThrowHold");
+    JsonBooleanOption HAIL_MARY_PASS = new JsonBooleanOption("hailMaryPass");
+    JsonBooleanOption BOMB = new JsonBooleanOption("bomb");
 }
 

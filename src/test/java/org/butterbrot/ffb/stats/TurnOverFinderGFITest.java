@@ -20,7 +20,7 @@ import static org.junit.Assert.assertTrue;
 public class TurnOverFinderGFITest extends AbstractTurnOverFinderTest {
 
     @Test
-    public void findTurnoverFailedGFI() throws Exception {
+    public void failedGFI() throws Exception {
         turnOverFinder.add(new ReportPlayerAction(actingPlayer, PlayerAction.MOVE));
         turnOverFinder.add(new ReportSkillRoll(ReportId.GO_FOR_IT_ROLL, actingPlayer, false, 3, 2));
         turnOverFinder.add(new ReportInjury(actingPlayer, false, null, null, null, null, null, null, null));
@@ -36,7 +36,7 @@ public class TurnOverFinderGFITest extends AbstractTurnOverFinderTest {
     }
 
     @Test
-    public void findTurnoverFailedGFICatchByTeam() throws Exception {
+    public void failedGFICatchByTeam() throws Exception {
         turnOverFinder.add(new ReportPlayerAction(actingPlayer, PlayerAction.MOVE));
         turnOverFinder.add(new ReportSkillRoll(ReportId.GO_FOR_IT_ROLL, actingPlayer, false, 3, 2));
         turnOverFinder.add(new ReportInjury(actingPlayer, false, null, null, null, null, null, null, null));
@@ -54,7 +54,7 @@ public class TurnOverFinderGFITest extends AbstractTurnOverFinderTest {
     }
 
     @Test
-    public void findTurnoverFailedGFICatchByOpponent() throws Exception {
+    public void failedGFICatchByOpponent() throws Exception {
         turnOverFinder.add(new ReportPlayerAction(actingPlayer, PlayerAction.MOVE));
         turnOverFinder.add(new ReportSkillRoll(ReportId.GO_FOR_IT_ROLL, actingPlayer, false, 3, 2));
         turnOverFinder.add(new ReportInjury(actingPlayer, false, null, null, null, null, null, null, null));
@@ -72,7 +72,7 @@ public class TurnOverFinderGFITest extends AbstractTurnOverFinderTest {
     }
 
     @Test
-    public void findTurnoverFailedGFINoCatch() throws Exception {
+    public void failedGFINoCatch() throws Exception {
         turnOverFinder.add(new ReportPlayerAction(actingPlayer, PlayerAction.MOVE));
         turnOverFinder.add(new ReportSkillRoll(ReportId.GO_FOR_IT_ROLL, actingPlayer, false, 3, 2));
         turnOverFinder.add(new ReportInjury(actingPlayer, false, null, null, null, null, null, null, null));
@@ -90,7 +90,7 @@ public class TurnOverFinderGFITest extends AbstractTurnOverFinderTest {
     }
 
     @Test
-    public void findTurnoverFailedGFIWithTeamReRoll() throws Exception {
+    public void failedGFIWithTeamReRoll() throws Exception {
         turnOverFinder.add(new ReportPlayerAction(actingPlayer, PlayerAction.MOVE));
         turnOverFinder.add(new ReportSkillRoll(ReportId.GO_FOR_IT_ROLL, actingPlayer, false, 3, 2));
         turnOverFinder.add(new ReportReRoll(actingPlayer, ReRollSource.TEAM_RE_ROLL));
@@ -108,7 +108,7 @@ public class TurnOverFinderGFITest extends AbstractTurnOverFinderTest {
     }
 
     @Test
-    public void findTurnoverFailedGFIWithLeaderReRoll() throws Exception {
+    public void failedGFIWithLeaderReRoll() throws Exception {
         turnOverFinder.add(new ReportPlayerAction(actingPlayer, PlayerAction.MOVE));
         turnOverFinder.add(new ReportSkillRoll(ReportId.GO_FOR_IT_ROLL, actingPlayer, false, 3, 2));
         turnOverFinder.add(new ReportReRoll(actingPlayer, ReRollSource.LEADER));
@@ -126,7 +126,7 @@ public class TurnOverFinderGFITest extends AbstractTurnOverFinderTest {
     }
 
     @Test
-    public void findTurnoverFailedGFIWithSkillReRoll() throws Exception {
+    public void failedGFIWithSkillReRoll() throws Exception {
         turnOverFinder.add(new ReportPlayerAction(actingPlayer, PlayerAction.MOVE));
         turnOverFinder.add(new ReportSkillRoll(ReportId.GO_FOR_IT_ROLL, actingPlayer, false, 3, 2));
         turnOverFinder.add(new ReportReRoll(actingPlayer, ReRollSource.SURE_FEET ));
@@ -144,7 +144,25 @@ public class TurnOverFinderGFITest extends AbstractTurnOverFinderTest {
     }
 
     @Test
-    public void findTurnoverSuccessGFI() throws Exception {
+    public void failedGFIWithProReRoll() throws Exception {
+        turnOverFinder.add(new ReportPlayerAction(actingPlayer, PlayerAction.MOVE));
+        turnOverFinder.add(new ReportSkillRoll(ReportId.GO_FOR_IT_ROLL, actingPlayer, false, 3, 2));
+        turnOverFinder.add(new ReportReRoll(actingPlayer, ReRollSource.PRO ));
+        turnOverFinder.add(new ReportSkillRoll(ReportId.GO_FOR_IT_ROLL, actingPlayer, false, 3, 2));
+        turnOverFinder.add(new ReportInjury(actingPlayer, false, null, null, null, null, null, null, null));
+        turnOverFinder.add(new ReportTurnEnd(null, null, null));
+        Optional<TurnOver> turnOverOpt = turnOverFinder.findTurnover();
+        assertTrue("Failed gfi is a turnover", turnOverOpt.isPresent());
+        TurnOver turnOver = turnOverOpt.get();
+        assertEquals("TurnOver must have the actingPlayer set as active player", actingPlayer, turnOver.getActivePlayer());
+        assertEquals("TurnOver must reflect the failed action", ReportId.GO_FOR_IT_ROLL, turnOver.getAction());
+        assertEquals("TurnOver must show the minimum roll", 3, turnOver.getMinRollOrDiceCount());
+        assertTrue("Was rerolled", turnOver.isReRolled());
+        assertFalse("Was not rerolled with team reroll", turnOver.isReRolledWithTeamReroll());
+    }
+
+    @Test
+    public void successGFI() throws Exception {
         turnOverFinder.add(new ReportPlayerAction(actingPlayer, PlayerAction.MOVE));
         turnOverFinder.add(new ReportSkillRoll(ReportId.GO_FOR_IT_ROLL, actingPlayer, true, 3, 4));
         turnOverFinder.add(new ReportTurnEnd(null, null, null));

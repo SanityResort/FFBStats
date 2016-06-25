@@ -145,7 +145,7 @@ public enum ReportId implements IEnumWithId, IEnumWithName
                 return new ReportSkillRoll(LEAP_ROLL);
             }
             case PASS_ROLL: {
-                return new ReportSkillRoll(PASS_ROLL);
+                return new ReportPassRoll();
             }
             case PICK_UP_ROLL: {
                 return new ReportSkillRoll(PICK_UP_ROLL);
@@ -236,6 +236,12 @@ public enum ReportId implements IEnumWithId, IEnumWithName
             }
             case START_HALF: {
                 return new ReportStartHalf();
+            }
+            case SCATTER_BALL: {
+                return new ReportScatterBall();
+            }
+            case SCATTER_PLAYER: {
+                return new ReportScatterPlayer();
             }
             default:
                 return new DummyReport();
