@@ -139,7 +139,7 @@ public enum ReportId implements IEnumWithId, IEnumWithName
                 return new ReportInjury();
             }
             case INTERCEPTION_ROLL: {
-                return new ReportSkillRoll(INTERCEPTION_ROLL);
+                return new ReportInterceptionRoll();
             }
             case LEAP_ROLL: {
                 return new ReportSkillRoll(LEAP_ROLL);

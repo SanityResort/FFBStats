@@ -1,14 +1,10 @@
 turnover
-- pass
-- handover
-- catch
+- hail mary
 - interception
-- pass block
 - block
 - blitz
 - special effect
 - ttm
-- dump off
 - no action
 - foul
 - foul move

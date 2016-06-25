@@ -7,7 +7,7 @@ public class TurnOver {
     private int minRollOrDiceCount;
     private boolean wasReRolled;
     private boolean wasReRolledWithTeamReRoll;
-    private String activePlayer;
+    private transient String activePlayer;
 
     public TurnOver(ReportId action, int minRollOrDiceCount, boolean wasReRolled, boolean wasReRolledWithTeamReRoll, String activePlayer) {
         this.action = action;

@@ -4,6 +4,7 @@ import org.junit.Test;
 import refactored.com.balancedbytes.games.ffb.PlayerAction;
 import refactored.com.balancedbytes.games.ffb.ReRollSource;
 import refactored.com.balancedbytes.games.ffb.report.ReportId;
+import refactored.com.balancedbytes.games.ffb.report.ReportInterceptionRoll;
 import refactored.com.balancedbytes.games.ffb.report.ReportPassRoll;
 import refactored.com.balancedbytes.games.ffb.report.ReportPlayerAction;
 import refactored.com.balancedbytes.games.ffb.report.ReportReRoll;
@@ -21,7 +22,7 @@ public class TurnOverFinderPassCatchTest extends AbstractTurnOverFinderTest {
 
     @Test
     public void failedPassFumble() throws Exception {
-        turnOverFinder.add(new ReportPlayerAction(actingPlayer, PlayerAction.MOVE));
+        turnOverFinder.add(new ReportPlayerAction(actingPlayer, PlayerAction.PASS));
         turnOverFinder.add(ReportPassRoll.regularPass(actingPlayer, false,  1, 3, true,false,false));
         turnOverFinder.add(new ReportScatterBall());
         turnOverFinder.add(new ReportTurnEnd(null, null, null));
@@ -37,7 +38,7 @@ public class TurnOverFinderPassCatchTest extends AbstractTurnOverFinderTest {
 
     @Test
     public void failedPassFumbleCatchByTeam() throws Exception {
-        turnOverFinder.add(new ReportPlayerAction(actingPlayer, PlayerAction.MOVE));
+        turnOverFinder.add(new ReportPlayerAction(actingPlayer, PlayerAction.PASS));
         turnOverFinder.add(ReportPassRoll.regularPass(actingPlayer, false,  1, 3, true,false,false));
         turnOverFinder.add(new ReportScatterBall());
         turnOverFinder.add(new ReportSkillRoll(ReportId.CATCH_ROLL, teamMember, true, 4, 4));
@@ -54,7 +55,7 @@ public class TurnOverFinderPassCatchTest extends AbstractTurnOverFinderTest {
 
     @Test
     public void failedPassFumbleCatchByOpponent() throws Exception {
-        turnOverFinder.add(new ReportPlayerAction(actingPlayer, PlayerAction.MOVE));
+        turnOverFinder.add(new ReportPlayerAction(actingPlayer, PlayerAction.PASS));
         turnOverFinder.add(ReportPassRoll.regularPass(actingPlayer, false,  1, 3, true,false,false));
         turnOverFinder.add(new ReportScatterBall());
         turnOverFinder.add(new ReportSkillRoll(ReportId.CATCH_ROLL, opponent, true, 4, 4));
@@ -71,7 +72,7 @@ public class TurnOverFinderPassCatchTest extends AbstractTurnOverFinderTest {
 
     @Test
     public void failedPassFumbleNoCatch() throws Exception {
-        turnOverFinder.add(new ReportPlayerAction(actingPlayer, PlayerAction.MOVE));
+        turnOverFinder.add(new ReportPlayerAction(actingPlayer, PlayerAction.PASS));
         turnOverFinder.add(ReportPassRoll.regularPass(actingPlayer, false,  1, 3, true,false,false));
         turnOverFinder.add(new ReportScatterBall());
         turnOverFinder.add(new ReportSkillRoll(ReportId.CATCH_ROLL, teamMember, false, 4, 2));
@@ -89,7 +90,7 @@ public class TurnOverFinderPassCatchTest extends AbstractTurnOverFinderTest {
 
     @Test
     public void failedPassFumbleSkillReRoll() throws Exception {
-        turnOverFinder.add(new ReportPlayerAction(actingPlayer, PlayerAction.MOVE));
+        turnOverFinder.add(new ReportPlayerAction(actingPlayer, PlayerAction.PASS));
         turnOverFinder.add(ReportPassRoll.regularPass(actingPlayer, false,  1, 3, true,false,false));
         turnOverFinder.add(new ReportReRoll(actingPlayer, ReRollSource.PASS));
         turnOverFinder.add(ReportPassRoll.regularPass(actingPlayer, false,  1, 3, true,false,false));
@@ -107,7 +108,7 @@ public class TurnOverFinderPassCatchTest extends AbstractTurnOverFinderTest {
 
     @Test
     public void failedPassFumbleProReRoll() throws Exception {
-        turnOverFinder.add(new ReportPlayerAction(actingPlayer, PlayerAction.MOVE));
+        turnOverFinder.add(new ReportPlayerAction(actingPlayer, PlayerAction.PASS));
         turnOverFinder.add(ReportPassRoll.regularPass(actingPlayer, false,  1, 3, true,false,false));
         turnOverFinder.add(new ReportReRoll(actingPlayer, ReRollSource.PRO));
         turnOverFinder.add(ReportPassRoll.regularPass(actingPlayer, false,  1, 3, true,false,false));
@@ -125,7 +126,7 @@ public class TurnOverFinderPassCatchTest extends AbstractTurnOverFinderTest {
 
     @Test
     public void failedPassFumbleTeamReRoll() throws Exception {
-        turnOverFinder.add(new ReportPlayerAction(actingPlayer, PlayerAction.MOVE));
+        turnOverFinder.add(new ReportPlayerAction(actingPlayer, PlayerAction.PASS));
         turnOverFinder.add(ReportPassRoll.regularPass(actingPlayer, false,  1, 3, true,false,false));
         turnOverFinder.add(new ReportReRoll(actingPlayer, ReRollSource.TEAM_RE_ROLL));
         turnOverFinder.add(ReportPassRoll.regularPass(actingPlayer, false,  1, 3, true,false,false));
@@ -143,7 +144,7 @@ public class TurnOverFinderPassCatchTest extends AbstractTurnOverFinderTest {
 
     @Test
     public void failedPassFumbleLeaderReRoll() throws Exception {
-        turnOverFinder.add(new ReportPlayerAction(actingPlayer, PlayerAction.MOVE));
+        turnOverFinder.add(new ReportPlayerAction(actingPlayer, PlayerAction.PASS));
         turnOverFinder.add(ReportPassRoll.regularPass(actingPlayer, false,  1, 3, true,false,false));
         turnOverFinder.add(new ReportReRoll(actingPlayer, ReRollSource.LEADER));
         turnOverFinder.add(ReportPassRoll.regularPass(actingPlayer, false,  1, 3, true,false,false));
@@ -161,7 +162,7 @@ public class TurnOverFinderPassCatchTest extends AbstractTurnOverFinderTest {
 
     @Test
     public void failedPassFumbleSafeThrow() throws Exception {
-        turnOverFinder.add(new ReportPlayerAction(actingPlayer, PlayerAction.MOVE));
+        turnOverFinder.add(new ReportPlayerAction(actingPlayer, PlayerAction.PASS));
         turnOverFinder.add(ReportPassRoll.regularPass(actingPlayer, false,  2, 3, true, true,false));
         turnOverFinder.add(new ReportSkillRoll(ReportId.SAFE_THROW_ROLL, actingPlayer, true, 3 , 4));
         turnOverFinder.add(new ReportTurnEnd(null, null, null));
@@ -171,7 +172,7 @@ public class TurnOverFinderPassCatchTest extends AbstractTurnOverFinderTest {
 
     @Test
     public void failedPassFumbleSafeThrowFails() throws Exception {
-        turnOverFinder.add(new ReportPlayerAction(actingPlayer, PlayerAction.MOVE));
+        turnOverFinder.add(new ReportPlayerAction(actingPlayer, PlayerAction.PASS));
         turnOverFinder.add(ReportPassRoll.regularPass(actingPlayer, false,  2, 3, true, true,false));
         turnOverFinder.add(new ReportSkillRoll(ReportId.SAFE_THROW_ROLL, actingPlayer, true, 3 , 4));
         turnOverFinder.add(new ReportScatterBall());
@@ -188,7 +189,7 @@ public class TurnOverFinderPassCatchTest extends AbstractTurnOverFinderTest {
 
     @Test
     public void failedPassMissedThrow() throws Exception {
-        turnOverFinder.add(new ReportPlayerAction(actingPlayer, PlayerAction.MOVE));
+        turnOverFinder.add(new ReportPlayerAction(actingPlayer, PlayerAction.PASS));
         turnOverFinder.add(ReportPassRoll.regularPass(actingPlayer, false,  2, 3, false,false,false));
         turnOverFinder.add(new ReportScatterBall());
         turnOverFinder.add(new ReportTurnEnd(null, null, null));
@@ -204,7 +205,7 @@ public class TurnOverFinderPassCatchTest extends AbstractTurnOverFinderTest {
 
     @Test
     public void failedPassMissedThrowCatchByOpponent() throws Exception {
-        turnOverFinder.add(new ReportPlayerAction(actingPlayer, PlayerAction.MOVE));
+        turnOverFinder.add(new ReportPlayerAction(actingPlayer, PlayerAction.PASS));
         turnOverFinder.add(ReportPassRoll.regularPass(actingPlayer, false,  2, 3, false,false,false));
         turnOverFinder.add(new ReportScatterBall());
         turnOverFinder.add(new ReportSkillRoll(ReportId.CATCH_ROLL, opponent, false, 4, 2));
@@ -221,7 +222,7 @@ public class TurnOverFinderPassCatchTest extends AbstractTurnOverFinderTest {
 
     @Test
     public void failedPassMissedThrowCatchByTeam() throws Exception {
-        turnOverFinder.add(new ReportPlayerAction(actingPlayer, PlayerAction.MOVE));
+        turnOverFinder.add(new ReportPlayerAction(actingPlayer, PlayerAction.PASS));
         turnOverFinder.add(ReportPassRoll.regularPass(actingPlayer, false,  2, 3, false,false,false));
         turnOverFinder.add(new ReportScatterBall());
         turnOverFinder.add(new ReportSkillRoll(ReportId.CATCH_ROLL, teamMember, false, 4, 4));
@@ -232,7 +233,7 @@ public class TurnOverFinderPassCatchTest extends AbstractTurnOverFinderTest {
 
     @Test
     public void failedPassMissedThrowNoCatch() throws Exception {
-        turnOverFinder.add(new ReportPlayerAction(actingPlayer, PlayerAction.MOVE));
+        turnOverFinder.add(new ReportPlayerAction(actingPlayer, PlayerAction.PASS));
         turnOverFinder.add(ReportPassRoll.regularPass(actingPlayer, false,  2, 3, false,false,false));
         turnOverFinder.add(new ReportScatterBall());
         turnOverFinder.add(new ReportSkillRoll(ReportId.CATCH_ROLL, teamMember, false, 4, 2));
@@ -250,7 +251,7 @@ public class TurnOverFinderPassCatchTest extends AbstractTurnOverFinderTest {
 
     @Test
     public void failedPassMissedThrowSkillReRoll() throws Exception {
-        turnOverFinder.add(new ReportPlayerAction(actingPlayer, PlayerAction.MOVE));
+        turnOverFinder.add(new ReportPlayerAction(actingPlayer, PlayerAction.PASS));
         turnOverFinder.add(ReportPassRoll.regularPass(actingPlayer, false,  1, 3, true,false,false));
         turnOverFinder.add(new ReportReRoll(actingPlayer, ReRollSource.PASS));
         turnOverFinder.add(ReportPassRoll.regularPass(actingPlayer, false,  2, 3, false,false,false));
@@ -268,7 +269,7 @@ public class TurnOverFinderPassCatchTest extends AbstractTurnOverFinderTest {
 
     @Test
     public void failedPassMissedThrowProReRoll() throws Exception {
-        turnOverFinder.add(new ReportPlayerAction(actingPlayer, PlayerAction.MOVE));
+        turnOverFinder.add(new ReportPlayerAction(actingPlayer, PlayerAction.PASS));
         turnOverFinder.add(ReportPassRoll.regularPass(actingPlayer, false,  1, 3, true,false,false));
         turnOverFinder.add(new ReportReRoll(actingPlayer, ReRollSource.PRO));
         turnOverFinder.add(ReportPassRoll.regularPass(actingPlayer, false,  2, 3, false,false,false));
@@ -286,7 +287,7 @@ public class TurnOverFinderPassCatchTest extends AbstractTurnOverFinderTest {
 
     @Test
     public void failedPassMissedThrowTeamReRoll() throws Exception {
-        turnOverFinder.add(new ReportPlayerAction(actingPlayer, PlayerAction.MOVE));
+        turnOverFinder.add(new ReportPlayerAction(actingPlayer, PlayerAction.PASS));
         turnOverFinder.add(ReportPassRoll.regularPass(actingPlayer, false,  1, 3, true,false,false));
         turnOverFinder.add(new ReportReRoll(actingPlayer, ReRollSource.TEAM_RE_ROLL));
         turnOverFinder.add(ReportPassRoll.regularPass(actingPlayer, false,  2, 3, false,false,false));
@@ -304,7 +305,7 @@ public class TurnOverFinderPassCatchTest extends AbstractTurnOverFinderTest {
 
     @Test
     public void failedPassMissedThrowLeaderReRoll() throws Exception {
-        turnOverFinder.add(new ReportPlayerAction(actingPlayer, PlayerAction.MOVE));
+        turnOverFinder.add(new ReportPlayerAction(actingPlayer, PlayerAction.PASS));
         turnOverFinder.add(ReportPassRoll.regularPass(actingPlayer, false,  1, 3, true,false,false));
         turnOverFinder.add(new ReportReRoll(actingPlayer, ReRollSource.LEADER));
         turnOverFinder.add(ReportPassRoll.regularPass(actingPlayer, false,  2, 3, false,false,false));
@@ -322,7 +323,7 @@ public class TurnOverFinderPassCatchTest extends AbstractTurnOverFinderTest {
 
     @Test
     public void successPass() throws Exception {
-        turnOverFinder.add(new ReportPlayerAction(actingPlayer, PlayerAction.MOVE));
+        turnOverFinder.add(new ReportPlayerAction(actingPlayer, PlayerAction.PASS));
         turnOverFinder.add(ReportPassRoll.regularPass(actingPlayer, true, 4,3, false,false,false));
         turnOverFinder.add(new ReportSkillRoll(ReportId.CATCH_ROLL, teamMember, true, 3, 4));
         turnOverFinder.add(new ReportTurnEnd(null, null, null));
@@ -332,7 +333,7 @@ public class TurnOverFinderPassCatchTest extends AbstractTurnOverFinderTest {
 
     @Test
     public void successPassMissedCatchCaughtByOpponent() throws Exception {
-        turnOverFinder.add(new ReportPlayerAction(actingPlayer, PlayerAction.MOVE));
+        turnOverFinder.add(new ReportPlayerAction(actingPlayer, PlayerAction.PASS));
         turnOverFinder.add(ReportPassRoll.regularPass(actingPlayer, true, 4,3, false,false,false));
         turnOverFinder.add(new ReportSkillRoll(ReportId.CATCH_ROLL, teamMember, true, 4, 2));
         turnOverFinder.add(new ReportScatterBall());
@@ -350,7 +351,7 @@ public class TurnOverFinderPassCatchTest extends AbstractTurnOverFinderTest {
 
     @Test
     public void successPassMissedCatchCaughtByTeam() throws Exception {
-        turnOverFinder.add(new ReportPlayerAction(actingPlayer, PlayerAction.MOVE));
+        turnOverFinder.add(new ReportPlayerAction(actingPlayer, PlayerAction.PASS));
         turnOverFinder.add(ReportPassRoll.regularPass(actingPlayer, true, 4,3, false,false,false));
         turnOverFinder.add(new ReportSkillRoll(ReportId.CATCH_ROLL, teamMember, true, 4, 2));
         turnOverFinder.add(new ReportScatterBall());
@@ -362,7 +363,7 @@ public class TurnOverFinderPassCatchTest extends AbstractTurnOverFinderTest {
 
     @Test
     public void successPassMissedCatchNoCatch() throws Exception {
-        turnOverFinder.add(new ReportPlayerAction(actingPlayer, PlayerAction.MOVE));
+        turnOverFinder.add(new ReportPlayerAction(actingPlayer, PlayerAction.PASS));
         turnOverFinder.add(ReportPassRoll.regularPass(actingPlayer, true, 4,3, false,false,false));
         turnOverFinder.add(new ReportSkillRoll(ReportId.CATCH_ROLL, teamMember, true, 4, 2));
         turnOverFinder.add(new ReportScatterBall());
@@ -379,7 +380,7 @@ public class TurnOverFinderPassCatchTest extends AbstractTurnOverFinderTest {
 
     @Test
     public void successPassMissedCatchTeamReRoll() throws Exception {
-        turnOverFinder.add(new ReportPlayerAction(actingPlayer, PlayerAction.MOVE));
+        turnOverFinder.add(new ReportPlayerAction(actingPlayer, PlayerAction.PASS));
         turnOverFinder.add(ReportPassRoll.regularPass(actingPlayer, true, 4,3, false,false,false));
         turnOverFinder.add(new ReportSkillRoll(ReportId.CATCH_ROLL, teamMember, true, 4, 2));
         turnOverFinder.add(new ReportReRoll(actingPlayer, ReRollSource.TEAM_RE_ROLL));
@@ -398,7 +399,7 @@ public class TurnOverFinderPassCatchTest extends AbstractTurnOverFinderTest {
 
     @Test
     public void successPassMissedCatchLeaderReRoll() throws Exception {
-        turnOverFinder.add(new ReportPlayerAction(actingPlayer, PlayerAction.MOVE));
+        turnOverFinder.add(new ReportPlayerAction(actingPlayer, PlayerAction.PASS));
         turnOverFinder.add(ReportPassRoll.regularPass(actingPlayer, true, 4,3, false,false,false));
         turnOverFinder.add(new ReportSkillRoll(ReportId.CATCH_ROLL, teamMember, true, 4, 2));
         turnOverFinder.add(new ReportReRoll(actingPlayer, ReRollSource.LEADER));
@@ -417,7 +418,7 @@ public class TurnOverFinderPassCatchTest extends AbstractTurnOverFinderTest {
 
     @Test
     public void successPassMissedCatchProReRoll() throws Exception {
-        turnOverFinder.add(new ReportPlayerAction(actingPlayer, PlayerAction.MOVE));
+        turnOverFinder.add(new ReportPlayerAction(actingPlayer, PlayerAction.PASS));
         turnOverFinder.add(ReportPassRoll.regularPass(actingPlayer, true, 4,3, false,false,false));
         turnOverFinder.add(new ReportSkillRoll(ReportId.CATCH_ROLL, teamMember, true, 4, 2));
         turnOverFinder.add(new ReportReRoll(actingPlayer, ReRollSource.PRO));
@@ -436,7 +437,7 @@ public class TurnOverFinderPassCatchTest extends AbstractTurnOverFinderTest {
 
     @Test
     public void successPassMissedCatchSkillReRoll() throws Exception {
-        turnOverFinder.add(new ReportPlayerAction(actingPlayer, PlayerAction.MOVE));
+        turnOverFinder.add(new ReportPlayerAction(actingPlayer, PlayerAction.PASS));
         turnOverFinder.add(ReportPassRoll.regularPass(actingPlayer, true, 4,3, false,false,false));
         turnOverFinder.add(new ReportSkillRoll(ReportId.CATCH_ROLL, teamMember, true, 4, 2));
         turnOverFinder.add(new ReportReRoll(actingPlayer, ReRollSource.CATCH));
@@ -462,4 +463,76 @@ public class TurnOverFinderPassCatchTest extends AbstractTurnOverFinderTest {
         Optional<TurnOver> turnOverOpt = turnOverFinder.findTurnover();
         assertFalse("Fumble from opponent player is not a turnover", turnOverOpt.isPresent());
     }
+
+    @Test
+    public void interceptedSuccessfully() {
+        turnOverFinder.add(new ReportPlayerAction(actingPlayer, PlayerAction.PASS));
+        turnOverFinder.add(new ReportInterceptionRoll(opponent, true, 6, 6, false));
+        turnOverFinder.add(new ReportTurnEnd(null, null, null));
+        Optional<TurnOver> turnOverOpt = turnOverFinder.findTurnover();
+        assertTrue("Intercepted pass is a turnover", turnOverOpt.isPresent());
+        TurnOver turnOver = turnOverOpt.get();
+        assertEquals("TurnOver must have the team member set as active player", actingPlayer, turnOver.getActivePlayer());
+        assertEquals("TurnOver must reflect the turnover action", ReportId.INTERCEPTION_ROLL, turnOver.getAction());
+        assertEquals("TurnOver must show the minimum roll", 6, turnOver.getMinRollOrDiceCount());
+        assertFalse("Was not rerolled", turnOver.isReRolled());
+        assertFalse("Was not rerolled", turnOver.isReRolledWithTeamReroll());
+    }
+
+    @Test
+    public void interceptedSuccessfullyWithCatchReRoll() {
+        turnOverFinder.add(new ReportPlayerAction(actingPlayer, PlayerAction.PASS));
+        turnOverFinder.add(new ReportInterceptionRoll(opponent, false, 5, 6, false));
+        turnOverFinder.add(new ReportReRoll(opponent, ReRollSource.CATCH));
+        turnOverFinder.add(new ReportInterceptionRoll(opponent, true, 6, 6, false));
+        turnOverFinder.add(new ReportTurnEnd(null, null, null));
+        Optional<TurnOver> turnOverOpt = turnOverFinder.findTurnover();
+        assertTrue("Intercepted pass is a turnover", turnOverOpt.isPresent());
+        TurnOver turnOver = turnOverOpt.get();
+        assertEquals("TurnOver must have the team member set as active player", actingPlayer, turnOver.getActivePlayer());
+        assertEquals("TurnOver must reflect the turnover action", ReportId.INTERCEPTION_ROLL, turnOver.getAction());
+        assertEquals("TurnOver must show the minimum roll", 6, turnOver.getMinRollOrDiceCount());
+        assertTrue("Was rerolled", turnOver.isReRolled());
+        assertFalse("Was not rerolled with team reroll", turnOver.isReRolledWithTeamReroll());
+    }
+
+    @Test
+    public void interceptedSuccessfullyWithProReRoll() {
+        turnOverFinder.add(new ReportPlayerAction(actingPlayer, PlayerAction.PASS));
+        turnOverFinder.add(new ReportInterceptionRoll(opponent, false, 5, 6, false));
+        turnOverFinder.add(new ReportReRoll(opponent, ReRollSource.PRO));
+        turnOverFinder.add(new ReportInterceptionRoll(opponent, true, 6, 6, false));
+        turnOverFinder.add(new ReportTurnEnd(null, null, null));
+        Optional<TurnOver> turnOverOpt = turnOverFinder.findTurnover();
+        assertTrue("Intercepted pass is a turnover", turnOverOpt.isPresent());
+        TurnOver turnOver = turnOverOpt.get();
+        assertEquals("TurnOver must have the team member set as active player", actingPlayer, turnOver.getActivePlayer());
+        assertEquals("TurnOver must reflect the turnover action", ReportId.INTERCEPTION_ROLL, turnOver.getAction());
+        assertEquals("TurnOver must show the minimum roll", 6, turnOver.getMinRollOrDiceCount());
+        assertTrue("Was rerolled", turnOver.isReRolled());
+        assertFalse("Was not rerolled with team reroll", turnOver.isReRolledWithTeamReroll());
+    }
+
+    @Test
+    public void interceptionCancelledWithReroll() {
+        turnOverFinder.add(new ReportPlayerAction(actingPlayer, PlayerAction.PASS));
+        turnOverFinder.add(new ReportInterceptionRoll(opponent, true, 6, 6, false));
+        turnOverFinder.add(new ReportSkillRoll(ReportId.SAFE_THROW_ROLL, actingPlayer, false, 3, 2));
+        turnOverFinder.add(new ReportReRoll(opponent, ReRollSource.TEAM_RE_ROLL));
+        turnOverFinder.add(new ReportSkillRoll(ReportId.SAFE_THROW_ROLL, actingPlayer, true, 3, 4));
+        turnOverFinder.add(new ReportTurnEnd(null, null, null));
+        Optional<TurnOver> turnOverOpt = turnOverFinder.findTurnover();
+        assertFalse("Cancelled interception is not a turnover", turnOverOpt.isPresent());
+    }
+
+    @Test
+    public void interceptionCancelled() {
+        turnOverFinder.add(new ReportPlayerAction(actingPlayer, PlayerAction.PASS));
+        turnOverFinder.add(new ReportInterceptionRoll(opponent, true, 6, 6, false));
+        turnOverFinder.add(new ReportSkillRoll(ReportId.SAFE_THROW_ROLL, actingPlayer, true, 3, 4));
+        turnOverFinder.add(new ReportTurnEnd(null, null, null));
+        Optional<TurnOver> turnOverOpt = turnOverFinder.findTurnover();
+        assertFalse("Cancelled interception is not a turnover", turnOverOpt.isPresent());
+    }
+
 }
