@@ -455,7 +455,7 @@ public class TurnOverFinderPassCatchTest extends AbstractTurnOverFinderTest {
 
     @Test
     public void failedPassFumbleFromDumpOff() throws Exception {
-        turnOverFinder.add(new ReportPlayerAction(actingPlayer, PlayerAction.MOVE));
+        turnOverFinder.add(new ReportPlayerAction(actingPlayer, PlayerAction.BLITZ));
         turnOverFinder.add(ReportPassRoll.regularPass(opponent, false,  1, 3, true,false,false));
         turnOverFinder.add(new ReportScatterBall());
         turnOverFinder.add(new ReportTurnEnd(null, null, null));
