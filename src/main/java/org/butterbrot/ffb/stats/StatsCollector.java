@@ -101,7 +101,7 @@ public class StatsCollector {
 
             ReportList reportList = modelSync.getReportList();
             for (IReport report : reportList.getReports()) {
-                //  System.out.println(new Gson().toJson(report));
+                //System.out.println(new Gson().toJson(report));
                 if (report instanceof ReportSkillRoll) {
                     ReportSkillRoll skillReport = ((ReportSkillRoll) report);
                     if (skillReport.getRoll() > 0) {
@@ -296,6 +296,8 @@ public class StatsCollector {
                         }
                     }
 
+                    collection.addArmourAndInjuryStats(injuries);
+                    injuries.clear();
                     if (startSecondHalf) {
                         collection.startSecondHalf();
                         startSecondHalf = false;
@@ -304,8 +306,6 @@ public class StatsCollector {
                         collection.startOvertime();
                         startOvertime = false;
                     }
-                    collection.addArmourAndInjuryStats(injuries);
-                    injuries.clear();
                     if (TurnMode.BLITZ == turnMode || TurnMode.REGULAR == turnMode) {
                         collection.addTurn(isHomePlaying, turnMode, turnNumber);
                     }
