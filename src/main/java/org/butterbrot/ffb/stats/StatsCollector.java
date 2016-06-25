@@ -301,6 +301,8 @@ public class StatsCollector {
                         }
                     }
 
+                    collection.addArmourAndInjuryStats(injuries);
+                    injuries.clear();
                     if (startSecondHalf) {
                         collection.startSecondHalf();
                         startSecondHalf = false;
@@ -309,13 +311,12 @@ public class StatsCollector {
                         collection.startOvertime();
                         startOvertime = false;
                     }
-                    collection.addArmourAndInjuryStats(injuries);
-                    injuries.clear();
                     if (isActionTurn) {
                         turnOverFinder.findTurnover().ifPresent(turnOver -> collection.addTurnOver(turnOver));
                     }
 
                     turnOverFinder.reset();
+
                     if (TurnMode.BLITZ == turnMode || TurnMode.REGULAR == turnMode) {
                         collection.addTurn(isHomePlaying, turnMode, turnNumber);
                         isActionTurn = true;
