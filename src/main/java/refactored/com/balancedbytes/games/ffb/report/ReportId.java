@@ -8,18 +8,18 @@ import refactored.com.balancedbytes.games.ffb.ReportStartHalf;
 public enum ReportId implements IEnumWithId, IEnumWithName
 {
     ALWAYS_HUNGRY_ROLL(1, "alwaysHungryRoll"),
-    CATCH_ROLL(2, "catchRoll"),
+    CATCH_ROLL(2, "catchRoll", "Catch"),
     CONFUSION_ROLL(3, "confusionRoll"),
     DAUNTLESS_ROLL(4, "dauntlessRoll"),
-    DODGE_ROLL(5, "dodgeRoll"),
+    DODGE_ROLL(5, "dodgeRoll", "Dodge"),
     ESCAPE_ROLL(6, "escapeRoll"),
     FOUL_APPEARANCE_ROLL(7, "foulAppearanceRoll"),
-    GO_FOR_IT_ROLL(8, "goForItRoll"),
-    INTERCEPTION_ROLL(9, "interceptionRoll"),
-    LEAP_ROLL(10, "leapRoll"),
-    PASS_ROLL(11, "passRoll"),
-    PICK_UP_ROLL(12, "pickUpRoll"),
-    RIGHT_STUFF_ROLL(13, "rightStuffRoll"),
+    GO_FOR_IT_ROLL(8, "goForItRoll", "Go for it"),
+    INTERCEPTION_ROLL(9, "interceptionRoll", "Interception"),
+    LEAP_ROLL(10, "leapRoll", "Leap"),
+    PASS_ROLL(11, "passRoll", "Pass"),
+    PICK_UP_ROLL(12, "pickUpRoll", "Pick up"),
+    RIGHT_STUFF_ROLL(13, "rightStuffRoll", "Landing"),
     REGENERATION_ROLL(14, "regenerationRoll"),
     SAFE_THROW_ROLL(15, "safeThrowRoll"),
     TENTACLES_SHADOWING_ROLL(16, "tentaclesShadowingRoll"),
@@ -27,14 +27,14 @@ public enum ReportId implements IEnumWithId, IEnumWithName
     RE_ROLL(18, "reRoll"),
     TURN_END(19, "turnEnd"),
     PLAYER_ACTION(20, "playerAction"),
-    FOUL(21, "foul"),
-    HAND_OVER(22, "handOver"),
+    FOUL(21, "foul", "Foul"),
+    HAND_OVER(22, "handOver", "Hand Over"),
     INJURY(23, "injury"),
     APOTHECARY_ROLL(24, "apothecaryRoll"),
     APOTHECARY_CHOICE(25, "apothecaryChoice"),
     THROW_IN(26, "throwIn"),
     SCATTER_BALL(27, "scatterBall"),
-    BLOCK(28, "block"),
+    BLOCK(28, "block", "Block"),
     BLOCK_CHOICE(29, "blockChoice"),
     SPECTATORS(30, "spectators"),
     WEATHER(31, "weather"),
@@ -58,15 +58,15 @@ public enum ReportId implements IEnumWithId, IEnumWithName
     DEFECTING_PLAYERS(49, "defectingPlayers"),
     JUMP_UP_ROLL(51, "jumpUpRoll"),
     STAND_UP_ROLL(52, "standUpRoll"),
-    BRIBES_ROLL(53, "bribesRoll"),
+    BRIBES_ROLL(53, "bribesRoll", "Bribe"),
     MASTER_CHEF_ROLL(54, "masterChefRoll"),
     START_HALF(55, "startHalf"),
     INDUCEMENT(56, "inducement"),
     PILING_ON(57, "pilingOn"),
-    CHAINSAW_ROLL(58, "chainsawRoll"),
+    CHAINSAW_ROLL(58, "chainsawRoll", "Chainsaw"),
     LEADER(59, "leader"),
     SECRET_WEAPON_BAN(60, "secretWeaponBan"),
-    BLOOD_LUST_ROLL(61, "bloodLustRoll"),
+    BLOOD_LUST_ROLL(61, "bloodLustRoll", "Blood Lust"),
     HYPNOTIC_GAZE_ROLL(62, "hypnoticGazeRoll"),
     BITE_SPECTATOR(63, "biteSpectator"),
     ANIMOSITY_ROLL(64, "animosityRoll"),
@@ -90,12 +90,19 @@ public enum ReportId implements IEnumWithId, IEnumWithName
     
     private int fId;
     private String fName;
+    private String turnOverDesc;
+
+    ReportId(int pId, String pName, String turnOverDesc) {
+        this.fId = pId;
+        this.fName = pName;
+        this.turnOverDesc = turnOverDesc;
+    }
 
     ReportId(int pId, String pName) {
         this.fId = pId;
         this.fName = pName;
+        this.turnOverDesc = pName;
     }
-
     @Override
     public int getId() {
         return this.fId;
@@ -104,6 +111,10 @@ public enum ReportId implements IEnumWithId, IEnumWithName
     @Override
     public String getName() {
         return this.fName;
+    }
+
+    public String getTurnOverDesc() {
+        return turnOverDesc;
     }
 
     public IReport createReport() {

@@ -29,7 +29,7 @@ public class TurnOverFinderGFITest extends AbstractTurnOverFinderTest {
         assertTrue("Failed gfi is a turnover", turnOverOpt.isPresent());
         TurnOver turnOver = turnOverOpt.get();
         assertEquals("TurnOver must have the actingPlayer set as active player", actingPlayer, turnOver.getActivePlayer());
-        assertEquals("TurnOver must reflect the failed action", ReportId.GO_FOR_IT_ROLL, turnOver.getAction());
+        assertEquals("TurnOver must reflect the failed action", ReportId.GO_FOR_IT_ROLL.getTurnOverDesc(), turnOver.getAction());
         assertEquals("TurnOver must show the minimum roll", 3, turnOver.getMinRollOrDiceCount());
         assertFalse("Was not rerolled", turnOver.isReRolled());
         assertFalse("Was not rerolled", turnOver.isReRolledWithTeamReroll());
@@ -47,7 +47,7 @@ public class TurnOverFinderGFITest extends AbstractTurnOverFinderTest {
         assertTrue("Failed gfi is a turnover", turnOverOpt.isPresent());
         TurnOver turnOver = turnOverOpt.get();
         assertEquals("TurnOver must have the actingPlayer set as active player", actingPlayer, turnOver.getActivePlayer());
-        assertEquals("TurnOver must reflect the failed action", ReportId.GO_FOR_IT_ROLL, turnOver.getAction());
+        assertEquals("TurnOver must reflect the failed action", ReportId.GO_FOR_IT_ROLL.getTurnOverDesc(), turnOver.getAction());
         assertEquals("TurnOver must show the minimum roll", 3, turnOver.getMinRollOrDiceCount());
         assertFalse("Was not rerolled", turnOver.isReRolled());
         assertFalse("Was not rerolled", turnOver.isReRolledWithTeamReroll());
@@ -65,7 +65,7 @@ public class TurnOverFinderGFITest extends AbstractTurnOverFinderTest {
         assertTrue("Failed gfi is a turnover", turnOverOpt.isPresent());
         TurnOver turnOver = turnOverOpt.get();
         assertEquals("TurnOver must have the actingPlayer set as active player", actingPlayer, turnOver.getActivePlayer());
-        assertEquals("TurnOver must reflect the failed action", ReportId.GO_FOR_IT_ROLL, turnOver.getAction());
+        assertEquals("TurnOver must reflect the failed action", ReportId.GO_FOR_IT_ROLL.getTurnOverDesc(), turnOver.getAction());
         assertEquals("TurnOver must show the minimum roll", 3, turnOver.getMinRollOrDiceCount());
         assertFalse("Was not rerolled", turnOver.isReRolled());
         assertFalse("Was not rerolled", turnOver.isReRolledWithTeamReroll());
@@ -83,7 +83,7 @@ public class TurnOverFinderGFITest extends AbstractTurnOverFinderTest {
         assertTrue("Failed gfi is a turnover", turnOverOpt.isPresent());
         TurnOver turnOver = turnOverOpt.get();
         assertEquals("TurnOver must have the actingPlayer set as active player", actingPlayer, turnOver.getActivePlayer());
-        assertEquals("TurnOver must reflect the failed action", ReportId.GO_FOR_IT_ROLL, turnOver.getAction());
+        assertEquals("TurnOver must reflect the failed action", ReportId.GO_FOR_IT_ROLL.getTurnOverDesc(), turnOver.getAction());
         assertEquals("TurnOver must show the minimum roll", 3, turnOver.getMinRollOrDiceCount());
         assertFalse("Was not rerolled", turnOver.isReRolled());
         assertFalse("Was not rerolled", turnOver.isReRolledWithTeamReroll());
@@ -101,7 +101,7 @@ public class TurnOverFinderGFITest extends AbstractTurnOverFinderTest {
         assertTrue("Failed gfi is a turnover", turnOverOpt.isPresent());
         TurnOver turnOver = turnOverOpt.get();
         assertEquals("TurnOver must have the actingPlayer set as active player", actingPlayer, turnOver.getActivePlayer());
-        assertEquals("TurnOver must reflect the failed action", ReportId.GO_FOR_IT_ROLL, turnOver.getAction());
+        assertEquals("TurnOver must reflect the failed action", ReportId.GO_FOR_IT_ROLL.getTurnOverDesc(), turnOver.getAction());
         assertEquals("TurnOver must show the minimum roll", 3, turnOver.getMinRollOrDiceCount());
         assertTrue("Was rerolled", turnOver.isReRolled());
         assertTrue("Was rerolled with team reroll", turnOver.isReRolledWithTeamReroll());
@@ -119,7 +119,7 @@ public class TurnOverFinderGFITest extends AbstractTurnOverFinderTest {
         assertTrue("Failed gfi is a turnover", turnOverOpt.isPresent());
         TurnOver turnOver = turnOverOpt.get();
         assertEquals("TurnOver must have the actingPlayer set as active player", actingPlayer, turnOver.getActivePlayer());
-        assertEquals("TurnOver must reflect the failed action", ReportId.GO_FOR_IT_ROLL, turnOver.getAction());
+        assertEquals("TurnOver must reflect the failed action", ReportId.GO_FOR_IT_ROLL.getTurnOverDesc(), turnOver.getAction());
         assertEquals("TurnOver must show the minimum roll", 3, turnOver.getMinRollOrDiceCount());
         assertTrue("Was rerolled", turnOver.isReRolled());
         assertTrue("Was rerolled with team reroll", turnOver.isReRolledWithTeamReroll());
@@ -137,7 +137,7 @@ public class TurnOverFinderGFITest extends AbstractTurnOverFinderTest {
         assertTrue("Failed gfi is a turnover", turnOverOpt.isPresent());
         TurnOver turnOver = turnOverOpt.get();
         assertEquals("TurnOver must have the actingPlayer set as active player", actingPlayer, turnOver.getActivePlayer());
-        assertEquals("TurnOver must reflect the failed action", ReportId.GO_FOR_IT_ROLL, turnOver.getAction());
+        assertEquals("TurnOver must reflect the failed action", ReportId.GO_FOR_IT_ROLL.getTurnOverDesc(), turnOver.getAction());
         assertEquals("TurnOver must show the minimum roll", 3, turnOver.getMinRollOrDiceCount());
         assertTrue("Was rerolled", turnOver.isReRolled());
         assertFalse("Was not rerolled with team reroll", turnOver.isReRolledWithTeamReroll());
@@ -155,7 +155,7 @@ public class TurnOverFinderGFITest extends AbstractTurnOverFinderTest {
         assertTrue("Failed gfi is a turnover", turnOverOpt.isPresent());
         TurnOver turnOver = turnOverOpt.get();
         assertEquals("TurnOver must have the actingPlayer set as active player", actingPlayer, turnOver.getActivePlayer());
-        assertEquals("TurnOver must reflect the failed action", ReportId.GO_FOR_IT_ROLL, turnOver.getAction());
+        assertEquals("TurnOver must reflect the failed action", ReportId.GO_FOR_IT_ROLL.getTurnOverDesc(), turnOver.getAction());
         assertEquals("TurnOver must show the minimum roll", 3, turnOver.getMinRollOrDiceCount());
         assertTrue("Was rerolled", turnOver.isReRolled());
         assertFalse("Was not rerolled with team reroll", turnOver.isReRolledWithTeamReroll());

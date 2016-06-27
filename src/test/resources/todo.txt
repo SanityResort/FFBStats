@@ -1,5 +1,4 @@
 turnover
-- bomb
 - block
 - blitz
 - wizard
@@ -11,6 +10,9 @@ turnover
 - kick back
 - bloodlust
 - touchdown
+- leap
+- hand over
+- bribe
 
 stats
 - timeout
@@ -21,3 +23,4 @@ stats
 - scatterball
 - wizard
 - touchdown home/away
+- bribe
