@@ -1,9 +1,8 @@
 turnover
-- hail mary
-- interception
+- bomb
 - block
 - blitz
-- special effect
+- wizard
 - ttm
 - no action
 - foul
