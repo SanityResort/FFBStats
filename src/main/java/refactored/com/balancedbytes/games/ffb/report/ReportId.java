@@ -12,7 +12,7 @@ public enum ReportId implements IEnumWithId, IEnumWithName
     CONFUSION_ROLL(3, "confusionRoll"),
     DAUNTLESS_ROLL(4, "dauntlessRoll"),
     DODGE_ROLL(5, "dodgeRoll", "Dodge"),
-    ESCAPE_ROLL(6, "escapeRoll"),
+    ESCAPE_ROLL(6, "escapeRoll", "Being eaten"),
     FOUL_APPEARANCE_ROLL(7, "foulAppearanceRoll"),
     GO_FOR_IT_ROLL(8, "goForItRoll", "Go for it"),
     INTERCEPTION_ROLL(9, "interceptionRoll", "Interception"),
