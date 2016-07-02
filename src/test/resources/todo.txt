@@ -2,7 +2,6 @@ turnover
 - block
 - blitz
 - wizard
-- ttm
 - no action
 - foul
 - foul move
@@ -11,7 +10,6 @@ turnover
 - bloodlust
 - touchdown
 - leap
-- hand over
 - bribe
 
 stats
