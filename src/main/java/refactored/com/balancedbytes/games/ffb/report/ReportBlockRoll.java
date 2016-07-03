@@ -12,7 +12,7 @@ public class ReportBlockRoll implements IReport {
     ReportBlockRoll() {
     }
 
-    private ReportBlockRoll(String pChoosingTeamId, int[] pBlockRoll) {
+    public ReportBlockRoll(String pChoosingTeamId, int[] pBlockRoll) {
         this.fChoosingTeamId = pChoosingTeamId;
         this.fBlockRoll = pBlockRoll;
     }

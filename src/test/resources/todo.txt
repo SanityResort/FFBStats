@@ -1,6 +1,4 @@
 turnover
-- block
-- blitz
 - wizard
 - no action
 - foul

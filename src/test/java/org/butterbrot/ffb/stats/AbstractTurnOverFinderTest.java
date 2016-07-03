@@ -10,6 +10,8 @@ public class AbstractTurnOverFinderTest {
     protected String actingPlayer = "actingPlayer";
     protected String teamMember = "teamMember";
     protected String opponent = "opponent";
+    protected String actingTeam = "actingTeam";
+    protected String opponentTeam = "opponentTeam";
 
     protected TurnOverFinder turnOverFinder;
 
@@ -21,5 +23,8 @@ public class AbstractTurnOverFinderTest {
         Set<String> players = (Set<String>) playersField.get(turnOverFinder);
         players.add(actingPlayer);
         players.add(teamMember);
+        Field homeTeam = TurnOverFinder.class.getDeclaredField("homeTeam");
+        homeTeam.setAccessible(true);
+        homeTeam.set(turnOverFinder, actingPlayer);
     }
 }

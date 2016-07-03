@@ -17,9 +17,11 @@ public class TurnOverFinder {
 
     private Deque<IReport> reports = new ArrayDeque<>();
 
+    private String homeTeam;
     private Set<String> homePlayers = new HashSet<>();
 
     public void addHomePlayers(Team homeTeam) {
+        this.homeTeam = homeTeam.getId();
         for (Player player: homeTeam.getPlayers()) {
             homePlayers.add(player.getId());
         }
