@@ -1,14 +1,9 @@
 turnover
 - wizard
 - no action
-- foul
-- foul move
-- secret weapon
 - kick back
 - bloodlust
 - touchdown
-- leap
-- bribe
 
 stats
 - timeout

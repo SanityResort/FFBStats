@@ -13,7 +13,7 @@ public class ReportBribesRoll implements IReport {
     ReportBribesRoll() {
     }
 
-    private ReportBribesRoll(String pPlayerId, int pRoll, boolean pSuccessful) {
+    public ReportBribesRoll(String pPlayerId, int pRoll, boolean pSuccessful) {
         this.fPlayerId = pPlayerId;
         this.fRoll = pRoll;
         this.fSuccessful = pSuccessful;

@@ -13,6 +13,8 @@ import java.util.Set;
 
 public class TurnOverFinder {
 
+    private boolean homeTeamActive;
+
     private String activePlayer;
 
     private Deque<IReport> reports = new ArrayDeque<>();
@@ -25,6 +27,10 @@ public class TurnOverFinder {
         for (Player player: homeTeam.getPlayers()) {
             homePlayers.add(player.getId());
         }
+    }
+
+    public void setHomeTeamActive(boolean homeTeamActive) {
+        this.homeTeamActive = homeTeamActive;
     }
 
     public void add(IReport report) {

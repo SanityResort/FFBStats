@@ -88,6 +88,7 @@ public class StatsCollector {
             for (ModelChange change : modelSync.getModelChanges().getChanges()) {
                 if (ModelChangeId.GAME_SET_HOME_PLAYING == change.getChangeId()) {
                     isHomePlaying = (boolean) change.getValue();
+                    turnOverFinder.setHomeTeamActive(isHomePlaying);
                 }
 
                 if (ModelChangeId.GAME_SET_TURN_MODE == change.getChangeId()) {

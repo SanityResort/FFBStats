@@ -254,6 +254,9 @@ public enum ReportId implements IEnumWithId, IEnumWithName
             case SCATTER_PLAYER: {
                 return new ReportScatterPlayer();
             }
+            case REFEREE: {
+                return new ReportReferee();
+            }
             default:
                 return new DummyReport();
         }

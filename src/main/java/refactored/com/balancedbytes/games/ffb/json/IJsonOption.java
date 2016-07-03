@@ -83,5 +83,6 @@ public interface IJsonOption {
     JsonBooleanOption SAFE_THROW_HOLD = new JsonBooleanOption("safeThrowHold");
     JsonBooleanOption HAIL_MARY_PASS = new JsonBooleanOption("hailMaryPass");
     JsonBooleanOption BOMB = new JsonBooleanOption("bomb");
+    JsonBooleanOption FOULING_PLAYER_BANNED = new JsonBooleanOption("foulingPlayerBanned");
 }
 
