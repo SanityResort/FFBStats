@@ -1,13 +1,8 @@
-turnover
-- wizard
-- no action
-- kick back
-- bloodlust
-- touchdown
 
 stats
 - timeout
 - bloodlust
+- gaze
 - confusion
 - reroll
 - apo

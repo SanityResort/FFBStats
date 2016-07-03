@@ -7,7 +7,7 @@ public enum SpecialEffect implements IEnumWithId,
 IEnumWithName
 {
     LIGHTNING(1, "lightning", true, "Lightning Bolt"),
-    FIREBALL(2, "fireball", true, "Fire Ball"),
+    FIREBALL(2, "fireball", true, "Fireball"),
     BOMB(3, "bomb", false, "Bomb");
     
     private int fId;

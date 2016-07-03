@@ -4,6 +4,7 @@ import org.hibernate.validator.internal.util.ConcurrentReferenceHashMap;
 import org.junit.Test;
 import refactored.com.balancedbytes.games.ffb.PlayerAction;
 import refactored.com.balancedbytes.games.ffb.report.ReportBribesRoll;
+import refactored.com.balancedbytes.games.ffb.report.ReportId;
 import refactored.com.balancedbytes.games.ffb.report.ReportPlayerAction;
 import refactored.com.balancedbytes.games.ffb.report.ReportReferee;
 import refactored.com.balancedbytes.games.ffb.report.ReportTurnEnd;
@@ -25,6 +26,7 @@ public class TurnOverFinderRefTest extends AbstractTurnOverFinderTest{
         assertTrue("Spotted foul is a turnover", turnOverOpt.isPresent());
         TurnOver turnOver = turnOverOpt.get();
         assertEquals("TurnOver must have the actingPlayer set as active player", actingPlayer, turnOver.getActivePlayer());
+        assertEquals("TurnOver must reflect the failed action", ReportId.FOUL.getTurnOverDesc(), turnOver.getAction());
         assertEquals("Spotted foul does not have a minimum roll", 0, turnOver.getMinRollOrDiceCount());
         assertFalse("Fouls cannot be rerolled", turnOver.isReRolled());
         assertFalse("Fouls cannot be rerolled", turnOver.isReRolledWithTeamReroll());
@@ -39,6 +41,7 @@ public class TurnOverFinderRefTest extends AbstractTurnOverFinderTest{
         assertTrue("Spotted foul is a turnover", turnOverOpt.isPresent());
         TurnOver turnOver = turnOverOpt.get();
         assertEquals("TurnOver must have the actingPlayer set as active player", actingPlayer, turnOver.getActivePlayer());
+        assertEquals("TurnOver must reflect the failed action", ReportId.FOUL.getTurnOverDesc(), turnOver.getAction());
         assertEquals("Spotted foul does not have a minimum roll", 0, turnOver.getMinRollOrDiceCount());
         assertFalse("Fouls cannot be rerolled", turnOver.isReRolled());
         assertFalse("Fouls cannot be rerolled", turnOver.isReRolledWithTeamReroll());
@@ -63,6 +66,7 @@ public class TurnOverFinderRefTest extends AbstractTurnOverFinderTest{
         assertTrue("Spotted foul is a turnover", turnOverOpt.isPresent());
         TurnOver turnOver = turnOverOpt.get();
         assertEquals("TurnOver must have the actingPlayer set as active player", actingPlayer, turnOver.getActivePlayer());
+        assertEquals("TurnOver must reflect the failed action", ReportId.FOUL.getTurnOverDesc(), turnOver.getAction());
         assertEquals("Spotted foul does not have a minimum roll", 0, turnOver.getMinRollOrDiceCount());
         assertFalse("Fouls cannot be rerolled", turnOver.isReRolled());
         assertFalse("Fouls cannot be rerolled", turnOver.isReRolledWithTeamReroll());

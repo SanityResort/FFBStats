@@ -66,7 +66,7 @@ public enum ReportId implements IEnumWithId, IEnumWithName
     CHAINSAW_ROLL(58, "chainsawRoll", "Chainsaw"),
     LEADER(59, "leader"),
     SECRET_WEAPON_BAN(60, "secretWeaponBan"),
-    BLOOD_LUST_ROLL(61, "bloodLustRoll", "Blood Lust"),
+    BLOOD_LUST_ROLL(61, "bloodLustRoll", "Bloodlust"),
     HYPNOTIC_GAZE_ROLL(62, "hypnoticGazeRoll"),
     BITE_SPECTATOR(63, "biteSpectator"),
     ANIMOSITY_ROLL(64, "animosityRoll"),
@@ -256,6 +256,9 @@ public enum ReportId implements IEnumWithId, IEnumWithName
             }
             case REFEREE: {
                 return new ReportReferee();
+            }
+            case BITE_SPECTATOR: {
+                return new ReportBiteSpectator();
             }
             default:
                 return new DummyReport();

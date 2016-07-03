@@ -26,7 +26,7 @@ public class TurnOverFinderLeapTest extends AbstractTurnOverFinderTest {
         turnOverFinder.add(new ReportInjury(actingPlayer, false, null, null, null, null, null, null, null));
         turnOverFinder.add(new ReportTurnEnd(null, null, null));
         Optional<TurnOver> turnOverOpt = turnOverFinder.findTurnover();
-        assertTrue("Failed dodge is a turnover", turnOverOpt.isPresent());
+        assertTrue("Failed leap is a turnover", turnOverOpt.isPresent());
         TurnOver turnOver = turnOverOpt.get();
         assertEquals("TurnOver must have the actingPlayer set as active player", actingPlayer, turnOver.getActivePlayer());
         assertEquals("TurnOver must reflect the failed action", ReportId.LEAP_ROLL.getTurnOverDesc(), turnOver.getAction());
@@ -44,7 +44,7 @@ public class TurnOverFinderLeapTest extends AbstractTurnOverFinderTest {
         turnOverFinder.add(new ReportSkillRoll(ReportId.CATCH_ROLL, teamMember, true, 3, 3));
         turnOverFinder.add(new ReportTurnEnd(null, null, null));
         Optional<TurnOver> turnOverOpt = turnOverFinder.findTurnover();
-        assertTrue("Failed dodge is a turnover", turnOverOpt.isPresent());
+        assertTrue("Failed leap is a turnover", turnOverOpt.isPresent());
         TurnOver turnOver = turnOverOpt.get();
         assertEquals("TurnOver must have the actingPlayer set as active player", actingPlayer, turnOver.getActivePlayer());
         assertEquals("TurnOver must reflect the failed action", ReportId.LEAP_ROLL.getTurnOverDesc(), turnOver.getAction());
@@ -62,7 +62,7 @@ public class TurnOverFinderLeapTest extends AbstractTurnOverFinderTest {
         turnOverFinder.add(new ReportSkillRoll(ReportId.CATCH_ROLL, opponent, false, 3, 3));
         turnOverFinder.add(new ReportTurnEnd(null, null, null));
         Optional<TurnOver> turnOverOpt = turnOverFinder.findTurnover();
-        assertTrue("Failed dodge is a turnover", turnOverOpt.isPresent());
+        assertTrue("Failed leap is a turnover", turnOverOpt.isPresent());
         TurnOver turnOver = turnOverOpt.get();
         assertEquals("TurnOver must have the actingPlayer set as active player", actingPlayer, turnOver.getActivePlayer());
         assertEquals("TurnOver must reflect the failed action", ReportId.LEAP_ROLL.getTurnOverDesc(), turnOver.getAction());
@@ -80,7 +80,7 @@ public class TurnOverFinderLeapTest extends AbstractTurnOverFinderTest {
         turnOverFinder.add(new ReportSkillRoll(ReportId.CATCH_ROLL, teamMember, false, 3, 2));
         turnOverFinder.add(new ReportTurnEnd(null, null, null));
         Optional<TurnOver> turnOverOpt = turnOverFinder.findTurnover();
-        assertTrue("Failed dodge is a turnover", turnOverOpt.isPresent());
+        assertTrue("Failed leap is a turnover", turnOverOpt.isPresent());
         TurnOver turnOver = turnOverOpt.get();
         assertEquals("TurnOver must have the actingPlayer set as active player", actingPlayer, turnOver.getActivePlayer());
         assertEquals("TurnOver must reflect the failed action", ReportId.LEAP_ROLL.getTurnOverDesc(), turnOver.getAction());
@@ -98,13 +98,31 @@ public class TurnOverFinderLeapTest extends AbstractTurnOverFinderTest {
         turnOverFinder.add(new ReportInjury(actingPlayer, false, null, null, null, null, null, null, null));
         turnOverFinder.add(new ReportTurnEnd(null, null, null));
         Optional<TurnOver> turnOverOpt = turnOverFinder.findTurnover();
-        assertTrue("Failed dodge is a turnover", turnOverOpt.isPresent());
+        assertTrue("Failed leap is a turnover", turnOverOpt.isPresent());
         TurnOver turnOver = turnOverOpt.get();
         assertEquals("TurnOver must have the actingPlayer set as active player", actingPlayer, turnOver.getActivePlayer());
         assertEquals("TurnOver must reflect the failed action", ReportId.LEAP_ROLL.getTurnOverDesc(), turnOver.getAction());
         assertEquals("TurnOver must show the minimum roll", 3, turnOver.getMinRollOrDiceCount());
         assertTrue("Was rerolled", turnOver.isReRolled());
         assertTrue("Was rerolled with team reroll", turnOver.isReRolledWithTeamReroll());
+    }
+
+    @Test
+    public void failedLeapWithProReRoll() throws Exception {
+        turnOverFinder.add(new ReportPlayerAction(actingPlayer, PlayerAction.MOVE));
+        turnOverFinder.add(new ReportSkillRoll(ReportId.LEAP_ROLL, actingPlayer, false, 3, 2));
+        turnOverFinder.add(new ReportReRoll(actingPlayer, ReRollSource.PRO));
+        turnOverFinder.add(new ReportSkillRoll(ReportId.LEAP_ROLL, actingPlayer, false, 3, 2));
+        turnOverFinder.add(new ReportInjury(actingPlayer, false, null, null, null, null, null, null, null));
+        turnOverFinder.add(new ReportTurnEnd(null, null, null));
+        Optional<TurnOver> turnOverOpt = turnOverFinder.findTurnover();
+        assertTrue("Failed leap is a turnover", turnOverOpt.isPresent());
+        TurnOver turnOver = turnOverOpt.get();
+        assertEquals("TurnOver must have the actingPlayer set as active player", actingPlayer, turnOver.getActivePlayer());
+        assertEquals("TurnOver must reflect the failed action", ReportId.LEAP_ROLL.getTurnOverDesc(), turnOver.getAction());
+        assertEquals("TurnOver must show the minimum roll", 3, turnOver.getMinRollOrDiceCount());
+        assertTrue("Was rerolled", turnOver.isReRolled());
+        assertFalse("Was not rerolled with team reroll", turnOver.isReRolledWithTeamReroll());
     }
 
     @Test
@@ -116,7 +134,7 @@ public class TurnOverFinderLeapTest extends AbstractTurnOverFinderTest {
         turnOverFinder.add(new ReportInjury(actingPlayer, false, null, null, null, null, null, null, null));
         turnOverFinder.add(new ReportTurnEnd(null, null, null));
         Optional<TurnOver> turnOverOpt = turnOverFinder.findTurnover();
-        assertTrue("Failed dodge is a turnover", turnOverOpt.isPresent());
+        assertTrue("Failed leap is a turnover", turnOverOpt.isPresent());
         TurnOver turnOver = turnOverOpt.get();
         assertEquals("TurnOver must have the actingPlayer set as active player", actingPlayer, turnOver.getActivePlayer());
         assertEquals("TurnOver must reflect the failed action", ReportId.LEAP_ROLL.getTurnOverDesc(), turnOver.getAction());
@@ -131,7 +149,7 @@ public class TurnOverFinderLeapTest extends AbstractTurnOverFinderTest {
         turnOverFinder.add(new ReportSkillRoll(ReportId.LEAP_ROLL, actingPlayer, true, 3, 4));
         turnOverFinder.add(new ReportTurnEnd(null, null, null));
         Optional<TurnOver> turnOverOpt = turnOverFinder.findTurnover();
-        assertFalse("Successful dodge is not a turnover", turnOverOpt.isPresent());
+        assertFalse("Successful leap is not a turnover", turnOverOpt.isPresent());
     }
 
 }
