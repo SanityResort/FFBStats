@@ -22,7 +22,7 @@ public class StatsCollection {
     private boolean finished = false;
     private TeamStatsCollection home;
     private TeamStatsCollection away;
-    private int version = 3;
+    private int version = 4;
     private String replayId;
     private String weather;
     private List<Drive> firstHalf = new ArrayList<>();

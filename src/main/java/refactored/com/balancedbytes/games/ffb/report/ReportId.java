@@ -71,7 +71,7 @@ public enum ReportId implements IEnumWithId, IEnumWithName
     BITE_SPECTATOR(63, "biteSpectator"),
     ANIMOSITY_ROLL(64, "animosityRoll"),
     RAISE_DEAD(65, "raiseDead"),
-    BLOCK_ROLL(66, "blockRoll"),
+    BLOCK_ROLL(66, "blockRoll", "Block"),
     PENALTY_SHOOTOUT(67, "penaltyShootout"),
     DOUBLE_HIRED_STAR_PLAYER(68, "doubleHiredStarPlayer"),
     SPELL_EFFECT_ROLL(69, "spellEffectRoll"),

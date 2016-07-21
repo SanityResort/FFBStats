@@ -1,5 +1,8 @@
 package org.butterbrot.ffb.stats;
 
+import refactored.com.balancedbytes.games.ffb.ReRollSource;
+import refactored.com.balancedbytes.games.ffb.report.ReportReRoll;
+
 public class TurnOver {
     private String action;
     private int minRollOrDiceCount;
@@ -12,6 +15,15 @@ public class TurnOver {
         this.minRollOrDiceCount = minRollOrDiceCount;
         this.wasReRolled = wasReRolled;
         this.wasReRolledWithTeamReRoll = wasReRolledWithTeamReRoll;
+        this.activePlayer = activePlayer;
+    }
+
+    public TurnOver(String action, int minRollOrDiceCount, ReportReRoll reportReRoll, String activePlayer) {
+        this.action = action;
+        this.minRollOrDiceCount = minRollOrDiceCount;
+        this.wasReRolled = reportReRoll != null;
+        this.wasReRolledWithTeamReRoll = reportReRoll != null &&
+                (reportReRoll.getReRollSource() == ReRollSource.LEADER || reportReRoll.getReRollSource() == ReRollSource.TEAM_RE_ROLL);
         this.activePlayer = activePlayer;
     }
 

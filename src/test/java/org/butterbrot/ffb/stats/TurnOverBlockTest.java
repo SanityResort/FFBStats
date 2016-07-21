@@ -200,8 +200,8 @@ public class TurnOverBlockTest extends AbstractTurnOverFinderTest {
         assertEquals("TurnOver must have the actingPlayer set as active player", actingPlayer, turnOver.getActivePlayer());
         assertEquals("TurnOver must reflect the failed action", ReportId.BLOCK.getTurnOverDesc(), turnOver.getAction());
         assertEquals("TurnOver must show the amount of block dice", 2, turnOver.getMinRollOrDiceCount());
-        assertTrue("Was rerolled", turnOver.isReRolled());
-        assertTrue("Was rerolled with a team reroll", turnOver.isReRolledWithTeamReroll());
+        assertFalse("Was not rerolled", turnOver.isReRolled());
+        assertFalse("Was not rerolled with team reroll", turnOver.isReRolledWithTeamReroll());
     }
 
     @Test
@@ -217,8 +217,8 @@ public class TurnOverBlockTest extends AbstractTurnOverFinderTest {
         assertEquals("TurnOver must have the actingPlayer set as active player", actingPlayer, turnOver.getActivePlayer());
         assertEquals("TurnOver must reflect the failed action", ReportId.BLOCK.getTurnOverDesc(), turnOver.getAction());
         assertEquals("TurnOver must show the amount of block dice", 2, turnOver.getMinRollOrDiceCount());
-        assertTrue("Was rerolled", turnOver.isReRolled());
-        assertTrue("Was rerolled with a team reroll", turnOver.isReRolledWithTeamReroll());
+        assertFalse("Was not rerolled", turnOver.isReRolled());
+        assertFalse("Was not rerolled with team reroll", turnOver.isReRolledWithTeamReroll());
     }
 
     @Test
