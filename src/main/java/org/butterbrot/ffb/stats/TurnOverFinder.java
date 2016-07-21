@@ -10,7 +10,9 @@ import refactored.com.balancedbytes.games.ffb.report.ReportId;
 import refactored.com.balancedbytes.games.ffb.report.ReportInjury;
 import refactored.com.balancedbytes.games.ffb.report.ReportPlayerAction;
 import refactored.com.balancedbytes.games.ffb.report.ReportReRoll;
+import refactored.com.balancedbytes.games.ffb.report.ReportScatterBall;
 import refactored.com.balancedbytes.games.ffb.report.ReportSkillRoll;
+import refactored.com.balancedbytes.games.ffb.report.ReportSpecialEffectRoll;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
@@ -64,6 +66,8 @@ public class TurnOverFinder {
         while (report != null) {
             if (report instanceof ReportPlayerAction) {
                 return findTurnOver((ReportPlayerAction) report);
+            } else if (report instanceof ReportSpecialEffectRoll) {
+                return findWizardTurnOver();
             }
             report = reports.pollFirst();
         }
@@ -81,14 +85,17 @@ public class TurnOverFinder {
         ReportSkillRoll reportSkillRoll = null;
         ReportBlockRoll reportBlockRoll = null;
         boolean blockingPlayerWasInjured = false;
+        boolean ballScattered = false;
         for (IReport report: reports) {
             if (report instanceof ReportReRoll) {
                 reportReRoll = (ReportReRoll) report;
             } else if(report instanceof ReportSkillRoll ) {
                 reportBlockRoll = null;
                 if (((ReportSkillRoll)report).isSuccessful()) {
-                    reportSkillRoll = null;
-                    reportReRoll = null;
+                    if (!ballScattered) {
+                        reportSkillRoll = null;
+                        reportReRoll = null;
+                    }
                 } else {
                     reportSkillRoll = (ReportSkillRoll) report;
                 }
@@ -97,12 +104,17 @@ public class TurnOverFinder {
                 if (injury.getDefenderId().equals(activePlayer)) {
                     if (reportBlockRoll != null) {
                         blockingPlayerWasInjured = true;
+                    } else if (reportSkillRoll != null && ReportId.CHAINSAW_ROLL == reportSkillRoll.getId() && !injury.isArmorBroken()) {
+                        reportSkillRoll = null;
+                        reportReRoll = null;
                     }
                     break;
                 }
             } else if (report instanceof ReportBlockRoll) {
                 reportBlockRoll = (ReportBlockRoll) report;
                 reportSkillRoll = null;
+            } else if (report instanceof ReportScatterBall) {
+                ballScattered = true;
             }
         }
 
@@ -124,6 +136,10 @@ public class TurnOverFinder {
 
     private Optional<TurnOver> findTtmTurnOver() {
 
+        return Optional.empty();
+    }
+
+    private Optional<TurnOver> findWizardTurnOver() {
         return Optional.empty();
     }
 

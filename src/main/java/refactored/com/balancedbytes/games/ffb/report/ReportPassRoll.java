@@ -22,7 +22,7 @@ public class ReportPassRoll extends ReportSkillRoll {
     }
 
     public ReportPassRoll(String pPlayerId, boolean pSuccessful, int pRoll, int pMinimumRoll, boolean pFumble, boolean pSafeThrowHold, boolean pBomb) {
-        super(ReportId.PASS_ROLL, pPlayerId, pSuccessful, pRoll, pMinimumRoll);
+        super(ReportId.PASS_ROLL, pPlayerId, pSuccessful, pMinimumRoll, pRoll);
         this.fFumble = pFumble;
         this.fFumble = pFumble;
         this.fSafeThrowHold = pSafeThrowHold;
