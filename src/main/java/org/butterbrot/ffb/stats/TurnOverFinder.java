@@ -78,10 +78,98 @@ public class TurnOverFinder {
             case THROW_TEAM_MATE:
             case THROW_TEAM_MATE_MOVE:
                 return findTtmTurnOver();
+/*            case PASS:
+            case PASS_MOVE:
+            case HAND_OVER:
+            case HAND_OVER_MOVE:
+                return findPassHandOffTurnOver(action)*/
         }
 
         ReportReRoll reportReRoll = null;
         ReportSkillRoll reportSkillRoll = null;
+        ReportBlockRoll reportBlockRoll = null;
+        boolean blockingPlayerWasInjured = false;
+        boolean ballScattered = false;
+        for (IReport report : reports) {
+            if (report instanceof ReportReRoll) {
+                reportReRoll = (ReportReRoll) report;
+            } else if (report instanceof ReportSkillRoll) {
+                reportBlockRoll = null;
+                if (((ReportSkillRoll) report).isSuccessful()) {
+                    if (!ballScattered) {
+                        reportSkillRoll = null;
+                        reportReRoll = null;
+                    } else if (ReportId.CATCH_ROLL == report.getId()) {
+                        if (homePlayers.contains(((ReportSkillRoll) report).getPlayerId()) == homePlayers.contains(activePlayer)){
+                            reportSkillRoll = null;
+                            reportReRoll = null;
+                        }
+
+                    }
+                } else {
+                    if (ReportId.SAFE_THROW_ROLL != report.getId()) {
+                        reportSkillRoll = (ReportSkillRoll) report;
+                    }
+                }
+            } else if (report instanceof ReportInjury) {
+                ReportInjury injury = (ReportInjury) report;
+                if (injury.getDefenderId().equals(activePlayer)) {
+                    if (reportBlockRoll != null) {
+                        blockingPlayerWasInjured = true;
+                    } else if (reportSkillRoll != null && ReportId.CHAINSAW_ROLL == reportSkillRoll.getId() && !injury.isArmorBroken()) {
+                        reportSkillRoll = null;
+                        reportReRoll = null;
+                    }
+                    break;
+                }
+            } else if (report instanceof ReportBlockRoll) {
+                reportBlockRoll = (ReportBlockRoll) report;
+                reportSkillRoll = null;
+            } else if (report instanceof ReportScatterBall) {
+                ballScattered = true;
+            }
+        }
+
+        if (reportSkillRoll != null) {
+            return Optional.of(new TurnOver(reportSkillRoll.getId().getTurnOverDesc(), reportSkillRoll.getMinimumRoll(), reportReRoll, reportSkillRoll.getPlayerId()));
+        }
+
+        if (reportBlockRoll != null && blockingPlayerWasInjured) {
+            int blockDiceCount = reportBlockRoll.getBlockRoll().length;
+            boolean actingTeamWasChoosing = homePlayers.contains(activePlayer) == (reportBlockRoll.getChoosingTeamId().equals(homeTeam));
+            if (!actingTeamWasChoosing) {
+                blockDiceCount *= -1;
+            }
+            return Optional.of(new TurnOver(reportBlockRoll.getId().getTurnOverDesc(), blockDiceCount, reportReRoll, activePlayer));
+        }
+
+        return Optional.empty();
+    }
+
+    private Optional<TurnOver> findTtmTurnOver() {
+
+        return Optional.empty();
+    }
+
+    private Optional<TurnOver> findWizardTurnOver(ReportSpecialEffectRoll wizardReport) {
+        boolean actingTeamInjured = false;
+        boolean ballBounced = false;
+        for (IReport report : reports) {
+            if (report instanceof ReportInjury && (homePlayers.contains(((ReportInjury) report).getDefenderId()) == homeTeamActive)) {
+                actingTeamInjured = true;
+            } else if (report instanceof ReportScatterBall) {
+                ballBounced = true;
+            } else if (report instanceof ReportTurnEnd && actingTeamInjured && ballBounced) {
+                return Optional.of(new TurnOver(wizardReport.getSpecialEffect().getTurnOverDesc(), 0, null, null));
+            }
+        }
+
+        return Optional.empty();
+    }
+
+/*    private Optional<TurnOver> findPassHandOffTurnOver(ReportPlayerAction action) {
+
+        ReportReRoll reportReRoll = null;
         ReportBlockRoll reportBlockRoll = null;
         boolean blockingPlayerWasInjured = false;
         boolean ballScattered = false;
@@ -121,39 +209,9 @@ public class TurnOverFinder {
             return Optional.of(new TurnOver(reportSkillRoll.getId().getTurnOverDesc(), reportSkillRoll.getMinimumRoll(), reportReRoll, action.getActingPlayerId()));
         }
 
-        if (reportBlockRoll != null && blockingPlayerWasInjured) {
-            int blockDiceCount = reportBlockRoll.getBlockRoll().length;
-            boolean actingTeamWasChoosing = homePlayers.contains(activePlayer) == (reportBlockRoll.getChoosingTeamId().equals(homeTeam));
-            if (!actingTeamWasChoosing) {
-                blockDiceCount *= -1;
-            }
-            return Optional.of(new TurnOver(reportBlockRoll.getId().getTurnOverDesc(), blockDiceCount, reportReRoll, activePlayer));
-        }
-
         return Optional.empty();
     }
-
-    private Optional<TurnOver> findTtmTurnOver() {
-
-        return Optional.empty();
-    }
-
-    private Optional<TurnOver> findWizardTurnOver(ReportSpecialEffectRoll wizardReport) {
-        boolean actingTeamInjured = false;
-        boolean ballBounced = false;
-        for (IReport report : reports) {
-            if (report instanceof ReportInjury && (homePlayers.contains(((ReportInjury) report).getDefenderId()) == homeTeamActive)) {
-                actingTeamInjured = true;
-            } else if (report instanceof ReportScatterBall) {
-                ballBounced = true;
-            } else if (report instanceof ReportTurnEnd && actingTeamInjured && ballBounced) {
-                return Optional.of(new TurnOver(wizardReport.getSpecialEffect().getTurnOverDesc(), 0, null, null));
-            }
-        }
-
-        return Optional.empty();
-    }
-
+*/
 /*
     public Optional<TurnOver> findTurnover() {
         Optional<String> keyOpt = getKey();
