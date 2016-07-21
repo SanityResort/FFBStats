@@ -122,12 +122,13 @@ public class TurnOverFinderMiscTest extends AbstractTurnOverFinderTest {
     public void fireBallKnockDownOwnBallCarrier() {
         turnOverFinder.setHomeTeamActive(true);
         turnOverFinder.add(new ReportSpecialEffectRoll(SpecialEffect.FIREBALL, actingPlayer, true, 6));
+        turnOverFinder.add(new ReportInjury(actingPlayer, false, null, null, null, null, null, null, null));
         turnOverFinder.add(new ReportScatterBall());
         turnOverFinder.add(new ReportTurnEnd(null, null, null));
         Optional<TurnOver> turnOverOpt = turnOverFinder.findTurnover();
         assertTrue("Fireballing your ball carrier is a turnover", turnOverOpt.isPresent());
         TurnOver turnOver = turnOverOpt.get();
-        assertEquals("TurnOver must have the actingPlayer set as active player", actingPlayer, turnOver.getActivePlayer());
+        assertTrue("For wizards there is no active player", turnOver.getActivePlayer() == null);
         assertEquals("TurnOver must reflect the failed action", SpecialEffect.FIREBALL.getTurnOverDesc(), turnOver.getAction());
         assertEquals("Wizard does not use minimum roll", 0, turnOver.getMinRollOrDiceCount());
         assertFalse("Was not rerolled", turnOver.isReRolled());
@@ -138,13 +139,14 @@ public class TurnOverFinderMiscTest extends AbstractTurnOverFinderTest {
     public void lightningBoltKnockDownOwnBallCarrier() {
         turnOverFinder.setHomeTeamActive(true);
         turnOverFinder.add(new ReportSpecialEffectRoll(SpecialEffect.LIGHTNING, actingPlayer, true, 6));
+        turnOverFinder.add(new ReportInjury(actingPlayer, false, null, null, null, null, null, null, null));
         turnOverFinder.add(new ReportScatterBall());
         turnOverFinder.add(new ReportTurnEnd(null, null, null));
         Optional<TurnOver> turnOverOpt = turnOverFinder.findTurnover();
         assertTrue("Bolting your ball carrier is a turnover", turnOverOpt.isPresent());
         TurnOver turnOver = turnOverOpt.get();
-        assertEquals("TurnOver must have the actingPlayer set as active player", actingPlayer, turnOver.getActivePlayer());
-        assertEquals("TurnOver must reflect the failed action", SpecialEffect.FIREBALL.getTurnOverDesc(), turnOver.getAction());
+        assertTrue("For wizards there is no active player", turnOver.getActivePlayer() == null);
+        assertEquals("TurnOver must reflect the failed action", SpecialEffect.LIGHTNING.getTurnOverDesc(), turnOver.getAction());
         assertEquals("Wizard does not use minimum roll", 0, turnOver.getMinRollOrDiceCount());
         assertFalse("Was not rerolled", turnOver.isReRolled());
         assertFalse("Was not rerolled with a team reroll", turnOver.isReRolledWithTeamReroll());

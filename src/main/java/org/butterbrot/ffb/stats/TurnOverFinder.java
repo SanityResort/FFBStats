@@ -1,7 +1,6 @@
 package org.butterbrot.ffb.stats;
 
 import org.butterbrot.ffb.stats.analyzer.TurnOverAnalyzer;
-import refactored.com.balancedbytes.games.ffb.PlayerAction;
 import refactored.com.balancedbytes.games.ffb.model.Player;
 import refactored.com.balancedbytes.games.ffb.model.Team;
 import refactored.com.balancedbytes.games.ffb.report.IReport;
@@ -13,12 +12,12 @@ import refactored.com.balancedbytes.games.ffb.report.ReportReRoll;
 import refactored.com.balancedbytes.games.ffb.report.ReportScatterBall;
 import refactored.com.balancedbytes.games.ffb.report.ReportSkillRoll;
 import refactored.com.balancedbytes.games.ffb.report.ReportSpecialEffectRoll;
+import refactored.com.balancedbytes.games.ffb.report.ReportTurnEnd;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
@@ -67,7 +66,7 @@ public class TurnOverFinder {
             if (report instanceof ReportPlayerAction) {
                 return findTurnOver((ReportPlayerAction) report);
             } else if (report instanceof ReportSpecialEffectRoll) {
-                return findWizardTurnOver();
+                return findWizardTurnOver((ReportSpecialEffectRoll) report);
             }
             report = reports.pollFirst();
         }
@@ -86,12 +85,12 @@ public class TurnOverFinder {
         ReportBlockRoll reportBlockRoll = null;
         boolean blockingPlayerWasInjured = false;
         boolean ballScattered = false;
-        for (IReport report: reports) {
+        for (IReport report : reports) {
             if (report instanceof ReportReRoll) {
                 reportReRoll = (ReportReRoll) report;
-            } else if(report instanceof ReportSkillRoll ) {
+            } else if (report instanceof ReportSkillRoll) {
                 reportBlockRoll = null;
-                if (((ReportSkillRoll)report).isSuccessful()) {
+                if (((ReportSkillRoll) report).isSuccessful()) {
                     if (!ballScattered) {
                         reportSkillRoll = null;
                         reportReRoll = null;
@@ -139,7 +138,19 @@ public class TurnOverFinder {
         return Optional.empty();
     }
 
-    private Optional<TurnOver> findWizardTurnOver() {
+    private Optional<TurnOver> findWizardTurnOver(ReportSpecialEffectRoll wizardReport) {
+        boolean actingTeamInjured = false;
+        boolean ballBounced = false;
+        for (IReport report : reports) {
+            if (report instanceof ReportInjury && (homePlayers.contains(((ReportInjury) report).getDefenderId()) == homeTeamActive)) {
+                actingTeamInjured = true;
+            } else if (report instanceof ReportScatterBall) {
+                ballBounced = true;
+            } else if (report instanceof ReportTurnEnd && actingTeamInjured && ballBounced) {
+                return Optional.of(new TurnOver(wizardReport.getSpecialEffect().getTurnOverDesc(), 0, null, null));
+            }
+        }
+
         return Optional.empty();
     }
 
