@@ -1,6 +1,8 @@
 package org.butterbrot.ffb.stats;
 
 import org.butterbrot.ffb.stats.analyzer.TurnOverAnalyzer;
+import refactored.com.balancedbytes.games.ffb.PlayerAction;
+import refactored.com.balancedbytes.games.ffb.SpecialEffect;
 import refactored.com.balancedbytes.games.ffb.model.Player;
 import refactored.com.balancedbytes.games.ffb.model.Team;
 import refactored.com.balancedbytes.games.ffb.report.IReport;
@@ -22,6 +24,9 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+
+import static javafx.scene.input.KeyCode.R;
+import static javafx.scene.input.KeyCode.T;
 
 public class TurnOverFinder {
 
@@ -109,9 +114,6 @@ public class TurnOverFinder {
                         reportSkillRoll = null;
                         reportReRoll = null;
                         successfulPass = true;
-                    }else if (!ballScattered) {
-                        reportSkillRoll = null;
-                        reportReRoll = null;
                     } else if (ReportId.CATCH_ROLL == report.getId()) {
                         if (homePlayers.contains(skillRoll.getPlayerId()) == homePlayers.contains(activePlayer)) {
                             if (reportSkillRoll == null || reportSkillRoll.getId() != ReportId.PASS_ROLL || !((ReportPassRoll)reportSkillRoll).isFumble() ) {
@@ -122,17 +124,28 @@ public class TurnOverFinder {
                             return Optional.of(new TurnOver(ReportId.HAND_OVER.getTurnOverDesc(), 0, reportReRoll, activePlayer));
                         }
 
+                    }else if (!ballScattered) {
+                        reportSkillRoll = null;
+                        reportReRoll = null;
                     }
                 } else {
-                    // failed skill rolls are not causing turn overs if they are safe throw or a pass from an opponent (dump off)
-                    if (ReportId.SAFE_THROW_ROLL != report.getId() && !(ReportId.PASS_ROLL == report.getId() && (homePlayers.contains(skillRoll.getPlayerId()) != homePlayers.contains(activePlayer)) )) {
+                    // failed skill rolls are not causing turn overs if they are safe throw or a pass from an opponent (dump off) or the ball scattered already
+                    if (ReportId.SAFE_THROW_ROLL != report.getId() &&
+                            !(ReportId.PASS_ROLL == report.getId() && (homePlayers.contains(skillRoll.getPlayerId()) != homePlayers.contains(activePlayer)))
+                            && !ballScattered) {
                         reportSkillRoll = skillRoll;
                     }
                 }
             } else if (report instanceof ReportInjury) {
                 ReportInjury injury = (ReportInjury) report;
-                if (injury.getDefenderId().equals(activePlayer)) {
-                    if (reportBlockRoll != null) {
+                if (homePlayers.contains(injury.getDefenderId()) == homePlayers.contains(activePlayer)) {
+                    if (PlayerAction.THROW_BOMB == action.getPlayerAction()) {
+                        // if the bomb was fumbled by the active team, we report the fumble
+                        if (reportSkillRoll != null && reportSkillRoll instanceof ReportPassRoll && ((ReportPassRoll) reportSkillRoll).isFumble() && (homePlayers.contains(reportSkillRoll.getPlayerId()) == homePlayers.contains(activePlayer))) {
+                            return Optional.of(new TurnOver(SpecialEffect.BOMB.getTurnOverDesc(), reportSkillRoll.getMinimumRoll(), reportReRoll, reportSkillRoll.getPlayerId()));
+                        }
+                        return Optional.of(new TurnOver(SpecialEffect.BOMB.getTurnOverDesc(), 0, reportReRoll, activePlayer));
+                    } else if (reportBlockRoll != null) {
                         blockingPlayerWasInjured = true;
                     } else if (reportSkillRoll != null && ReportId.CHAINSAW_ROLL == reportSkillRoll.getId() && !injury.isArmorBroken()) {
                         reportSkillRoll = null;
