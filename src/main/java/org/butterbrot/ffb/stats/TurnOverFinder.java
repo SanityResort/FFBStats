@@ -7,11 +7,13 @@ import refactored.com.balancedbytes.games.ffb.model.Player;
 import refactored.com.balancedbytes.games.ffb.model.Team;
 import refactored.com.balancedbytes.games.ffb.report.IReport;
 import refactored.com.balancedbytes.games.ffb.report.ReportBlockRoll;
+import refactored.com.balancedbytes.games.ffb.report.ReportBribesRoll;
 import refactored.com.balancedbytes.games.ffb.report.ReportId;
 import refactored.com.balancedbytes.games.ffb.report.ReportInjury;
 import refactored.com.balancedbytes.games.ffb.report.ReportPassRoll;
 import refactored.com.balancedbytes.games.ffb.report.ReportPlayerAction;
 import refactored.com.balancedbytes.games.ffb.report.ReportReRoll;
+import refactored.com.balancedbytes.games.ffb.report.ReportReferee;
 import refactored.com.balancedbytes.games.ffb.report.ReportScatterBall;
 import refactored.com.balancedbytes.games.ffb.report.ReportSkillRoll;
 import refactored.com.balancedbytes.games.ffb.report.ReportSpecialEffectRoll;
@@ -97,6 +99,7 @@ public class TurnOverFinder {
         boolean blockingPlayerWasInjured = false;
         boolean ballScattered = false;
         boolean successfulPass = false;
+        boolean sentOff = false;
         for (IReport report : reports) {
             if (report instanceof ReportReRoll) {
                 reportReRoll = (ReportReRoll) report;
@@ -116,7 +119,9 @@ public class TurnOverFinder {
                         successfulPass = true;
                     } else if (ReportId.CATCH_ROLL == report.getId()) {
                         if (homePlayers.contains(skillRoll.getPlayerId()) == homePlayers.contains(activePlayer)) {
-                            if (reportSkillRoll == null || reportSkillRoll.getId() != ReportId.PASS_ROLL || !((ReportPassRoll)reportSkillRoll).isFumble() ) {
+                            if (reportSkillRoll != null && (reportSkillRoll.getId() == ReportId.PASS_ROLL && ((ReportPassRoll)reportSkillRoll).isFumble() || reportSkillRoll.getId() == ReportId.PICK_UP_ROLL) ) {
+                                continue;
+                            } else {
                                 reportSkillRoll = null;
                                 reportReRoll = null;
                             }
@@ -158,7 +163,15 @@ public class TurnOverFinder {
                 reportSkillRoll = null;
             } else if (report instanceof ReportScatterBall) {
                 ballScattered = true;
+            } else if (report instanceof ReportReferee) {
+                sentOff = ((ReportReferee)report).isFoulingPlayerBanned();
+            } else if (report instanceof ReportBribesRoll) {
+                sentOff = !((ReportBribesRoll)report).isSuccessful();
             }
+        }
+
+        if (sentOff) {
+            return Optional.of(new TurnOver(ReportId.FOUL.getTurnOverDesc(), 0, null, activePlayer));
         }
 
         if (successfulPass && ballScattered) {
