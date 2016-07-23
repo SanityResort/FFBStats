@@ -42,7 +42,6 @@ import refactored.com.balancedbytes.games.ffb.util.ArrayTool;
 import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.List;
-import java.util.function.Consumer;
 
 public class StatsCollector {
     private List<ServerCommand> replayCommands;
@@ -105,7 +104,7 @@ public class StatsCollector {
                 if (isActionTurn) {
                     turnOverFinder.add(report);
                 }
-                  System.out.println(new Gson().toJson(report));
+                //  System.out.println(new Gson().toJson(report));
                 if (report instanceof ReportSkillRoll) {
                     ReportSkillRoll skillReport = ((ReportSkillRoll) report);
                     if (skillReport.getRoll() > 0) {
@@ -139,8 +138,10 @@ public class StatsCollector {
                     }
                 } else if (report instanceof ReportInjury) {
                     ReportInjury injury = (ReportInjury) report;
-                    if (poReport != null && poReport.isUsed() && !poReport.isReRollInjury() && ArrayTool.isProvided(injury.getArmorRoll())) {
-                        collection.addArmourRoll(injury.getArmorRoll(), injury.getDefenderId());
+                    if (ArrayTool.isProvided(injury.getArmorRoll())){
+                        if (poReport == null || (poReport.isUsed() && !poReport.isReRollInjury())) {
+                            collection.addArmourRoll(injury.getArmorRoll(), injury.getDefenderId());
+                        }
                     }
                     if (injury.isArmorBroken()) {
                         injuries.addLast(injury);
@@ -304,6 +305,11 @@ public class StatsCollector {
 
                     collection.addArmourAndInjuryStats(injuries);
                     injuries.clear();
+                    if (isActionTurn) {
+                        turnOverFinder.findTurnover().ifPresent(turnOver -> collection.addTurnOver(turnOver));
+                    }
+
+                    turnOverFinder.reset();
                     if (startSecondHalf) {
                         collection.startSecondHalf();
                         startSecondHalf = false;
@@ -312,11 +318,6 @@ public class StatsCollector {
                         collection.startOvertime();
                         startOvertime = false;
                     }
-                    if (isActionTurn) {
-                        turnOverFinder.findTurnover().ifPresent(turnOver -> collection.addTurnOver(turnOver));
-                    }
-
-                    turnOverFinder.reset();
 
                     if (TurnMode.BLITZ == turnMode || TurnMode.REGULAR == turnMode) {
                         collection.addTurn(isHomePlaying, turnMode, turnNumber);

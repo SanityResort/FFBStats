@@ -1,6 +1,5 @@
 package org.butterbrot.ffb.stats;
 
-import org.butterbrot.ffb.stats.analyzer.TurnOverAnalyzer;
 import refactored.com.balancedbytes.games.ffb.PlayerAction;
 import refactored.com.balancedbytes.games.ffb.SpecialEffect;
 import refactored.com.balancedbytes.games.ffb.model.Player;
@@ -21,9 +20,7 @@ import refactored.com.balancedbytes.games.ffb.report.ReportTurnEnd;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
@@ -37,8 +34,6 @@ public class TurnOverFinder {
 
     private String homeTeam;
     private Set<String> homePlayers = new HashSet<>();
-
-    private Map<String, TurnOverAnalyzer> analyzers = new HashMap<>();
 
     public void addHomePlayers(Team homeTeam) {
         this.homeTeam = homeTeam.getId();
@@ -79,16 +74,6 @@ public class TurnOverFinder {
     }
 
     private Optional<TurnOver> findTurnOver(ReportPlayerAction action) {
-        switch (action.getPlayerAction()) {
-    /*        case THROW_TEAM_MATE:
-            case THROW_TEAM_MATE_MOVE:
-                return findTtmTurnOver();*/
-/*            case PASS:
-            case PASS_MOVE:
-            case HAND_OVER:
-            case HAND_OVER_MOVE:
-                return findPassHandOffTurnOver(action)*/
-        }
 
         ReportReRoll reportReRoll = null;
         ReportSkillRoll reportSkillRoll = null;
@@ -212,11 +197,6 @@ public class TurnOverFinder {
         return Optional.empty();
     }
 
-    private Optional<TurnOver> findTtmTurnOver() {
-
-        return Optional.empty();
-    }
-
     private Optional<TurnOver> findWizardTurnOver(ReportSpecialEffectRoll wizardReport) {
         boolean actingTeamInjured = false;
         boolean ballBounced = false;
@@ -232,72 +212,4 @@ public class TurnOverFinder {
 
         return Optional.empty();
     }
-
-/*    private Optional<TurnOver> findPassHandOffTurnOver(ReportPlayerAction action) {
-
-        ReportReRoll reportReRoll = null;
-        ReportBlockRoll reportBlockRoll = null;
-        boolean blockingPlayerWasInjured = false;
-        boolean ballScattered = false;
-        for (IReport report : reports) {
-            if (report instanceof ReportReRoll) {
-                reportReRoll = (ReportReRoll) report;
-            } else if (report instanceof ReportSkillRoll) {
-                reportBlockRoll = null;
-                if (((ReportSkillRoll) report).isSuccessful()) {
-                    if (!ballScattered) {
-                        reportSkillRoll = null;
-                        reportReRoll = null;
-                    }
-                } else {
-                    reportSkillRoll = (ReportSkillRoll) report;
-                }
-            } else if (report instanceof ReportInjury) {
-                ReportInjury injury = (ReportInjury) report;
-                if (injury.getDefenderId().equals(activePlayer)) {
-                    if (reportBlockRoll != null) {
-                        blockingPlayerWasInjured = true;
-                    } else if (reportSkillRoll != null && ReportId.CHAINSAW_ROLL == reportSkillRoll.getId() && !injury.isArmorBroken()) {
-                        reportSkillRoll = null;
-                        reportReRoll = null;
-                    }
-                    break;
-                }
-            } else if (report instanceof ReportBlockRoll) {
-                reportBlockRoll = (ReportBlockRoll) report;
-                reportSkillRoll = null;
-            } else if (report instanceof ReportScatterBall) {
-                ballScattered = true;
-            }
-        }
-
-        if (reportSkillRoll != null) {
-            return Optional.of(new TurnOver(reportSkillRoll.getId().getTurnOverDesc(), reportSkillRoll.getMinimumRoll(), reportReRoll, action.getActingPlayerId()));
-        }
-
-        return Optional.empty();
-    }
-*/
-/*
-    public Optional<TurnOver> findTurnover() {
-        Optional<String> keyOpt = getKey();
-        if (keyOpt.isPresent()) {
-            String key = keyOpt.get();
-            if (analyzers.containsKey(key)) {
-                return (analyzers.get(key).analyze(reports));
-            }
-        }
-        return Optional.empty();
-    }
-
-
-    private Optional<String> getKey() {
-        IReport report = reports.pollFirst();
-        if (report instanceof ReportPlayerAction) {
-            return Optional.ofNullable(((ReportPlayerAction) report).getPlayerAction().getName());
-        } else if (report instanceof ReportSpecialEffectRoll) {
-            return Optional.ofNullable(report.getId().getName());
-        }
-        return Optional.empty();
-    }*/
 }

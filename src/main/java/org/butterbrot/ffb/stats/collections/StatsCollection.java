@@ -335,8 +335,8 @@ public class StatsCollection {
 
         private final transient TeamStatsCollection globalHome;
 
-        private final TeamStatsCollection turnHome = new TeamStatsCollection();
-        private final TeamStatsCollection turnAway = new TeamStatsCollection();
+        private final TeamStatsCollection rollsHome = new TeamStatsCollection();
+        private final TeamStatsCollection rollsAway = new TeamStatsCollection();
 
         public Turn(boolean isHomeActive, String turnMode, int number, TeamStatsCollection globalHome) {
             this.isHomeActive = isHomeActive;
@@ -347,9 +347,9 @@ public class StatsCollection {
 
         public TeamStatsCollection getTurnTeam(TeamStatsCollection globalTeam) {
             if (globalTeam == globalHome) {
-                return turnHome;
+                return rollsHome;
             }
-            return turnAway;
+            return rollsAway;
         }
     }
 }
