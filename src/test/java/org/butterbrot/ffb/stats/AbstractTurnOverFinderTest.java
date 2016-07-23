@@ -23,6 +23,7 @@ public class AbstractTurnOverFinderTest {
         Set<String> players = (Set<String>) playersField.get(turnOverFinder);
         players.add(actingPlayer);
         players.add(teamMember);
+        turnOverFinder.setHomeTeamActive(true);
         Field homeTeam = TurnOverFinder.class.getDeclaredField("homeTeam");
         homeTeam.setAccessible(true);
         homeTeam.set(turnOverFinder, actingTeam);

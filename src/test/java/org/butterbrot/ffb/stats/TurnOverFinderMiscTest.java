@@ -120,7 +120,6 @@ public class TurnOverFinderMiscTest extends AbstractTurnOverFinderTest {
 
     @Test
     public void fireBallKnockDownOwnBallCarrier() {
-        turnOverFinder.setHomeTeamActive(true);
         turnOverFinder.add(new ReportSpecialEffectRoll(SpecialEffect.FIREBALL, actingPlayer, true, 6));
         turnOverFinder.add(new ReportInjury(actingPlayer, false, null, null, null, null, null, null, null));
         turnOverFinder.add(new ReportScatterBall());
@@ -137,7 +136,6 @@ public class TurnOverFinderMiscTest extends AbstractTurnOverFinderTest {
 
     @Test
     public void lightningBoltKnockDownOwnBallCarrier() {
-        turnOverFinder.setHomeTeamActive(true);
         turnOverFinder.add(new ReportSpecialEffectRoll(SpecialEffect.LIGHTNING, actingPlayer, true, 6));
         turnOverFinder.add(new ReportInjury(actingPlayer, false, null, null, null, null, null, null, null));
         turnOverFinder.add(new ReportScatterBall());
@@ -154,7 +152,6 @@ public class TurnOverFinderMiscTest extends AbstractTurnOverFinderTest {
 
     @Test
     public void fireBallKnockDownOwnPlayer() {
-        turnOverFinder.setHomeTeamActive(true);
         turnOverFinder.add(new ReportSpecialEffectRoll(SpecialEffect.FIREBALL, actingPlayer, true, 6));
         turnOverFinder.add(new ReportScatterBall());
         turnOverFinder.add(new ReportTurnEnd(null, null, null));
