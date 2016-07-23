@@ -27,9 +27,6 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
-import static javafx.scene.input.KeyCode.R;
-import static javafx.scene.input.KeyCode.T;
-
 public class TurnOverFinder {
 
     private boolean homeTeamActive;
@@ -83,9 +80,9 @@ public class TurnOverFinder {
 
     private Optional<TurnOver> findTurnOver(ReportPlayerAction action) {
         switch (action.getPlayerAction()) {
-            case THROW_TEAM_MATE:
+    /*        case THROW_TEAM_MATE:
             case THROW_TEAM_MATE_MOVE:
-                return findTtmTurnOver();
+                return findTtmTurnOver();*/
 /*            case PASS:
             case PASS_MOVE:
             case HAND_OVER:
@@ -100,6 +97,7 @@ public class TurnOverFinder {
         boolean ballScattered = false;
         boolean successfulPass = false;
         boolean sentOff = false;
+        boolean landingFailed = false;
         for (IReport report : reports) {
             if (report instanceof ReportReRoll) {
                 reportReRoll = (ReportReRoll) report;
@@ -119,7 +117,7 @@ public class TurnOverFinder {
                         successfulPass = true;
                     } else if (ReportId.CATCH_ROLL == report.getId()) {
                         if (homePlayers.contains(skillRoll.getPlayerId()) == homePlayers.contains(activePlayer)) {
-                            if (reportSkillRoll != null && (reportSkillRoll.getId() == ReportId.PASS_ROLL && ((ReportPassRoll)reportSkillRoll).isFumble() || reportSkillRoll.getId() == ReportId.PICK_UP_ROLL) ) {
+                            if (reportSkillRoll != null && (reportSkillRoll.getId() == ReportId.PASS_ROLL && ((ReportPassRoll) reportSkillRoll).isFumble() || reportSkillRoll.getId() == ReportId.PICK_UP_ROLL)) {
                                 continue;
                             } else {
                                 reportSkillRoll = null;
@@ -129,7 +127,7 @@ public class TurnOverFinder {
                             return Optional.of(new TurnOver(ReportId.HAND_OVER.getTurnOverDesc(), 0, reportReRoll, activePlayer));
                         }
 
-                    }else if (!ballScattered) {
+                    } else if (!ballScattered) {
                         reportSkillRoll = null;
                         reportReRoll = null;
                     }
@@ -155,6 +153,13 @@ public class TurnOverFinder {
                     } else if (reportSkillRoll != null && ReportId.CHAINSAW_ROLL == reportSkillRoll.getId() && !injury.isArmorBroken()) {
                         reportSkillRoll = null;
                         reportReRoll = null;
+                    } else if (ReportId.RIGHT_STUFF_ROLL == reportSkillRoll.getId()) {
+                        if (injury.getDefenderId().equals(reportSkillRoll.getPlayerId())) {
+                            landingFailed = true;
+                            continue;
+                        } else {
+                            return Optional.of(new TurnOver(ReportId.RIGHT_STUFF_ROLL.getTurnOverDesc(), 0, reportReRoll, reportSkillRoll.getPlayerId()));
+                        }
                     }
                     break;
                 }
@@ -162,11 +167,14 @@ public class TurnOverFinder {
                 reportBlockRoll = (ReportBlockRoll) report;
                 reportSkillRoll = null;
             } else if (report instanceof ReportScatterBall) {
+                if (landingFailed) {
+                    return Optional.of(new TurnOver(reportSkillRoll.getId().getTurnOverDesc(), reportSkillRoll.getMinimumRoll(), reportReRoll, reportSkillRoll.getPlayerId()));
+                }
                 ballScattered = true;
             } else if (report instanceof ReportReferee) {
-                sentOff = ((ReportReferee)report).isFoulingPlayerBanned();
+                sentOff = ((ReportReferee) report).isFoulingPlayerBanned();
             } else if (report instanceof ReportBribesRoll) {
-                sentOff = !((ReportBribesRoll)report).isSuccessful();
+                sentOff = !((ReportBribesRoll) report).isSuccessful();
             }
         }
 
@@ -181,6 +189,12 @@ public class TurnOverFinder {
         if (reportSkillRoll != null) {
             if (ReportId.INTERCEPTION_ROLL == reportSkillRoll.getId()) {
                 return Optional.of(new TurnOver(reportSkillRoll.getId().getTurnOverDesc(), reportSkillRoll.getMinimumRoll(), reportReRoll, activePlayer));
+            } else if (ReportId.RIGHT_STUFF_ROLL == reportSkillRoll.getId()) {
+                if (ballScattered) {
+                    return Optional.of(new TurnOver(reportSkillRoll.getId().getTurnOverDesc(), reportSkillRoll.getMinimumRoll(), reportReRoll, reportSkillRoll.getPlayerId()));
+                } else {
+                    return Optional.empty();
+                }
             } else {
                 return Optional.of(new TurnOver(reportSkillRoll.getId().getTurnOverDesc(), reportSkillRoll.getMinimumRoll(), reportReRoll, reportSkillRoll.getPlayerId()));
             }
