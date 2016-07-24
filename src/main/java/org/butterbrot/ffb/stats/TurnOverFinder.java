@@ -138,7 +138,7 @@ public class TurnOverFinder {
                     } else if (reportSkillRoll != null && ReportId.CHAINSAW_ROLL == reportSkillRoll.getId() && !injury.isArmorBroken()) {
                         reportSkillRoll = null;
                         reportReRoll = null;
-                    } else if (ReportId.RIGHT_STUFF_ROLL == reportSkillRoll.getId()) {
+                    } else if (reportSkillRoll!= null && ReportId.RIGHT_STUFF_ROLL == reportSkillRoll.getId()) {
                         if (injury.getDefenderId().equals(reportSkillRoll.getPlayerId())) {
                             landingFailed = true;
                             continue;
