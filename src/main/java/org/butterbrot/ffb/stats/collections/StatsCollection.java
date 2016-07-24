@@ -15,8 +15,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static javax.swing.UIManager.get;
-
 public class StatsCollection {
 
     private boolean finished = false;
@@ -164,12 +162,12 @@ public class StatsCollection {
     }
 
     private TeamStatsCollection turnTeam(TeamStatsCollection globalTeam) {
-        Drive drive = currentHalf.get(currentHalf.size() -1);
+        Drive drive = currentHalf.get(currentHalf.size() - 1);
         List<Turn> turns = drive.getTurns();
         if (turns.isEmpty()) {
             return drive.getDriveTeam(globalTeam);
         }
-        return turns.get(turns.size()-1).getTurnTeam(globalTeam);
+        return turns.get(turns.size() - 1).getTurnTeam(globalTeam);
     }
 
     public boolean isFinished() {
@@ -218,7 +216,7 @@ public class StatsCollection {
     }
 
     public void addArmourAndInjuryStats(Collection<ReportInjury> injuries) {
-        for (ReportInjury injury: injuries) {
+        for (ReportInjury injury : injuries) {
             TeamStatsCollection team = getOpposition(teams.get(injury.getDefenderId()));
             TeamStatsCollection turnTeam = turnTeam(team);
             int effectiveAV = armourValues.get(injury.getDefenderId());
@@ -229,21 +227,22 @@ public class StatsCollection {
             boolean poUsedForArmour = injury.getPoReport() != null && !injury.getPoReport().isReRollInjury();
             boolean mbUsed = false;
             boolean dpUsed = false;
-            for (ArmorModifier modifier: armorModifiers) {
+            for (ArmorModifier modifier : armorModifiers) {
                 switch (modifier) {
                     case MIGHTY_BLOW:
-                        mbUsed = true; break;
+                        mbUsed = true;
+                        break;
                     case DIRTY_PLAYER:
                         dpUsed = true;
                         break;
                     default:
-                        effectiveAV-=modifier.getModifier();
+                        effectiveAV -= modifier.getModifier();
                 }
             }
 
-            effectiveAV = Math.max(0,effectiveAV);
-            team.addArmourBreak(effectiveAV,mbUsed,poUsedForArmour,dpUsed);
-            turnTeam.addArmourBreak(effectiveAV,mbUsed,poUsedForArmour,dpUsed);
+            effectiveAV = Math.max(0, effectiveAV);
+            team.addArmourBreak(effectiveAV, mbUsed, poUsedForArmour, dpUsed);
+            turnTeam.addArmourBreak(effectiveAV, mbUsed, poUsedForArmour, dpUsed);
 
             if (injury.getInjury() != null) {
                 InjuryState injuryState = InjuryState.fromValue(injury.getInjury().getId());
@@ -259,6 +258,78 @@ public class StatsCollection {
         TeamStatsCollection team = teams.get(turnOver.getActivePlayer());
         team.addTurnOver(turnOver);
         turnTeam(team).addTurnOver(turnOver);
+    }
+
+    public void addApoUse(String playerId) {
+        TeamStatsCollection team = teams.get(playerId);
+        team.addApoUse();
+        turnTeam(team).addApoUse();
+    }
+
+    public void addBribe(String playerId) {
+        TeamStatsCollection team = teams.get(playerId);
+        team.addBribe();
+        turnTeam(team).addBribe();
+    }
+
+    public void addBloodLust(String playerId) {
+        TeamStatsCollection team = teams.get(playerId);
+        team.addBloodLust();
+        turnTeam(team).addBloodLust();
+    }
+
+    public void addConfusion(String playerId) {
+        TeamStatsCollection team = teams.get(playerId);
+        team.addConfusion();
+        turnTeam(team).addConfusion();
+    }
+
+    public void addHypnoticGaze(String playerId) {
+        TeamStatsCollection team = teams.get(playerId);
+        team.addHypnoticGaze();
+        turnTeam(team).addHypnoticGaze();
+    }
+
+    public void addReroll(String playerId) {
+        TeamStatsCollection team = teams.get(playerId);
+        team.addReroll();
+        turnTeam(team).addReroll();
+    }
+
+    public void addScatter(boolean isHomeTeamActive) {
+        TeamStatsCollection team = isHomeTeamActive ? home : away;
+        team.addScatter();
+        turnTeam(team).addScatter();
+    }
+
+    public void addTakeRoot(String playerId) {
+        TeamStatsCollection team = teams.get(playerId);
+        team.addTakeRoot();
+        turnTeam(team).addTakeRoot();
+    }
+
+    public void addTimeOut(boolean isHomeTeamActive) {
+        TeamStatsCollection team = isHomeTeamActive ? home : away;
+        team.addTimeOut();
+        turnTeam(team).addTimeOut();
+    }
+
+    public void addTouchdown(String playerId) {
+        TeamStatsCollection team = teams.get(playerId);
+        team.addTouchdown();
+        turnTeam(team).addTouchdown();
+    }
+
+    public void addWildAnimal(String playerId) {
+        TeamStatsCollection team = teams.get(playerId);
+        team.addWildAnimal();
+        turnTeam(team).addWildAnimal();
+    }
+
+    public void addWizardUse(boolean isHomeTeamActive) {
+        TeamStatsCollection team = isHomeTeamActive ? home : away;
+        team.addWizardUse();
+        turnTeam(team).addWizardUse();
     }
 
     private TeamStatsCollection getOpposition(TeamStatsCollection team) {
@@ -320,6 +391,7 @@ public class StatsCollection {
         public List<Turn> getTurns() {
             return turns;
         }
+
         public TeamStatsCollection getDriveTeam(TeamStatsCollection globalTeam) {
             if (globalTeam == globalHome) {
                 return driveHome;

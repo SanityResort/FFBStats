@@ -9,4 +9,6 @@ stats
 - scatterball
 - wizard
 - touchdown home/away
+- take root
+- wild animal
 - bribe
