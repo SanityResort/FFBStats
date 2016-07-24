@@ -3,6 +3,7 @@ package refactored.com.balancedbytes.games.ffb.json;
 import refactored.com.balancedbytes.games.ffb.KickoffResultFactory;
 import refactored.com.balancedbytes.games.ffb.PlayerActionFactory;
 import refactored.com.balancedbytes.games.ffb.ReRollSourceFactory;
+import refactored.com.balancedbytes.games.ffb.SkillFactory;
 import refactored.com.balancedbytes.games.ffb.SpecialEffectFactory;
 import refactored.com.balancedbytes.games.ffb.WeatherFactory;
 import refactored.com.balancedbytes.games.ffb.model.change.ModelChangeIdFactory;
@@ -84,5 +85,6 @@ public interface IJsonOption {
     JsonBooleanOption HAIL_MARY_PASS = new JsonBooleanOption("hailMaryPass");
     JsonBooleanOption BOMB = new JsonBooleanOption("bomb");
     JsonBooleanOption FOULING_PLAYER_BANNED = new JsonBooleanOption("foulingPlayerBanned");
+    JsonEnumWithNameOption CONFUSION_SKILL = new JsonEnumWithNameOption("confusionSkill", new SkillFactory());
 }
 

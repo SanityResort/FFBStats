@@ -33,10 +33,12 @@ public class TeamStatsCollection {
     private Map<String, ArmourBreaks> armourBreaks = new HashMap<>();
     private List<Injury> causedInjuries = new ArrayList<>();
     private List<TurnOver> turnOvers = new ArrayList<>();
+    private Map<String, Integer> additionalStats = initAdditonalStatsMap();
 
     private String teamName;
     private String coach;
     private String race;
+
     public TeamStatsCollection() {
     }
 
@@ -120,6 +122,14 @@ public class TeamStatsCollection {
 
     public String getRace() {
         return race;
+    }
+
+    private Map<String, Integer> initAdditonalStatsMap() {
+        Map<String, Integer> additionalStats = new HashMap<>();
+        for (StatKey key : StatKey.values()) {
+            additionalStats.put(key.toString(), 0);
+        }
+        return additionalStats;
     }
 
     private Map<BlockResult, Integer> initBlockDiceMap() {
@@ -217,7 +227,7 @@ public class TeamStatsCollection {
         }
     }
 
-    public void addFailedRoll(ReportId reportId, int minimumRoll){
+    public void addFailedRoll(ReportId reportId, int minimumRoll) {
         if (minimumRoll > 1) {
             if (ReportId.DODGE_ROLL == reportId) {
                 incrementSkillRolls(failedDodgeRolls, Math.min(6, minimumRoll));
@@ -253,7 +263,7 @@ public class TeamStatsCollection {
     }
 
     public void addArmourBreak(int effectiveAV, boolean mbUsed, boolean poUsed, boolean dpUsed) {
-        String key = "AV"+effectiveAV;
+        String key = "AV" + effectiveAV;
         if (!armourBreaks.containsKey(key)) {
             armourBreaks.put(key, new ArmourBreaks());
         }
@@ -265,7 +275,59 @@ public class TeamStatsCollection {
     }
 
     public void addCausedInjury(String playerId, InjuryState state) {
-        causedInjuries.add(new Injury(playerId,state));
+        causedInjuries.add(new Injury(playerId, state));
+    }
+
+    public void addApoUse() {
+        incrementAdditionalStat(StatKey.APO);
+    }
+
+    public void addBribe() {
+        incrementAdditionalStat(StatKey.BRIBE);
+    }
+
+    public void addBloodLust() {
+        incrementAdditionalStat(StatKey.BLOOD_LUST);
+    }
+
+    public void addConfusion() {
+        incrementAdditionalStat(StatKey.CONFUSION);
+    }
+
+    public void addHypnoticGaze() {
+        incrementAdditionalStat(StatKey.HYPNOTIC_GAZE);
+    }
+
+    public void addReroll() {
+        incrementAdditionalStat(StatKey.REROLL);
+    }
+
+    public void addScatter() {
+        incrementAdditionalStat(StatKey.SCATTER);
+    }
+
+    public void addTakeRoot() {
+        incrementAdditionalStat(StatKey.TAKE_ROOT);
+    }
+
+    public void addTimeOut() {
+        incrementAdditionalStat(StatKey.TIME_OUT);
+    }
+
+    public void addTouchdown() {
+        incrementAdditionalStat(StatKey.TOUCHDOWN);
+    }
+
+    public void addWildAnimal() {
+        incrementAdditionalStat(StatKey.WILD_ANIMAL);
+    }
+
+    public void addWizardUse() {
+        incrementAdditionalStat(StatKey.WIZARD);
+    }
+
+    private void incrementAdditionalStat(StatKey key) {
+        additionalStats.put(key.toString(), additionalStats.get(key.toString()) + 1);
     }
 
     private void increment(Map<Integer, Integer> rolls, int roll) {
@@ -273,16 +335,32 @@ public class TeamStatsCollection {
     }
 
     private void incrementSkillRolls(Map<String, Integer> rolls, int roll) {
-        String key = roll+"+";
+        String key = roll + "+";
         rolls.put(key, rolls.get(key) + 1);
     }
 
     private void decrementSkillRolls(Map<String, Integer> rolls, int roll) {
-        String key = roll+"+";
+        String key = roll + "+";
         rolls.put(key, rolls.get(key) - 1);
     }
 
     private void decrement(Map<Integer, Integer> rolls, int roll) {
         rolls.put(roll, rolls.get(roll) - 1);
+    }
+
+    private enum StatKey {
+        APO("Apothecary Usages"), BRIBE("Bribes"), BLOOD_LUST("Failed Blood Lusts"), CONFUSION("Failed Confusions"), HYPNOTIC_GAZE("Successful Hypnotic Gazes"),
+        REROLL("Reroll Usages"), SCATTER("Scattered Balls"), TAKE_ROOT("Failed Take Roots"), TIME_OUT("Time Outs"), TOUCHDOWN("Tochdowns"), WILD_ANIMAL("Failed Wild Animals"), WIZARD("Wizard Usages");
+
+        private final String description;
+
+        StatKey(String description) {
+            this.description = description;
+        }
+
+        @Override
+        public String toString() {
+            return name();
+        }
     }
 }
