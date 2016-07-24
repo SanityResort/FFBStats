@@ -2,8 +2,10 @@ package org.butterbrot.ffb.stats;
 
 import com.google.gson.Gson;
 import org.butterbrot.ffb.stats.collections.StatsCollection;
+import org.springframework.util.StringUtils;
 import refactored.com.balancedbytes.games.ffb.HeatExhaustion;
 import refactored.com.balancedbytes.games.ffb.KnockoutRecovery;
+import refactored.com.balancedbytes.games.ffb.ReRollSource;
 import refactored.com.balancedbytes.games.ffb.ReportStartHalf;
 import refactored.com.balancedbytes.games.ffb.SpecialEffect;
 import refactored.com.balancedbytes.games.ffb.TurnMode;
@@ -16,6 +18,7 @@ import refactored.com.balancedbytes.games.ffb.report.IReport;
 import refactored.com.balancedbytes.games.ffb.report.ReportApothecaryRoll;
 import refactored.com.balancedbytes.games.ffb.report.ReportBlockRoll;
 import refactored.com.balancedbytes.games.ffb.report.ReportBribesRoll;
+import refactored.com.balancedbytes.games.ffb.report.ReportConfusionRoll;
 import refactored.com.balancedbytes.games.ffb.report.ReportFanFactorRoll;
 import refactored.com.balancedbytes.games.ffb.report.ReportId;
 import refactored.com.balancedbytes.games.ffb.report.ReportInjury;
@@ -29,19 +32,25 @@ import refactored.com.balancedbytes.games.ffb.report.ReportPenaltyShootout;
 import refactored.com.balancedbytes.games.ffb.report.ReportPilingOn;
 import refactored.com.balancedbytes.games.ffb.report.ReportPlayerAction;
 import refactored.com.balancedbytes.games.ffb.report.ReportReRoll;
+import refactored.com.balancedbytes.games.ffb.report.ReportScatterBall;
 import refactored.com.balancedbytes.games.ffb.report.ReportSkillRoll;
 import refactored.com.balancedbytes.games.ffb.report.ReportSpecialEffectRoll;
 import refactored.com.balancedbytes.games.ffb.report.ReportSpectators;
 import refactored.com.balancedbytes.games.ffb.report.ReportStandUpRoll;
 import refactored.com.balancedbytes.games.ffb.report.ReportTentaclesShadowingRoll;
+import refactored.com.balancedbytes.games.ffb.report.ReportTimeoutEnforced;
 import refactored.com.balancedbytes.games.ffb.report.ReportTurnEnd;
 import refactored.com.balancedbytes.games.ffb.report.ReportWeather;
 import refactored.com.balancedbytes.games.ffb.report.ReportWinningsRoll;
+import refactored.com.balancedbytes.games.ffb.report.ReportWizardUse;
 import refactored.com.balancedbytes.games.ffb.util.ArrayTool;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.List;
+
+import static javafx.scene.input.KeyCode.R;
+import static refactored.com.balancedbytes.games.ffb.report.ReportId.HYPNOTIC_GAZE_ROLL;
 
 public class StatsCollector {
     private List<ServerCommand> replayCommands;
@@ -81,6 +90,7 @@ public class StatsCollector {
         boolean startOvertime = false;
         ReportPilingOn poReport = null;
         boolean isActionTurn = false;
+        boolean ballScatters = false;
         Deque<ReportInjury> injuries = new ArrayDeque<>();
         for (ServerCommand command : replayCommands) {
             ServerCommandModelSync modelSync = (ServerCommandModelSync) command;
@@ -120,6 +130,32 @@ public class StatsCollector {
                         collection.removeSuccessRoll(skillReport.getPlayerId(), skillReport.getId(), skillReport.getMinimumRoll() - 2);
                     }
 
+                    if (skillReport.isSuccessful()) {
+                        switch (skillReport.getId()) {
+                            case BLOOD_LUST_ROLL:
+                                collection.addBloodLust(skillReport.getPlayerId());
+                                break;
+                            case CONFUSION_ROLL:
+                                ReportConfusionRoll reportConfusionRoll = (ReportConfusionRoll) skillReport;
+                                switch (reportConfusionRoll.getConfusionSkill()) {
+                                    case TAKE_ROOT:
+                                        collection.addTakeRoot(reportConfusionRoll.getPlayerId());
+                                        break;
+                                    case WILD_ANIMAL:
+                                        collection.addWildAnimal(reportConfusionRoll.getPlayerId());
+                                        break;
+                                    default:
+                                        collection.addConfusion(reportConfusionRoll.getPlayerId());
+                                }
+                                break;
+                        }
+                    } else {
+                        switch (skillReport.getId()) {
+                            case HYPNOTIC_GAZE_ROLL:
+                                collection.addHypnoticGaze(skillReport.getPlayerId());
+                                break;
+                        }
+                    }
 
                     // set the block roll to null, when some other skill roll was made, like dodge or gfi.
                     // this should take are that a fanatic falling down due to a gfi is not counted as a failed block.
@@ -173,6 +209,7 @@ public class StatsCollector {
                     if (ArrayTool.isProvided(apoRoll.getCasualtyRoll())) {
                         collection.addSingleOpposingRoll(apoRoll.getCasualtyRoll()[0], apoRoll.getPlayerId());
                     }
+                    collection.addApoUse(apoRoll.getPlayerId());
                 } else if (report instanceof ReportSpectators) {
                     ReportSpectators specs = (ReportSpectators) report;
                     collection.getHome().addDoubleRoll(specs.getSpectatorRollHome());
@@ -225,6 +262,7 @@ public class StatsCollector {
                 } else if (report instanceof ReportBribesRoll) {
                     ReportBribesRoll bribe = (ReportBribesRoll) report;
                     collection.addSingleRoll(bribe.getRoll(), bribe.getPlayerId());
+                    collection.addBribe(bribe.getPlayerId());
                     if (bribe.isSuccessful()) {
                         collection.addSuccessRoll(bribe.getPlayerId(), bribe.getId(), 2);
                     }
@@ -250,7 +288,9 @@ public class StatsCollector {
                             collection.addOpposingSuccessRoll(effect.getPlayerId(), effect.getId(), effect.getSpecialEffect() == SpecialEffect.LIGHTNING ? 2 : 4);
                         }
                     }
+
                 } else if (report instanceof ReportPlayerAction) {
+                    ballScatters = false;
                     lastReportWasBlockRoll = false;
                     blockRerolled = false;
                     ReportPlayerAction action = ((ReportPlayerAction) report);
@@ -281,8 +321,17 @@ public class StatsCollector {
                         lastReportWasBlockRoll = false;
                         blockRerolled = true;
                     }
+                    ReportReRoll reportReRoll = (ReportReRoll) report;
+                    if (ReRollSource.TEAM_RE_ROLL == reportReRoll.getReRollSource() || ReRollSource.LEADER == reportReRoll.getReRollSource()) {
+                        collection.addReroll(reportReRoll.getPlayerId());
+                    }
                 } else if (report instanceof ReportTurnEnd) {
+                    ballScatters = false;
                     ReportTurnEnd turn = (ReportTurnEnd) report;
+                    if (!StringUtils.isEmpty(turn.getPlayerIdTouchdown())) {
+                        collection.addTouchdown(turn.getPlayerIdTouchdown());
+                    }
+
                     if (ArrayTool.isProvided(turn.getKnockoutRecoveries())) {
                         for (KnockoutRecovery recovery : turn.getKnockoutRecoveries()) {
                             collection.addSingleRoll(recovery.getRoll(), recovery.getPlayerId());
@@ -348,6 +397,15 @@ public class StatsCollector {
                         startOvertime = true;
                         startSecondHalf = false;
                     }
+                } else if (report instanceof ReportTimeoutEnforced) {
+                    collection.addTimeOut(isHomePlaying);
+                } else if (report instanceof ReportScatterBall && !ballScatters) {
+                    collection.addScatter(isHomePlaying);
+                    ballScatters = true;
+                } else if (report instanceof ReportWizardUse) {
+                    collection.addWizardUse(isHomePlaying);
+                } else if (report instanceof ReportKickoffResult) {
+                    ballScatters = true;
                 }
             }
         }

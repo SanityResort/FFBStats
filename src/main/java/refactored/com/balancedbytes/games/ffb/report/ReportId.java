@@ -126,7 +126,7 @@ public enum ReportId implements IEnumWithId, IEnumWithName
                 return new ReportSkillRoll(CATCH_ROLL);
             }
             case CONFUSION_ROLL: {
-                return new ReportSkillRoll(CONFUSION_ROLL);
+                return new ReportConfusionRoll();
             }
             case DAUNTLESS_ROLL: {
                 return new ReportSkillRoll(DAUNTLESS_ROLL);
@@ -259,6 +259,12 @@ public enum ReportId implements IEnumWithId, IEnumWithName
             }
             case BITE_SPECTATOR: {
                 return new ReportBiteSpectator();
+            }
+            case TIMEOUT_ENFORCED: {
+                return new ReportTimeoutEnforced();
+            }
+            case WIZARD_USE: {
+                return new ReportWizardUse();
             }
             default:
                 return new DummyReport();
