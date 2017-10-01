@@ -1,7 +1,7 @@
 package org.butterbrot.ffb.stats;
 
-import refactored.com.balancedbytes.games.ffb.ReRollSource;
-import refactored.com.balancedbytes.games.ffb.report.ReportReRoll;
+import com.balancedbytes.games.ffb.ReRollSource;
+import com.balancedbytes.games.ffb.report.ReportReRoll;
 
 public class TurnOver {
     private String action;

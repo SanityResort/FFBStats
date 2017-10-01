@@ -1,13 +1,12 @@
 package org.butterbrot.ffb.stats;
 
-import org.hibernate.validator.internal.util.ConcurrentReferenceHashMap;
 import org.junit.Test;
-import refactored.com.balancedbytes.games.ffb.PlayerAction;
-import refactored.com.balancedbytes.games.ffb.report.ReportBribesRoll;
-import refactored.com.balancedbytes.games.ffb.report.ReportId;
-import refactored.com.balancedbytes.games.ffb.report.ReportPlayerAction;
-import refactored.com.balancedbytes.games.ffb.report.ReportReferee;
-import refactored.com.balancedbytes.games.ffb.report.ReportTurnEnd;
+import com.balancedbytes.games.ffb.PlayerAction;
+import com.balancedbytes.games.ffb.report.ReportBribesRoll;
+import com.balancedbytes.games.ffb.report.ReportId;
+import com.balancedbytes.games.ffb.report.ReportPlayerAction;
+import com.balancedbytes.games.ffb.report.ReportReferee;
+import com.balancedbytes.games.ffb.report.ReportTurnEnd;
 
 import java.util.Optional;
 

@@ -16,11 +16,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
-import refactored.com.balancedbytes.games.ffb.model.Team;
-import refactored.com.balancedbytes.games.ffb.net.NetCommandFactory;
-import refactored.com.balancedbytes.games.ffb.net.NetCommandId;
-import refactored.com.balancedbytes.games.ffb.net.commands.ServerCommand;
-import repackaged.com.eclipsesource.json.JsonValue;
+import com.balancedbytes.games.ffb.model.Team;
+import com.balancedbytes.games.ffb.net.NetCommandFactory;
+import com.balancedbytes.games.ffb.net.NetCommandId;
+import com.balancedbytes.games.ffb.net.commands.ServerCommand;
+import com.eclipsesource.json.JsonValue;
 import zmq.Ctx;
 import zmq.Msg;
 import zmq.SocketBase;
@@ -98,6 +98,7 @@ public class MessageProcessor implements Runnable {
                     List<ServerCommand> replayCommands = new ArrayList<>();
                     while (it.hasNext()) {
                         JsonElement element = it.next();
+                      //  logger.info("Element: " + );
                         String id = element.getAsJsonObject().get("netCommandId").getAsString();
                         if (NetCommandId.SERVER_MODEL_SYNC.getName().equals(id)) {
                             replayCommands

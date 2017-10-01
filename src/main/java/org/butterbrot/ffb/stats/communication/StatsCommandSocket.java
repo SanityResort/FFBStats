@@ -1,11 +1,11 @@
 package org.butterbrot.ffb.stats.communication;
 
-import refactored.com.balancedbytes.games.ffb.json.UtilJson;
-import refactored.com.balancedbytes.games.ffb.net.NetCommand;
-import refactored.com.balancedbytes.games.ffb.net.NetCommandFactory;
-import refactored.com.balancedbytes.games.ffb.net.commands.ClientCommandReplay;
-import refactored.com.balancedbytes.games.ffb.util.StringTool;
-import repackaged.com.eclipsesource.json.JsonValue;
+import com.balancedbytes.games.ffb.json.UtilJson;
+import com.balancedbytes.games.ffb.net.NetCommand;
+import com.balancedbytes.games.ffb.net.NetCommandFactory;
+import com.balancedbytes.games.ffb.net.commands.ClientCommandReplay;
+import com.balancedbytes.games.ffb.util.StringTool;
+import com.eclipsesource.json.JsonValue;
 import org.eclipse.jetty.websocket.WebSocket;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -51,11 +51,13 @@ implements WebSocket.OnTextMessage
             if (!StringTool.isProvided(pTextMessage) || !this.isOpen()) {
                 return;
             }
-            try {
+           /* try {
                 jsonValue = UtilJson.inflateFromBase64(pTextMessage);
             } catch (IOException pIoException) {
                 jsonValue = null;
-            }
+            }*/
+            jsonValue = null; //UtilJson.inflateFromBase64(pTextMessage);
+
             NetCommand netCommand = this.fNetCommandFactory.forJsonValue(jsonValue);
             if (netCommand == null) {
                 return;
@@ -82,11 +84,11 @@ implements WebSocket.OnTextMessage
         }
         String textMessage = null;
         if (this.fCommandCompression) {
-            try {
+          /*  try {
                 textMessage = UtilJson.deflateToBase64(pCommand.toJsonValue());
             } catch (IOException ex) {
                 logger.error("Could not compress payload", ex);
-            }
+            }*/
         } else {
             JsonValue jsonValue = pCommand.toJsonValue();
             if (jsonValue != null) {

@@ -3,12 +3,7 @@ package org.butterbrot.ffb.stats;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.util.concurrent.UncheckedExecutionException;
-import org.butterbrot.ffb.stats.collections.StatsCollection;
-import org.butterbrot.ffb.stats.communication.CommandHandler;
-import org.butterbrot.ffb.stats.communication.StatsCommandSocket;
 import org.butterbrot.ffb.stats.model.GameDistribution;
-import org.eclipse.jetty.websocket.WebSocketClient;
-import org.eclipse.jetty.websocket.WebSocketClientFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
@@ -20,16 +15,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import refactored.com.balancedbytes.games.ffb.net.commands.ServerCommand;
 
 import javax.annotation.Resource;
-import java.net.InetAddress;
-import java.net.URI;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.TimeUnit;
 
 @Controller
 @EnableAutoConfiguration

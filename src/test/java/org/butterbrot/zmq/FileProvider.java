@@ -12,7 +12,7 @@ import java.nio.file.Paths;
 
 public class FileProvider {
 
-    private static String filename = "src/test/resources/861710.gz";
+    private static String filename = "src/test/resources/1005000.gz";
 
     public static void main(String[] args) throws IOException {
 

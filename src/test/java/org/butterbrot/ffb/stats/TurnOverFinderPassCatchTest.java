@@ -1,18 +1,18 @@
 package org.butterbrot.ffb.stats;
 
 import org.junit.Test;
-import refactored.com.balancedbytes.games.ffb.PlayerAction;
-import refactored.com.balancedbytes.games.ffb.ReRollSource;
-import refactored.com.balancedbytes.games.ffb.SpecialEffect;
-import refactored.com.balancedbytes.games.ffb.report.ReportId;
-import refactored.com.balancedbytes.games.ffb.report.ReportInjury;
-import refactored.com.balancedbytes.games.ffb.report.ReportInterceptionRoll;
-import refactored.com.balancedbytes.games.ffb.report.ReportPassRoll;
-import refactored.com.balancedbytes.games.ffb.report.ReportPlayerAction;
-import refactored.com.balancedbytes.games.ffb.report.ReportReRoll;
-import refactored.com.balancedbytes.games.ffb.report.ReportScatterBall;
-import refactored.com.balancedbytes.games.ffb.report.ReportSkillRoll;
-import refactored.com.balancedbytes.games.ffb.report.ReportTurnEnd;
+import com.balancedbytes.games.ffb.PlayerAction;
+import com.balancedbytes.games.ffb.ReRollSource;
+import com.balancedbytes.games.ffb.SpecialEffect;
+import com.balancedbytes.games.ffb.report.ReportId;
+import com.balancedbytes.games.ffb.report.ReportInjury;
+import com.balancedbytes.games.ffb.report.ReportInterceptionRoll;
+import com.balancedbytes.games.ffb.report.ReportPassRoll;
+import com.balancedbytes.games.ffb.report.ReportPlayerAction;
+import com.balancedbytes.games.ffb.report.ReportReRoll;
+import com.balancedbytes.games.ffb.report.ReportScatterBall;
+import com.balancedbytes.games.ffb.report.ReportSkillRoll;
+import com.balancedbytes.games.ffb.report.ReportTurnEnd;
 
 import java.util.Optional;
 

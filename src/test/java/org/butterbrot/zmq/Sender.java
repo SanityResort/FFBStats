@@ -13,7 +13,7 @@ public class Sender {
         publisher.bind("tcp://localhost:44444");
         while (true) {
             Thread.sleep(5000);
-            publisher.send(new Msg("860124".getBytes(ZMQ.CHARSET)), 0);
+            publisher.send(new Msg("1005000".getBytes(ZMQ.CHARSET)), 0);
             System.out.println("sent");
         }
     }

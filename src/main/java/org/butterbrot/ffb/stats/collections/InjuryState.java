@@ -1,6 +1,6 @@
 package org.butterbrot.ffb.stats.collections;
 
-import refactored.com.balancedbytes.games.ffb.PlayerState;
+import com.balancedbytes.games.ffb.PlayerState;
 
 public enum InjuryState {
     KO(PlayerState.KNOCKED_OUT), BH(PlayerState.BADLY_HURT), SI(PlayerState.SERIOUS_INJURY), RIP(PlayerState.RIP);

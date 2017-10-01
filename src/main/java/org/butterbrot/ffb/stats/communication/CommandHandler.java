@@ -1,10 +1,10 @@
 package org.butterbrot.ffb.stats.communication;
 
-import refactored.com.balancedbytes.games.ffb.net.INetCommandHandler;
-import refactored.com.balancedbytes.games.ffb.net.NetCommand;
-import refactored.com.balancedbytes.games.ffb.net.commands.ServerCommand;
-import refactored.com.balancedbytes.games.ffb.net.commands.ServerCommandGameState;
-import refactored.com.balancedbytes.games.ffb.net.commands.ServerCommandReplay;
+import com.balancedbytes.games.ffb.net.INetCommandHandler;
+import com.balancedbytes.games.ffb.net.NetCommand;
+import com.balancedbytes.games.ffb.net.commands.ServerCommand;
+import com.balancedbytes.games.ffb.net.commands.ServerCommandGameState;
+import com.balancedbytes.games.ffb.net.commands.ServerCommandReplay;
 import org.butterbrot.ffb.stats.StatsCollector;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -1,16 +1,18 @@
 package org.butterbrot.ffb.stats.collections;
 
+import com.google.common.collect.Lists;
 import org.butterbrot.ffb.stats.TurnOver;
-import refactored.com.balancedbytes.games.ffb.ArmorModifier;
-import refactored.com.balancedbytes.games.ffb.KickoffResult;
-import refactored.com.balancedbytes.games.ffb.TurnMode;
-import refactored.com.balancedbytes.games.ffb.model.Player;
-import refactored.com.balancedbytes.games.ffb.model.Team;
-import refactored.com.balancedbytes.games.ffb.report.ReportId;
-import refactored.com.balancedbytes.games.ffb.report.ReportInjury;
+import com.balancedbytes.games.ffb.ArmorModifier;
+import com.balancedbytes.games.ffb.KickoffResult;
+import com.balancedbytes.games.ffb.TurnMode;
+import com.balancedbytes.games.ffb.model.Player;
+import com.balancedbytes.games.ffb.model.Team;
+import com.balancedbytes.games.ffb.report.ReportId;
+import com.balancedbytes.games.ffb.report.ReportInjury;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -220,7 +222,7 @@ public class StatsCollection {
             TeamStatsCollection team = getOpposition(teams.get(injury.getDefenderId()));
             TeamStatsCollection turnTeam = turnTeam(team);
             int effectiveAV = armourValues.get(injury.getDefenderId());
-            List<ArmorModifier> armorModifiers = injury.getArmorModifiers();
+            List<ArmorModifier> armorModifiers = Lists.newArrayList(injury.getArmorModifiers());
             if (armorModifiers.contains(ArmorModifier.CLAWS)) {
                 effectiveAV = Math.min(7, effectiveAV);
             }

@@ -11,7 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Service;
-import refactored.com.balancedbytes.games.ffb.net.commands.ServerCommand;
+import com.balancedbytes.games.ffb.net.commands.ServerCommand;
 
 import javax.annotation.PostConstruct;
 import java.net.InetAddress;
@@ -64,7 +64,7 @@ public class StatsProvider {
         }
         synchronized (replayCommands) {
             try {
-                replayCommands.wait(10000);
+                replayCommands.wait(100000);
             } catch (InterruptedException e) {
                 //
             }
