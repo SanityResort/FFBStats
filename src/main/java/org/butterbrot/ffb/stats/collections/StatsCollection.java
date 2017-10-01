@@ -31,6 +31,7 @@ public class StatsCollection {
     private transient List<Drive> currentHalf = firstHalf;
     private transient Map<String, Integer> armourValues = new HashMap<>();
     private transient Map<String, TeamStatsCollection> teams = new HashMap<>();
+    private transient Drive currentDrive;
 
     public void setReplayId(String replayId) {
         this.replayId = replayId;
@@ -164,10 +165,9 @@ public class StatsCollection {
     }
 
     private TeamStatsCollection turnTeam(TeamStatsCollection globalTeam) {
-        Drive drive = currentHalf.get(currentHalf.size() - 1);
-        List<Turn> turns = drive.getTurns();
+        List<Turn> turns = currentDrive.getTurns();
         if (turns.isEmpty()) {
-            return drive.getDriveTeam(globalTeam);
+            return currentDrive.getDriveTeam(globalTeam);
         }
         return turns.get(turns.size() - 1).getTurnTeam(globalTeam);
     }
@@ -189,32 +189,34 @@ public class StatsCollection {
     }
 
     public void addDrive(KickoffResult kickoffResult) {
-        currentHalf.add(new Drive(kickoffResult.getName(), home));
+        Drive drive = new Drive(kickoffResult.getName(), home);
+        currentHalf.add(drive);
+        currentDrive = drive;
     }
 
     public void addKickOffRolls(int[] home, int[] away) {
-        currentHalf.get(currentHalf.size() - 1).setKickOffRollsAway(away);
-        currentHalf.get(currentHalf.size() - 1).setKickOffRollsHome(home);
+        currentDrive.setKickOffRollsAway(away);
+        currentDrive.setKickOffRollsHome(home);
     }
 
     public void addHeatRoll(int roll, String player) {
         if (teams.get(player).equals(home)) {
-            currentHalf.get(currentHalf.size() - 1).addHeatRollAway(roll);
+            currentDrive.addHeatRollAway(roll);
         } else {
-            currentHalf.get(currentHalf.size() - 1).addHeatRollHome(roll);
+            currentDrive.addHeatRollHome(roll);
         }
     }
 
     public void addKoRoll(int roll, String player) {
         if (teams.get(player).equals(home)) {
-            currentHalf.get(currentHalf.size() - 1).addKoRollHome(roll);
+            currentDrive.addKoRollHome(roll);
         } else {
-            currentHalf.get(currentHalf.size() - 1).addKoRollAway(roll);
+            currentDrive.addKoRollAway(roll);
         }
     }
 
     public void addTurn(boolean isHomeActive, TurnMode turnMode, int turnNumber) {
-        currentHalf.get(currentHalf.size() - 1).addTurn(new Turn(isHomeActive, turnMode.getName(), turnNumber, home));
+        currentDrive.addTurn(new Turn(isHomeActive, turnMode.getName(), turnNumber, home));
     }
 
     public void addArmourAndInjuryStats(Collection<ReportInjury> injuries) {
