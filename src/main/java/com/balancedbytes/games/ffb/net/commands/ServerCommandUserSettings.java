@@ -3,22 +3,16 @@
  */
 package com.balancedbytes.games.ffb.net.commands;
 
-import com.balancedbytes.games.ffb.INamedObject;
 import com.balancedbytes.games.ffb.json.IJsonOption;
-import com.balancedbytes.games.ffb.json.JsonEnumWithNameOption;
-import com.balancedbytes.games.ffb.json.JsonIntOption;
-import com.balancedbytes.games.ffb.json.JsonStringArrayOption;
 import com.balancedbytes.games.ffb.json.UtilJson;
 import com.balancedbytes.games.ffb.net.NetCommandId;
-import com.balancedbytes.games.ffb.net.commands.ServerCommand;
-import com.balancedbytes.games.ffb.net.commands.UtilNetCommand;
 import com.balancedbytes.games.ffb.util.ArrayTool;
 import com.eclipsesource.json.JsonObject;
 import com.eclipsesource.json.JsonValue;
+
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
 public class ServerCommandUserSettings
 extends ServerCommand {

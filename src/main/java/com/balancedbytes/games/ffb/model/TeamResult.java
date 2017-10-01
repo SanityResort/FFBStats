@@ -6,20 +6,13 @@ package com.balancedbytes.games.ffb.model;
 import com.balancedbytes.games.ffb.PlayerState;
 import com.balancedbytes.games.ffb.json.IJsonOption;
 import com.balancedbytes.games.ffb.json.IJsonSerializable;
-import com.balancedbytes.games.ffb.json.JsonArrayOption;
-import com.balancedbytes.games.ffb.json.JsonBooleanOption;
-import com.balancedbytes.games.ffb.json.JsonIntOption;
 import com.balancedbytes.games.ffb.json.UtilJson;
-import com.balancedbytes.games.ffb.model.Game;
-import com.balancedbytes.games.ffb.model.GameResult;
-import com.balancedbytes.games.ffb.model.Player;
-import com.balancedbytes.games.ffb.model.PlayerResult;
-import com.balancedbytes.games.ffb.model.Team;
 import com.balancedbytes.games.ffb.model.change.ModelChange;
 import com.balancedbytes.games.ffb.model.change.ModelChangeId;
 import com.eclipsesource.json.JsonArray;
 import com.eclipsesource.json.JsonObject;
 import com.eclipsesource.json.JsonValue;
+
 import java.util.HashMap;
 import java.util.Map;
 

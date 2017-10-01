@@ -1,6 +1,5 @@
 package org.butterbrot.ffb.stats;
 
-import org.junit.Test;
 import com.balancedbytes.games.ffb.PlayerAction;
 import com.balancedbytes.games.ffb.ReRollSource;
 import com.balancedbytes.games.ffb.SpecialEffect;
@@ -12,6 +11,7 @@ import com.balancedbytes.games.ffb.report.ReportScatterBall;
 import com.balancedbytes.games.ffb.report.ReportSkillRoll;
 import com.balancedbytes.games.ffb.report.ReportSpecialEffectRoll;
 import com.balancedbytes.games.ffb.report.ReportTurnEnd;
+import org.junit.Test;
 
 import java.util.Optional;
 

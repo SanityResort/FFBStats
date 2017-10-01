@@ -5,13 +5,7 @@ package com.balancedbytes.games.ffb.model;
 
 import com.balancedbytes.games.ffb.json.IJsonOption;
 import com.balancedbytes.games.ffb.json.IJsonSerializable;
-import com.balancedbytes.games.ffb.json.JsonObjectOption;
 import com.balancedbytes.games.ffb.json.UtilJson;
-import com.balancedbytes.games.ffb.model.Game;
-import com.balancedbytes.games.ffb.model.Player;
-import com.balancedbytes.games.ffb.model.PlayerResult;
-import com.balancedbytes.games.ffb.model.Team;
-import com.balancedbytes.games.ffb.model.TeamResult;
 import com.eclipsesource.json.JsonObject;
 import com.eclipsesource.json.JsonValue;
 

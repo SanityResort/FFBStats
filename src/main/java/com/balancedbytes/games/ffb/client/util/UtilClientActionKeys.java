@@ -8,10 +8,8 @@ import com.balancedbytes.games.ffb.FieldCoordinate;
 import com.balancedbytes.games.ffb.PlayerState;
 import com.balancedbytes.games.ffb.client.ActionKey;
 import com.balancedbytes.games.ffb.client.FantasyFootballClient;
-import com.balancedbytes.games.ffb.model.FieldModel;
 import com.balancedbytes.games.ffb.model.Game;
 import com.balancedbytes.games.ffb.model.Player;
-import com.balancedbytes.games.ffb.model.Team;
 
 public class UtilClientActionKeys {
     public static FieldCoordinate findMoveCoordinate(FantasyFootballClient pClient, FieldCoordinate pStartCoordinate, ActionKey pActionKey) {

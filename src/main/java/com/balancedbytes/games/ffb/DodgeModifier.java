@@ -3,8 +3,6 @@
  */
 package com.balancedbytes.games.ffb;
 
-import com.balancedbytes.games.ffb.IRollModifier;
-
 public enum DodgeModifier implements IRollModifier
 {
     STUNTY("Stunty", 0, false, false),

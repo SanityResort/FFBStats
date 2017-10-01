@@ -4,32 +4,23 @@
 package com.balancedbytes.games.ffb.model;
 
 import com.balancedbytes.games.ffb.PlayerType;
-import com.balancedbytes.games.ffb.SeriousInjury;
 import com.balancedbytes.games.ffb.json.IJsonOption;
 import com.balancedbytes.games.ffb.json.IJsonSerializable;
-import com.balancedbytes.games.ffb.json.JsonArrayOption;
-import com.balancedbytes.games.ffb.json.JsonIntOption;
-import com.balancedbytes.games.ffb.json.JsonObjectOption;
-import com.balancedbytes.games.ffb.json.JsonStringOption;
 import com.balancedbytes.games.ffb.json.UtilJson;
-import com.balancedbytes.games.ffb.model.InducementSet;
-import com.balancedbytes.games.ffb.model.Player;
-import com.balancedbytes.games.ffb.model.Roster;
-import com.balancedbytes.games.ffb.model.RosterPosition;
 import com.balancedbytes.games.ffb.xml.IXmlReadable;
 import com.balancedbytes.games.ffb.xml.IXmlSerializable;
 import com.balancedbytes.games.ffb.xml.UtilXml;
 import com.eclipsesource.json.JsonArray;
 import com.eclipsesource.json.JsonObject;
 import com.eclipsesource.json.JsonValue;
+import org.xml.sax.Attributes;
+import org.xml.sax.helpers.AttributesImpl;
+
+import javax.xml.transform.sax.TransformerHandler;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
-import javax.xml.transform.sax.TransformerHandler;
-import org.xml.sax.Attributes;
-import org.xml.sax.helpers.AttributesImpl;
 
 public class Team
 implements IXmlSerializable,

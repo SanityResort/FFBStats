@@ -3,11 +3,8 @@
  */
 package com.balancedbytes.games.ffb;
 
-import com.balancedbytes.games.ffb.FieldCoordinate;
 import com.balancedbytes.games.ffb.json.IJsonOption;
 import com.balancedbytes.games.ffb.json.IJsonSerializable;
-import com.balancedbytes.games.ffb.json.JsonFieldCoordinateOption;
-import com.balancedbytes.games.ffb.json.JsonStringOption;
 import com.balancedbytes.games.ffb.json.UtilJson;
 import com.eclipsesource.json.JsonObject;
 import com.eclipsesource.json.JsonValue;

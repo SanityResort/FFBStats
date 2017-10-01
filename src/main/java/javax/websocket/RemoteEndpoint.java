@@ -8,8 +8,6 @@ import java.io.OutputStream;
 import java.io.Writer;
 import java.nio.ByteBuffer;
 import java.util.concurrent.Future;
-import javax.websocket.EncodeException;
-import javax.websocket.SendHandler;
 
 public interface RemoteEndpoint {
     public void setBatchingAllowed(boolean var1) throws IOException;

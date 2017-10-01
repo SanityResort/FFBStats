@@ -5,26 +5,23 @@ package com.balancedbytes.games.ffb.model;
 
 import com.balancedbytes.games.ffb.json.IJsonOption;
 import com.balancedbytes.games.ffb.json.IJsonSerializable;
-import com.balancedbytes.games.ffb.json.JsonArrayOption;
 import com.balancedbytes.games.ffb.json.UtilJson;
-import com.balancedbytes.games.ffb.model.Game;
 import com.balancedbytes.games.ffb.model.change.ModelChange;
 import com.balancedbytes.games.ffb.model.change.ModelChangeId;
 import com.balancedbytes.games.ffb.option.GameOptionBoolean;
 import com.balancedbytes.games.ffb.option.GameOptionFactory;
 import com.balancedbytes.games.ffb.option.GameOptionId;
 import com.balancedbytes.games.ffb.option.IGameOption;
-import com.balancedbytes.games.ffb.xml.IXmlReadable;
 import com.balancedbytes.games.ffb.xml.IXmlSerializable;
 import com.balancedbytes.games.ffb.xml.UtilXml;
 import com.eclipsesource.json.JsonArray;
 import com.eclipsesource.json.JsonObject;
 import com.eclipsesource.json.JsonValue;
-import java.util.Collection;
+import org.xml.sax.Attributes;
+
+import javax.xml.transform.sax.TransformerHandler;
 import java.util.HashMap;
 import java.util.Map;
-import javax.xml.transform.sax.TransformerHandler;
-import org.xml.sax.Attributes;
 
 public class GameOptions
 implements IXmlSerializable,

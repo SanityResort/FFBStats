@@ -3,9 +3,6 @@
  */
 package com.balancedbytes.games.ffb;
 
-import com.balancedbytes.games.ffb.ArmorModifier;
-import com.balancedbytes.games.ffb.INamedObject;
-import com.balancedbytes.games.ffb.INamedObjectFactory;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Set;

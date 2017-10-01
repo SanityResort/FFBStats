@@ -4,15 +4,10 @@
 package com.balancedbytes.games.ffb.client.util;
 
 import com.balancedbytes.games.ffb.FieldCoordinate;
-import com.balancedbytes.games.ffb.PlayerState;
 import com.balancedbytes.games.ffb.client.FantasyFootballClient;
-import com.balancedbytes.games.ffb.client.FieldComponent;
 import com.balancedbytes.games.ffb.client.UserInterface;
-import com.balancedbytes.games.ffb.client.layer.FieldLayerOverPlayers;
 import com.balancedbytes.games.ffb.model.ActingPlayer;
-import com.balancedbytes.games.ffb.model.FieldModel;
 import com.balancedbytes.games.ffb.model.Game;
-import com.balancedbytes.games.ffb.model.Player;
 
 public class UtilClientThrowTeamMate {
     public static void updateThrownPlayer(FantasyFootballClient pClient) {

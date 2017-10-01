@@ -3,9 +3,8 @@
  */
 package com.balancedbytes.games.ffb.client.util;
 
-import java.io.PrintStream;
+import javax.swing.*;
 import java.lang.reflect.Method;
-import javax.swing.JTable;
 
 public class UtilClientReflection {
     private static int javaVersionMajor = -1;

@@ -3,8 +3,6 @@
  */
 package com.balancedbytes.games.ffb;
 
-import com.balancedbytes.games.ffb.IRollModifier;
-
 public enum InterceptionModifier implements IRollModifier
 {
     NERVES_OF_STEEL("Nerves of Steel", 0, false, false),

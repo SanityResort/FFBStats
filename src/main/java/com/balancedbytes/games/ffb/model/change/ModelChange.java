@@ -3,14 +3,9 @@
  */
 package com.balancedbytes.games.ffb.model.change;
 
-import com.balancedbytes.games.ffb.INamedObject;
 import com.balancedbytes.games.ffb.json.IJsonOption;
 import com.balancedbytes.games.ffb.json.IJsonSerializable;
-import com.balancedbytes.games.ffb.json.JsonEnumWithNameOption;
-import com.balancedbytes.games.ffb.json.JsonStringOption;
-import com.balancedbytes.games.ffb.json.JsonValueOption;
 import com.balancedbytes.games.ffb.json.UtilJson;
-import com.balancedbytes.games.ffb.model.change.ModelChangeId;
 import com.eclipsesource.json.JsonObject;
 import com.eclipsesource.json.JsonValue;
 

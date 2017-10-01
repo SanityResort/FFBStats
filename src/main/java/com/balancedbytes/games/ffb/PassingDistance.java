@@ -3,8 +3,6 @@
  */
 package com.balancedbytes.games.ffb;
 
-import com.balancedbytes.games.ffb.INamedObject;
-
 public enum PassingDistance implements INamedObject
 {
     QUICK_PASS("Quick Pass", 1, 'Q'),

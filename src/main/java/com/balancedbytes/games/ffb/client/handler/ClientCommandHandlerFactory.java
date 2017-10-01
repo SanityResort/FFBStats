@@ -4,23 +4,10 @@
 package com.balancedbytes.games.ffb.client.handler;
 
 import com.balancedbytes.games.ffb.client.FantasyFootballClient;
-import com.balancedbytes.games.ffb.client.handler.ClientCommandHandler;
-import com.balancedbytes.games.ffb.client.handler.ClientCommandHandlerAddPlayer;
-import com.balancedbytes.games.ffb.client.handler.ClientCommandHandlerAdminMessage;
-import com.balancedbytes.games.ffb.client.handler.ClientCommandHandlerGameState;
-import com.balancedbytes.games.ffb.client.handler.ClientCommandHandlerGameTime;
-import com.balancedbytes.games.ffb.client.handler.ClientCommandHandlerJoin;
-import com.balancedbytes.games.ffb.client.handler.ClientCommandHandlerLeave;
-import com.balancedbytes.games.ffb.client.handler.ClientCommandHandlerMode;
-import com.balancedbytes.games.ffb.client.handler.ClientCommandHandlerModelSync;
-import com.balancedbytes.games.ffb.client.handler.ClientCommandHandlerRemovePlayer;
-import com.balancedbytes.games.ffb.client.handler.ClientCommandHandlerSocketClosed;
-import com.balancedbytes.games.ffb.client.handler.ClientCommandHandlerSound;
-import com.balancedbytes.games.ffb.client.handler.ClientCommandHandlerTalk;
-import com.balancedbytes.games.ffb.client.handler.ClientCommandHandlerUserSettings;
 import com.balancedbytes.games.ffb.client.state.ClientState;
 import com.balancedbytes.games.ffb.net.NetCommand;
 import com.balancedbytes.games.ffb.net.NetCommandId;
+
 import java.util.HashMap;
 import java.util.Map;
 

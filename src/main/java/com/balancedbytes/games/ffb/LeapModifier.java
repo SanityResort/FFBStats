@@ -3,8 +3,6 @@
  */
 package com.balancedbytes.games.ffb;
 
-import com.balancedbytes.games.ffb.IRollModifier;
-
 public enum LeapModifier implements IRollModifier
 {
     VERY_LONG_LEGS("Very Long Legs", -1);

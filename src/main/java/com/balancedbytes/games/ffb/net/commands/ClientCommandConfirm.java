@@ -4,7 +4,6 @@
 package com.balancedbytes.games.ffb.net.commands;
 
 import com.balancedbytes.games.ffb.net.NetCommandId;
-import com.balancedbytes.games.ffb.net.commands.ClientCommand;
 import com.eclipsesource.json.JsonValue;
 
 public class ClientCommandConfirm

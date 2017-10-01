@@ -13,8 +13,6 @@ import com.balancedbytes.games.ffb.PushbackSquare;
 import com.balancedbytes.games.ffb.RangeRuler;
 import com.balancedbytes.games.ffb.TrackNumber;
 import com.balancedbytes.games.ffb.Weather;
-import com.balancedbytes.games.ffb.client.FantasyFootballClient;
-import com.balancedbytes.games.ffb.client.UserInterface;
 import com.balancedbytes.games.ffb.client.layer.FieldLayerBloodspots;
 import com.balancedbytes.games.ffb.client.layer.FieldLayerMarker;
 import com.balancedbytes.games.ffb.client.layer.FieldLayerOverPlayers;
@@ -30,24 +28,14 @@ import com.balancedbytes.games.ffb.model.Game;
 import com.balancedbytes.games.ffb.model.Player;
 import com.balancedbytes.games.ffb.model.change.IModelChangeObserver;
 import com.balancedbytes.games.ffb.model.change.ModelChange;
-import com.balancedbytes.games.ffb.model.change.ModelChangeId;
-import com.fumbbl.rng.MouseEntropySource;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Image;
-import java.awt.Rectangle;
+
+import javax.swing.*;
+import javax.swing.event.MouseInputListener;
+import java.awt.*;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
-import java.awt.image.ImageObserver;
 import java.util.HashMap;
 import java.util.Map;
-import javax.swing.JComponent;
-import javax.swing.JPanel;
-import javax.swing.ToolTipManager;
-import javax.swing.event.MouseInputListener;
 
 public class FieldComponent
 extends JPanel

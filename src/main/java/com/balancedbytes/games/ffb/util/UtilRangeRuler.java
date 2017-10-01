@@ -8,10 +8,9 @@ import com.balancedbytes.games.ffb.PassModifier;
 import com.balancedbytes.games.ffb.PassModifierFactory;
 import com.balancedbytes.games.ffb.PassingDistance;
 import com.balancedbytes.games.ffb.RangeRuler;
-import com.balancedbytes.games.ffb.model.FieldModel;
 import com.balancedbytes.games.ffb.model.Game;
 import com.balancedbytes.games.ffb.model.Player;
-import com.balancedbytes.games.ffb.util.UtilPassing;
+
 import java.util.Set;
 
 public class UtilRangeRuler {

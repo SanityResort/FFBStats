@@ -7,15 +7,9 @@ import com.balancedbytes.games.ffb.FieldCoordinate;
 import com.balancedbytes.games.ffb.FieldCoordinateBounds;
 import com.balancedbytes.games.ffb.PassingDistance;
 import com.balancedbytes.games.ffb.client.FantasyFootballClient;
-import com.balancedbytes.games.ffb.client.layer.FieldLayer;
-import com.balancedbytes.games.ffb.client.layer.FieldLayerRangeRuler;
-import com.balancedbytes.games.ffb.model.Game;
 import com.balancedbytes.games.ffb.util.UtilPassing;
-import java.awt.Color;
-import java.awt.Graphics2D;
-import java.awt.Paint;
-import java.awt.Rectangle;
-import java.awt.image.BufferedImage;
+
+import java.awt.*;
 
 public class FieldLayerRangeGrid
 extends FieldLayer {

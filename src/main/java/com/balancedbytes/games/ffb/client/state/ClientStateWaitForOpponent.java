@@ -6,8 +6,6 @@ package com.balancedbytes.games.ffb.client.state;
 import com.balancedbytes.games.ffb.ClientStateId;
 import com.balancedbytes.games.ffb.client.ActionKey;
 import com.balancedbytes.games.ffb.client.FantasyFootballClient;
-import com.balancedbytes.games.ffb.client.net.ClientCommunication;
-import com.balancedbytes.games.ffb.client.state.ClientState;
 
 public class ClientStateWaitForOpponent
 extends ClientState {

@@ -3,9 +3,6 @@
  */
 package com.balancedbytes.games.ffb;
 
-import com.balancedbytes.games.ffb.INamedObject;
-import com.balancedbytes.games.ffb.INamedObjectFactory;
-import com.balancedbytes.games.ffb.InducementPhase;
 import com.balancedbytes.games.ffb.util.StringTool;
 
 public class InducementPhaseFactory

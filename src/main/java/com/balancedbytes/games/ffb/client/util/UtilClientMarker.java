@@ -8,24 +8,13 @@ import com.balancedbytes.games.ffb.FieldMarker;
 import com.balancedbytes.games.ffb.PlayerMarker;
 import com.balancedbytes.games.ffb.client.FantasyFootballClient;
 import com.balancedbytes.games.ffb.client.FieldComponent;
-import com.balancedbytes.games.ffb.client.UserInterface;
-import com.balancedbytes.games.ffb.client.net.ClientCommunication;
-import com.balancedbytes.games.ffb.model.FieldModel;
 import com.balancedbytes.games.ffb.model.Game;
 import com.balancedbytes.games.ffb.model.Player;
 import com.balancedbytes.games.ffb.util.StringTool;
-import java.awt.Component;
-import java.awt.Container;
-import java.awt.LayoutManager;
+
+import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.BorderFactory;
-import javax.swing.Box;
-import javax.swing.BoxLayout;
-import javax.swing.JLabel;
-import javax.swing.JPopupMenu;
-import javax.swing.JTextField;
-import javax.swing.border.Border;
 
 public class UtilClientMarker {
     private static final int _FIELD_SQUARE_SIZE = 30;

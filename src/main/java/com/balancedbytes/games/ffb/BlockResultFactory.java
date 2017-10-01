@@ -3,10 +3,6 @@
  */
 package com.balancedbytes.games.ffb;
 
-import com.balancedbytes.games.ffb.BlockResult;
-import com.balancedbytes.games.ffb.INamedObject;
-import com.balancedbytes.games.ffb.INamedObjectFactory;
-
 public class BlockResultFactory
 implements INamedObjectFactory {
     @Override

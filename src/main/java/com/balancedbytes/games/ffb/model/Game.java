@@ -5,29 +5,12 @@ package com.balancedbytes.games.ffb.model;
 
 import com.balancedbytes.games.ffb.FieldCoordinate;
 import com.balancedbytes.games.ffb.IDialogParameter;
-import com.balancedbytes.games.ffb.INamedObject;
 import com.balancedbytes.games.ffb.PlayerAction;
 import com.balancedbytes.games.ffb.TurnMode;
 import com.balancedbytes.games.ffb.dialog.DialogParameterFactory;
 import com.balancedbytes.games.ffb.json.IJsonOption;
 import com.balancedbytes.games.ffb.json.IJsonSerializable;
-import com.balancedbytes.games.ffb.json.JsonBooleanOption;
-import com.balancedbytes.games.ffb.json.JsonDateOption;
-import com.balancedbytes.games.ffb.json.JsonEnumWithNameOption;
-import com.balancedbytes.games.ffb.json.JsonFieldCoordinateOption;
-import com.balancedbytes.games.ffb.json.JsonIntOption;
-import com.balancedbytes.games.ffb.json.JsonLongOption;
-import com.balancedbytes.games.ffb.json.JsonObjectOption;
-import com.balancedbytes.games.ffb.json.JsonStringOption;
 import com.balancedbytes.games.ffb.json.UtilJson;
-import com.balancedbytes.games.ffb.model.ActingPlayer;
-import com.balancedbytes.games.ffb.model.FieldModel;
-import com.balancedbytes.games.ffb.model.GameOptions;
-import com.balancedbytes.games.ffb.model.GameResult;
-import com.balancedbytes.games.ffb.model.Player;
-import com.balancedbytes.games.ffb.model.Team;
-import com.balancedbytes.games.ffb.model.TeamResult;
-import com.balancedbytes.games.ffb.model.TurnData;
 import com.balancedbytes.games.ffb.model.change.ModelChange;
 import com.balancedbytes.games.ffb.model.change.ModelChangeId;
 import com.balancedbytes.games.ffb.model.change.ModelChangeObservable;
@@ -36,6 +19,7 @@ import com.balancedbytes.games.ffb.util.StringTool;
 import com.balancedbytes.games.ffb.util.UtilActingPlayer;
 import com.eclipsesource.json.JsonObject;
 import com.eclipsesource.json.JsonValue;
+
 import java.util.ArrayList;
 import java.util.Date;
 

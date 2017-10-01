@@ -3,9 +3,6 @@
  */
 package com.balancedbytes.games.ffb.model.change;
 
-import com.balancedbytes.games.ffb.model.change.IModelChangeObserver;
-import com.balancedbytes.games.ffb.model.change.ModelChange;
-import com.balancedbytes.games.ffb.model.change.ModelChangeId;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;

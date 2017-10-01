@@ -3,11 +3,6 @@
  */
 package com.balancedbytes.games.ffb;
 
-import com.balancedbytes.games.ffb.INamedObject;
-import com.balancedbytes.games.ffb.INamedObjectFactory;
-import com.balancedbytes.games.ffb.ReRolledAction;
-import com.balancedbytes.games.ffb.Skill;
-
 public class ReRolledActionFactory
 implements INamedObjectFactory {
     @Override

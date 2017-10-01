@@ -4,11 +4,6 @@
 package com.balancedbytes.games.ffb.option;
 
 import com.balancedbytes.games.ffb.model.Game;
-import com.balancedbytes.games.ffb.model.GameOptions;
-import com.balancedbytes.games.ffb.option.GameOptionBoolean;
-import com.balancedbytes.games.ffb.option.GameOptionId;
-import com.balancedbytes.games.ffb.option.GameOptionInt;
-import com.balancedbytes.games.ffb.option.IGameOption;
 
 public class UtilGameOption {
     public static boolean isOptionEnabled(Game pGame, GameOptionId pOptionId) {

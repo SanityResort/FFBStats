@@ -3,8 +3,6 @@
  */
 package com.eclipsesource.json;
 
-import com.eclipsesource.json.JsonValue;
-import com.eclipsesource.json.JsonWriter;
 import java.io.IOException;
 
 class JsonNumber

@@ -3,9 +3,6 @@
  */
 package com.balancedbytes.games.ffb.option;
 
-import com.balancedbytes.games.ffb.option.GameOptionAbstract;
-import com.balancedbytes.games.ffb.option.GameOptionId;
-import com.balancedbytes.games.ffb.option.IGameOption;
 import com.balancedbytes.games.ffb.util.StringTool;
 
 public class GameOptionString

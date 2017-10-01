@@ -3,9 +3,6 @@
  */
 package com.balancedbytes.games.ffb;
 
-import com.balancedbytes.games.ffb.Direction;
-import com.balancedbytes.games.ffb.INamedObject;
-import com.balancedbytes.games.ffb.INamedObjectFactory;
 import com.balancedbytes.games.ffb.util.ArrayTool;
 
 public class DirectionFactory

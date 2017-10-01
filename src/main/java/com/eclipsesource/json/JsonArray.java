@@ -3,12 +3,9 @@
  */
 package com.eclipsesource.json;
 
-import com.eclipsesource.json.JsonValue;
-import com.eclipsesource.json.JsonWriter;
 import java.io.IOException;
 import java.io.Reader;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;

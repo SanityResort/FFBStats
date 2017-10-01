@@ -5,7 +5,6 @@ import zmq.Msg;
 import zmq.SocketBase;
 import zmq.ZMQ;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;

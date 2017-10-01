@@ -3,8 +3,6 @@
  */
 package com.balancedbytes.games.ffb;
 
-import com.balancedbytes.games.ffb.INamedObject;
-
 public enum KickoffResult implements INamedObject
 {
     GET_THE_REF("Get the Ref", "Get the Ref", "Each coach receives a free bribe."),

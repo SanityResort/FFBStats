@@ -4,7 +4,6 @@
 package com.balancedbytes.games.ffb.option;
 
 import com.balancedbytes.games.ffb.json.IJsonWriteable;
-import com.balancedbytes.games.ffb.option.GameOptionId;
 import com.balancedbytes.games.ffb.xml.IXmlWriteable;
 
 public interface IGameOption

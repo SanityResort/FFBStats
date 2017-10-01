@@ -3,8 +3,6 @@
  */
 package com.balancedbytes.games.ffb;
 
-import com.balancedbytes.games.ffb.INamedObject;
-
 public enum InjuryType implements INamedObject
 {
     DROP_DODGE("dropDodge", false),

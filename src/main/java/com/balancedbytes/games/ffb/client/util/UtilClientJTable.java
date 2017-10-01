@@ -3,14 +3,11 @@
  */
 package com.balancedbytes.games.ffb.client.util;
 
-import java.awt.Component;
-import java.awt.Dimension;
-import javax.swing.JTable;
+import javax.swing.*;
 import javax.swing.table.DefaultTableColumnModel;
-import javax.swing.table.JTableHeader;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
-import javax.swing.table.TableColumnModel;
+import java.awt.*;
 
 public class UtilClientJTable {
     public static void packTableColumn(JTable pTable, int pColIndex, int pMargin) {

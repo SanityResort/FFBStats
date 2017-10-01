@@ -6,20 +6,15 @@ package com.balancedbytes.games.ffb.net.commands;
 import com.balancedbytes.games.ffb.Skill;
 import com.balancedbytes.games.ffb.SkillFactory;
 import com.balancedbytes.games.ffb.json.IJsonOption;
-import com.balancedbytes.games.ffb.json.JsonIntOption;
-import com.balancedbytes.games.ffb.json.JsonObjectOption;
-import com.balancedbytes.games.ffb.json.JsonStringArrayOption;
-import com.balancedbytes.games.ffb.json.JsonStringOption;
 import com.balancedbytes.games.ffb.json.UtilJson;
 import com.balancedbytes.games.ffb.model.InducementSet;
 import com.balancedbytes.games.ffb.net.NetCommandId;
-import com.balancedbytes.games.ffb.net.commands.ClientCommand;
 import com.balancedbytes.games.ffb.util.ArrayTool;
 import com.balancedbytes.games.ffb.util.StringTool;
 import com.eclipsesource.json.JsonObject;
 import com.eclipsesource.json.JsonValue;
+
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 public class ClientCommandBuyInducements

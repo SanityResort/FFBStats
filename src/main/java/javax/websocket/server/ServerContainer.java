@@ -5,7 +5,6 @@ package javax.websocket.server;
 
 import javax.websocket.DeploymentException;
 import javax.websocket.WebSocketContainer;
-import javax.websocket.server.ServerEndpointConfig;
 
 public interface ServerContainer
 extends WebSocketContainer {

@@ -3,10 +3,6 @@
  */
 package com.balancedbytes.games.ffb;
 
-import com.balancedbytes.games.ffb.INamedObject;
-import com.balancedbytes.games.ffb.INamedObjectFactory;
-import com.balancedbytes.games.ffb.PlayerAction;
-
 public class PlayerActionFactory
 implements INamedObjectFactory {
     @Override

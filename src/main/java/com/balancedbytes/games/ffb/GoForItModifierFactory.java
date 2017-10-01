@@ -3,15 +3,9 @@
  */
 package com.balancedbytes.games.ffb;
 
-import com.balancedbytes.games.ffb.Card;
-import com.balancedbytes.games.ffb.GoForItModifier;
-import com.balancedbytes.games.ffb.INamedObject;
-import com.balancedbytes.games.ffb.IRollModifier;
-import com.balancedbytes.games.ffb.IRollModifierFactory;
-import com.balancedbytes.games.ffb.Weather;
-import com.balancedbytes.games.ffb.model.FieldModel;
 import com.balancedbytes.games.ffb.model.Game;
 import com.balancedbytes.games.ffb.util.UtilCards;
+
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashSet;

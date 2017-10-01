@@ -3,10 +3,6 @@
  */
 package javax.websocket;
 
-import javax.websocket.CloseReason;
-import javax.websocket.EndpointConfig;
-import javax.websocket.Session;
-
 public abstract class Endpoint {
     public abstract void onOpen(Session var1, EndpointConfig var2);
 

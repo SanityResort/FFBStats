@@ -3,8 +3,6 @@
  */
 package com.balancedbytes.games.ffb;
 
-import com.balancedbytes.games.ffb.INamedObject;
-
 public enum SendToBoxReason implements INamedObject
 {
     MNG("mng", "is recovering from a Serious Injury"),

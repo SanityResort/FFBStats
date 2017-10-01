@@ -3,10 +3,8 @@
  */
 package com.balancedbytes.games.ffb;
 
-import com.balancedbytes.games.ffb.INamedObject;
-import com.balancedbytes.games.ffb.INamedObjectFactory;
-import com.balancedbytes.games.ffb.SkillCategory;
 import com.balancedbytes.games.ffb.util.StringTool;
+
 import java.util.ArrayList;
 
 public class SkillCategoryFactory

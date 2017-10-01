@@ -3,21 +3,13 @@
  */
 package com.balancedbytes.games.ffb.client;
 
-import com.balancedbytes.games.ffb.client.ActionKey;
-import com.balancedbytes.games.ffb.client.ActionKeyAction;
-import com.balancedbytes.games.ffb.client.ActionKeyGroup;
-import com.balancedbytes.games.ffb.client.ActionKeyMultiAction;
-import com.balancedbytes.games.ffb.client.FantasyFootballClient;
 import com.balancedbytes.games.ffb.util.StringTool;
+
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import javax.swing.Action;
-import javax.swing.ActionMap;
-import javax.swing.InputMap;
-import javax.swing.JComponent;
-import javax.swing.KeyStroke;
 
 public class ActionKeyBindings {
     private FantasyFootballClient fClient;

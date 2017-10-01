@@ -3,9 +3,7 @@
  */
 package com.balancedbytes.games.ffb.model;
 
-import com.balancedbytes.games.ffb.INamedObject;
 import com.balancedbytes.games.ffb.INamedObjectFactory;
-import com.balancedbytes.games.ffb.model.AnimationType;
 
 public class AnimationTypeFactory
 implements INamedObjectFactory {

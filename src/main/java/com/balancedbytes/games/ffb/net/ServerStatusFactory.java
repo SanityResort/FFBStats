@@ -3,9 +3,7 @@
  */
 package com.balancedbytes.games.ffb.net;
 
-import com.balancedbytes.games.ffb.INamedObject;
 import com.balancedbytes.games.ffb.INamedObjectFactory;
-import com.balancedbytes.games.ffb.net.ServerStatus;
 
 public class ServerStatusFactory
 implements INamedObjectFactory {

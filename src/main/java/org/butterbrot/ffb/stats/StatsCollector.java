@@ -1,9 +1,5 @@
 package org.butterbrot.ffb.stats;
 
-import com.balancedbytes.games.ffb.report.ReportStartHalf;
-import com.google.gson.Gson;
-import org.butterbrot.ffb.stats.collections.StatsCollection;
-import org.springframework.util.StringUtils;
 import com.balancedbytes.games.ffb.HeatExhaustion;
 import com.balancedbytes.games.ffb.KnockoutRecovery;
 import com.balancedbytes.games.ffb.ReRollSource;
@@ -37,6 +33,7 @@ import com.balancedbytes.games.ffb.report.ReportSkillRoll;
 import com.balancedbytes.games.ffb.report.ReportSpecialEffectRoll;
 import com.balancedbytes.games.ffb.report.ReportSpectators;
 import com.balancedbytes.games.ffb.report.ReportStandUpRoll;
+import com.balancedbytes.games.ffb.report.ReportStartHalf;
 import com.balancedbytes.games.ffb.report.ReportTentaclesShadowingRoll;
 import com.balancedbytes.games.ffb.report.ReportTimeoutEnforced;
 import com.balancedbytes.games.ffb.report.ReportTurnEnd;
@@ -44,6 +41,8 @@ import com.balancedbytes.games.ffb.report.ReportWeather;
 import com.balancedbytes.games.ffb.report.ReportWinningsRoll;
 import com.balancedbytes.games.ffb.report.ReportWizardUse;
 import com.balancedbytes.games.ffb.util.ArrayTool;
+import org.butterbrot.ffb.stats.collections.StatsCollection;
+import org.springframework.util.StringUtils;
 
 import java.util.ArrayDeque;
 import java.util.Deque;

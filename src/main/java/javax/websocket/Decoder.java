@@ -7,8 +7,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.Reader;
 import java.nio.ByteBuffer;
-import javax.websocket.DecodeException;
-import javax.websocket.EndpointConfig;
 
 public interface Decoder {
     public void init(EndpointConfig var1);

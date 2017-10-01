@@ -21,7 +21,6 @@ import com.balancedbytes.games.ffb.Skill;
 import com.balancedbytes.games.ffb.SpecialEffect;
 import com.balancedbytes.games.ffb.TeamSetup;
 import com.balancedbytes.games.ffb.client.FantasyFootballClient;
-import com.balancedbytes.games.ffb.client.handler.ClientCommandHandlerMode;
 import com.balancedbytes.games.ffb.model.InducementSet;
 import com.balancedbytes.games.ffb.model.Player;
 import com.balancedbytes.games.ffb.net.INetCommandHandler;
@@ -74,8 +73,8 @@ import com.balancedbytes.games.ffb.net.commands.ClientCommandUseReRoll;
 import com.balancedbytes.games.ffb.net.commands.ClientCommandUseSkill;
 import com.balancedbytes.games.ffb.net.commands.ClientCommandUserSettings;
 import com.balancedbytes.games.ffb.net.commands.ClientCommandWizardSpell;
-import com.balancedbytes.games.ffb.net.commands.ServerCommand;
 import com.fumbbl.rng.MouseEntropySource;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;

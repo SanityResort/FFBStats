@@ -3,16 +3,9 @@
  */
 package com.balancedbytes.games.ffb;
 
-import com.balancedbytes.games.ffb.FieldCoordinate;
-import com.balancedbytes.games.ffb.PlayerState;
 import com.balancedbytes.games.ffb.json.IJsonOption;
 import com.balancedbytes.games.ffb.json.IJsonSerializable;
-import com.balancedbytes.games.ffb.json.JsonArrayOption;
-import com.balancedbytes.games.ffb.json.JsonFieldCoordinateOption;
-import com.balancedbytes.games.ffb.json.JsonIntOption;
-import com.balancedbytes.games.ffb.json.JsonStringOption;
 import com.balancedbytes.games.ffb.json.UtilJson;
-import com.balancedbytes.games.ffb.model.FieldModel;
 import com.balancedbytes.games.ffb.model.Game;
 import com.balancedbytes.games.ffb.model.Player;
 import com.balancedbytes.games.ffb.model.Team;
@@ -23,12 +16,12 @@ import com.balancedbytes.games.ffb.xml.UtilXml;
 import com.eclipsesource.json.JsonArray;
 import com.eclipsesource.json.JsonObject;
 import com.eclipsesource.json.JsonValue;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
-import javax.xml.transform.sax.TransformerHandler;
 import org.xml.sax.Attributes;
 import org.xml.sax.helpers.AttributesImpl;
+
+import javax.xml.transform.sax.TransformerHandler;
+import java.util.HashMap;
+import java.util.Map;
 
 public class TeamSetup
 implements IXmlSerializable,

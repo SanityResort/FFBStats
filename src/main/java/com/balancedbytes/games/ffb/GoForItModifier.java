@@ -3,8 +3,6 @@
  */
 package com.balancedbytes.games.ffb;
 
-import com.balancedbytes.games.ffb.IRollModifier;
-
 public enum GoForItModifier implements IRollModifier
 {
     BLIZZARD("Blizzard", 1),

@@ -4,7 +4,6 @@
 package javax.websocket;
 
 import java.util.ServiceLoader;
-import javax.websocket.WebSocketContainer;
 
 public abstract class ContainerProvider {
     public static WebSocketContainer getWebSocketContainer() {

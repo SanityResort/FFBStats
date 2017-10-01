@@ -3,7 +3,6 @@
  */
 package com.balancedbytes.games.ffb.net;
 
-import com.balancedbytes.games.ffb.net.NetCommand;
 import java.util.ArrayList;
 import java.util.List;
 

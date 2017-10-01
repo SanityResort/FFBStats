@@ -3,12 +3,8 @@
  */
 package com.balancedbytes.games.ffb.client;
 
-import com.balancedbytes.games.ffb.client.ActionKey;
-import com.balancedbytes.games.ffb.client.FantasyFootballClient;
-import com.balancedbytes.games.ffb.client.state.ClientState;
+import javax.swing.*;
 import java.awt.event.ActionEvent;
-import javax.swing.AbstractAction;
-import javax.swing.KeyStroke;
 
 public class ActionKeyAction
 extends AbstractAction {

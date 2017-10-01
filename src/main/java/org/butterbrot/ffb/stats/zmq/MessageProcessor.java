@@ -1,5 +1,26 @@
 package org.butterbrot.ffb.stats.zmq;
 
+import com.balancedbytes.games.ffb.model.Team;
+import com.balancedbytes.games.ffb.net.NetCommandFactory;
+import com.balancedbytes.games.ffb.net.NetCommandId;
+import com.balancedbytes.games.ffb.net.commands.ServerCommand;
+import com.eclipsesource.json.JsonValue;
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import org.butterbrot.ffb.stats.StatsCollector;
+import org.butterbrot.ffb.stats.collections.StatsCollection;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.stereotype.Component;
+import zmq.Ctx;
+import zmq.Msg;
+import zmq.SocketBase;
+import zmq.ZMQ;
+
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.InputStreamReader;
@@ -8,29 +29,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Stream;
 import java.util.zip.GZIPInputStream;
-
-import org.butterbrot.ffb.stats.StatsCollector;
-import org.butterbrot.ffb.stats.collections.StatsCollection;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.stereotype.Component;
-
-import com.balancedbytes.games.ffb.model.Team;
-import com.balancedbytes.games.ffb.net.NetCommandFactory;
-import com.balancedbytes.games.ffb.net.NetCommandId;
-import com.balancedbytes.games.ffb.net.commands.ServerCommand;
-import com.eclipsesource.json.JsonValue;
-import zmq.Ctx;
-import zmq.Msg;
-import zmq.SocketBase;
-import zmq.ZMQ;
-
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 
 @Component
 @ConfigurationProperties(prefix = "zmq")

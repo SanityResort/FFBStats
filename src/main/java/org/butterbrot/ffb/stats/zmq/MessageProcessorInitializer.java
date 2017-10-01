@@ -3,7 +3,6 @@ package org.butterbrot.ffb.stats.zmq;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 
 @Component

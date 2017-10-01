@@ -3,18 +3,13 @@
  */
 package com.balancedbytes.games.ffb.option;
 
-import com.balancedbytes.games.ffb.INamedObject;
 import com.balancedbytes.games.ffb.json.IJsonOption;
-import com.balancedbytes.games.ffb.json.JsonEnumWithNameOption;
-import com.balancedbytes.games.ffb.json.JsonStringOption;
-import com.balancedbytes.games.ffb.option.GameOptionId;
-import com.balancedbytes.games.ffb.option.IGameOption;
 import com.balancedbytes.games.ffb.util.StringTool;
 import com.balancedbytes.games.ffb.xml.UtilXml;
 import com.eclipsesource.json.JsonObject;
-import com.eclipsesource.json.JsonValue;
-import javax.xml.transform.sax.TransformerHandler;
 import org.xml.sax.helpers.AttributesImpl;
+
+import javax.xml.transform.sax.TransformerHandler;
 
 public abstract class GameOptionAbstract
 implements IGameOption {

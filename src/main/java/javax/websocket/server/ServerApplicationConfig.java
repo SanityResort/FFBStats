@@ -3,9 +3,8 @@
  */
 package javax.websocket.server;
 
-import java.util.Set;
 import javax.websocket.Endpoint;
-import javax.websocket.server.ServerEndpointConfig;
+import java.util.Set;
 
 public interface ServerApplicationConfig {
     public Set<ServerEndpointConfig> getEndpointConfigs(Set<Class<? extends Endpoint>> var1);

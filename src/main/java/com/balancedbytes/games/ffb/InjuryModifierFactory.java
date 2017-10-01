@@ -3,12 +3,8 @@
  */
 package com.balancedbytes.games.ffb;
 
-import com.balancedbytes.games.ffb.INamedObject;
-import com.balancedbytes.games.ffb.INamedObjectFactory;
-import com.balancedbytes.games.ffb.InjuryAttribute;
-import com.balancedbytes.games.ffb.InjuryModifier;
-import com.balancedbytes.games.ffb.SeriousInjury;
 import com.balancedbytes.games.ffb.model.Player;
+
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Set;

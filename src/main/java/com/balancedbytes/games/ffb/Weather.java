@@ -3,8 +3,6 @@
  */
 package com.balancedbytes.games.ffb;
 
-import com.balancedbytes.games.ffb.INamedObject;
-
 public enum Weather implements INamedObject
 {
     SWELTERING_HEAT("Sweltering Heat", "heat", "Each player on the pitch may suffer from heat exhaustion on a roll of 1 before the next kick-off."),

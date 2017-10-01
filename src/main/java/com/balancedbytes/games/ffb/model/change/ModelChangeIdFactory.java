@@ -3,9 +3,7 @@
  */
 package com.balancedbytes.games.ffb.model.change;
 
-import com.balancedbytes.games.ffb.INamedObject;
 import com.balancedbytes.games.ffb.INamedObjectFactory;
-import com.balancedbytes.games.ffb.model.change.ModelChangeId;
 
 public class ModelChangeIdFactory
 implements INamedObjectFactory {

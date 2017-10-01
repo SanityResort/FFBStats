@@ -3,9 +3,7 @@
  */
 package com.balancedbytes.games.ffb.option;
 
-import com.balancedbytes.games.ffb.INamedObject;
 import com.balancedbytes.games.ffb.INamedObjectFactory;
-import com.balancedbytes.games.ffb.option.GameOptionId;
 import com.balancedbytes.games.ffb.util.StringTool;
 
 public class GameOptionIdFactory

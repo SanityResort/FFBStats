@@ -3,8 +3,6 @@
  */
 package com.balancedbytes.games.ffb;
 
-import com.balancedbytes.games.ffb.INamedObject;
-
 public enum PlayerGender implements INamedObject
 {
     MALE("male", "M", "he", "his", "him", "himself"),

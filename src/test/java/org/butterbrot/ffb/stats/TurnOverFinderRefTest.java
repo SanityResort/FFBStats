@@ -1,12 +1,12 @@
 package org.butterbrot.ffb.stats;
 
-import org.junit.Test;
 import com.balancedbytes.games.ffb.PlayerAction;
 import com.balancedbytes.games.ffb.report.ReportBribesRoll;
 import com.balancedbytes.games.ffb.report.ReportId;
 import com.balancedbytes.games.ffb.report.ReportPlayerAction;
 import com.balancedbytes.games.ffb.report.ReportReferee;
 import com.balancedbytes.games.ffb.report.ReportTurnEnd;
+import org.junit.Test;
 
 import java.util.Optional;
 

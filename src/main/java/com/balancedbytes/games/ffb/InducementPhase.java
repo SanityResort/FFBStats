@@ -3,8 +3,6 @@
  */
 package com.balancedbytes.games.ffb;
 
-import com.balancedbytes.games.ffb.INamedObject;
-
 public enum InducementPhase implements INamedObject
 {
     END_OF_OWN_TURN("endOfOwnTurn", "at end of own turn"),

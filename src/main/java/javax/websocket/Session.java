@@ -10,11 +10,6 @@ import java.security.Principal;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import javax.websocket.CloseReason;
-import javax.websocket.Extension;
-import javax.websocket.MessageHandler;
-import javax.websocket.RemoteEndpoint;
-import javax.websocket.WebSocketContainer;
 
 public interface Session
 extends Closeable {

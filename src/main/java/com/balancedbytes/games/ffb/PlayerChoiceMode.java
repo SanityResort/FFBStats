@@ -3,9 +3,6 @@
  */
 package com.balancedbytes.games.ffb;
 
-import com.balancedbytes.games.ffb.INamedObject;
-import com.balancedbytes.games.ffb.Skill;
-
 public enum PlayerChoiceMode implements INamedObject
 {
     TENTACLES("tentacles"),

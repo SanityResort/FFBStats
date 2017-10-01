@@ -7,12 +7,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import javax.websocket.Decoder;
-import javax.websocket.DefaultClientEndpointConfig;
-import javax.websocket.Encoder;
-import javax.websocket.EndpointConfig;
-import javax.websocket.Extension;
-import javax.websocket.HandshakeResponse;
 
 public interface ClientEndpointConfig
 extends EndpointConfig {

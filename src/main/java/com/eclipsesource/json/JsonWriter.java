@@ -3,9 +3,6 @@
  */
 package com.eclipsesource.json;
 
-import com.eclipsesource.json.JsonArray;
-import com.eclipsesource.json.JsonObject;
-import com.eclipsesource.json.JsonValue;
 import java.io.IOException;
 import java.io.Writer;
 

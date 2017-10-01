@@ -3,9 +3,6 @@
  */
 package com.balancedbytes.games.ffb;
 
-import com.balancedbytes.games.ffb.INamedObject;
-import com.balancedbytes.games.ffb.Skill;
-
 public enum ReRolledAction implements INamedObject
 {
     GO_FOR_IT("Go For It"),

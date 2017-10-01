@@ -24,19 +24,13 @@ import com.balancedbytes.games.ffb.Skill;
 import com.balancedbytes.games.ffb.TrackNumber;
 import com.balancedbytes.games.ffb.TurnMode;
 import com.balancedbytes.games.ffb.Weather;
-import com.balancedbytes.games.ffb.model.ActingPlayer;
-import com.balancedbytes.games.ffb.model.FieldModel;
 import com.balancedbytes.games.ffb.model.Game;
-import com.balancedbytes.games.ffb.model.GameOptions;
-import com.balancedbytes.games.ffb.model.GameResult;
 import com.balancedbytes.games.ffb.model.InducementSet;
-import com.balancedbytes.games.ffb.model.Player;
 import com.balancedbytes.games.ffb.model.PlayerResult;
 import com.balancedbytes.games.ffb.model.TeamResult;
 import com.balancedbytes.games.ffb.model.TurnData;
-import com.balancedbytes.games.ffb.model.change.ModelChange;
-import com.balancedbytes.games.ffb.model.change.ModelChangeId;
 import com.balancedbytes.games.ffb.option.IGameOption;
+
 import java.util.Date;
 
 public class ModelChangeProcessor {

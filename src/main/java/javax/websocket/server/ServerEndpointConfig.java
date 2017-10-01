@@ -3,18 +3,16 @@
  */
 package javax.websocket.server;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ServiceLoader;
 import javax.websocket.Decoder;
 import javax.websocket.Encoder;
 import javax.websocket.EndpointConfig;
 import javax.websocket.Extension;
 import javax.websocket.HandshakeResponse;
-import javax.websocket.server.DefaultServerEndpointConfig;
-import javax.websocket.server.HandshakeRequest;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
+import java.util.ServiceLoader;
 
 public interface ServerEndpointConfig
 extends EndpointConfig {

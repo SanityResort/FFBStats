@@ -10,27 +10,19 @@ import com.balancedbytes.games.ffb.PlayerState;
 import com.balancedbytes.games.ffb.RangeRuler;
 import com.balancedbytes.games.ffb.Skill;
 import com.balancedbytes.games.ffb.client.ActionKey;
-import com.balancedbytes.games.ffb.client.ClientData;
 import com.balancedbytes.games.ffb.client.FantasyFootballClient;
 import com.balancedbytes.games.ffb.client.FieldComponent;
 import com.balancedbytes.games.ffb.client.UserInterface;
 import com.balancedbytes.games.ffb.client.layer.FieldLayerRangeRuler;
-import com.balancedbytes.games.ffb.client.layer.FieldLayerUnderPlayers;
-import com.balancedbytes.games.ffb.client.net.ClientCommunication;
-import com.balancedbytes.games.ffb.client.state.ClientStateMove;
-import com.balancedbytes.games.ffb.client.state.RangeGridHandler;
 import com.balancedbytes.games.ffb.client.util.UtilClientCursor;
 import com.balancedbytes.games.ffb.model.ActingPlayer;
-import com.balancedbytes.games.ffb.model.FieldModel;
 import com.balancedbytes.games.ffb.model.Game;
 import com.balancedbytes.games.ffb.model.Player;
-import com.balancedbytes.games.ffb.model.Team;
 import com.balancedbytes.games.ffb.net.NetCommand;
 import com.balancedbytes.games.ffb.util.ArrayTool;
 import com.balancedbytes.games.ffb.util.UtilCards;
 import com.balancedbytes.games.ffb.util.UtilPlayer;
 import com.balancedbytes.games.ffb.util.UtilRangeRuler;
-import java.awt.Color;
 
 public class ClientStateThrowTeamMate
 extends ClientStateMove {

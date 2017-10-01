@@ -3,8 +3,6 @@
  */
 package com.balancedbytes.games.ffb;
 
-import com.balancedbytes.games.ffb.IRollModifier;
-
 public enum CatchModifier implements IRollModifier
 {
     ACCURATE("Accurate Pass", -1, false, false),

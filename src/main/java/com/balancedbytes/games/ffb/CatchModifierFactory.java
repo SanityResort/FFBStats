@@ -3,19 +3,12 @@
  */
 package com.balancedbytes.games.ffb;
 
-import com.balancedbytes.games.ffb.CatchModifier;
-import com.balancedbytes.games.ffb.CatchScatterThrowInMode;
-import com.balancedbytes.games.ffb.INamedObject;
-import com.balancedbytes.games.ffb.IRollModifier;
-import com.balancedbytes.games.ffb.IRollModifierFactory;
-import com.balancedbytes.games.ffb.Skill;
-import com.balancedbytes.games.ffb.Weather;
-import com.balancedbytes.games.ffb.model.FieldModel;
 import com.balancedbytes.games.ffb.model.Game;
 import com.balancedbytes.games.ffb.model.Player;
 import com.balancedbytes.games.ffb.util.UtilCards;
 import com.balancedbytes.games.ffb.util.UtilDisturbingPresence;
 import com.balancedbytes.games.ffb.util.UtilPlayer;
+
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashSet;

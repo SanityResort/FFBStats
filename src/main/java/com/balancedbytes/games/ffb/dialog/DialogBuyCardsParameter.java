@@ -5,21 +5,14 @@ package com.balancedbytes.games.ffb.dialog;
 
 import com.balancedbytes.games.ffb.CardType;
 import com.balancedbytes.games.ffb.IDialogParameter;
-import com.balancedbytes.games.ffb.INamedObject;
-import com.balancedbytes.games.ffb.dialog.DialogId;
-import com.balancedbytes.games.ffb.dialog.UtilDialogParameter;
 import com.balancedbytes.games.ffb.json.IJsonOption;
-import com.balancedbytes.games.ffb.json.JsonArrayOption;
-import com.balancedbytes.games.ffb.json.JsonEnumWithNameOption;
-import com.balancedbytes.games.ffb.json.JsonIntOption;
-import com.balancedbytes.games.ffb.json.JsonStringOption;
 import com.balancedbytes.games.ffb.json.UtilJson;
 import com.eclipsesource.json.JsonArray;
 import com.eclipsesource.json.JsonObject;
 import com.eclipsesource.json.JsonValue;
+
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
 public class DialogBuyCardsParameter
 implements IDialogParameter {

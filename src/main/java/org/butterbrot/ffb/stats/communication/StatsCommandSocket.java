@@ -1,6 +1,5 @@
 package org.butterbrot.ffb.stats.communication;
 
-import com.balancedbytes.games.ffb.json.UtilJson;
 import com.balancedbytes.games.ffb.net.NetCommand;
 import com.balancedbytes.games.ffb.net.NetCommandFactory;
 import com.balancedbytes.games.ffb.net.commands.ClientCommandReplay;

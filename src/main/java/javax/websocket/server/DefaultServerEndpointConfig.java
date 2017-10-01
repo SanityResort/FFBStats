@@ -3,15 +3,14 @@
  */
 package javax.websocket.server;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import javax.websocket.Decoder;
 import javax.websocket.Encoder;
 import javax.websocket.Endpoint;
 import javax.websocket.Extension;
-import javax.websocket.server.ServerEndpointConfig;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 final class DefaultServerEndpointConfig
 implements ServerEndpointConfig {

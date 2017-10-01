@@ -5,10 +5,9 @@ package com.balancedbytes.games.ffb.util;
 
 import com.balancedbytes.games.ffb.FieldCoordinate;
 import com.balancedbytes.games.ffb.PlayerState;
-import com.balancedbytes.games.ffb.model.FieldModel;
 import com.balancedbytes.games.ffb.model.Game;
 import com.balancedbytes.games.ffb.model.Player;
-import com.balancedbytes.games.ffb.model.Team;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;

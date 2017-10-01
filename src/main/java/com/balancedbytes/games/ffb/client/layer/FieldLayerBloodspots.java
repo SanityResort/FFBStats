@@ -4,14 +4,9 @@
 package com.balancedbytes.games.ffb.client.layer;
 
 import com.balancedbytes.games.ffb.BloodSpot;
-import com.balancedbytes.games.ffb.FieldCoordinate;
 import com.balancedbytes.games.ffb.client.FantasyFootballClient;
-import com.balancedbytes.games.ffb.client.IconCache;
-import com.balancedbytes.games.ffb.client.UserInterface;
-import com.balancedbytes.games.ffb.client.layer.FieldLayer;
 import com.balancedbytes.games.ffb.model.FieldModel;
-import com.balancedbytes.games.ffb.model.Game;
-import java.awt.Rectangle;
+
 import java.awt.image.BufferedImage;
 
 public class FieldLayerBloodspots

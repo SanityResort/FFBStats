@@ -40,8 +40,8 @@ import com.balancedbytes.games.ffb.dialog.DialogParameterFactory;
 import com.balancedbytes.games.ffb.json.UtilJson;
 import com.balancedbytes.games.ffb.option.GameOptionFactory;
 import com.balancedbytes.games.ffb.option.IGameOption;
-import com.eclipsesource.json.JsonObject;
 import com.eclipsesource.json.JsonValue;
+
 import java.util.Date;
 
 public enum ModelChangeDataType implements INamedObject

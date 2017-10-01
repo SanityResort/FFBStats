@@ -3,21 +3,13 @@
  */
 package com.balancedbytes.games.ffb.net.commands;
 
-import com.balancedbytes.games.ffb.INamedObject;
 import com.balancedbytes.games.ffb.PlayerState;
 import com.balancedbytes.games.ffb.SendToBoxReason;
 import com.balancedbytes.games.ffb.json.IJsonOption;
-import com.balancedbytes.games.ffb.json.JsonEnumWithNameOption;
-import com.balancedbytes.games.ffb.json.JsonIntOption;
-import com.balancedbytes.games.ffb.json.JsonObjectOption;
-import com.balancedbytes.games.ffb.json.JsonPlayerStateOption;
-import com.balancedbytes.games.ffb.json.JsonStringOption;
 import com.balancedbytes.games.ffb.json.UtilJson;
 import com.balancedbytes.games.ffb.model.Player;
 import com.balancedbytes.games.ffb.model.PlayerResult;
 import com.balancedbytes.games.ffb.net.NetCommandId;
-import com.balancedbytes.games.ffb.net.commands.ServerCommand;
-import com.balancedbytes.games.ffb.net.commands.UtilNetCommand;
 import com.eclipsesource.json.JsonObject;
 import com.eclipsesource.json.JsonValue;
 

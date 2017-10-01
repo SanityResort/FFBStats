@@ -3,8 +3,6 @@
  */
 package javax.websocket;
 
-import javax.websocket.SendResult;
-
 public interface SendHandler {
     public void onResult(SendResult var1);
 }

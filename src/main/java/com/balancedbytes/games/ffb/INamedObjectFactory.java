@@ -3,8 +3,6 @@
  */
 package com.balancedbytes.games.ffb;
 
-import com.balancedbytes.games.ffb.INamedObject;
-
 public interface INamedObjectFactory {
     public INamedObject forName(String var1);
 }

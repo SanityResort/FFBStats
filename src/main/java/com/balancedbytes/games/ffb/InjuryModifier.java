@@ -3,8 +3,6 @@
  */
 package com.balancedbytes.games.ffb;
 
-import com.balancedbytes.games.ffb.INamedObject;
-
 public enum InjuryModifier implements INamedObject
 {
     MIGHTY_BLOW("Mighty Blow", 1, false),

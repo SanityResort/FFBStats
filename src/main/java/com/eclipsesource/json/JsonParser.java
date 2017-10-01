@@ -3,13 +3,6 @@
  */
 package com.eclipsesource.json;
 
-import com.eclipsesource.json.BufferedTextReader;
-import com.eclipsesource.json.JsonArray;
-import com.eclipsesource.json.JsonNumber;
-import com.eclipsesource.json.JsonObject;
-import com.eclipsesource.json.JsonString;
-import com.eclipsesource.json.JsonValue;
-import com.eclipsesource.json.ParseException;
 import java.io.IOException;
 import java.io.Reader;
 import java.io.StringReader;

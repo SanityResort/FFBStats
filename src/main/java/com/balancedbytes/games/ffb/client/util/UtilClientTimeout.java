@@ -6,7 +6,6 @@ package com.balancedbytes.games.ffb.client.util;
 import com.balancedbytes.games.ffb.StatusType;
 import com.balancedbytes.games.ffb.client.ClientData;
 import com.balancedbytes.games.ffb.client.FantasyFootballClient;
-import com.balancedbytes.games.ffb.client.StatusReport;
 import com.balancedbytes.games.ffb.client.UserInterface;
 import com.balancedbytes.games.ffb.model.Game;
 

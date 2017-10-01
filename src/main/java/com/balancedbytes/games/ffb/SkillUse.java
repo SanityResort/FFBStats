@@ -3,8 +3,6 @@
  */
 package com.balancedbytes.games.ffb;
 
-import com.balancedbytes.games.ffb.INamedObject;
-import com.balancedbytes.games.ffb.PlayerGender;
 import com.balancedbytes.games.ffb.model.Player;
 
 public enum SkillUse implements INamedObject

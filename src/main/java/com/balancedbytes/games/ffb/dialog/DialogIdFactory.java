@@ -3,9 +3,7 @@
  */
 package com.balancedbytes.games.ffb.dialog;
 
-import com.balancedbytes.games.ffb.INamedObject;
 import com.balancedbytes.games.ffb.INamedObjectFactory;
-import com.balancedbytes.games.ffb.dialog.DialogId;
 
 public class DialogIdFactory
 implements INamedObjectFactory {

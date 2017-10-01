@@ -4,15 +4,13 @@
 package com.balancedbytes.games.ffb.xml;
 
 import com.balancedbytes.games.ffb.FantasyFootballException;
-import com.balancedbytes.games.ffb.xml.IXmlReadable;
-import java.util.Stack;
-import javax.xml.parsers.SAXParser;
-import javax.xml.parsers.SAXParserFactory;
 import org.xml.sax.Attributes;
-import org.xml.sax.ContentHandler;
 import org.xml.sax.InputSource;
 import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.DefaultHandler;
+
+import javax.xml.parsers.SAXParserFactory;
+import java.util.Stack;
 
 public class XmlHandler
 extends DefaultHandler {

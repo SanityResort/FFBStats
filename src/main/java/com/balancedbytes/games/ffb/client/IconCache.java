@@ -5,27 +5,21 @@ package com.balancedbytes.games.ffb.client;
 
 import com.balancedbytes.games.ffb.BloodSpot;
 import com.balancedbytes.games.ffb.DiceDecoration;
-import com.balancedbytes.games.ffb.Direction;
-import com.balancedbytes.games.ffb.PlayerState;
 import com.balancedbytes.games.ffb.PushbackSquare;
 import com.balancedbytes.games.ffb.Weather;
 import com.balancedbytes.games.ffb.WeatherFactory;
-import com.balancedbytes.games.ffb.client.FantasyFootballClient;
-import com.balancedbytes.games.ffb.client.StatusReport;
-import com.balancedbytes.games.ffb.client.UserInterface;
 import com.balancedbytes.games.ffb.model.Game;
-import com.balancedbytes.games.ffb.model.GameOptions;
 import com.balancedbytes.games.ffb.model.Team;
 import com.balancedbytes.games.ffb.option.GameOptionId;
-import com.balancedbytes.games.ffb.option.IGameOption;
 import com.balancedbytes.games.ffb.util.StringTool;
 import com.balancedbytes.games.ffb.util.UtilUrl;
+
+import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLConnection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
@@ -33,7 +27,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
-import javax.imageio.ImageIO;
 
 public class IconCache {
     private static final Pattern _PATTERN_PITCH = Pattern.compile("\\?pitch=([a-z]+)$");

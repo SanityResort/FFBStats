@@ -15,7 +15,12 @@ import com.balancedbytes.games.ffb.client.state.ClientStateFactory;
 import com.balancedbytes.games.ffb.model.Game;
 import com.balancedbytes.games.ffb.net.IConnectionListener;
 import com.balancedbytes.games.ffb.util.StringTool;
-import java.awt.Insets;
+
+import javax.swing.*;
+import javax.websocket.ContainerProvider;
+import javax.websocket.Session;
+import javax.websocket.WebSocketContainer;
+import java.awt.*;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.InetAddress;
@@ -25,10 +30,6 @@ import java.util.Properties;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
-import javax.swing.UIManager;
-import javax.websocket.ContainerProvider;
-import javax.websocket.Session;
-import javax.websocket.WebSocketContainer;
 
 public class FantasyFootballClient
 implements IConnectionListener

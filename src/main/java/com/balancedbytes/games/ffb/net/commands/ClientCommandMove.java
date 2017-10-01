@@ -5,18 +5,13 @@ package com.balancedbytes.games.ffb.net.commands;
 
 import com.balancedbytes.games.ffb.FieldCoordinate;
 import com.balancedbytes.games.ffb.json.IJsonOption;
-import com.balancedbytes.games.ffb.json.JsonFieldCoordinateArrayOption;
-import com.balancedbytes.games.ffb.json.JsonFieldCoordinateOption;
-import com.balancedbytes.games.ffb.json.JsonStringOption;
 import com.balancedbytes.games.ffb.json.UtilJson;
 import com.balancedbytes.games.ffb.net.NetCommandId;
-import com.balancedbytes.games.ffb.net.commands.ClientCommand;
-import com.balancedbytes.games.ffb.net.commands.ICommandWithActingPlayer;
 import com.balancedbytes.games.ffb.util.ArrayTool;
 import com.eclipsesource.json.JsonObject;
 import com.eclipsesource.json.JsonValue;
+
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 public class ClientCommandMove

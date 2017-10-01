@@ -3,8 +3,6 @@
  */
 package javax.websocket;
 
-import javax.websocket.Session;
-
 public class SessionException
 extends Exception {
     private final Session session;

@@ -4,7 +4,6 @@
 package com.balancedbytes.games.ffb.model.change;
 
 import com.balancedbytes.games.ffb.INamedObject;
-import com.balancedbytes.games.ffb.model.change.ModelChangeDataType;
 import com.eclipsesource.json.JsonValue;
 
 public enum ModelChangeId implements INamedObject

@@ -3,11 +3,9 @@
  */
 package com.fumbbl.rng;
 
-import com.fumbbl.rng.EntropySource;
-import java.awt.Component;
-import java.awt.Point;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.MouseEvent;
-import javax.swing.SwingUtilities;
 
 public class MouseEntropySource
 implements EntropySource {

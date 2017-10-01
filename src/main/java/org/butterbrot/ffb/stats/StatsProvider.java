@@ -1,5 +1,6 @@
 package org.butterbrot.ffb.stats;
 
+import com.balancedbytes.games.ffb.net.commands.ServerCommand;
 import com.google.gson.Gson;
 import org.butterbrot.ffb.stats.collections.StatsCollection;
 import org.butterbrot.ffb.stats.communication.CommandHandler;
@@ -11,7 +12,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Service;
-import com.balancedbytes.games.ffb.net.commands.ServerCommand;
 
 import javax.annotation.PostConstruct;
 import java.net.InetAddress;

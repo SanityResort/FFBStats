@@ -3,10 +3,6 @@
  */
 package com.balancedbytes.games.ffb;
 
-import com.balancedbytes.games.ffb.INamedObject;
-import com.balancedbytes.games.ffb.INamedObjectFactory;
-import com.balancedbytes.games.ffb.TeamStatus;
-
 public class TeamStatusFactory
 implements INamedObjectFactory {
     public TeamStatus forId(int pId) {

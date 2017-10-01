@@ -3,8 +3,6 @@
  */
 package com.balancedbytes.games.ffb;
 
-import com.balancedbytes.games.ffb.INamedObject;
-
 public enum PlayerAction implements INamedObject
 {
     MOVE("move", 1, "starts a Move Action"),

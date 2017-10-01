@@ -3,9 +3,6 @@
  */
 package com.balancedbytes.games.ffb;
 
-import com.balancedbytes.games.ffb.INamedObject;
-import com.balancedbytes.games.ffb.Skill;
-
 public enum ReRollSource implements INamedObject
 {
     TEAM_RE_ROLL("Team ReRoll"),

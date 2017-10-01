@@ -4,13 +4,9 @@
 package com.balancedbytes.games.ffb.client.handler;
 
 import com.balancedbytes.games.ffb.client.FantasyFootballClient;
-import com.balancedbytes.games.ffb.client.StatusReport;
 import com.balancedbytes.games.ffb.client.UserInterface;
-import com.balancedbytes.games.ffb.client.handler.ClientCommandHandler;
-import com.balancedbytes.games.ffb.client.handler.ClientCommandHandlerMode;
 import com.balancedbytes.games.ffb.net.NetCommand;
 import com.balancedbytes.games.ffb.net.NetCommandId;
-import java.io.PrintStream;
 
 public class ClientCommandHandlerSocketClosed
 extends ClientCommandHandler {

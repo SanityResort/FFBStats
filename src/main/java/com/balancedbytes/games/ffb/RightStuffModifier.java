@@ -3,8 +3,6 @@
  */
 package com.balancedbytes.games.ffb;
 
-import com.balancedbytes.games.ffb.IRollModifier;
-
 public enum RightStuffModifier implements IRollModifier
 {
     TACKLEZONES_1("1 Tacklezone", 1, true),

@@ -1,14 +1,14 @@
 package org.butterbrot.ffb.stats;
 
-import org.junit.Test;
 import com.balancedbytes.games.ffb.PlayerAction;
 import com.balancedbytes.games.ffb.ReRollSource;
-import com.balancedbytes.games.ffb.report.ReportId;
 import com.balancedbytes.games.ffb.report.ReportBiteSpectator;
+import com.balancedbytes.games.ffb.report.ReportId;
 import com.balancedbytes.games.ffb.report.ReportPlayerAction;
 import com.balancedbytes.games.ffb.report.ReportReRoll;
 import com.balancedbytes.games.ffb.report.ReportSkillRoll;
 import com.balancedbytes.games.ffb.report.ReportTurnEnd;
+import org.junit.Test;
 
 import java.util.Optional;
 

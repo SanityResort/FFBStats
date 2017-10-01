@@ -1,7 +1,5 @@
 package org.butterbrot.ffb.stats.collections;
 
-import com.google.common.collect.Lists;
-import org.butterbrot.ffb.stats.TurnOver;
 import com.balancedbytes.games.ffb.ArmorModifier;
 import com.balancedbytes.games.ffb.KickoffResult;
 import com.balancedbytes.games.ffb.TurnMode;
@@ -9,10 +7,11 @@ import com.balancedbytes.games.ffb.model.Player;
 import com.balancedbytes.games.ffb.model.Team;
 import com.balancedbytes.games.ffb.report.ReportId;
 import com.balancedbytes.games.ffb.report.ReportInjury;
+import com.google.common.collect.Lists;
+import org.butterbrot.ffb.stats.TurnOver;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

@@ -3,10 +3,8 @@
  */
 package com.balancedbytes.games.ffb;
 
-import com.balancedbytes.games.ffb.GameListEntry;
 import com.balancedbytes.games.ffb.json.IJsonOption;
 import com.balancedbytes.games.ffb.json.IJsonSerializable;
-import com.balancedbytes.games.ffb.json.JsonArrayOption;
 import com.balancedbytes.games.ffb.json.UtilJson;
 import com.balancedbytes.games.ffb.util.ArrayTool;
 import com.balancedbytes.games.ffb.xml.IXmlReadable;
@@ -15,13 +13,14 @@ import com.balancedbytes.games.ffb.xml.UtilXml;
 import com.eclipsesource.json.JsonArray;
 import com.eclipsesource.json.JsonObject;
 import com.eclipsesource.json.JsonValue;
+import org.xml.sax.Attributes;
+
+import javax.xml.transform.sax.TransformerHandler;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
-import javax.xml.transform.sax.TransformerHandler;
-import org.xml.sax.Attributes;
 
 public class GameList
 implements IXmlSerializable,

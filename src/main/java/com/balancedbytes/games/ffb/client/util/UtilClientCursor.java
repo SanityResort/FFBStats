@@ -3,13 +3,9 @@
  */
 package com.balancedbytes.games.ffb.client.util;
 
-import com.balancedbytes.games.ffb.client.FieldComponent;
-import com.balancedbytes.games.ffb.client.IconCache;
 import com.balancedbytes.games.ffb.client.UserInterface;
-import java.awt.Cursor;
-import java.awt.Image;
-import java.awt.Point;
-import java.awt.Toolkit;
+
+import java.awt.*;
 import java.awt.image.BufferedImage;
 
 public final class UtilClientCursor {

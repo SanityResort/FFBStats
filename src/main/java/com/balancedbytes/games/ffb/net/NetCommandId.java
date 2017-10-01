@@ -4,7 +4,6 @@
 package com.balancedbytes.games.ffb.net;
 
 import com.balancedbytes.games.ffb.INamedObject;
-import com.balancedbytes.games.ffb.net.NetCommand;
 import com.balancedbytes.games.ffb.net.commands.ClientCommandActingPlayer;
 import com.balancedbytes.games.ffb.net.commands.ClientCommandApothecaryChoice;
 import com.balancedbytes.games.ffb.net.commands.ClientCommandArgueTheCall;

@@ -3,8 +3,6 @@
  */
 package com.balancedbytes.games.ffb;
 
-import com.balancedbytes.games.ffb.IRollModifier;
-
 public enum PickupModifier implements IRollModifier
 {
     BIG_HAND("Big Hand", 0, false),
