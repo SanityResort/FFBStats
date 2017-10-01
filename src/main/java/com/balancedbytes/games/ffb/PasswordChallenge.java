@@ -63,13 +63,5 @@ public final class PasswordChallenge {
         return PasswordChallenge.toHexString(pMd5EncodedPassword);
     }
 
-    public static void main(String[] args) {
-        try {
-            System.out.println(PasswordChallenge.toHexString(PasswordChallenge.md5Encode(args[0].getBytes())));
-        }
-        catch (Exception pAll) {
-            pAll.printStackTrace();
-        }
-    }
 }
 

@@ -202,22 +202,6 @@ implements IConnectionListener
         return this.fConnectionEstablished;
     }
 
-    public static void main(String[] args) {
-        try {
-            ClientParameters parameters = new ClientParameters();
-            parameters.initFrom(args);
-            if (!parameters.validate()) {
-                System.out.println("java -jar FantasyFootballClient.jar -player -coach <coach>\njava -jar FantasyFootballClient.jar -player -coach <coach> -gameId <gameId>\njava -jar FantasyFootballClient.jar -player -coach <coach> -gameId <gameId> -teamHome <teamName> -teamAway <teamName>\njava -jar FantasyFootballClient.jar -player -coach <coach> -teamId <teamId> -teamName <teamName>\njava -jar FantasyFootballClient.jar -spectator -coach <coach>\njava -jar FantasyFootballClient.jar -spectator -coach <coach> -gameId <gameId>\njava -jar FantasyFootballClient.jar -replay -gameId <gameId>");
-                return;
-            }
-            FantasyFootballClient client = new FantasyFootballClient(parameters);
-            client.showUserInterface();
-        }
-        catch (Exception all) {
-            all.printStackTrace(System.err);
-        }
-    }
-
     public ActionKeyBindings getActionKeyBindings() {
         return this.fActionKeyBindings;
     }

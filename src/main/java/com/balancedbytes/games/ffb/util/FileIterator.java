@@ -130,18 +130,6 @@ implements Iterator<File> {
         this.fStartDirectory = pStartDirectory;
     }
 
-    public static void main(String[] args) {
-        int knownSize = 0;
-        FileIterator myIterator = new FileIterator(new File(args[0]));
-        while (myIterator.hasNext()) {
-            if (myIterator.fKnownSize != knownSize) {
-                knownSize = myIterator.knownSize();
-                System.out.println("known size: " + knownSize);
-            }
-            System.out.println(myIterator.next());
-        }
-        System.out.println("known size: " + myIterator.knownSize());
-    }
 
 }
 

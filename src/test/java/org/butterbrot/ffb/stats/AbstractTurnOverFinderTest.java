@@ -16,6 +16,7 @@ public class AbstractTurnOverFinderTest {
     protected TurnOverFinder turnOverFinder;
 
     @Before
+    @SuppressWarnings("unchecked")
     public void setUp() throws Exception{
         turnOverFinder = new TurnOverFinder();
         Field playersField = turnOverFinder.getClass().getDeclaredField("homePlayers");

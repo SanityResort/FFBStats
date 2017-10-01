@@ -8,7 +8,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 public abstract class ModelChangeObservable {
-    private transient Set<IModelChangeObserver> fObservers = Collections.synchronizedSet(new HashSet());
+    private transient Set<IModelChangeObserver> fObservers = Collections.synchronizedSet(new HashSet<IModelChangeObserver>());
 
     public boolean addObserver(IModelChangeObserver pObserver) {
         if (pObserver == null) {

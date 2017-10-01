@@ -27,12 +27,5 @@ public class UtilUrl {
         return url;
     }
 
-    public static void main(String[] args) {
-        System.out.println(UtilUrl.createUrl("http://fumbbl.com/FUMBBL/Images", "PlayerIcons/amlineman1.gif"));
-        System.out.println(UtilUrl.createUrl("http://fumbbl.com/FUMBBL/Images/", "PlayerIcons/amlineman1.gif"));
-        System.out.println(UtilUrl.createUrl("http://fumbbl.com/FUMBBL/Images/", "/PlayerIcons/amlineman1.gif"));
-        System.out.println(UtilUrl.createUrl("http://fumbbl.com/FUMBBL/Images/", "../PlayerIcons/amlineman1.gif"));
-        System.out.println(UtilUrl.createUrl("http://fumbbl.com/FUMBBL/Images/", "http://google.de/PlayerIcons/amlineman1.gif"));
-    }
 }
 
