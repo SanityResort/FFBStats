@@ -20,4 +20,8 @@ public class DummyReport implements IReport {
         return new DummyReport();
     }
 
+    @Override
+    public JsonValue toJsonValue() {
+        return null;
+    }
 }

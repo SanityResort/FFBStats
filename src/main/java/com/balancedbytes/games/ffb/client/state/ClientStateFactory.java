@@ -68,7 +68,7 @@ public class ClientStateFactory {
         ClientStateId clientStateId = null;
         Game game = this.getClient().getGame();
         ActingPlayer actingPlayer = game.getActingPlayer();
-        if (ClientMode.REPLAY == this.getClient().getMode() || this.getClient().getReplayer().isReplaying()) {
+        if (ClientMode.REPLAY == this.getClient().getMode()) {
             clientStateId = ClientStateId.REPLAY;
         } else if (!StringTool.isProvided(game.getTeamHome().getName())) {
             clientStateId = ClientStateId.LOGIN;

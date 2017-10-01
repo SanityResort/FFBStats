@@ -21,7 +21,7 @@ public class TurnOverFinderPickUpTest extends AbstractTurnOverFinderTest {
     @Test
     public void failedPickUp() throws Exception {
         turnOverFinder.add(new ReportPlayerAction(actingPlayer, PlayerAction.MOVE));
-        turnOverFinder.add(new ReportSkillRoll(ReportId.PICK_UP_ROLL, actingPlayer, false, 3, 2));
+        turnOverFinder.add(new ReportSkillRoll(ReportId.PICK_UP_ROLL, actingPlayer, false, 3, 2, false));
         turnOverFinder.add(new ReportTurnEnd(null, null, null));
         Optional<TurnOver> turnOverOpt = turnOverFinder.findTurnover();
         assertTrue("Failed pick up is a turnover", turnOverOpt.isPresent());
@@ -36,9 +36,9 @@ public class TurnOverFinderPickUpTest extends AbstractTurnOverFinderTest {
     @Test
     public void failedPickUpCatchByTeam() throws Exception {
         turnOverFinder.add(new ReportPlayerAction(actingPlayer, PlayerAction.MOVE));
-        turnOverFinder.add(new ReportSkillRoll(ReportId.PICK_UP_ROLL, actingPlayer, false, 3, 2));
+        turnOverFinder.add(new ReportSkillRoll(ReportId.PICK_UP_ROLL, actingPlayer, false, 3, 2, false));
         turnOverFinder.add(new ReportScatterBall());
-        turnOverFinder.add(new ReportSkillRoll(ReportId.CATCH_ROLL, teamMember, true, 4, 4));
+        turnOverFinder.add(new ReportSkillRoll(ReportId.CATCH_ROLL, teamMember, true, 4, 4, false));
         turnOverFinder.add(new ReportTurnEnd(null, null, null));
         Optional<TurnOver> turnOverOpt = turnOverFinder.findTurnover();
         assertTrue("Failed pick up is a turnover", turnOverOpt.isPresent());
@@ -53,9 +53,9 @@ public class TurnOverFinderPickUpTest extends AbstractTurnOverFinderTest {
     @Test
     public void failedPickUpCatchByOpponent() throws Exception {
         turnOverFinder.add(new ReportPlayerAction(actingPlayer, PlayerAction.MOVE));
-        turnOverFinder.add(new ReportSkillRoll(ReportId.PICK_UP_ROLL, actingPlayer, false, 3, 2));
+        turnOverFinder.add(new ReportSkillRoll(ReportId.PICK_UP_ROLL, actingPlayer, false, 3, 2, false));
         turnOverFinder.add(new ReportScatterBall());
-        turnOverFinder.add(new ReportSkillRoll(ReportId.CATCH_ROLL, opponent, false, 3, 3));
+        turnOverFinder.add(new ReportSkillRoll(ReportId.CATCH_ROLL, opponent, false, 3, 3, false));
         turnOverFinder.add(new ReportTurnEnd(null, null, null));
         Optional<TurnOver> turnOverOpt = turnOverFinder.findTurnover();
         assertTrue("Failed pick up is a turnover", turnOverOpt.isPresent());
@@ -70,9 +70,9 @@ public class TurnOverFinderPickUpTest extends AbstractTurnOverFinderTest {
     @Test
     public void failedPickUpNoCatch() throws Exception {
         turnOverFinder.add(new ReportPlayerAction(actingPlayer, PlayerAction.MOVE));
-        turnOverFinder.add(new ReportSkillRoll(ReportId.PICK_UP_ROLL, actingPlayer, false, 3, 2));
+        turnOverFinder.add(new ReportSkillRoll(ReportId.PICK_UP_ROLL, actingPlayer, false, 3, 2, false));
         turnOverFinder.add(new ReportScatterBall());
-        turnOverFinder.add(new ReportSkillRoll(ReportId.CATCH_ROLL, teamMember, false, 3, 2));
+        turnOverFinder.add(new ReportSkillRoll(ReportId.CATCH_ROLL, teamMember, false, 3, 2, false));
         turnOverFinder.add(new ReportTurnEnd(null, null, null));
         Optional<TurnOver> turnOverOpt = turnOverFinder.findTurnover();
         assertTrue("Failed pick up is a turnover", turnOverOpt.isPresent());
@@ -87,9 +87,9 @@ public class TurnOverFinderPickUpTest extends AbstractTurnOverFinderTest {
     @Test
     public void failedPickUpWithTeamReRoll() throws Exception {
         turnOverFinder.add(new ReportPlayerAction(actingPlayer, PlayerAction.MOVE));
-        turnOverFinder.add(new ReportSkillRoll(ReportId.PICK_UP_ROLL, actingPlayer, false, 3, 2));
-        turnOverFinder.add(new ReportReRoll(actingPlayer, ReRollSource.TEAM_RE_ROLL));
-        turnOverFinder.add(new ReportSkillRoll(ReportId.PICK_UP_ROLL, actingPlayer, false, 3, 2));
+        turnOverFinder.add(new ReportSkillRoll(ReportId.PICK_UP_ROLL, actingPlayer, false, 3, 2, false));
+        turnOverFinder.add(new ReportReRoll(actingPlayer, ReRollSource.TEAM_RE_ROLL, true, 6));
+        turnOverFinder.add(new ReportSkillRoll(ReportId.PICK_UP_ROLL, actingPlayer, false, 3, 2, true));
         turnOverFinder.add(new ReportTurnEnd(null, null, null));
         Optional<TurnOver> turnOverOpt = turnOverFinder.findTurnover();
         assertTrue("Failed pick up is a turnover", turnOverOpt.isPresent());
@@ -104,9 +104,9 @@ public class TurnOverFinderPickUpTest extends AbstractTurnOverFinderTest {
     @Test
     public void failedPickUpWithLeaderReRoll() throws Exception {
         turnOverFinder.add(new ReportPlayerAction(actingPlayer, PlayerAction.MOVE));
-        turnOverFinder.add(new ReportSkillRoll(ReportId.PICK_UP_ROLL, actingPlayer, false, 3, 2));
-        turnOverFinder.add(new ReportReRoll(actingPlayer, ReRollSource.LEADER));
-        turnOverFinder.add(new ReportSkillRoll(ReportId.PICK_UP_ROLL, actingPlayer, false, 3, 2));
+        turnOverFinder.add(new ReportSkillRoll(ReportId.PICK_UP_ROLL, actingPlayer, false, 3, 2, false));
+        turnOverFinder.add(new ReportReRoll(actingPlayer, ReRollSource.LEADER, true, 6));
+        turnOverFinder.add(new ReportSkillRoll(ReportId.PICK_UP_ROLL, actingPlayer, false, 3, 2, true));
         turnOverFinder.add(new ReportTurnEnd(null, null, null));
         Optional<TurnOver> turnOverOpt = turnOverFinder.findTurnover();
         assertTrue("Failed pick up is a turnover", turnOverOpt.isPresent());
@@ -121,9 +121,9 @@ public class TurnOverFinderPickUpTest extends AbstractTurnOverFinderTest {
     @Test
     public void failedPickUpWithSkillReRoll() throws Exception {
         turnOverFinder.add(new ReportPlayerAction(actingPlayer, PlayerAction.MOVE));
-        turnOverFinder.add(new ReportSkillRoll(ReportId.PICK_UP_ROLL, actingPlayer, false, 3, 2));
-        turnOverFinder.add(new ReportReRoll(actingPlayer, ReRollSource.SURE_FEET ));
-        turnOverFinder.add(new ReportSkillRoll(ReportId.PICK_UP_ROLL, actingPlayer, false, 3, 2));
+        turnOverFinder.add(new ReportSkillRoll(ReportId.PICK_UP_ROLL, actingPlayer, false, 3, 2, false));
+        turnOverFinder.add(new ReportReRoll(actingPlayer, ReRollSource.SURE_FEET, true, 6));
+        turnOverFinder.add(new ReportSkillRoll(ReportId.PICK_UP_ROLL, actingPlayer, false, 3, 2, true));
         turnOverFinder.add(new ReportTurnEnd(null, null, null));
         Optional<TurnOver> turnOverOpt = turnOverFinder.findTurnover();
         assertTrue("Failed pick up is a turnover", turnOverOpt.isPresent());
@@ -138,9 +138,9 @@ public class TurnOverFinderPickUpTest extends AbstractTurnOverFinderTest {
     @Test
     public void failedPickUpWithProReRoll() throws Exception {
         turnOverFinder.add(new ReportPlayerAction(actingPlayer, PlayerAction.MOVE));
-        turnOverFinder.add(new ReportSkillRoll(ReportId.PICK_UP_ROLL, actingPlayer, false, 3, 2));
-        turnOverFinder.add(new ReportReRoll(actingPlayer, ReRollSource.PRO ));
-        turnOverFinder.add(new ReportSkillRoll(ReportId.PICK_UP_ROLL, actingPlayer, false, 3, 2));
+        turnOverFinder.add(new ReportSkillRoll(ReportId.PICK_UP_ROLL, actingPlayer, false, 3, 2, false));
+        turnOverFinder.add(new ReportReRoll(actingPlayer, ReRollSource.PRO, true, 6));
+        turnOverFinder.add(new ReportSkillRoll(ReportId.PICK_UP_ROLL, actingPlayer, false, 3, 2, true));
         turnOverFinder.add(new ReportTurnEnd(null, null, null));
         Optional<TurnOver> turnOverOpt = turnOverFinder.findTurnover();
         assertTrue("Failed pick up is a turnover", turnOverOpt.isPresent());
@@ -155,7 +155,7 @@ public class TurnOverFinderPickUpTest extends AbstractTurnOverFinderTest {
     @Test
     public void successPickUp() throws Exception {
         turnOverFinder.add(new ReportPlayerAction(actingPlayer, PlayerAction.MOVE));
-        turnOverFinder.add(new ReportSkillRoll(ReportId.PICK_UP_ROLL, actingPlayer, true, 3, 4));
+        turnOverFinder.add(new ReportSkillRoll(ReportId.PICK_UP_ROLL, actingPlayer, true, 3, 4, false));
         turnOverFinder.add(new ReportTurnEnd(null, null, null));
         Optional<TurnOver> turnOverOpt = turnOverFinder.findTurnover();
         assertFalse("Successful pick up is not a turnover", turnOverOpt.isPresent());

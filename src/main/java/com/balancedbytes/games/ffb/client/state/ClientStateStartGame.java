@@ -3,13 +3,9 @@
  */
 package com.balancedbytes.games.ffb.client.state;
 
-import com.balancedbytes.games.ffb.BoxType;
 import com.balancedbytes.games.ffb.ClientStateId;
 import com.balancedbytes.games.ffb.client.FantasyFootballClient;
 import com.balancedbytes.games.ffb.client.UserInterface;
-import com.balancedbytes.games.ffb.client.state.ClientState;
-import com.balancedbytes.games.ffb.client.ui.BoxComponent;
-import com.balancedbytes.games.ffb.client.ui.SideBarComponent;
 
 public class ClientStateStartGame
 extends ClientState {
@@ -28,7 +24,6 @@ extends ClientState {
         this.setSelectable(true);
         this.setClickable(false);
         UserInterface userInterface = this.getClient().getUserInterface();
-        userInterface.getSideBarAway().openBox(BoxType.RESERVES);
     }
 
     @Override
@@ -38,9 +33,6 @@ extends ClientState {
 
     private void closeAwayBox() {
         UserInterface userInterface = this.getClient().getUserInterface();
-        if (BoxType.RESERVES == userInterface.getSideBarAway().getBoxComponent().getOpenBox()) {
-            userInterface.getSideBarAway().closeBox();
-        }
     }
 }
 

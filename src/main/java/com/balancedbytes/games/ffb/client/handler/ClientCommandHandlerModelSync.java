@@ -8,11 +8,6 @@ import com.balancedbytes.games.ffb.TurnMode;
 import com.balancedbytes.games.ffb.client.ClientData;
 import com.balancedbytes.games.ffb.client.FantasyFootballClient;
 import com.balancedbytes.games.ffb.client.UserInterface;
-import com.balancedbytes.games.ffb.client.animation.AnimationSequenceFactory;
-import com.balancedbytes.games.ffb.client.animation.IAnimationListener;
-import com.balancedbytes.games.ffb.client.animation.IAnimationSequence;
-import com.balancedbytes.games.ffb.client.layer.FieldLayerRangeRuler;
-import com.balancedbytes.games.ffb.client.ui.LogComponent;
 import com.balancedbytes.games.ffb.client.util.UtilClientThrowTeamMate;
 import com.balancedbytes.games.ffb.client.util.UtilClientTimeout;
 import com.balancedbytes.games.ffb.model.ActingPlayer;
@@ -32,8 +27,7 @@ import com.balancedbytes.games.ffb.report.ReportList;
 import com.balancedbytes.games.ffb.util.StringTool;
 
 public class ClientCommandHandlerModelSync
-extends ClientCommandHandler
-implements IAnimationListener {
+extends ClientCommandHandler {
     private ServerCommandModelSync fSyncCommand;
     private ClientCommandHandlerMode fMode;
     private FieldCoordinate fBallCoordinate;
@@ -72,25 +66,23 @@ implements IAnimationListener {
         modelChangeList.applyTo(game);
         UserInterface userInterface = this.getClient().getUserInterface();
         if (pMode != ClientCommandHandlerMode.REPLAYING) {
-            userInterface.getLog().markCommandBegin(this.fSyncCommand.getCommandNr());
             userInterface.getStatusReport().report(this.fSyncCommand.getReportList());
-            userInterface.getLog().markCommandEnd(this.fSyncCommand.getCommandNr());
         }
         this.findUpdates(this.fSyncCommand.getModelChanges());
         this.handleExtraEffects(this.fSyncCommand.getReportList());
         Animation animation = this.fSyncCommand.getAnimation();
-        boolean bl = waitForAnimation = animation != null && (this.fMode == ClientCommandHandlerMode.PLAYING || this.fMode == ClientCommandHandlerMode.REPLAYING && this.getClient().getReplayer().isReplayingSingleSpeedForward());
+        boolean bl = waitForAnimation = animation != null && (this.fMode == ClientCommandHandlerMode.PLAYING || this.fMode == ClientCommandHandlerMode.REPLAYING );
         if (waitForAnimation) {
             switch (animation.getAnimationType()) {
-                case THROW_BOMB: 
+                case THROW_BOMB:
                 case HAIL_MARY_BOMB: {
                     game.getFieldModel().setRangeRuler(null);
                     this.fBombCoordinate = game.getFieldModel().getBombCoordinate();
                     game.getFieldModel().setBombCoordinate(null);
                     break;
                 }
-                case PASS: 
-                case KICK: 
+                case PASS:
+                case KICK:
                 case HAIL_MARY_PASS: {
                     game.getFieldModel().setRangeRuler(null);
                     this.fBallCoordinate = game.getFieldModel().getBallCoordinate();
@@ -113,37 +105,6 @@ implements IAnimationListener {
             this.playSound(this.fSyncCommand.getSound(), this.fMode, true);
         }
         return !waitForAnimation;
-    }
-
-    @Override
-    public void animationFinished() {
-        Game game = this.getClient().getGame();
-        UserInterface userInterface = this.getClient().getUserInterface();
-        Animation animation = this.fSyncCommand.getAnimation();
-        switch (animation.getAnimationType()) {
-            case THROW_BOMB: 
-            case HAIL_MARY_BOMB: {
-                game.getFieldModel().setBombCoordinate(this.fBombCoordinate);
-                break;
-            }
-            case PASS: 
-            case KICK: 
-            case HAIL_MARY_PASS: {
-                game.getFieldModel().setBallCoordinate(this.fBallCoordinate);
-                break;
-            }
-            case THROW_TEAM_MATE: {
-                Player thrownPlayer = game.getPlayerById(animation.getThrownPlayerId());
-                game.getFieldModel().setPlayerCoordinate(thrownPlayer, this.fThrownPlayerCoordinate);
-                break;
-            }
-        }
-        userInterface.getFieldComponent().refresh();
-        this.playSound(this.fSyncCommand.getSound(), this.fMode, true);
-        this.getClient().getCommandHandlerFactory().updateClientState(this.fSyncCommand, this.fMode);
-        if (this.fMode == ClientCommandHandlerMode.REPLAYING) {
-            this.getClient().getReplayer().resume();
-        }
     }
 
     private void findUpdates(ModelChangeList pModelChangeList) {
@@ -254,14 +215,6 @@ implements IAnimationListener {
     }
 
     private void startAnimation(Animation pAnimation) {
-        IAnimationSequence animationSequence = AnimationSequenceFactory.getInstance().getAnimationSequence(this.getClient(), pAnimation);
-        if (animationSequence != null) {
-            if (this.fMode == ClientCommandHandlerMode.REPLAYING) {
-                this.getClient().getReplayer().pause();
-            }
-            FieldLayerRangeRuler fieldLayerRangeRuler = this.getClient().getUserInterface().getFieldComponent().getLayerRangeRuler();
-            animationSequence.play(fieldLayerRangeRuler, this);
-        }
     }
 
 }

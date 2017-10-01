@@ -6,21 +6,12 @@ package com.balancedbytes.games.ffb.client.state;
 import com.balancedbytes.games.ffb.ClientStateId;
 import com.balancedbytes.games.ffb.FieldCoordinate;
 import com.balancedbytes.games.ffb.FieldCoordinateBounds;
-import com.balancedbytes.games.ffb.IDialogParameter;
 import com.balancedbytes.games.ffb.PlayerState;
 import com.balancedbytes.games.ffb.SpecialEffect;
-import com.balancedbytes.games.ffb.client.ClientData;
 import com.balancedbytes.games.ffb.client.FantasyFootballClient;
 import com.balancedbytes.games.ffb.client.FieldComponent;
-import com.balancedbytes.games.ffb.client.UserInterface;
-import com.balancedbytes.games.ffb.client.dialog.DialogManager;
-import com.balancedbytes.games.ffb.client.layer.FieldLayerOverPlayers;
-import com.balancedbytes.games.ffb.client.net.ClientCommunication;
-import com.balancedbytes.games.ffb.client.state.ClientState;
-import com.balancedbytes.games.ffb.model.FieldModel;
 import com.balancedbytes.games.ffb.model.Game;
 import com.balancedbytes.games.ffb.model.Player;
-import com.balancedbytes.games.ffb.model.Team;
 
 public class ClientStateWizard
 extends ClientState {
@@ -120,8 +111,6 @@ extends ClientState {
 
     private void redisplaySpellDialog() {
         this.getClient().getClientData().setWizardSpell(null);
-        this.getClient().getUserInterface().getDialogManager().setShownDialogParameter(null);
-        this.getClient().getUserInterface().getDialogManager().updateDialog();
     }
 
     private boolean isValidLightningTarget(FieldCoordinate pCoordinate) {

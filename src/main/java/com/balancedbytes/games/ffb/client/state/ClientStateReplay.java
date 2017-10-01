@@ -8,23 +8,19 @@ import com.balancedbytes.games.ffb.ClientStateId;
 import com.balancedbytes.games.ffb.client.ActionKey;
 import com.balancedbytes.games.ffb.client.FantasyFootballClient;
 import com.balancedbytes.games.ffb.client.IProgressListener;
-import com.balancedbytes.games.ffb.client.dialog.DialogProgressBar;
-import com.balancedbytes.games.ffb.client.dialog.IDialog;
-import com.balancedbytes.games.ffb.client.dialog.IDialogCloseListener;
-import com.balancedbytes.games.ffb.client.ui.GameMenuBar;
 import com.balancedbytes.games.ffb.net.NetCommand;
 import com.balancedbytes.games.ffb.net.ServerStatus;
 import com.balancedbytes.games.ffb.net.commands.ServerCommand;
 import com.balancedbytes.games.ffb.net.commands.ServerCommandReplay;
 import com.balancedbytes.games.ffb.net.commands.ServerCommandStatus;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class ClientStateReplay
 extends ClientState
-implements IDialogCloseListener,
+implements
 IProgressListener {
-    private DialogProgressBar fDialogProgress;
     private List<ServerCommand> fReplayList;
 
     protected ClientStateReplay(FantasyFootballClient pClient) {
@@ -41,23 +37,10 @@ IProgressListener {
         super.enterState();
         this.setSelectable(true);
         this.setClickable(false);
-        ClientReplayer replayer = this.getClient().getReplayer();
-        if (ClientMode.REPLAY == this.getClient().getMode()) {
-            replayer.start();
-            this.getClient().getCommunication().sendReplay(this.getClient().getParameters().getGameId(), 0);
-        } else if (this.fReplayList == null) {
-            this.fReplayList = new ArrayList<ServerCommand>();
-            this.showProgressDialog();
-            this.getClient().getCommunication().sendReplay(0, replayer.getFirstCommandNr());
-        } else {
-            replayer.positionOnLastCommand();
-            replayer.getReplayControl().setActive(true);
-        }
     }
 
     @Override
     public void handleCommand(NetCommand pNetCommand) {
-        ClientReplayer replayer = this.getClient().getReplayer();
         switch (pNetCommand.getId()) {
             case SERVER_REPLAY: {
                 ServerCommandReplay replayCommand = (ServerCommandReplay)pNetCommand;
@@ -67,21 +50,10 @@ IProgressListener {
                     this.updateProgress(this.fReplayList.size(), "Received Step %d of %d.");
                 }
                 if (this.fReplayList.size() < replayCommand.getTotalNrOfCommands()) break;
-                this.fDialogProgress.hideDialog();
                 if (ClientMode.REPLAY == this.getClient().getMode()) {
                     this.getClient().getCommunication().sendCloseSession();
                 }
                 ServerCommand[] replayCommands = this.fReplayList.toArray(new ServerCommand[this.fReplayList.size()]);
-                this.fDialogProgress = new DialogProgressBar(this.getClient(), "Initializing Replay");
-                this.fDialogProgress.showDialog(this);
-                replayer.init(replayCommands, this);
-                this.fDialogProgress.hideDialog();
-                if (ClientMode.REPLAY == this.getClient().getMode()) {
-                    replayer.positionOnFirstCommand();
-                } else {
-                    replayer.positionOnLastCommand();
-                }
-                replayer.getReplayControl().setActive(true);
                 break;
             }
             case SERVER_GAME_STATE: {
@@ -100,9 +72,6 @@ IProgressListener {
         }
     }
 
-    @Override
-    public void dialogClosed(IDialog pDialog) {
-    }
 
     @Override
     public void updateProgress(int pProgress) {
@@ -110,14 +79,10 @@ IProgressListener {
     }
 
     private void updateProgress(int pProgress, String pFormat) {
-        String message = String.format(pFormat, pProgress, this.fDialogProgress.getMaximum());
-        this.fDialogProgress.updateProgress(pProgress, message);
     }
 
     @Override
     public void initProgress(int pMinimum, int pMaximum) {
-        this.fDialogProgress.setMinimum(pMinimum);
-        this.fDialogProgress.setMaximum(pMaximum);
     }
 
     @Override
@@ -125,16 +90,12 @@ IProgressListener {
         boolean actionHandled = false;
         if (ClientMode.SPECTATOR == this.getClient().getMode() && pActionKey == ActionKey.MENU_REPLAY) {
             actionHandled = true;
-            this.getClient().getReplayer().stop();
             this.getClient().updateClientState();
-            this.getClient().getUserInterface().getGameMenuBar().refresh();
         }
         return actionHandled;
     }
 
     private void showProgressDialog() {
-        this.fDialogProgress = new DialogProgressBar(this.getClient(), "Receiving Replay");
-        this.fDialogProgress.showDialog(this);
     }
 
 }

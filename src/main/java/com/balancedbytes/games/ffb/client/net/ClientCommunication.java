@@ -148,11 +148,8 @@ INetCommandHandler {
                     break;
                 }
                 default: {
-                    this.getClient().getReplayer().add((ServerCommand)netCommand);
                 }
             }
-            ClientCommandHandlerMode mode = this.getClient().getReplayer().isReplaying() ? ClientCommandHandlerMode.QUEUING : ClientCommandHandlerMode.PLAYING;
-            this.getClient().getCommandHandlerFactory().handleNetCommand(netCommand, mode);
         } while (true);
     }
 

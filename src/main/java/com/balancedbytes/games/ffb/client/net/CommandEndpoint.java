@@ -5,10 +5,6 @@ package com.balancedbytes.games.ffb.client.net;
 
 import com.balancedbytes.games.ffb.client.FantasyFootballClient;
 import com.balancedbytes.games.ffb.client.GameTitle;
-import com.balancedbytes.games.ffb.client.StatusReport;
-import com.balancedbytes.games.ffb.client.UserInterface;
-import com.balancedbytes.games.ffb.client.net.ClientCommunication;
-import com.balancedbytes.games.ffb.client.ui.GameTitleUpdateTask;
 import com.balancedbytes.games.ffb.json.LZString;
 import com.balancedbytes.games.ffb.net.NetCommand;
 import com.balancedbytes.games.ffb.net.NetCommandFactory;
@@ -16,18 +12,17 @@ import com.balancedbytes.games.ffb.net.NetCommandId;
 import com.balancedbytes.games.ffb.net.commands.ServerCommandPong;
 import com.balancedbytes.games.ffb.util.StringTool;
 import com.eclipsesource.json.JsonValue;
-import java.io.IOException;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.Future;
-import java.util.concurrent.TimeUnit;
+
 import javax.websocket.ClientEndpoint;
 import javax.websocket.CloseReason;
 import javax.websocket.EndpointConfig;
 import javax.websocket.OnClose;
 import javax.websocket.OnMessage;
 import javax.websocket.OnOpen;
-import javax.websocket.RemoteEndpoint;
 import javax.websocket.Session;
+import java.io.IOException;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 
 @ClientEndpoint
 public class CommandEndpoint {
@@ -108,7 +103,6 @@ public class CommandEndpoint {
                 long received = System.currentTimeMillis();
                 GameTitle gameTitle = new GameTitle();
                 gameTitle.setPingTime(received - pongCommand.getTimestamp());
-                this.fClient.getUserInterface().invokeLater(new GameTitleUpdateTask(this.fClient, gameTitle));
             }
         } else {
             this.fClient.getCommunication().handleCommand(netCommand);

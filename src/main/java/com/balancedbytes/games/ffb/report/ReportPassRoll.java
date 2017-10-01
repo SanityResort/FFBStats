@@ -45,6 +45,14 @@ extends ReportSkillRoll {
         this.fHailMaryPass = false;
     }
 
+    public static ReportPassRoll regularPass(String pPlayerId, boolean pSuccessful, int pRoll, int pMinimumRoll, boolean pFumble, boolean pSafeThrowHold, boolean pBomb, boolean reRolled) {
+        return new ReportPassRoll(pPlayerId,  pSuccessful,  pRoll,  pMinimumRoll, reRolled,  null, null, pFumble,  pSafeThrowHold, pBomb);
+    }
+
+    public static ReportPassRoll hailMaryPass(String pPlayerId, boolean pFumble, int pRoll, boolean pBomb, boolean reRolled) {
+        return new ReportPassRoll(pPlayerId, pFumble, pRoll, reRolled, pBomb);
+    }
+
     @Override
     public ReportId getId() {
         return ReportId.PASS_ROLL;

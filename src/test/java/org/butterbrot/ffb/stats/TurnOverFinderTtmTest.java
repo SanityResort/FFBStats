@@ -22,8 +22,8 @@ public class TurnOverFinderTtmTest extends AbstractTurnOverFinderTest {
     @Test
     public void failedLandingWithBall() {
         turnOverFinder.add(new ReportPlayerAction(actingPlayer, PlayerAction.THROW_TEAM_MATE));
-        turnOverFinder.add(new ReportSkillRoll(ReportId.RIGHT_STUFF_ROLL, teamMember, false, 4, 1));
-        turnOverFinder.add(new ReportInjury(teamMember, false, null, null, null, null, null, null, null));
+        turnOverFinder.add(new ReportSkillRoll(ReportId.RIGHT_STUFF_ROLL, teamMember, false, 4, 1, false));
+        turnOverFinder.add(new ReportInjury(teamMember, null,false, null, null, null, null, null, null, null, null, null, null, null));
         turnOverFinder.add(new ReportScatterBall());
         turnOverFinder.add(new ReportTurnEnd(null, null, null));
         Optional<TurnOver> turnOverOpt = turnOverFinder.findTurnover();
@@ -39,10 +39,10 @@ public class TurnOverFinderTtmTest extends AbstractTurnOverFinderTest {
     @Test
     public void failedLandingWithBallWithTeamReRoll() {
         turnOverFinder.add(new ReportPlayerAction(actingPlayer, PlayerAction.THROW_TEAM_MATE));
-        turnOverFinder.add(new ReportSkillRoll(ReportId.RIGHT_STUFF_ROLL, teamMember, false, 4, 1));
-        turnOverFinder.add(new ReportReRoll(teamMember, ReRollSource.TEAM_RE_ROLL));
-        turnOverFinder.add(new ReportSkillRoll(ReportId.RIGHT_STUFF_ROLL, teamMember, false, 4, 1));
-        turnOverFinder.add(new ReportInjury(teamMember, false, null, null, null, null, null, null, null));
+        turnOverFinder.add(new ReportSkillRoll(ReportId.RIGHT_STUFF_ROLL, teamMember, false, 4, 1, false));
+        turnOverFinder.add(new ReportReRoll(teamMember, ReRollSource.TEAM_RE_ROLL, true, 6));
+        turnOverFinder.add(new ReportSkillRoll(ReportId.RIGHT_STUFF_ROLL, teamMember, false, 4, 1, true));
+        turnOverFinder.add(new ReportInjury(teamMember,null, false, null, null, null, null, null, null, null, null, null, null, null));
         turnOverFinder.add(new ReportScatterBall());
         turnOverFinder.add(new ReportTurnEnd(null, null, null));
         Optional<TurnOver> turnOverOpt = turnOverFinder.findTurnover();
@@ -58,10 +58,10 @@ public class TurnOverFinderTtmTest extends AbstractTurnOverFinderTest {
     @Test
     public void failedLandingWithBallWithLeaderReRoll() {
         turnOverFinder.add(new ReportPlayerAction(actingPlayer, PlayerAction.THROW_TEAM_MATE));
-        turnOverFinder.add(new ReportSkillRoll(ReportId.RIGHT_STUFF_ROLL, teamMember, false, 4, 1));
-        turnOverFinder.add(new ReportReRoll(teamMember, ReRollSource.LEADER));
-        turnOverFinder.add(new ReportSkillRoll(ReportId.RIGHT_STUFF_ROLL, teamMember, false, 4, 1));
-        turnOverFinder.add(new ReportInjury(teamMember, false, null, null, null, null, null, null, null));
+        turnOverFinder.add(new ReportSkillRoll(ReportId.RIGHT_STUFF_ROLL, teamMember, false, 4, 1, false));
+        turnOverFinder.add(new ReportReRoll(teamMember, ReRollSource.LEADER, true, 6));
+        turnOverFinder.add(new ReportSkillRoll(ReportId.RIGHT_STUFF_ROLL, teamMember, false, 4, 1, true));
+        turnOverFinder.add(new ReportInjury(teamMember, null,false, null, null, null, null, null, null, null, null, null, null, null));
         turnOverFinder.add(new ReportScatterBall());
         turnOverFinder.add(new ReportTurnEnd(null, null, null));
         Optional<TurnOver> turnOverOpt = turnOverFinder.findTurnover();
@@ -77,10 +77,10 @@ public class TurnOverFinderTtmTest extends AbstractTurnOverFinderTest {
     @Test
     public void failedLandingWithBallWithProReRoll() {
         turnOverFinder.add(new ReportPlayerAction(actingPlayer, PlayerAction.THROW_TEAM_MATE));
-        turnOverFinder.add(new ReportSkillRoll(ReportId.RIGHT_STUFF_ROLL, teamMember, false, 4, 1));
-        turnOverFinder.add(new ReportReRoll(teamMember, ReRollSource.PRO));
-        turnOverFinder.add(new ReportSkillRoll(ReportId.RIGHT_STUFF_ROLL, teamMember, false, 4, 1));
-        turnOverFinder.add(new ReportInjury(teamMember, false, null, null, null, null, null, null, null));
+        turnOverFinder.add(new ReportSkillRoll(ReportId.RIGHT_STUFF_ROLL, teamMember, false, 4, 1, false));
+        turnOverFinder.add(new ReportReRoll(teamMember, ReRollSource.PRO, true, 6));
+        turnOverFinder.add(new ReportSkillRoll(ReportId.RIGHT_STUFF_ROLL, teamMember, false, 4, 1, true));
+        turnOverFinder.add(new ReportInjury(teamMember, null,false, null, null, null, null, null, null, null, null, null, null, null));
         turnOverFinder.add(new ReportScatterBall());
         turnOverFinder.add(new ReportTurnEnd(null, null, null));
         Optional<TurnOver> turnOverOpt = turnOverFinder.findTurnover();
@@ -96,8 +96,8 @@ public class TurnOverFinderTtmTest extends AbstractTurnOverFinderTest {
     @Test
     public void failedLandingWithoutBall() {
         turnOverFinder.add(new ReportPlayerAction(actingPlayer, PlayerAction.THROW_TEAM_MATE));
-        turnOverFinder.add(new ReportSkillRoll(ReportId.RIGHT_STUFF_ROLL, teamMember, false, 4, 1));
-        turnOverFinder.add(new ReportInjury(teamMember, false, null, null, null, null, null, null, null));
+        turnOverFinder.add(new ReportSkillRoll(ReportId.RIGHT_STUFF_ROLL, teamMember, false, 4, 1, false));
+        turnOverFinder.add(new ReportInjury(teamMember, null,false, null, null, null, null, null, null, null, null, null, null, null));
         turnOverFinder.add(new ReportTurnEnd(null, null, null));
         Optional<TurnOver> turnOverOpt = turnOverFinder.findTurnover();
         assertFalse("Failed landing without ball is no turnover", turnOverOpt.isPresent());
@@ -106,10 +106,10 @@ public class TurnOverFinderTtmTest extends AbstractTurnOverFinderTest {
     @Test
     public void failedLandingWithBallCatchByTeam() {
         turnOverFinder.add(new ReportPlayerAction(actingPlayer, PlayerAction.THROW_TEAM_MATE));
-        turnOverFinder.add(new ReportSkillRoll(ReportId.RIGHT_STUFF_ROLL, teamMember, false, 4, 1));
-        turnOverFinder.add(new ReportInjury(teamMember, false, null, null, null, null, null, null, null));
+        turnOverFinder.add(new ReportSkillRoll(ReportId.RIGHT_STUFF_ROLL, teamMember, false, 4, 1, false));
+        turnOverFinder.add(new ReportInjury(teamMember, null,false, null, null, null, null, null, null, null, null, null, null, null));
         turnOverFinder.add(new ReportScatterBall());
-        turnOverFinder.add(new ReportSkillRoll(ReportId.CATCH_ROLL, actingPlayer, true, 3, 3));
+        turnOverFinder.add(new ReportSkillRoll(ReportId.CATCH_ROLL, actingPlayer, true, 3, 3, false));
         turnOverFinder.add(new ReportTurnEnd(null, null, null));
         Optional<TurnOver> turnOverOpt = turnOverFinder.findTurnover();
         assertTrue("Failed landing with ball is a turnover", turnOverOpt.isPresent());
@@ -124,9 +124,9 @@ public class TurnOverFinderTtmTest extends AbstractTurnOverFinderTest {
     @Test
     public void failedLandingWithoutBallHitTeammate() {
         turnOverFinder.add(new ReportPlayerAction(actingPlayer, PlayerAction.THROW_TEAM_MATE));
-        turnOverFinder.add(new ReportSkillRoll(ReportId.RIGHT_STUFF_ROLL, teamMember, false, 4, 1));
-        turnOverFinder.add(new ReportInjury(teamMember, false, null, null, null, null, null, null, null));
-        turnOverFinder.add(new ReportInjury(actingPlayer, false, null, null, null, null, null, null, null));
+        turnOverFinder.add(new ReportSkillRoll(ReportId.RIGHT_STUFF_ROLL, teamMember, false, 4, 1, false));
+        turnOverFinder.add(new ReportInjury(teamMember, null,false, null, null, null, null, null, null, null, null, null, null, null));
+        turnOverFinder.add(new ReportInjury(actingPlayer, null,false, null, null, null, null, null, null, null, null, null, null, null));
         turnOverFinder.add(new ReportTurnEnd(null, null, null));
         Optional<TurnOver> turnOverOpt = turnOverFinder.findTurnover();
         assertTrue("Hitting teammate is a turnover", turnOverOpt.isPresent());
@@ -141,9 +141,9 @@ public class TurnOverFinderTtmTest extends AbstractTurnOverFinderTest {
     @Test
     public void failedLandingWithoutBallHitOpponent() {
         turnOverFinder.add(new ReportPlayerAction(actingPlayer, PlayerAction.THROW_TEAM_MATE));
-        turnOverFinder.add(new ReportSkillRoll(ReportId.RIGHT_STUFF_ROLL, teamMember, false, 4, 1));
-        turnOverFinder.add(new ReportInjury(teamMember, false, null, null, null, null, null, null, null));
-        turnOverFinder.add(new ReportInjury(opponent, false, null, null, null, null, null, null, null));
+        turnOverFinder.add(new ReportSkillRoll(ReportId.RIGHT_STUFF_ROLL, teamMember, false, 4, 1,false));
+        turnOverFinder.add(new ReportInjury(teamMember,null, false, null, null, null, null, null, null, null, null, null, null, null));
+        turnOverFinder.add(new ReportInjury(opponent,null, false, null, null, null, null, null, null, null, null, null, null, null));
         turnOverFinder.add(new ReportTurnEnd(null, null, null));
         Optional<TurnOver> turnOverOpt = turnOverFinder.findTurnover();
         assertFalse("Hitting opponent without ball is no turnover", turnOverOpt.isPresent());
@@ -152,9 +152,9 @@ public class TurnOverFinderTtmTest extends AbstractTurnOverFinderTest {
     @Test
     public void eatenWithBall(){
         turnOverFinder.add(new ReportPlayerAction(actingPlayer, PlayerAction.THROW_TEAM_MATE));
-        turnOverFinder.add(new ReportSkillRoll(ReportId.CONFUSION_ROLL, actingPlayer, true, 4, 4));
-        turnOverFinder.add(new ReportSkillRoll(ReportId.ALWAYS_HUNGRY_ROLL, actingPlayer, false, 2, 1));
-        turnOverFinder.add(new ReportSkillRoll(ReportId.ESCAPE_ROLL, teamMember, false, 2, 1));
+        turnOverFinder.add(new ReportSkillRoll(ReportId.CONFUSION_ROLL, actingPlayer, true, 4, 4, false));
+        turnOverFinder.add(new ReportSkillRoll(ReportId.ALWAYS_HUNGRY_ROLL, actingPlayer, false, 2, 1, false));
+        turnOverFinder.add(new ReportSkillRoll(ReportId.ESCAPE_ROLL, teamMember, false, 2, 1, false));
         turnOverFinder.add(new ReportScatterBall());
         turnOverFinder.add(new ReportTurnEnd(null, null, null));
         Optional<TurnOver> turnOverOpt = turnOverFinder.findTurnover();
@@ -170,11 +170,11 @@ public class TurnOverFinderTtmTest extends AbstractTurnOverFinderTest {
     @Test
     public void eatenWithBallWithTeamReRoll(){
         turnOverFinder.add(new ReportPlayerAction(actingPlayer, PlayerAction.THROW_TEAM_MATE));
-        turnOverFinder.add(new ReportSkillRoll(ReportId.CONFUSION_ROLL, actingPlayer, true, 4, 4));
-        turnOverFinder.add(new ReportSkillRoll(ReportId.ALWAYS_HUNGRY_ROLL, actingPlayer, false, 2, 1));
-        turnOverFinder.add(new ReportSkillRoll(ReportId.ESCAPE_ROLL, teamMember, false, 2, 1));
-        turnOverFinder.add(new ReportReRoll(teamMember, ReRollSource.TEAM_RE_ROLL));
-        turnOverFinder.add(new ReportSkillRoll(ReportId.ESCAPE_ROLL, teamMember, false, 2, 1));
+        turnOverFinder.add(new ReportSkillRoll(ReportId.CONFUSION_ROLL, actingPlayer, true, 4, 4, false));
+        turnOverFinder.add(new ReportSkillRoll(ReportId.ALWAYS_HUNGRY_ROLL, actingPlayer, false, 2, 1, false));
+        turnOverFinder.add(new ReportSkillRoll(ReportId.ESCAPE_ROLL, teamMember, false, 2, 1, false));
+        turnOverFinder.add(new ReportReRoll(teamMember, ReRollSource.TEAM_RE_ROLL, true, 6));
+        turnOverFinder.add(new ReportSkillRoll(ReportId.ESCAPE_ROLL, teamMember, false, 2, 1, true));
         turnOverFinder.add(new ReportScatterBall());
         turnOverFinder.add(new ReportTurnEnd(null, null, null));
         Optional<TurnOver> turnOverOpt = turnOverFinder.findTurnover();
@@ -190,11 +190,11 @@ public class TurnOverFinderTtmTest extends AbstractTurnOverFinderTest {
     @Test
     public void eatenWithBallWithLeaderReRoll(){
         turnOverFinder.add(new ReportPlayerAction(actingPlayer, PlayerAction.THROW_TEAM_MATE));
-        turnOverFinder.add(new ReportSkillRoll(ReportId.CONFUSION_ROLL, actingPlayer, true, 4, 4));
-        turnOverFinder.add(new ReportSkillRoll(ReportId.ALWAYS_HUNGRY_ROLL, actingPlayer, false, 2, 1));
-        turnOverFinder.add(new ReportSkillRoll(ReportId.ESCAPE_ROLL, teamMember, false, 2, 1));
-        turnOverFinder.add(new ReportReRoll(teamMember, ReRollSource.LEADER));
-        turnOverFinder.add(new ReportSkillRoll(ReportId.ESCAPE_ROLL, teamMember, false, 2, 1));
+        turnOverFinder.add(new ReportSkillRoll(ReportId.CONFUSION_ROLL, actingPlayer, true, 4, 4, false));
+        turnOverFinder.add(new ReportSkillRoll(ReportId.ALWAYS_HUNGRY_ROLL, actingPlayer, false, 2, 1, false));
+        turnOverFinder.add(new ReportSkillRoll(ReportId.ESCAPE_ROLL, teamMember, false, 2, 1, false));
+        turnOverFinder.add(new ReportReRoll(teamMember, ReRollSource.LEADER, true, 6));
+        turnOverFinder.add(new ReportSkillRoll(ReportId.ESCAPE_ROLL, teamMember, false, 2, 1, true));
         turnOverFinder.add(new ReportScatterBall());
         turnOverFinder.add(new ReportTurnEnd(null, null, null));
         Optional<TurnOver> turnOverOpt = turnOverFinder.findTurnover();
@@ -210,11 +210,11 @@ public class TurnOverFinderTtmTest extends AbstractTurnOverFinderTest {
     @Test
     public void eatenWithBallWithProReRoll(){
         turnOverFinder.add(new ReportPlayerAction(actingPlayer, PlayerAction.THROW_TEAM_MATE));
-        turnOverFinder.add(new ReportSkillRoll(ReportId.CONFUSION_ROLL, actingPlayer, true, 4, 4));
-        turnOverFinder.add(new ReportSkillRoll(ReportId.ALWAYS_HUNGRY_ROLL, actingPlayer, false, 2, 1));
-        turnOverFinder.add(new ReportSkillRoll(ReportId.ESCAPE_ROLL, teamMember, false, 2, 1));
-        turnOverFinder.add(new ReportReRoll(teamMember, ReRollSource.PRO));
-        turnOverFinder.add(new ReportSkillRoll(ReportId.ESCAPE_ROLL, teamMember, false, 2, 1));
+        turnOverFinder.add(new ReportSkillRoll(ReportId.CONFUSION_ROLL, actingPlayer, true, 4, 4, false));
+        turnOverFinder.add(new ReportSkillRoll(ReportId.ALWAYS_HUNGRY_ROLL, actingPlayer, false, 2, 1, false));
+        turnOverFinder.add(new ReportSkillRoll(ReportId.ESCAPE_ROLL, teamMember, false, 2, 1, false));
+        turnOverFinder.add(new ReportReRoll(teamMember, ReRollSource.PRO, true, 6));
+        turnOverFinder.add(new ReportSkillRoll(ReportId.ESCAPE_ROLL, teamMember, false, 2, 1, true));
         turnOverFinder.add(new ReportScatterBall());
         turnOverFinder.add(new ReportTurnEnd(null, null, null));
         Optional<TurnOver> turnOverOpt = turnOverFinder.findTurnover();

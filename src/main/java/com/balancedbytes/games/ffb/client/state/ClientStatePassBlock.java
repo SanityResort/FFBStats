@@ -10,37 +10,24 @@ import com.balancedbytes.games.ffb.PlayerAction;
 import com.balancedbytes.games.ffb.PlayerState;
 import com.balancedbytes.games.ffb.Skill;
 import com.balancedbytes.games.ffb.client.ActionKey;
-import com.balancedbytes.games.ffb.client.ClientData;
 import com.balancedbytes.games.ffb.client.FantasyFootballClient;
 import com.balancedbytes.games.ffb.client.IconCache;
 import com.balancedbytes.games.ffb.client.UserInterface;
-import com.balancedbytes.games.ffb.client.dialog.DialogInformation;
-import com.balancedbytes.games.ffb.client.dialog.IDialog;
-import com.balancedbytes.games.ffb.client.dialog.IDialogCloseListener;
 import com.balancedbytes.games.ffb.client.net.ClientCommunication;
-import com.balancedbytes.games.ffb.client.state.ClientStateMove;
-import com.balancedbytes.games.ffb.client.ui.SideBarComponent;
 import com.balancedbytes.games.ffb.client.util.UtilClientActionKeys;
 import com.balancedbytes.games.ffb.model.ActingPlayer;
-import com.balancedbytes.games.ffb.model.FieldModel;
 import com.balancedbytes.games.ffb.model.Game;
 import com.balancedbytes.games.ffb.model.Player;
-import com.balancedbytes.games.ffb.model.Team;
 import com.balancedbytes.games.ffb.util.UtilCards;
 import com.balancedbytes.games.ffb.util.UtilPassing;
 import com.balancedbytes.games.ffb.util.UtilPlayer;
-import java.awt.Image;
-import java.awt.image.BufferedImage;
+
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Set;
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
-import javax.swing.JMenuItem;
-import javax.swing.KeyStroke;
 
 public class ClientStatePassBlock
 extends ClientStateMove {
-    private DialogInformation fInfoDialog;
 
     protected ClientStatePassBlock(FantasyFootballClient pClient) {
         super(pClient);
@@ -196,20 +183,10 @@ extends ClientStateMove {
         Game game = this.getClient().getGame();
         ActingPlayer actingPlayer = game.getActingPlayer();
         if (actingPlayer.getPlayer() != null && !(validEndCoordinates = UtilPassing.findValidPassBlockEndCoordinates(game)).contains(playerCoordinate = game.getFieldModel().getPlayerCoordinate(actingPlayer.getPlayer()))) {
-            this.fInfoDialog = new DialogInformation(this.getClient(), "End Turn not possible", new String[]{"You cannot end the turn before the acting player has reached a valid destination!"}, 1, "game.ref");
-            this.fInfoDialog.showDialog(new IDialogCloseListener(){
-
-                @Override
-                public void dialogClosed(IDialog pDialog) {
-                    ClientStatePassBlock.this.fInfoDialog.hideDialog();
-                }
-            });
             return;
         }
         this.getClient().getCommunication().sendEndTurn();
         this.getClient().getClientData().setEndTurnButtonHidden(true);
-        SideBarComponent sideBarHome = this.getClient().getUserInterface().getSideBarHome();
-        sideBarHome.refresh();
     }
 
 }

@@ -8,37 +8,23 @@ import com.balancedbytes.games.ffb.client.FantasyFootballClient;
 import com.balancedbytes.games.ffb.client.IconCache;
 import com.balancedbytes.games.ffb.client.PlayerIconFactory;
 import com.balancedbytes.games.ffb.client.UserInterface;
-import com.balancedbytes.games.ffb.client.dialog.DialogManager;
-import com.balancedbytes.games.ffb.client.dialog.DialogProgressBar;
-import com.balancedbytes.games.ffb.client.dialog.IDialog;
-import com.balancedbytes.games.ffb.client.dialog.IDialogCloseListener;
-import com.balancedbytes.games.ffb.client.handler.ClientCommandHandler;
-import com.balancedbytes.games.ffb.client.handler.ClientCommandHandlerMode;
-import com.balancedbytes.games.ffb.client.state.ClientState;
-import com.balancedbytes.games.ffb.client.ui.ChatComponent;
-import com.balancedbytes.games.ffb.client.ui.GameMenuBar;
 import com.balancedbytes.games.ffb.client.util.UtilClientThrowTeamMate;
 import com.balancedbytes.games.ffb.model.Game;
-import com.balancedbytes.games.ffb.model.GameOptions;
 import com.balancedbytes.games.ffb.model.Player;
 import com.balancedbytes.games.ffb.model.Roster;
 import com.balancedbytes.games.ffb.model.RosterPosition;
-import com.balancedbytes.games.ffb.model.Team;
 import com.balancedbytes.games.ffb.net.NetCommand;
 import com.balancedbytes.games.ffb.net.NetCommandId;
 import com.balancedbytes.games.ffb.net.commands.ServerCommandGameState;
 import com.balancedbytes.games.ffb.option.GameOptionId;
-import com.balancedbytes.games.ffb.option.IGameOption;
 import com.balancedbytes.games.ffb.util.StringTool;
-import java.awt.image.BufferedImage;
-import java.io.PrintStream;
+
+import javax.swing.*;
 import java.util.HashSet;
 import java.util.Set;
-import javax.swing.SwingUtilities;
 
 public class ClientCommandHandlerGameState
-extends ClientCommandHandler
-implements IDialogCloseListener {
+extends ClientCommandHandler {
     protected ClientCommandHandlerGameState(FantasyFootballClient pClient) {
         super(pClient);
     }
@@ -75,17 +61,13 @@ implements IDialogCloseListener {
         }
         int nrOfIcons = iconUrlsToDownload.size();
         if (nrOfIcons > 0) {
-            DialogProgressBar dialogProgress = new DialogProgressBar(this.getClient(), "Loading icons", 0, nrOfIcons);
-            dialogProgress.showDialog(this);
             int currentIconNr = 0;
             for (String iconUrl : iconUrlsToDownload) {
                 System.out.println("download " + iconUrl);
                 iconCache.loadIconFromUrl(iconUrl);
                 Object[] arrobject = new Object[]{++currentIconNr, nrOfIcons};
                 String message = String.format("Loaded icon %d of %d.", arrobject);
-                dialogProgress.updateProgress(currentIconNr, message);
             }
-            dialogProgress.hideDialog();
         }
         this.getClient().setGame(game);
         UtilClientThrowTeamMate.updateThrownPlayer(this.getClient());
@@ -97,20 +79,12 @@ implements IDialogCloseListener {
                     UserInterface userInterface = ClientCommandHandlerGameState.this.getClient().getUserInterface();
                     userInterface.init();
                     ClientCommandHandlerGameState.this.getClient().updateClientState();
-                    userInterface.getDialogManager().updateDialog();
-                    userInterface.getGameMenuBar().updateMissingPlayers();
-                    userInterface.getGameMenuBar().updateInducements();
-                    userInterface.getChat().requestChatInputFocus();
                 }
             });
         }
         return true;
     }
 
-    @Override
-    public void dialogClosed(IDialog pDialog) {
-        this.getClient().exitClient();
-    }
 
     private void addIconUrl(Set<String> pIconUrls, String pIconUrl) {
         IconCache iconCache;

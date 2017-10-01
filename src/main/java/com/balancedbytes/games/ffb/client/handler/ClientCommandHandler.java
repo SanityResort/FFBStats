@@ -6,9 +6,6 @@ package com.balancedbytes.games.ffb.client.handler;
 import com.balancedbytes.games.ffb.SoundId;
 import com.balancedbytes.games.ffb.client.FantasyFootballClient;
 import com.balancedbytes.games.ffb.client.GameTitle;
-import com.balancedbytes.games.ffb.client.dialog.DialogManager;
-import com.balancedbytes.games.ffb.client.ui.GameMenuBar;
-import com.balancedbytes.games.ffb.client.ui.GameTitleUpdateTask;
 import com.balancedbytes.games.ffb.net.NetCommand;
 import com.balancedbytes.games.ffb.net.NetCommandId;
 
@@ -59,7 +56,6 @@ public abstract class ClientCommandHandler {
 
             @Override
             public void run() {
-                ClientCommandHandler.this.getClient().getUserInterface().getGameMenuBar().refresh();
             }
         });
     }
@@ -69,13 +65,11 @@ public abstract class ClientCommandHandler {
 
             @Override
             public void run() {
-                ClientCommandHandler.this.getClient().getUserInterface().getDialogManager().updateDialog();
             }
         });
     }
 
     protected void updateGameTitle(GameTitle pGameTitle) {
-        this.getClient().getUserInterface().invokeLater(new GameTitleUpdateTask(this.getClient(), pGameTitle));
     }
 
 }

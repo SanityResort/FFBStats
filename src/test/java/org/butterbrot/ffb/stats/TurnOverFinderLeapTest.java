@@ -1,5 +1,7 @@
 package org.butterbrot.ffb.stats;
 
+import com.balancedbytes.games.ffb.InjuryType;
+import com.balancedbytes.games.ffb.PlayerState;
 import org.junit.Test;
 import com.balancedbytes.games.ffb.PlayerAction;
 import com.balancedbytes.games.ffb.ReRollSource;
@@ -22,8 +24,8 @@ public class TurnOverFinderLeapTest extends AbstractTurnOverFinderTest {
     @Test
     public void failedLeap() throws Exception {
         turnOverFinder.add(new ReportPlayerAction(actingPlayer, PlayerAction.MOVE));
-        turnOverFinder.add(new ReportSkillRoll(ReportId.LEAP_ROLL, actingPlayer, false, 3, 2));
-        turnOverFinder.add(new ReportInjury(actingPlayer, false, null, null, null, null, null, null, null));
+        turnOverFinder.add(new ReportSkillRoll(ReportId.LEAP_ROLL, actingPlayer, false, 3, 2, false));
+        turnOverFinder.add(new ReportInjury(actingPlayer, null, false, null, null, null, null, null, null, null, null, null, null, null));
         turnOverFinder.add(new ReportTurnEnd(null, null, null));
         Optional<TurnOver> turnOverOpt = turnOverFinder.findTurnover();
         assertTrue("Failed leap is a turnover", turnOverOpt.isPresent());
@@ -38,10 +40,10 @@ public class TurnOverFinderLeapTest extends AbstractTurnOverFinderTest {
     @Test
     public void failedLeapCatchByTeam() throws Exception {
         turnOverFinder.add(new ReportPlayerAction(actingPlayer, PlayerAction.MOVE));
-        turnOverFinder.add(new ReportSkillRoll(ReportId.LEAP_ROLL, actingPlayer, false, 3, 2));
-        turnOverFinder.add(new ReportInjury(actingPlayer, false, null, null, null, null, null, null, null));
+        turnOverFinder.add(new ReportSkillRoll(ReportId.LEAP_ROLL, actingPlayer, false, 3, 2, false));
+        turnOverFinder.add(new ReportInjury(actingPlayer, null, false, null, null, null, null, null, null, null, null, null, null, null));
         turnOverFinder.add(new ReportScatterBall());
-        turnOverFinder.add(new ReportSkillRoll(ReportId.CATCH_ROLL, teamMember, true, 3, 3));
+        turnOverFinder.add(new ReportSkillRoll(ReportId.CATCH_ROLL, teamMember, true, 3, 3, false));
         turnOverFinder.add(new ReportTurnEnd(null, null, null));
         Optional<TurnOver> turnOverOpt = turnOverFinder.findTurnover();
         assertTrue("Failed leap is a turnover", turnOverOpt.isPresent());
@@ -56,10 +58,10 @@ public class TurnOverFinderLeapTest extends AbstractTurnOverFinderTest {
     @Test
     public void failedLeapCatchByOpponent() throws Exception {
         turnOverFinder.add(new ReportPlayerAction(actingPlayer, PlayerAction.MOVE));
-        turnOverFinder.add(new ReportSkillRoll(ReportId.LEAP_ROLL, actingPlayer, false, 3, 2));
-        turnOverFinder.add(new ReportInjury(actingPlayer, false, null, null, null, null, null, null, null));
+        turnOverFinder.add(new ReportSkillRoll(ReportId.LEAP_ROLL, actingPlayer, false, 3, 2, false));
+        turnOverFinder.add(new ReportInjury(actingPlayer, null, false, null, null, null, null, null, null, null, null, null, null, null));
         turnOverFinder.add(new ReportScatterBall());
-        turnOverFinder.add(new ReportSkillRoll(ReportId.CATCH_ROLL, opponent, false, 3, 3));
+        turnOverFinder.add(new ReportSkillRoll(ReportId.CATCH_ROLL, opponent, false, 3, 3, false));
         turnOverFinder.add(new ReportTurnEnd(null, null, null));
         Optional<TurnOver> turnOverOpt = turnOverFinder.findTurnover();
         assertTrue("Failed leap is a turnover", turnOverOpt.isPresent());
@@ -74,10 +76,10 @@ public class TurnOverFinderLeapTest extends AbstractTurnOverFinderTest {
     @Test
     public void failedLeapNoCatch() throws Exception {
         turnOverFinder.add(new ReportPlayerAction(actingPlayer, PlayerAction.MOVE));
-        turnOverFinder.add(new ReportSkillRoll(ReportId.LEAP_ROLL, actingPlayer, false, 3, 2));
-        turnOverFinder.add(new ReportInjury(actingPlayer, false, null, null, null, null, null, null, null));
+        turnOverFinder.add(new ReportSkillRoll(ReportId.LEAP_ROLL, actingPlayer, false, 3, 2, false));
+        turnOverFinder.add(new ReportInjury(actingPlayer, null,false, null, null, null, null, null, null, null, null, null, null, null));
         turnOverFinder.add(new ReportScatterBall());
-        turnOverFinder.add(new ReportSkillRoll(ReportId.CATCH_ROLL, teamMember, false, 3, 2));
+        turnOverFinder.add(new ReportSkillRoll(ReportId.CATCH_ROLL, teamMember, false, 3, 2, false));
         turnOverFinder.add(new ReportTurnEnd(null, null, null));
         Optional<TurnOver> turnOverOpt = turnOverFinder.findTurnover();
         assertTrue("Failed leap is a turnover", turnOverOpt.isPresent());
@@ -92,10 +94,10 @@ public class TurnOverFinderLeapTest extends AbstractTurnOverFinderTest {
     @Test
     public void failedLeapWithTeamReRoll() throws Exception {
         turnOverFinder.add(new ReportPlayerAction(actingPlayer, PlayerAction.MOVE));
-        turnOverFinder.add(new ReportSkillRoll(ReportId.LEAP_ROLL, actingPlayer, false, 3, 2));
-        turnOverFinder.add(new ReportReRoll(actingPlayer, ReRollSource.TEAM_RE_ROLL));
-        turnOverFinder.add(new ReportSkillRoll(ReportId.LEAP_ROLL, actingPlayer, false, 3, 2));
-        turnOverFinder.add(new ReportInjury(actingPlayer, false, null, null, null, null, null, null, null));
+        turnOverFinder.add(new ReportSkillRoll(ReportId.LEAP_ROLL, actingPlayer, false, 3, 2, false));
+        turnOverFinder.add(new ReportReRoll(actingPlayer, ReRollSource.TEAM_RE_ROLL, true, 6));
+        turnOverFinder.add(new ReportSkillRoll(ReportId.LEAP_ROLL, actingPlayer, false, 3, 2, true));
+        turnOverFinder.add(new ReportInjury(actingPlayer, null, false, null, null, null, null, null, null, null, null, null, null, null));
         turnOverFinder.add(new ReportTurnEnd(null, null, null));
         Optional<TurnOver> turnOverOpt = turnOverFinder.findTurnover();
         assertTrue("Failed leap is a turnover", turnOverOpt.isPresent());
@@ -110,10 +112,10 @@ public class TurnOverFinderLeapTest extends AbstractTurnOverFinderTest {
     @Test
     public void failedLeapWithProReRoll() throws Exception {
         turnOverFinder.add(new ReportPlayerAction(actingPlayer, PlayerAction.MOVE));
-        turnOverFinder.add(new ReportSkillRoll(ReportId.LEAP_ROLL, actingPlayer, false, 3, 2));
-        turnOverFinder.add(new ReportReRoll(actingPlayer, ReRollSource.PRO));
-        turnOverFinder.add(new ReportSkillRoll(ReportId.LEAP_ROLL, actingPlayer, false, 3, 2));
-        turnOverFinder.add(new ReportInjury(actingPlayer, false, null, null, null, null, null, null, null));
+        turnOverFinder.add(new ReportSkillRoll(ReportId.LEAP_ROLL, actingPlayer, false, 3, 2, false));
+        turnOverFinder.add(new ReportReRoll(actingPlayer, ReRollSource.PRO, true, 6));
+        turnOverFinder.add(new ReportSkillRoll(ReportId.LEAP_ROLL, actingPlayer, false, 3, 2, true));
+        turnOverFinder.add(new ReportInjury(actingPlayer, null, false, null, null, null, null, null, null, null, null, null, null, null));
         turnOverFinder.add(new ReportTurnEnd(null, null, null));
         Optional<TurnOver> turnOverOpt = turnOverFinder.findTurnover();
         assertTrue("Failed leap is a turnover", turnOverOpt.isPresent());
@@ -128,10 +130,10 @@ public class TurnOverFinderLeapTest extends AbstractTurnOverFinderTest {
     @Test
     public void failedLeapWithLeaderReRoll() throws Exception {
         turnOverFinder.add(new ReportPlayerAction(actingPlayer, PlayerAction.MOVE));
-        turnOverFinder.add(new ReportSkillRoll(ReportId.LEAP_ROLL, actingPlayer, false, 3, 2));
-        turnOverFinder.add(new ReportReRoll(actingPlayer, ReRollSource.LEADER));
-        turnOverFinder.add(new ReportSkillRoll(ReportId.LEAP_ROLL, actingPlayer, false, 3, 2));
-        turnOverFinder.add(new ReportInjury(actingPlayer, false, null, null, null, null, null, null, null));
+        turnOverFinder.add(new ReportSkillRoll(ReportId.LEAP_ROLL, actingPlayer, false, 3, 2, false));
+        turnOverFinder.add(new ReportReRoll(actingPlayer, ReRollSource.LEADER, true, 6));
+        turnOverFinder.add(new ReportSkillRoll(ReportId.LEAP_ROLL, actingPlayer, false, 3, 2, true));
+        turnOverFinder.add(new ReportInjury(actingPlayer, null, false, null, null, null, null, null, null, null, null, null, null, null));
         turnOverFinder.add(new ReportTurnEnd(null, null, null));
         Optional<TurnOver> turnOverOpt = turnOverFinder.findTurnover();
         assertTrue("Failed leap is a turnover", turnOverOpt.isPresent());
@@ -146,7 +148,7 @@ public class TurnOverFinderLeapTest extends AbstractTurnOverFinderTest {
     @Test
     public void successLeap() throws Exception {
         turnOverFinder.add(new ReportPlayerAction(actingPlayer, PlayerAction.MOVE));
-        turnOverFinder.add(new ReportSkillRoll(ReportId.LEAP_ROLL, actingPlayer, true, 3, 4));
+        turnOverFinder.add(new ReportSkillRoll(ReportId.LEAP_ROLL, actingPlayer, true, 3, 4, false));
         turnOverFinder.add(new ReportTurnEnd(null, null, null));
         Optional<TurnOver> turnOverOpt = turnOverFinder.findTurnover();
         assertFalse("Successful leap is not a turnover", turnOverOpt.isPresent());

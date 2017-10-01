@@ -11,31 +11,22 @@ import com.balancedbytes.games.ffb.PlayerAction;
 import com.balancedbytes.games.ffb.Skill;
 import com.balancedbytes.games.ffb.TurnMode;
 import com.balancedbytes.games.ffb.client.ActionKey;
-import com.balancedbytes.games.ffb.client.ClientData;
 import com.balancedbytes.games.ffb.client.FantasyFootballClient;
 import com.balancedbytes.games.ffb.client.FieldComponent;
 import com.balancedbytes.games.ffb.client.IconCache;
 import com.balancedbytes.games.ffb.client.UserInterface;
-import com.balancedbytes.games.ffb.client.layer.FieldLayerUnderPlayers;
 import com.balancedbytes.games.ffb.client.net.ClientCommunication;
-import com.balancedbytes.games.ffb.client.state.ClientState;
-import com.balancedbytes.games.ffb.client.ui.SideBarComponent;
 import com.balancedbytes.games.ffb.client.util.UtilClientActionKeys;
 import com.balancedbytes.games.ffb.client.util.UtilClientCursor;
 import com.balancedbytes.games.ffb.model.ActingPlayer;
-import com.balancedbytes.games.ffb.model.FieldModel;
 import com.balancedbytes.games.ffb.model.Game;
 import com.balancedbytes.games.ffb.model.Player;
 import com.balancedbytes.games.ffb.util.ArrayTool;
 import com.balancedbytes.games.ffb.util.UtilCards;
 import com.balancedbytes.games.ffb.util.UtilPlayer;
-import java.awt.Image;
-import java.awt.image.BufferedImage;
+
+import javax.swing.*;
 import java.util.ArrayList;
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
-import javax.swing.JMenuItem;
-import javax.swing.KeyStroke;
 
 public class ClientStateMove
 extends ClientState {
@@ -299,8 +290,6 @@ extends ClientState {
         this.menuItemSelected(actingPlayer.getPlayer(), 69);
         this.getClient().getCommunication().sendEndTurn();
         this.getClient().getClientData().setEndTurnButtonHidden(true);
-        SideBarComponent sideBarHome = this.getClient().getUserInterface().getSideBarHome();
-        sideBarHome.refresh();
     }
 
     protected void movePlayer(FieldCoordinate pCoordinate) {

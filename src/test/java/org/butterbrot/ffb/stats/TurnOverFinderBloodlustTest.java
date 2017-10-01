@@ -21,7 +21,7 @@ public class TurnOverFinderBloodlustTest extends AbstractTurnOverFinderTest {
     @Test
     public void failedBloodlust() throws Exception {
         turnOverFinder.add(new ReportPlayerAction(actingPlayer, PlayerAction.MOVE));
-        turnOverFinder.add(new ReportSkillRoll(ReportId.BLOOD_LUST_ROLL, actingPlayer, false, 2, 1));
+        turnOverFinder.add(new ReportSkillRoll(ReportId.BLOOD_LUST_ROLL, actingPlayer, false, 2, 1, false));
         turnOverFinder.add(new ReportBiteSpectator(actingPlayer));
         turnOverFinder.add(new ReportTurnEnd(null, null, null));
         Optional<TurnOver> turnOverOpt = turnOverFinder.findTurnover();
@@ -37,9 +37,9 @@ public class TurnOverFinderBloodlustTest extends AbstractTurnOverFinderTest {
     @Test
     public void failedBloodlustWithTeamReRoll() throws Exception {
         turnOverFinder.add(new ReportPlayerAction(actingPlayer, PlayerAction.MOVE));
-        turnOverFinder.add(new ReportSkillRoll(ReportId.BLOOD_LUST_ROLL, actingPlayer, false, 2, 1));
-        turnOverFinder.add(new ReportReRoll(actingPlayer, ReRollSource.TEAM_RE_ROLL));
-        turnOverFinder.add(new ReportSkillRoll(ReportId.BLOOD_LUST_ROLL, actingPlayer, false, 2, 1));
+        turnOverFinder.add(new ReportSkillRoll(ReportId.BLOOD_LUST_ROLL, actingPlayer, false, 2, 1, false));
+        turnOverFinder.add(new ReportReRoll(actingPlayer, ReRollSource.TEAM_RE_ROLL, true, 6));
+        turnOverFinder.add(new ReportSkillRoll(ReportId.BLOOD_LUST_ROLL, actingPlayer, false, 2, 1,true));
         turnOverFinder.add(new ReportBiteSpectator(actingPlayer));
         turnOverFinder.add(new ReportTurnEnd(null, null, null));
         Optional<TurnOver> turnOverOpt = turnOverFinder.findTurnover();
@@ -55,9 +55,9 @@ public class TurnOverFinderBloodlustTest extends AbstractTurnOverFinderTest {
     @Test
     public void failedBloodlustWithLeaderReRoll() throws Exception {
         turnOverFinder.add(new ReportPlayerAction(actingPlayer, PlayerAction.MOVE));
-        turnOverFinder.add(new ReportSkillRoll(ReportId.BLOOD_LUST_ROLL, actingPlayer, false, 2, 1));
-        turnOverFinder.add(new ReportReRoll(actingPlayer, ReRollSource.LEADER));
-        turnOverFinder.add(new ReportSkillRoll(ReportId.BLOOD_LUST_ROLL, actingPlayer, false, 2, 1));
+        turnOverFinder.add(new ReportSkillRoll(ReportId.BLOOD_LUST_ROLL, actingPlayer, false, 2, 1, false));
+        turnOverFinder.add(new ReportReRoll(actingPlayer, ReRollSource.LEADER, true, 6));
+        turnOverFinder.add(new ReportSkillRoll(ReportId.BLOOD_LUST_ROLL, actingPlayer, false, 2, 1, true));
         turnOverFinder.add(new ReportBiteSpectator(actingPlayer));
         turnOverFinder.add(new ReportTurnEnd(null, null, null));
         Optional<TurnOver> turnOverOpt = turnOverFinder.findTurnover();
@@ -73,7 +73,7 @@ public class TurnOverFinderBloodlustTest extends AbstractTurnOverFinderTest {
     @Test
     public void successBloodlust() throws Exception {
         turnOverFinder.add(new ReportPlayerAction(actingPlayer, PlayerAction.MOVE));
-        turnOverFinder.add(new ReportSkillRoll(ReportId.BLOOD_LUST_ROLL, actingPlayer, true, 2, 4));
+        turnOverFinder.add(new ReportSkillRoll(ReportId.BLOOD_LUST_ROLL, actingPlayer, true, 2, 4, false));
         turnOverFinder.add(new ReportTurnEnd(null, null, null));
         Optional<TurnOver> turnOverOpt = turnOverFinder.findTurnover();
         assertFalse("Successful dodge is not a turnover", turnOverOpt.isPresent());

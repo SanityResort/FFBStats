@@ -4,15 +4,9 @@
 package com.balancedbytes.games.ffb.client.handler;
 
 import com.balancedbytes.games.ffb.ClientMode;
-import com.balancedbytes.games.ffb.client.ClientData;
-import com.balancedbytes.games.ffb.client.ClientParameters;
 import com.balancedbytes.games.ffb.client.FantasyFootballClient;
 import com.balancedbytes.games.ffb.client.GameTitle;
-import com.balancedbytes.games.ffb.client.StatusReport;
 import com.balancedbytes.games.ffb.client.UserInterface;
-import com.balancedbytes.games.ffb.client.handler.ClientCommandHandler;
-import com.balancedbytes.games.ffb.client.handler.ClientCommandHandlerMode;
-import com.balancedbytes.games.ffb.client.ui.LogComponent;
 import com.balancedbytes.games.ffb.net.NetCommand;
 import com.balancedbytes.games.ffb.net.NetCommandId;
 import com.balancedbytes.games.ffb.net.commands.ServerCommandJoin;
@@ -59,9 +53,7 @@ extends ClientCommandHandler {
         this.getClient().getClientData().setSpectators(joinCommand.getSpectators());
         if (pMode != ClientCommandHandlerMode.REPLAYING) {
             if (ClientMode.PLAYER == joinCommand.getClientMode()) {
-                userInterface.getLog().markCommandBegin(joinCommand.getCommandNr());
                 userInterface.getStatusReport().reportJoin(joinCommand);
-                userInterface.getLog().markCommandEnd(joinCommand.getCommandNr());
             }
             this.refreshSideBars();
         }

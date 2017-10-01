@@ -9,7 +9,6 @@ import com.balancedbytes.games.ffb.client.ActionKey;
 import com.balancedbytes.games.ffb.client.FantasyFootballClient;
 import com.balancedbytes.games.ffb.client.GameTitle;
 import com.balancedbytes.games.ffb.client.UserInterface;
-import com.balancedbytes.games.ffb.client.ui.GameMenuBar;
 import com.balancedbytes.games.ffb.model.Game;
 
 public class ClientStateSpectate
@@ -35,7 +34,6 @@ extends ClientState {
             GameTitle gameTitle = userInterface.getGameTitle();
             gameTitle.setClientMode(ClientMode.SPECTATOR);
             userInterface.setGameTitle(gameTitle);
-            userInterface.getGameMenuBar().refresh();
         }
     }
 
@@ -44,8 +42,6 @@ extends ClientState {
         boolean actionHandled = false;
         if (pActionKey == ActionKey.MENU_REPLAY) {
             actionHandled = true;
-            this.getClient().getReplayer().start();
-            this.getClient().getUserInterface().getGameMenuBar().refresh();
             this.getClient().updateClientState();
         }
         return actionHandled;

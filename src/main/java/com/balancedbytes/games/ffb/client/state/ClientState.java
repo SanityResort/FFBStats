@@ -8,31 +8,23 @@ import com.balancedbytes.games.ffb.ClientStateId;
 import com.balancedbytes.games.ffb.FieldCoordinate;
 import com.balancedbytes.games.ffb.FieldCoordinateBounds;
 import com.balancedbytes.games.ffb.client.ActionKey;
-import com.balancedbytes.games.ffb.client.ClientData;
 import com.balancedbytes.games.ffb.client.FantasyFootballClient;
 import com.balancedbytes.games.ffb.client.FieldComponent;
 import com.balancedbytes.games.ffb.client.UserInterface;
-import com.balancedbytes.games.ffb.client.dialog.DialogManager;
 import com.balancedbytes.games.ffb.client.util.UtilClientCursor;
 import com.balancedbytes.games.ffb.client.util.UtilClientMarker;
-import com.balancedbytes.games.ffb.model.FieldModel;
 import com.balancedbytes.games.ffb.model.Game;
 import com.balancedbytes.games.ffb.model.Player;
 import com.balancedbytes.games.ffb.net.INetCommandHandler;
 import com.balancedbytes.games.ffb.net.NetCommand;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Graphics2D;
-import java.awt.Paint;
-import java.awt.Rectangle;
+
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
-import java.awt.image.BufferedImage;
-import javax.swing.JMenuItem;
-import javax.swing.JPopupMenu;
 
 public abstract class ClientState
 implements INetCommandHandler,
@@ -60,7 +52,6 @@ ActionListener {
 
     public void enterState() {
         UserInterface userInterface = this.getClient().getUserInterface();
-        userInterface.getDialogManager().updateDialog();
         UtilClientCursor.setDefaultCursor(userInterface);
     }
 
@@ -250,7 +241,7 @@ ActionListener {
     }
 
     public boolean isClickable() {
-        return this.fClickable && !this.getClient().getUserInterface().getDialogManager().isDialogVisible() && !this.fPopupMenuShown;
+        return this.fClickable && !this.fPopupMenuShown;
     }
 
     public void setSelectable(boolean pSelectable) {

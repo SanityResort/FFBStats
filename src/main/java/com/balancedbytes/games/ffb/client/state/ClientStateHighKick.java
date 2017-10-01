@@ -3,21 +3,13 @@
  */
 package com.balancedbytes.games.ffb.client.state;
 
-import com.balancedbytes.games.ffb.BoxType;
 import com.balancedbytes.games.ffb.ClientStateId;
 import com.balancedbytes.games.ffb.FieldCoordinate;
 import com.balancedbytes.games.ffb.PlayerState;
-import com.balancedbytes.games.ffb.client.ClientData;
 import com.balancedbytes.games.ffb.client.FantasyFootballClient;
-import com.balancedbytes.games.ffb.client.UserInterface;
-import com.balancedbytes.games.ffb.client.net.ClientCommunication;
-import com.balancedbytes.games.ffb.client.state.ClientState;
-import com.balancedbytes.games.ffb.client.ui.SideBarComponent;
 import com.balancedbytes.games.ffb.client.util.UtilClientCursor;
-import com.balancedbytes.games.ffb.model.FieldModel;
 import com.balancedbytes.games.ffb.model.Game;
 import com.balancedbytes.games.ffb.model.Player;
-import com.balancedbytes.games.ffb.model.Team;
 
 public class ClientStateHighKick
 extends ClientState {
@@ -83,13 +75,6 @@ extends ClientState {
 
     @Override
     public void endTurn() {
-        SideBarComponent sideBarHome = this.getClient().getUserInterface().getSideBarHome();
-        if (sideBarHome.getOpenBox() == BoxType.RESERVES) {
-            sideBarHome.closeBox();
-        }
-        this.getClient().getCommunication().sendEndTurn();
-        this.getClient().getClientData().setEndTurnButtonHidden(true);
-        sideBarHome.refresh();
     }
 }
 

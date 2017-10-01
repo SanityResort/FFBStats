@@ -6,16 +6,8 @@ package com.balancedbytes.games.ffb.client.state;
 import com.balancedbytes.games.ffb.ClientStateId;
 import com.balancedbytes.games.ffb.FieldCoordinate;
 import com.balancedbytes.games.ffb.FieldCoordinateBounds;
-import com.balancedbytes.games.ffb.client.ClientData;
 import com.balancedbytes.games.ffb.client.FantasyFootballClient;
-import com.balancedbytes.games.ffb.client.FieldComponent;
-import com.balancedbytes.games.ffb.client.UserInterface;
-import com.balancedbytes.games.ffb.client.net.ClientCommunication;
-import com.balancedbytes.games.ffb.client.state.ClientState;
-import com.balancedbytes.games.ffb.client.ui.SideBarComponent;
 import com.balancedbytes.games.ffb.client.util.UtilClientCursor;
-import com.balancedbytes.games.ffb.model.FieldModel;
-import com.balancedbytes.games.ffb.model.Game;
 import com.balancedbytes.games.ffb.model.Player;
 
 public class ClientStateKickoff
@@ -67,8 +59,6 @@ extends ClientState {
             this.fKicked = true;
             this.getClient().getCommunication().sendKickoff(ballCoordinate);
             this.getClient().getClientData().setEndTurnButtonHidden(true);
-            SideBarComponent sideBarHome = this.getClient().getUserInterface().getSideBarHome();
-            sideBarHome.refresh();
             UtilClientCursor.setDefaultCursor(this.getClient().getUserInterface());
         }
     }

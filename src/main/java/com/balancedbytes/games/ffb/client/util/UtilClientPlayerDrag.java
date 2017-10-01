@@ -8,16 +8,10 @@ import com.balancedbytes.games.ffb.FieldCoordinate;
 import com.balancedbytes.games.ffb.PlayerState;
 import com.balancedbytes.games.ffb.client.ClientData;
 import com.balancedbytes.games.ffb.client.FantasyFootballClient;
-import com.balancedbytes.games.ffb.client.FieldComponent;
 import com.balancedbytes.games.ffb.client.UserInterface;
-import com.balancedbytes.games.ffb.client.net.ClientCommunication;
-import com.balancedbytes.games.ffb.client.state.ClientState;
-import com.balancedbytes.games.ffb.client.ui.BoxComponent;
-import com.balancedbytes.games.ffb.client.ui.SideBarComponent;
-import com.balancedbytes.games.ffb.model.FieldModel;
 import com.balancedbytes.games.ffb.model.Game;
 import com.balancedbytes.games.ffb.model.Player;
-import com.balancedbytes.games.ffb.model.Team;
+
 import java.awt.event.MouseEvent;
 
 public class UtilClientPlayerDrag {
@@ -47,9 +41,6 @@ public class UtilClientPlayerDrag {
     private static FieldCoordinate getBoxFieldCoordinate(FantasyFootballClient pClient, int pMouseX, int pMouseY) {
         int boxTitleOffset;
         int y;
-        if (pMouseX >= 0 && pMouseX < 116 && pMouseY >= 0 && pMouseY < 430 && (y = (pMouseY - (boxTitleOffset = pClient.getUserInterface().getSideBarHome().getBoxComponent().getMaxTitleOffset())) / 39 * 3 + pMouseX / 39) >= 0 && y < 30) {
-            return new FieldCoordinate(-1, y);
-        }
         return null;
     }
 
@@ -80,7 +71,6 @@ public class UtilClientPlayerDrag {
                 clientData.setDragEndPosition(pCoordinate);
                 game.getFieldModel().setPlayerState(player, playerState.changeBase(15));
                 if (pBoxMode) {
-                    userInterface.getSideBarHome().refresh();
                 } else {
                     pClient.getClientState().hideSelectSquare();
                     userInterface.getFieldComponent().refresh();
@@ -102,7 +92,6 @@ public class UtilClientPlayerDrag {
             } else if (!coordinate.equals(clientData.getDragEndPosition())) {
                 game.getFieldModel().setPlayerCoordinate(clientData.getSelectedPlayer(), coordinate);
                 clientData.setDragEndPosition(coordinate);
-                userInterface.getSideBarHome().refresh();
                 userInterface.getFieldComponent().refresh();
             }
         }
@@ -135,7 +124,6 @@ public class UtilClientPlayerDrag {
             game.getFieldModel().setPlayerState(player, playerState.changeBase(1).changeActive(true));
         }
         UserInterface userInterface = pClient.getUserInterface();
-        userInterface.getSideBarHome().refresh();
         userInterface.getFieldComponent().refresh();
     }
 }

@@ -42,8 +42,8 @@ public class TurnOverFinderMiscTest extends AbstractTurnOverFinderTest {
     @Test
     public void kickBack() {
         turnOverFinder.add(new ReportPlayerAction(actingPlayer, PlayerAction.BLOCK));
-        turnOverFinder.add(new ReportSkillRoll(ReportId.CHAINSAW_ROLL, actingPlayer, false, 2, 1));
-        turnOverFinder.add(new ReportInjury(actingPlayer, true, null, null, null, null, null, null, null));
+        turnOverFinder.add(new ReportSkillRoll(ReportId.CHAINSAW_ROLL, actingPlayer, false, 2, 1, false));
+        turnOverFinder.add(new ReportInjury(actingPlayer, null, true, null, null, null, null, null, null, null, null, null, null, null));
         turnOverFinder.add(new ReportTurnEnd(null, null, null));
         Optional<TurnOver> turnOverOpt = turnOverFinder.findTurnover();
         assertTrue("Kickback with armour break is a turnover", turnOverOpt.isPresent());
@@ -58,8 +58,8 @@ public class TurnOverFinderMiscTest extends AbstractTurnOverFinderTest {
     @Test
     public void kickBackNoAvBreak() {
         turnOverFinder.add(new ReportPlayerAction(actingPlayer, PlayerAction.BLOCK));
-        turnOverFinder.add(new ReportSkillRoll(ReportId.CHAINSAW_ROLL, actingPlayer, false, 2, 1));
-        turnOverFinder.add(new ReportInjury(actingPlayer, false, null, null, null, null, null, null, null));
+        turnOverFinder.add(new ReportSkillRoll(ReportId.CHAINSAW_ROLL, actingPlayer, false, 2, 1, false));
+        turnOverFinder.add(new ReportInjury(actingPlayer,  null,false, null, null, null, null, null, null, null, null, null, null, null));
         Optional<TurnOver> turnOverOpt = turnOverFinder.findTurnover();
         assertFalse("Kickback without armour break is not a turnover", turnOverOpt.isPresent());
     }
@@ -67,10 +67,10 @@ public class TurnOverFinderMiscTest extends AbstractTurnOverFinderTest {
     @Test
     public void kickBackWithLeaderReRoll() {
         turnOverFinder.add(new ReportPlayerAction(actingPlayer, PlayerAction.BLOCK));
-        turnOverFinder.add(new ReportSkillRoll(ReportId.CHAINSAW_ROLL, actingPlayer, false, 2, 1));
-        turnOverFinder.add(new ReportReRoll(actingPlayer, ReRollSource.LEADER));
-        turnOverFinder.add(new ReportSkillRoll(ReportId.CHAINSAW_ROLL, actingPlayer, false, 2, 1));
-        turnOverFinder.add(new ReportInjury(actingPlayer, true, null, null, null, null, null, null, null));
+        turnOverFinder.add(new ReportSkillRoll(ReportId.CHAINSAW_ROLL, actingPlayer, false, 2, 1, false));
+        turnOverFinder.add(new ReportReRoll(actingPlayer, ReRollSource.LEADER, true, 6));
+        turnOverFinder.add(new ReportSkillRoll(ReportId.CHAINSAW_ROLL, actingPlayer, false, 2, 1, true));
+        turnOverFinder.add(new ReportInjury(actingPlayer,  null,true, null, null, null, null, null, null, null, null, null, null, null));
         turnOverFinder.add(new ReportTurnEnd(null, null, null));
         Optional<TurnOver> turnOverOpt = turnOverFinder.findTurnover();
         assertTrue("Kickback with armour break is a turnover", turnOverOpt.isPresent());
@@ -85,10 +85,10 @@ public class TurnOverFinderMiscTest extends AbstractTurnOverFinderTest {
     @Test
     public void kickBackWithTeamReroll() {
         turnOverFinder.add(new ReportPlayerAction(actingPlayer, PlayerAction.BLOCK));
-        turnOverFinder.add(new ReportSkillRoll(ReportId.CHAINSAW_ROLL, actingPlayer, false, 2, 1));
-        turnOverFinder.add(new ReportReRoll(actingPlayer, ReRollSource.TEAM_RE_ROLL));
-        turnOverFinder.add(new ReportSkillRoll(ReportId.CHAINSAW_ROLL, actingPlayer, false, 2, 1));
-        turnOverFinder.add(new ReportInjury(actingPlayer, true, null, null, null, null, null, null, null));
+        turnOverFinder.add(new ReportSkillRoll(ReportId.CHAINSAW_ROLL, actingPlayer, false, 2, 1, false));
+        turnOverFinder.add(new ReportReRoll(actingPlayer, ReRollSource.TEAM_RE_ROLL, true, 6));
+        turnOverFinder.add(new ReportSkillRoll(ReportId.CHAINSAW_ROLL, actingPlayer, false, 2, 1, true));
+        turnOverFinder.add(new ReportInjury(actingPlayer,  null,true, null, null, null, null, null, null, null, null, null, null, null));
         turnOverFinder.add(new ReportTurnEnd(null, null, null));
         Optional<TurnOver> turnOverOpt = turnOverFinder.findTurnover();
         assertTrue("Kickback with armour break is a turnover", turnOverOpt.isPresent());
@@ -103,10 +103,10 @@ public class TurnOverFinderMiscTest extends AbstractTurnOverFinderTest {
     @Test
     public void kickBackProReroll() {
         turnOverFinder.add(new ReportPlayerAction(actingPlayer, PlayerAction.BLOCK));
-        turnOverFinder.add(new ReportSkillRoll(ReportId.CHAINSAW_ROLL, actingPlayer, false, 2, 1));
-        turnOverFinder.add(new ReportReRoll(actingPlayer, ReRollSource.PRO));
-        turnOverFinder.add(new ReportSkillRoll(ReportId.CHAINSAW_ROLL, actingPlayer, false, 2, 1));
-        turnOverFinder.add(new ReportInjury(actingPlayer, true, null, null, null, null, null, null, null));
+        turnOverFinder.add(new ReportSkillRoll(ReportId.CHAINSAW_ROLL, actingPlayer, false, 2, 1, false));
+        turnOverFinder.add(new ReportReRoll(actingPlayer, ReRollSource.PRO, true, 6));
+        turnOverFinder.add(new ReportSkillRoll(ReportId.CHAINSAW_ROLL, actingPlayer, false, 2, 1, true));
+        turnOverFinder.add(new ReportInjury(actingPlayer, null, true, null, null, null, null, null, null, null, null, null, null, null));
         turnOverFinder.add(new ReportTurnEnd(null, null, null));
         Optional<TurnOver> turnOverOpt = turnOverFinder.findTurnover();
         assertTrue("Kickback with armour break is a turnover", turnOverOpt.isPresent());
@@ -120,8 +120,8 @@ public class TurnOverFinderMiscTest extends AbstractTurnOverFinderTest {
 
     @Test
     public void fireBallKnockDownOwnBallCarrier() {
-        turnOverFinder.add(new ReportSpecialEffectRoll(SpecialEffect.FIREBALL, actingPlayer, true, 6));
-        turnOverFinder.add(new ReportInjury(actingPlayer, false, null, null, null, null, null, null, null));
+        turnOverFinder.add(new ReportSpecialEffectRoll(SpecialEffect.FIREBALL, actingPlayer, 6, true));
+        turnOverFinder.add(new ReportInjury(actingPlayer, null, false, null, null, null, null, null, null, null, null, null, null, null));
         turnOverFinder.add(new ReportScatterBall());
         turnOverFinder.add(new ReportTurnEnd(null, null, null));
         Optional<TurnOver> turnOverOpt = turnOverFinder.findTurnover();
@@ -136,8 +136,8 @@ public class TurnOverFinderMiscTest extends AbstractTurnOverFinderTest {
 
     @Test
     public void lightningBoltKnockDownOwnBallCarrier() {
-        turnOverFinder.add(new ReportSpecialEffectRoll(SpecialEffect.LIGHTNING, actingPlayer, true, 6));
-        turnOverFinder.add(new ReportInjury(actingPlayer, false, null, null, null, null, null, null, null));
+        turnOverFinder.add(new ReportSpecialEffectRoll(SpecialEffect.LIGHTNING, actingPlayer, 6, true));
+        turnOverFinder.add(new ReportInjury(actingPlayer, null, false, null, null, null, null, null, null, null, null, null, null, null));
         turnOverFinder.add(new ReportScatterBall());
         turnOverFinder.add(new ReportTurnEnd(null, null, null));
         Optional<TurnOver> turnOverOpt = turnOverFinder.findTurnover();
@@ -152,7 +152,7 @@ public class TurnOverFinderMiscTest extends AbstractTurnOverFinderTest {
 
     @Test
     public void fireBallKnockDownOwnPlayer() {
-        turnOverFinder.add(new ReportSpecialEffectRoll(SpecialEffect.FIREBALL, actingPlayer, true, 6));
+        turnOverFinder.add(new ReportSpecialEffectRoll(SpecialEffect.FIREBALL, actingPlayer, 6, true));
         turnOverFinder.add(new ReportScatterBall());
         turnOverFinder.add(new ReportTurnEnd(null, null, null));
         Optional<TurnOver> turnOverOpt = turnOverFinder.findTurnover();
@@ -162,7 +162,7 @@ public class TurnOverFinderMiscTest extends AbstractTurnOverFinderTest {
     @Test
     public void lightningBoltKnockDownOwnPlayer() {
         turnOverFinder.setHomeTeamActive(true);
-        turnOverFinder.add(new ReportSpecialEffectRoll(SpecialEffect.LIGHTNING, actingPlayer, true, 6));
+        turnOverFinder.add(new ReportSpecialEffectRoll(SpecialEffect.LIGHTNING, actingPlayer, 6, true));
         Optional<TurnOver> turnOverOpt = turnOverFinder.findTurnover();
         assertFalse("Bolting your own player without the ball is a not turnover", turnOverOpt.isPresent());
     }

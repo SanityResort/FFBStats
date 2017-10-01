@@ -47,7 +47,7 @@ implements IReport {
         this.initRollModifiers(null);
     }
 
-    public ReportSkillRoll(ReportId pId, String pPlayerId, boolean pSuccessful, int pRoll, int pMinimumRoll, boolean pReRolled) {
+    public ReportSkillRoll(ReportId pId, String pPlayerId, boolean pSuccessful, int pMinimumRoll, int pRoll, boolean pReRolled) {
         this(pId, pPlayerId, pSuccessful, pRoll, pMinimumRoll, pReRolled, null);
     }
 
