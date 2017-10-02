@@ -1,5 +1,6 @@
 package org.butterbrot.ffb.stats.communication;
 
+import com.balancedbytes.games.ffb.json.LZString;
 import com.balancedbytes.games.ffb.net.NetCommand;
 import com.balancedbytes.games.ffb.net.NetCommandFactory;
 import com.balancedbytes.games.ffb.net.commands.ClientCommandReplay;
@@ -9,17 +10,25 @@ import org.eclipse.jetty.websocket.WebSocket;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.websocket.ClientEndpoint;
+import javax.websocket.CloseReason;
+import javax.websocket.EndpointConfig;
+import javax.websocket.OnClose;
+import javax.websocket.OnMessage;
+import javax.websocket.OnOpen;
+import javax.websocket.Session;
 import java.io.IOException;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
+@ClientEndpoint
 public class StatsCommandSocket
-implements WebSocket.OnTextMessage
 {
     private static final Logger logger = LoggerFactory.getLogger(StatsCommandSocket.class);
 
+    private Session fSession;
+
     private NetCommandFactory fNetCommandFactory;
-    private Connection fConnection;
     private boolean fCommandCompression;
     private final CountDownLatch fCloseLatch;
     private final CommandHandler statsHandler;
@@ -33,10 +42,9 @@ implements WebSocket.OnTextMessage
         this.fCommandCompression = compression;
     }
 
-    public void onOpen(Connection pConnection) {
-        this.fConnection = pConnection;
-        this.fConnection.setMaxIdleTime(Integer.MAX_VALUE);
-        this.fConnection.setMaxTextMessageSize(65536);
+    @OnOpen
+    public void onOpen(Session session, EndpointConfig endpointConfig) {
+        this.fSession = session;
         try {
             send(new ClientCommandReplay(replayId, 0));
         } catch (IOException e) {
@@ -44,18 +52,13 @@ implements WebSocket.OnTextMessage
         }
     }
 
+    @OnMessage
     public void onMessage(String pTextMessage) {
         try {
-            JsonValue jsonValue;
             if (!StringTool.isProvided(pTextMessage) || !this.isOpen()) {
                 return;
             }
-           /* try {
-                jsonValue = UtilJson.inflateFromBase64(pTextMessage);
-            } catch (IOException pIoException) {
-                jsonValue = null;
-            }*/
-            jsonValue = null; //UtilJson.inflateFromBase64(pTextMessage);
+            JsonValue jsonValue = JsonValue.readFrom(this.fCommandCompression ? LZString.decompressFromUTF16(pTextMessage) : pTextMessage);
 
             NetCommand netCommand = this.fNetCommandFactory.forJsonValue(jsonValue);
             if (netCommand == null) {
@@ -68,8 +71,8 @@ implements WebSocket.OnTextMessage
         }
     }
 
-    public void onClose(int pCloseCode, String pCloseReason) {
-        this.fConnection = null;
+    @OnClose
+    public void onClose(Session session, CloseReason closeReason) {
         this.fCloseLatch.countDown();
     }
 
@@ -81,28 +84,23 @@ implements WebSocket.OnTextMessage
         if (pCommand == null || !this.isOpen()) {
             return false;
         }
-        String textMessage = null;
+        JsonValue jsonValue = pCommand.toJsonValue();
+        if (jsonValue == null) {
+            return false;
+        }
+        String textMessage = jsonValue.toString();
         if (this.fCommandCompression) {
-          /*  try {
-                textMessage = UtilJson.deflateToBase64(pCommand.toJsonValue());
-            } catch (IOException ex) {
-                logger.error("Could not compress payload", ex);
-            }*/
-        } else {
-            JsonValue jsonValue = pCommand.toJsonValue();
-            if (jsonValue != null) {
-                textMessage = jsonValue.toString();
-            }
+            textMessage = LZString.compressToUTF16(textMessage);
         }
         if (!StringTool.isProvided(textMessage)) {
             return false;
         }
-        this.fConnection.sendMessage(textMessage);
+        this.fSession.getAsyncRemote().sendText(textMessage);
         return true;
     }
 
     private boolean isOpen() {
-        return this.fConnection != null && this.fConnection.isOpen();
+        return this.fSession != null && this.fSession.isOpen();
     }
 }
 

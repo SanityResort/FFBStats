@@ -6,7 +6,7 @@
 
     <groupId>org.butterbrot</groupId>
     <artifactId>ffbstats</artifactId>
-    <version>1.10.3</version>
+    <version>1.11.0-SNAPSHOT</version>
     <packaging>war</packaging>
     <build>
         <plugins>
@@ -40,7 +40,9 @@
                 <executions>
                     <execution>
                         <phase>package</phase>
-                        <goals><goal>copy</goal></goals>
+                        <goals>
+                            <goal>copy</goal>
+                        </goals>
                         <configuration>
                             <artifactItems>
                                 <artifactItem>
@@ -106,7 +108,22 @@
         </dependency>
         <dependency>
             <groupId>org.glassfish.tyrus</groupId>
+            <artifactId>tyrus-core</artifactId>
+            <version>1.13.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.tyrus</groupId>
             <artifactId>tyrus-client</artifactId>
+            <version>1.13.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.tyrus</groupId>
+            <artifactId>tyrus-container-jdk-client</artifactId>
+            <version>1.13.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.tyrus</groupId>
+            <artifactId>tyrus-spi</artifactId>
             <version>1.13.1</version>
         </dependency>
     </dependencies>

@@ -1,5 +1,6 @@
 package org.butterbrot.ffb.stats;
 
+import com.balancedbytes.games.ffb.client.net.CommandEndpoint;
 import com.balancedbytes.games.ffb.net.commands.ServerCommand;
 import com.google.gson.Gson;
 import org.butterbrot.ffb.stats.collections.StatsCollection;
@@ -14,6 +15,9 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
+import javax.websocket.ContainerProvider;
+import javax.websocket.Session;
+import javax.websocket.WebSocketContainer;
 import java.net.InetAddress;
 import java.net.URI;
 import java.util.ArrayList;
@@ -42,36 +46,29 @@ public class StatsProvider {
         List<ServerCommand> replayCommands = new ArrayList<>();
         StatsCollector collector = new StatsCollector(replayCommands);
         CommandHandler statsHandler = new CommandHandler(collector);
-        WebSocketClientFactory webSocketClientFactory = new WebSocketClientFactory();
         StatsCommandSocket commandSocket = new StatsCommandSocket(Long.valueOf(replayId), compression, statsHandler);
-
+        Session session;
         try {
-            webSocketClientFactory.start();
             URI uri = new URI("ws", null, InetAddress.getByName(server).getCanonicalHostName(), port, "/command", null, null);
-            WebSocketClient fWebSocketClient = webSocketClientFactory.newWebSocketClient();
-            fWebSocketClient.open(uri, commandSocket).get();
+            WebSocketContainer container = ContainerProvider.getWebSocketContainer();
+            container.setDefaultMaxSessionIdleTimeout(Integer.MAX_VALUE);
+            container.setDefaultMaxTextMessageBufferSize(65536);
+            session = container.connectToServer(commandSocket, uri);
 
         } catch (Exception e) {
-            if (webSocketClientFactory.isRunning()) {
-                try {
-                    webSocketClientFactory.stop();
-                } catch (Exception e1) {
-                    logger.error("Could not stop factory for clean up", e1);
-                }
-            }
             logger.error("Could not start websocket", e);
             throw new IllegalStateException("Could not start websocket", e);
         }
         synchronized (replayCommands) {
             try {
-                replayCommands.wait(100000);
+                replayCommands.wait(10000);
             } catch (InterruptedException e) {
                 //
             }
         }
 
         try {
-            webSocketClientFactory.stop();
+            session.close();
             commandSocket.awaitClose(1, TimeUnit.SECONDS);
         } catch (Exception e) {
             logger.error("Could not stop websocket factory", e);

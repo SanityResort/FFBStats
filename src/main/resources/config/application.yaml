@@ -1,7 +1,7 @@
 connection:
   server: fumbbl.com
   port: 22223
-  compression: false
+  compression: true
 
 zmq:
   senderEndpoint: tcp://localhost:44445
