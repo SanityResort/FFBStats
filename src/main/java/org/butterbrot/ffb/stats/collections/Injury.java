@@ -1,6 +1,6 @@
 package org.butterbrot.ffb.stats.collections;
 
-public class Injury {
+public class Injury  implements Data {
     private String playerId;
     private InjuryState state;
 

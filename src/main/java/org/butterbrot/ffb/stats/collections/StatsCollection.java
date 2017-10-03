@@ -16,7 +16,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class StatsCollection {
+public class StatsCollection  implements Data {
 
     private boolean finished = false;
     private TeamStatsCollection home;

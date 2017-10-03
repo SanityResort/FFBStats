@@ -1,6 +1,6 @@
 package org.butterbrot.ffb.stats.collections;
 
-public class ArmourBreaks {
+public class ArmourBreaks implements Data {
     private int unmodified;
     private int withMB;
     private int withPO;
