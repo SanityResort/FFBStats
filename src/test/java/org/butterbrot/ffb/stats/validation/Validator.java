@@ -3,6 +3,7 @@ package org.butterbrot.ffb.stats.validation;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.util.StringUtils;
 
 import java.lang.reflect.ParameterizedType;
 
@@ -49,5 +50,10 @@ public abstract class Validator<T> {
 
     protected void logDifference(String fieldName, String expected, String actual) {
         getLogger().error("Field '{}' differs: '{}' does not match '{}'", fieldName, expected, actual);
+    }
+
+    protected String getCompoundName(String prefix, String fieldName) {
+        return StringUtils.isEmpty(prefix) ? fieldName : String.join(prefix,
+                PREFIX_DELIM, fieldName);
     }
 }

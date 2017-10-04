@@ -7,14 +7,21 @@ import org.butterbrot.ffb.stats.collections.InjuryState;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.List;
+
 public class ValidationRunner {
 
     private static final Logger logger = LoggerFactory.getLogger(ValidationRunner.class);
 
     public static void main(String[] args) {
-        DataValidator validator = new DataValidator();
-        validator.setDelegateValidators(Lists.newArrayList(validator, new StringValidator(), new InjuryStateValidator
-                (), new IntegerValidator()));
+        DataValidator dataValidator = new DataValidator();
+        ListValidator listValidator = new ListValidator();
+        MapValidator mapValidator = new MapValidator();
+        List<Validator> delegates = Lists.newArrayList(dataValidator, new StringValidator(), new InjuryStateValidator
+                (), new IntegerValidator(), listValidator, mapValidator);
+        dataValidator.setDelegateValidators(delegates);
+        listValidator.setDelegateValidators(delegates);
+        mapValidator.setDelegateValidators(delegates);
 
         Injury baseline = new Injury("player1", InjuryState.BH);
         Injury toValidate = new Injury("player2", InjuryState.SI);
@@ -30,8 +37,8 @@ public class ValidationRunner {
         toValidateBreaks.addArmourBreak(false, false);
 
         logger.info("Starting validation");
-        validator.validate(baseline, toValidate);
-        validator.validate(baselineBreaks, toValidateBreaks);
+        dataValidator.validate(baseline, toValidate);
+        dataValidator.validate(baselineBreaks, toValidateBreaks);
         logger.info("Finished validation");
     }
 
