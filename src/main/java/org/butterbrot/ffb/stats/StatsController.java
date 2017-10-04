@@ -2,7 +2,7 @@ package org.butterbrot.ffb.stats;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
-import com.google.common.util.concurrent.UncheckedExecutionException;
+import com.google.gson.Gson;
 import org.butterbrot.ffb.stats.model.GameDistribution;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,69 +15,60 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutionException;
+import java.io.IOException;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 @Controller
 @EnableAutoConfiguration
 @ComponentScan
 @SpringBootApplication
-@ConfigurationProperties(prefix = "cache")
+@ConfigurationProperties(prefix = "debug")
 public class StatsController {
 
     private static final Logger logger = LoggerFactory.getLogger(StatsController.class);
 
-    private int cacheSize;
-
-    private Cache<String, GameDistribution> cache = CacheBuilder.newBuilder().maximumSize(cacheSize).build();
+    private boolean active;
+    private String logPathTemplate;
 
     @Resource
     private StatsProvider provider;
 
     @RequestMapping(value = "/stats/{replayId}")
-    public String stats(@PathVariable(value = "replayId") final String replayId, Model model) {
-        model.addAttribute("replayId", replayId);
+    @ResponseBody
+    public String stats(@PathVariable(value = "replayId") final String replayId) throws NoSuchReplayException, IOException {
+
+        String statsJson = new Gson().toJson(provider.stats(replayId));
 
         try {
-            GameDistribution gameDistribution = cache.get(replayId, new Callable<GameDistribution>() {
-                @Override
-                public GameDistribution call() throws Exception {
-                    return provider.distribution(replayId);
-                }
-            });
+            if (active) {
+                String jsonFile = String.format(logPathTemplate, replayId);
+                logger.info("Creating json file: {}", jsonFile);
+                Path jsonPath = Paths.get(jsonFile);
+                Files.write(jsonPath, statsJson.getBytes(Charset.forName("UTF-8")));
 
-            if (!gameDistribution.isFinished()) {
-                cache.invalidate(replayId);
             }
-
-            model.addAttribute("game", gameDistribution);
-            return "stats";
-        } catch (ExecutionException e) {
-
-            if (e.getCause() instanceof NoSuchReplayException) {
-                return "notfound";
-            }
-            logger.error("Could not load replay", e.getCause());
-            return "error";
-
-        } catch (UncheckedExecutionException e) {
-            logger.error("Could not load replay", e.getCause());
-            return "error";
+        } catch (Throwable err) {
+            logger.error("Error writing file", err);
         }
+        return statsJson;
     }
 
-    @RequestMapping("/")
-    public String index() {
-        return "index";
-    }
     // for local testing
     public static void main(String[] args) {
         SpringApplication.run(StatsController.class, args);
     }
 
-    public void setCacheSize(int cacheSize) {
-        this.cacheSize = cacheSize;
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
+    public void setLogPathTemplate(String logPathTemplate) {
+        this.logPathTemplate = logPathTemplate;
     }
 }

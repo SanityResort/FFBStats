@@ -81,12 +81,6 @@ public class StatsProvider {
         return collector.evaluate(replayId);
     }
 
-    public GameDistribution distribution(String replayId) throws NoSuchReplayException {
-        StatsCollection stats = stats(replayId);
-        System.out.println( new Gson().toJson(stats));
-        return new GameDistribution(stats, replayId);
-    }
-
         // keep those for property injection
     public void setServer(String server) {
         this.server = server;

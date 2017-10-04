@@ -10,3 +10,7 @@ zmq:
 
 cache:
   cacheSize: 10000
+
+debug:
+  active: false
+  logPathTemplate: src/test/resources/baseline/%s.json
