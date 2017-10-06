@@ -104,9 +104,8 @@ public class TurnOverFinder {
                         successfulPass = true;
                     } else if (ReportId.CATCH_ROLL == report.getId()) {
                         if (homePlayers.contains(skillRoll.getPlayerId()) == homePlayers.contains(activePlayer)) {
-                            if (reportSkillRoll != null && (reportSkillRoll.getId() == ReportId.PASS_ROLL && ((ReportPassRoll) reportSkillRoll).isFumble() || reportSkillRoll.getId() == ReportId.PICK_UP_ROLL)) {
-                                continue;
-                            } else {
+                            if (reportSkillRoll == null || !(reportSkillRoll.getId() == ReportId.PASS_ROLL &&
+                                    ((ReportPassRoll) reportSkillRoll).isFumble() || reportSkillRoll.getId() == ReportId.PICK_UP_ROLL)) {
                                 reportSkillRoll = null;
                                 reportReRoll = null;
                             }
@@ -142,7 +141,7 @@ public class TurnOverFinder {
                     } else if (reportSkillRoll != null && ReportId.CHAINSAW_ROLL == reportSkillRoll.getId() && !injury.isArmorBroken()) {
                         reportSkillRoll = null;
                         reportReRoll = null;
-                    } else if (reportSkillRoll!= null && ReportId.RIGHT_STUFF_ROLL == reportSkillRoll.getId()) {
+                    } else if (reportSkillRoll != null && ReportId.RIGHT_STUFF_ROLL == reportSkillRoll.getId()) {
                         if (injury.getDefenderId().equals(reportSkillRoll.getPlayerId())) {
                             landingFailed = true;
                             continue;
