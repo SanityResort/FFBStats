@@ -41,13 +41,42 @@ public class ValidationIntegrationTest {
     private JsonConverter converter;
 
     @Test
-    public void validateBaseline() throws IOException {
+    public void replay861710() throws IOException {
+        validateBaseline("861710");
+    }
+
+    @Test
+    public void replay1004777() throws IOException {
+        validateBaseline("1004777");
+    }
+
+    @Test
+    public void replay1005000() throws IOException {
+        validateBaseline("1005000");
+    }
+
+    @Test
+    public void replay1005001() throws IOException {
+        validateBaseline("1005001");
+    }
+
+    @Test
+    public void replay1005002() throws IOException {
+        validateBaseline("1005002");
+    }
+
+    @Test
+    public void replay1005014() throws IOException {
+        validateBaseline("1005014");
+    }
+
+    private void validateBaseline(String replayId) throws IOException {
         DataValidator dataValidator = new DataValidator();
         ListValidator listValidator = new ListValidator();
         MapValidator mapValidator = new MapValidator();
         IntArrayValidator intArrayValidator = new IntArrayValidator();
-        List<Validator> delegates = Lists.newArrayList(dataValidator, new StringValidator(), new InjuryStateValidator
-                (), new IntegerValidator(), listValidator, mapValidator, new BooleanValidator(), intArrayValidator);
+        List<Validator> delegates = Lists.newArrayList(dataValidator, new StringValidator(), new InjuryStateValidator(),
+                new IntegerValidator(), listValidator, mapValidator, new BooleanValidator(), intArrayValidator);
         dataValidator.setDelegateValidators(delegates);
         listValidator.setDelegateValidators(delegates);
         mapValidator.setDelegateValidators(delegates);
@@ -55,8 +84,8 @@ public class ValidationIntegrationTest {
 
 
         logger.info("Starting validation");
-        StatsCollection baseline = getExpectedStatsCollection("1004777");
-        StatsCollection toValidate = getActualCollection("1004777");
+        StatsCollection baseline = getExpectedStatsCollection(replayId);
+        StatsCollection toValidate = getActualCollection(replayId);
         assertTrue(dataValidator.validate(baseline, toValidate));
         logger.info("Finished validation");
     }
