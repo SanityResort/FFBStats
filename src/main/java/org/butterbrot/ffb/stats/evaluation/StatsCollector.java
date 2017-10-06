@@ -1,4 +1,4 @@
-package org.butterbrot.ffb.stats;
+package org.butterbrot.ffb.stats.evaluation;
 
 import com.balancedbytes.games.ffb.HeatExhaustion;
 import com.balancedbytes.games.ffb.KnockoutRecovery;

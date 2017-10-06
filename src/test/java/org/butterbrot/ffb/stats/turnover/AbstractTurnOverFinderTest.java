@@ -1,5 +1,6 @@
-package org.butterbrot.ffb.stats;
+package org.butterbrot.ffb.stats.turnover;
 
+import org.butterbrot.ffb.stats.evaluation.TurnOverFinder;
 import org.junit.Before;
 
 import java.lang.reflect.Field;

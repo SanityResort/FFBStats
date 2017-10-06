@@ -1,4 +1,4 @@
-package org.butterbrot.ffb.stats;
+package org.butterbrot.ffb.stats.web;
 
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.context.web.SpringBootServletInitializer;

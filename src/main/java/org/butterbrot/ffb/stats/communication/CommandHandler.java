@@ -8,7 +8,7 @@ import com.balancedbytes.games.ffb.net.commands.ServerCommandGameState;
 import com.balancedbytes.games.ffb.net.commands.ServerCommandReplay;
 import com.eclipsesource.json.JsonArray;
 import com.eclipsesource.json.JsonObject;
-import org.butterbrot.ffb.stats.StatsCollector;
+import org.butterbrot.ffb.stats.evaluation.StatsCollector;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

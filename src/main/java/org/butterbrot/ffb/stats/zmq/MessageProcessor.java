@@ -10,7 +10,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import org.butterbrot.ffb.stats.StatsCollector;
+import org.butterbrot.ffb.stats.evaluation.StatsCollector;
 import org.butterbrot.ffb.stats.model.StatsCollection;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
