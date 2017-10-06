@@ -3,6 +3,7 @@ package org.butterbrot.ffb.stats.validation;
 import com.google.common.collect.Lists;
 import com.google.gson.Gson;
 import org.butterbrot.ffb.stats.StatsStarter;
+import org.butterbrot.ffb.stats.conversion.JsonConverter;
 import org.butterbrot.ffb.stats.conversion.Unzipper;
 import org.butterbrot.ffb.stats.model.StatsCollection;
 import org.junit.Test;
@@ -34,6 +35,8 @@ public class ValidationIntegrationTest {
 
     @Resource
     private Unzipper unzipper;
+    @Resource
+    private JsonConverter converter;
 
     @Test
     public void validateBaseline() throws IOException {
@@ -51,8 +54,7 @@ public class ValidationIntegrationTest {
 
         logger.info("Starting validation");
         StatsCollection baseline = getExpectedStatsCollection("1004777");
-        StatsCollection toValidate = getExpectedStatsCollection("1004778");
-
+        StatsCollection toValidate = getActualCollection("1004777");
         dataValidator.validate(baseline, toValidate);
         logger.info("Finished validation");
     }
@@ -62,14 +64,16 @@ public class ValidationIntegrationTest {
         return gson.fromJson(reader, StatsCollection.class);
     }
 
-    private StatsCollection getTestCollection(String replayId) throws IOException {
+    private StatsCollection getActualCollection(String replayId) throws IOException {
         byte[] bytes = Files.readAllBytes(Paths.get(String.format(inputPathTemplate, replayId)));
-
-
-        return null;
+        return converter.convert(unzipper.fromGZip(bytes), replayId);
     }
 
     public void setOutputPathTemplate(String outputPathTemplate) {
         this.outputPathTemplate = outputPathTemplate;
+    }
+
+    public void setInputPathTemplate(String inputPathTemplate) {
+        this.inputPathTemplate = inputPathTemplate;
     }
 }

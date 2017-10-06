@@ -38,7 +38,6 @@ public class CommandHandler implements INetCommandHandler {
     @Override
     public void handleCommand(NetCommand pNetCommand) {
 
-
         List<ServerCommand> replayCommands = statsCollector.getReplayCommands();
         switch (pNetCommand.getId()) {
             case SERVER_GAME_STATE:
