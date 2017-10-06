@@ -20,14 +20,13 @@ public abstract class Validator<T> {
     /**
      * Performs the validation, the method is expected to log differences and only differences between <code>baseline</code>
      * and <code>toValidate</code> or to delegate validation of complex types
-     *
-     * @param fieldPrefix prefix for log messages, this contains the path to the object to be validated within the
+     *  @param fieldPrefix prefix for log messages, this contains the path to the object to be validated within the
      *                    parent object hierarchy. Implementors are expected to concatenate this path with the
      *                    name of each child field that is evaluated, delimited by <code>PREFIX_DELIM</code>
      * @param baseline    the desired value
      * @param toValidate  the actual value
      */
-    public abstract void validate(String fieldPrefix, T baseline, T toValidate);
+    public abstract boolean validate(String fieldPrefix, T baseline, T toValidate);
 
     /**
      * Indicator method if this class can handle the passed object.

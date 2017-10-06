@@ -10,19 +10,21 @@ public class IntArrayValidator extends DelegatingValidator<int[], Integer> {
     }
 
     @Override
-    public void validate(String fieldPrefix, int[] baseline, int[] toValidate) {
+    public boolean validate(String fieldPrefix, int[] baseline, int[] toValidate) {
+        boolean result = true;
         int baselineSize = baseline.length;
         int toValidateSize = toValidate.length;
         if (baselineSize != toValidateSize) {
             logDifference(getCompoundName(fieldPrefix, "length"), String.valueOf(baselineSize), String
                     .valueOf(toValidateSize));
-            return;
+            result = false;
         }
         for (int index=0; index< baselineSize; index++) {
             String compoundFieldName = getCompoundName(fieldPrefix, "[" + index + "]");
             int baselineField = baseline[index];
-            delegate(compoundFieldName, baselineField, toValidate[index]);
+            result = delegate(compoundFieldName, baselineField, toValidate[index]) && result;
         }
+        return result;
     }
 
     @Override

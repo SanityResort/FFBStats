@@ -21,6 +21,8 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
 
+import static org.junit.Assert.assertTrue;
+
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = StatsStarter.class)
 @ConfigurationProperties(prefix = "debug")
@@ -55,7 +57,7 @@ public class ValidationIntegrationTest {
         logger.info("Starting validation");
         StatsCollection baseline = getExpectedStatsCollection("1004777");
         StatsCollection toValidate = getActualCollection("1004777");
-        dataValidator.validate(baseline, toValidate);
+        assertTrue(dataValidator.validate(baseline, toValidate));
         logger.info("Finished validation");
     }
 

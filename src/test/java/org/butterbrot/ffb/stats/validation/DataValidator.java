@@ -14,12 +14,13 @@ public class DataValidator extends DelegatingValidator<Data, Object> {
         this.validators = validators;
     }
 
-    public void validate(Data baseline, Data toValidate) {
-        validate("", baseline, toValidate);
+    public boolean validate(Data baseline, Data toValidate) {
+        return validate("", baseline, toValidate);
     }
 
     @Override
-    public void validate(String fieldPrefix, Data baseline, Data toValidate) {
+    public boolean validate(String fieldPrefix, Data baseline, Data toValidate) {
+        boolean result = true;
 
         for (Field field : baseline.getClass().getDeclaredFields()) {
             if (!Modifier.isTransient(field.getModifiers())) {
@@ -27,9 +28,11 @@ public class DataValidator extends DelegatingValidator<Data, Object> {
                 Object baseField = ReflectionTestUtils.getField(baseline, fieldName);
                 Object toValidateField = ReflectionTestUtils.getField(toValidate, fieldName);
                 String compoundFieldName = getCompoundName(fieldPrefix, fieldName);
-                delegate(compoundFieldName, baseField, toValidateField);
+                result = delegate(compoundFieldName, baseField, toValidateField) && result;
             }
         }
+
+        return result;
     }
 
     @Override

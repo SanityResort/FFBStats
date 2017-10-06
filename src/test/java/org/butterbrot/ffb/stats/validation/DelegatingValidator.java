@@ -4,21 +4,21 @@ abstract class DelegatingValidator<T, S> extends Validator<T> {
 
     abstract Iterable<Validator> getValidators();
 
-    void delegate(String compoundFieldName, S baseline, S toValidate){
+    boolean delegate(String compoundFieldName, S baseline, S toValidate){
         if (baseline == null) {
             if (toValidate != null) {
                 logDifference(compoundFieldName, null, toValidate.toString());
+                return false;
             }
-            return;
+            return true;
         } else if ( toValidate == null) {
             logDifference(compoundFieldName, baseline.toString(), null);
-            return;
+            return false;
         }
 
         for (Validator validator : getValidators()) {
             if (validator.handles(baseline)) {
-                validator.validate(compoundFieldName, baseline, toValidate);
-                return;
+                return validator.validate(compoundFieldName, baseline, toValidate);
             }
         }
         throw new IllegalArgumentException("Could not find a suitable validator for element " + compoundFieldName + "" +

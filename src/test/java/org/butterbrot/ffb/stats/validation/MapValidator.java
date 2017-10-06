@@ -11,20 +11,22 @@ public class MapValidator extends DelegatingValidator<Map<Object, Object>, Objec
     }
 
     @Override
-    public void validate(String fieldPrefix, Map<Object, Object> baseline, Map<Object, Object> toValidate) {
-
+    public boolean validate(String fieldPrefix, Map<Object, Object> baseline, Map<Object, Object> toValidate) {
+        boolean result = true;
         int baselineSize = baseline.size();
         int toValidateSize = toValidate.size();
         if (baselineSize != toValidateSize) {
             logDifference(getCompoundName(fieldPrefix, "size"), String.valueOf(baselineSize), String
                     .valueOf(toValidateSize));
-            return;
+            result = false;
         }
         for (Object key: baseline.keySet()) {
             String compoundFieldName = getCompoundName(fieldPrefix, key.toString());
 
-            delegate(compoundFieldName, baseline.get(key), toValidate.get(key));
+            result = delegate(compoundFieldName, baseline.get(key), toValidate.get(key)) && result;
         }
+
+        return result;
     }
 
     @Override
