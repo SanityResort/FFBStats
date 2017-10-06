@@ -22,6 +22,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.zip.GZIPOutputStream;
 
+import static org.butterbrot.ffb.stats.Constants.*;
+
 public class CommandHandler implements INetCommandHandler {
 
     private static final Logger logger = LoggerFactory.getLogger(CommandHandler.class);
@@ -69,14 +71,14 @@ public class CommandHandler implements INetCommandHandler {
 
     public void logInputFile(String inputPath) {
         JsonObject root = new JsonObject();
-        root.add("game", game.toJsonValue());
+        root.add(FIELD_GAME, game.toJsonValue());
         JsonObject gameLog = new JsonObject();
         JsonArray array = new JsonArray();
         for (ServerCommand command : statsCollector.getReplayCommands()) {
             array.add(command.toJsonValue());
         }
-        gameLog.add("commandArray", array);
-        root.add("gameLog", gameLog);
+        gameLog.add(FIELD_COMMAND_ARRAY, array);
+        root.add(FIELD_GAME_LOG, gameLog);
 
         try (OutputStream fileOutputStream = new FileOutputStream(new File(inputPath));
              OutputStream gzipStream = new GZIPOutputStream(fileOutputStream);

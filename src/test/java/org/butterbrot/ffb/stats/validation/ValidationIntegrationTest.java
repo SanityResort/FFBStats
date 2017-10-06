@@ -3,6 +3,7 @@ package org.butterbrot.ffb.stats.validation;
 import com.google.common.collect.Lists;
 import com.google.gson.Gson;
 import org.butterbrot.ffb.stats.StatsStarter;
+import org.butterbrot.ffb.stats.conversion.Unzipper;
 import org.butterbrot.ffb.stats.model.StatsCollection;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,6 +13,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import javax.annotation.Resource;
 import java.io.IOException;
 import java.io.Reader;
 import java.nio.file.Files;
@@ -28,7 +30,10 @@ public class ValidationIntegrationTest {
     private Gson gson = new Gson();
 
     private String outputPathTemplate;
+    private String inputPathTemplate;
 
+    @Resource
+    private Unzipper unzipper;
 
     @Test
     public void validateBaseline() throws IOException {
@@ -57,7 +62,8 @@ public class ValidationIntegrationTest {
         return gson.fromJson(reader, StatsCollection.class);
     }
 
-    private StatsCollection getTestCollection(String replayId) {
+    private StatsCollection getTestCollection(String replayId) throws IOException {
+        byte[] bytes = Files.readAllBytes(Paths.get(String.format(inputPathTemplate, replayId)));
 
 
         return null;

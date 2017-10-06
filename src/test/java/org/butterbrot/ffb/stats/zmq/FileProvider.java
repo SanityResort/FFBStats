@@ -1,4 +1,4 @@
-package org.butterbrot.zmq;
+package org.butterbrot.ffb.stats.zmq;
 
 import zmq.Ctx;
 import zmq.Msg;
