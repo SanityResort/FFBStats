@@ -41,6 +41,7 @@ import com.balancedbytes.games.ffb.report.ReportWeather;
 import com.balancedbytes.games.ffb.report.ReportWinningsRoll;
 import com.balancedbytes.games.ffb.report.ReportWizardUse;
 import com.balancedbytes.games.ffb.util.ArrayTool;
+import org.butterbrot.ffb.stats.adapter.ReportPoInjury;
 import org.butterbrot.ffb.stats.model.StatsCollection;
 import org.springframework.util.StringUtils;
 
@@ -92,7 +93,7 @@ public class StatsCollector {
         ReportPilingOn poReport = null;
         boolean isActionTurn = false;
         boolean ballScatters = false;
-        Deque<ReportInjury> injuries = new ArrayDeque<>();
+        Deque<ReportPoInjury> injuries = new ArrayDeque<>();
         for (ServerCommand command : replayCommands) {
             if (command instanceof ServerCommandModelSync) {
                 ServerCommandModelSync modelSync = (ServerCommandModelSync) command;
@@ -183,11 +184,8 @@ public class StatsCollector {
                             }
                         }
                         if (injury.isArmorBroken()) {
-                            injuries.addLast(injury);
-                            if (poReport != null) {
-                                injury.setPoReport(poReport);
-                                poReport = null;
-                            }
+                            injuries.addLast(new ReportPoInjury(injury, poReport));
+                            poReport = null;
                             // if the armour is broken report the injury roll, but only if both injury dice are not 0. this
                             // should prevent errors when fanatic armour is broken, as this might be reported with weird data.
                             if (ArrayTool.isProvided(injury.getInjuryRoll()) && injury.getInjuryRoll()[0] * injury.getInjuryRoll()[1] > 0) {

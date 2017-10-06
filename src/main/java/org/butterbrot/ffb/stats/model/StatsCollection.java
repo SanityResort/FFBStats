@@ -6,8 +6,8 @@ import com.balancedbytes.games.ffb.TurnMode;
 import com.balancedbytes.games.ffb.model.Player;
 import com.balancedbytes.games.ffb.model.Team;
 import com.balancedbytes.games.ffb.report.ReportId;
-import com.balancedbytes.games.ffb.report.ReportInjury;
 import com.google.common.collect.Lists;
+import org.butterbrot.ffb.stats.adapter.ReportPoInjury;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -217,8 +217,8 @@ public class StatsCollection  implements Data {
         currentDrive.addTurn(new Turn(isHomeActive, turnMode.getName(), turnNumber, home));
     }
 
-    public void addArmourAndInjuryStats(Collection<ReportInjury> injuries) {
-        for (ReportInjury injury : injuries) {
+    public void addArmourAndInjuryStats(Collection<ReportPoInjury> injuries) {
+        for (ReportPoInjury injury : injuries) {
             TeamStatsCollection team = getOpposition(teams.get(injury.getDefenderId()));
             TeamStatsCollection turnTeam = turnTeam(team);
             int effectiveAV = armourValues.get(injury.getDefenderId());

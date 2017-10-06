@@ -36,7 +36,6 @@ implements IReport {
     private SeriousInjury fSeriousInjuryDecay;
     private PlayerState fInjury;
     private PlayerState fInjuryDecay;
-    private ReportPilingOn poReport;
 
     public ReportInjury() {
     }
@@ -57,14 +56,6 @@ implements IReport {
         this.fInjury = pInjury;
         this.fInjuryDecay = pInjuryDecay;
         this.fAttackerId = pAttackerId;
-    }
-
-    public ReportPilingOn getPoReport() {
-        return poReport;
-    }
-
-    public void setPoReport(ReportPilingOn poReport) {
-        this.poReport = poReport;
     }
 
     @Override
