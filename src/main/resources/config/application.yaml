@@ -12,5 +12,7 @@ cache:
   cacheSize: 10000
 
 debug:
-  active: false
-  logPathTemplate: src/test/resources/baseline/%s.json
+  activateOutputLog: false
+  outputPathTemplate: src/test/resources/baseline/output/%s.json
+  activateInputLog: false
+  inputPathTemplate: src/test/resources/baseline/input/%s.gz

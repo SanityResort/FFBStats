@@ -31,7 +31,7 @@ public class ValidationIntegrationTest {
 
     private static final Logger logger = LoggerFactory.getLogger(ValidationIntegrationTest.class);
 
-    private String logPathTemplate;
+    private String outputPathTemplate;
 
     @Test
     public void validateBaseline() {
@@ -69,7 +69,7 @@ public class ValidationIntegrationTest {
         return null;
     }
 
-    public void setLogPathTemplate(String logPathTemplate) {
-        this.logPathTemplate = logPathTemplate;
+    public void setOutputPathTemplate(String outputPathTemplate) {
+        this.outputPathTemplate = outputPathTemplate;
     }
 }

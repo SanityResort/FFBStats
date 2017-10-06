@@ -11,18 +11,20 @@ import java.nio.file.Paths;
 
 public class FileProvider {
 
-    private static String filename = "src/test/resources/1005014.gz";
+    private static String filename = "src/test/resources/baseline/input/%s.gz";
 
     public static void main(String[] args) throws IOException {
-
-        byte[] bytes = Files.readAllBytes(Paths.get(filename));
 
         Ctx ctx = ZMQ.init(1);
         SocketBase sb = ZMQ.socket(ctx, ZMQ.ZMQ_REP);
         ZMQ.bind(sb, "tcp://localhost:44446");
         while (true) {
-            sb.recv(0);
+            Msg msg = sb.recv(0);
+            String replayId = new String(msg.data());
             System.out.println("received");
+
+            byte[] bytes = Files.readAllBytes(Paths.get(String.format(filename, replayId)));
+
             sb.send(new Msg(bytes), 0);
             System.out.println("sent");
         }

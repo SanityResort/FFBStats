@@ -21,6 +21,7 @@ import zmq.Msg;
 import zmq.SocketBase;
 import zmq.ZMQ;
 
+import javax.annotation.Resource;
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.InputStreamReader;
@@ -107,6 +108,7 @@ public class MessageProcessor implements Runnable {
                     StatsCollector collector = new StatsCollector(replayCommands);
                     collector.setHomeTeam(home);
                     collector.setAwayTeam(away);
+
                     StatsCollection collection = collector.evaluate(replayId);
                     Gson gson = new Gson();
                     String gameJson = gson.toJson(collection);

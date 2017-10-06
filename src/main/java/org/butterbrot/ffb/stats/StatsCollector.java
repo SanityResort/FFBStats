@@ -42,9 +42,11 @@ import com.balancedbytes.games.ffb.report.ReportWinningsRoll;
 import com.balancedbytes.games.ffb.report.ReportWizardUse;
 import com.balancedbytes.games.ffb.util.ArrayTool;
 import org.butterbrot.ffb.stats.collections.StatsCollection;
+import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import java.util.ArrayDeque;
+import java.util.ArrayList;
 import java.util.Deque;
 import java.util.List;
 
@@ -53,13 +55,17 @@ public class StatsCollector {
     private StatsCollection collection = new StatsCollection();
     private TurnOverFinder turnOverFinder = new TurnOverFinder();
 
-    public StatsCollector(final List<ServerCommand> replayCommands) {
-        this.replayCommands = replayCommands;
-    }
-
     public void setHomeTeam(Team team) {
         collection.setHomeTeam(team);
         turnOverFinder.addHomePlayers(team);
+    }
+
+    public StatsCollector() {
+        this(new ArrayList<>());
+    }
+
+    public StatsCollector(List<ServerCommand> replayCommands) {
+        this.replayCommands = replayCommands;
     }
 
     public void setAwayTeam(Team team) {

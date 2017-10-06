@@ -1,7 +1,9 @@
 package org.butterbrot.ffb.stats.adapter;
 
+import com.balancedbytes.games.ffb.json.IJsonOption;
 import com.balancedbytes.games.ffb.report.IReport;
 import com.balancedbytes.games.ffb.report.ReportId;
+import com.eclipsesource.json.JsonObject;
 import com.eclipsesource.json.JsonValue;
 
 public class DummyReport implements IReport {
@@ -22,6 +24,8 @@ public class DummyReport implements IReport {
 
     @Override
     public JsonValue toJsonValue() {
-        return null;
+        JsonObject jsonObject = new JsonObject();
+        IJsonOption.REPORT_ID.addTo(jsonObject, getId());
+        return jsonObject;
     }
 }
