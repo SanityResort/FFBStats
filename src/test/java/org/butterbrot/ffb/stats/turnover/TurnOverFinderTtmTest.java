@@ -9,6 +9,7 @@ import com.balancedbytes.games.ffb.report.ReportReRoll;
 import com.balancedbytes.games.ffb.report.ReportScatterBall;
 import com.balancedbytes.games.ffb.report.ReportSkillRoll;
 import com.balancedbytes.games.ffb.report.ReportTurnEnd;
+import org.butterbrot.ffb.stats.adapter.TurnOverDescription;
 import org.butterbrot.ffb.stats.model.TurnOver;
 import org.junit.Test;
 
@@ -31,7 +32,7 @@ public class TurnOverFinderTtmTest extends AbstractTurnOverFinderTest {
         assertTrue("Failed landing with ball is a turnover", turnOverOpt.isPresent());
         TurnOver turnOver = turnOverOpt.get();
         assertEquals("TurnOver must have the teamMember set as active player", teamMember, turnOver.getActivePlayer());
-        assertEquals("TurnOver must reflect the failed action", ReportId.RIGHT_STUFF_ROLL.getTurnOverDesc(), turnOver.getAction());
+        assertEquals("TurnOver must reflect the failed action", TurnOverDescription.get(ReportId.RIGHT_STUFF_ROLL), turnOver.getAction());
         assertEquals("TurnOver must show the minimum roll", 4, turnOver.getMinRollOrDiceCount());
         assertFalse("Was not rerolled", turnOver.isReRolled());
         assertFalse("Was not rerolled", turnOver.isReRolledWithTeamReroll());
@@ -50,7 +51,7 @@ public class TurnOverFinderTtmTest extends AbstractTurnOverFinderTest {
         assertTrue("Failed landing with ball is a turnover", turnOverOpt.isPresent());
         TurnOver turnOver = turnOverOpt.get();
         assertEquals("TurnOver must have the teamMember set as active player", teamMember, turnOver.getActivePlayer());
-        assertEquals("TurnOver must reflect the failed action", ReportId.RIGHT_STUFF_ROLL.getTurnOverDesc(), turnOver.getAction());
+        assertEquals("TurnOver must reflect the failed action", TurnOverDescription.get(ReportId.RIGHT_STUFF_ROLL), turnOver.getAction());
         assertEquals("TurnOver must show the minimum roll", 4, turnOver.getMinRollOrDiceCount());
         assertTrue("Was rerolled", turnOver.isReRolled());
         assertTrue("Was rerolled with a team reroll", turnOver.isReRolledWithTeamReroll());
@@ -69,7 +70,7 @@ public class TurnOverFinderTtmTest extends AbstractTurnOverFinderTest {
         assertTrue("Failed landing with ball is a turnover", turnOverOpt.isPresent());
         TurnOver turnOver = turnOverOpt.get();
         assertEquals("TurnOver must have the teamMember set as active player", teamMember, turnOver.getActivePlayer());
-        assertEquals("TurnOver must reflect the failed action", ReportId.RIGHT_STUFF_ROLL.getTurnOverDesc(), turnOver.getAction());
+        assertEquals("TurnOver must reflect the failed action", TurnOverDescription.get(ReportId.RIGHT_STUFF_ROLL), turnOver.getAction());
         assertEquals("TurnOver must show the minimum roll", 4, turnOver.getMinRollOrDiceCount());
         assertTrue("Was rerolled", turnOver.isReRolled());
         assertTrue("Was rerolled with a team reroll", turnOver.isReRolledWithTeamReroll());
@@ -88,7 +89,7 @@ public class TurnOverFinderTtmTest extends AbstractTurnOverFinderTest {
         assertTrue("Failed landing with ball is a turnover", turnOverOpt.isPresent());
         TurnOver turnOver = turnOverOpt.get();
         assertEquals("TurnOver must have the teamMember set as active player", teamMember, turnOver.getActivePlayer());
-        assertEquals("TurnOver must reflect the failed action", ReportId.RIGHT_STUFF_ROLL.getTurnOverDesc(), turnOver.getAction());
+        assertEquals("TurnOver must reflect the failed action", TurnOverDescription.get(ReportId.RIGHT_STUFF_ROLL), turnOver.getAction());
         assertEquals("TurnOver must show the minimum roll", 4, turnOver.getMinRollOrDiceCount());
         assertTrue("Was rerolled", turnOver.isReRolled());
         assertFalse("Was not rerolled with a team reroll", turnOver.isReRolledWithTeamReroll());
@@ -116,7 +117,7 @@ public class TurnOverFinderTtmTest extends AbstractTurnOverFinderTest {
         assertTrue("Failed landing with ball is a turnover", turnOverOpt.isPresent());
         TurnOver turnOver = turnOverOpt.get();
         assertEquals("TurnOver must have the teamMember set as active player", teamMember, turnOver.getActivePlayer());
-        assertEquals("TurnOver must reflect the failed action", ReportId.RIGHT_STUFF_ROLL.getTurnOverDesc(), turnOver.getAction());
+        assertEquals("TurnOver must reflect the failed action", TurnOverDescription.get(ReportId.RIGHT_STUFF_ROLL), turnOver.getAction());
         assertEquals("TurnOver must show the minimum roll", 4, turnOver.getMinRollOrDiceCount());
         assertFalse("Was not rerolled", turnOver.isReRolled());
         assertFalse("Was not rerolled", turnOver.isReRolledWithTeamReroll());
@@ -133,7 +134,7 @@ public class TurnOverFinderTtmTest extends AbstractTurnOverFinderTest {
         assertTrue("Hitting teammate is a turnover", turnOverOpt.isPresent());
         TurnOver turnOver = turnOverOpt.get();
         assertEquals("TurnOver must have the teamMember set as active player", teamMember, turnOver.getActivePlayer());
-        assertEquals("TurnOver must reflect the failed action", ReportId.RIGHT_STUFF_ROLL.getTurnOverDesc(), turnOver.getAction());
+        assertEquals("TurnOver must reflect the failed action", TurnOverDescription.get(ReportId.RIGHT_STUFF_ROLL), turnOver.getAction());
         assertEquals("No minimum roll for hitting a player", 0, turnOver.getMinRollOrDiceCount());
         assertFalse("Was not rerolled", turnOver.isReRolled());
         assertFalse("Was not rerolled", turnOver.isReRolledWithTeamReroll());
@@ -162,7 +163,7 @@ public class TurnOverFinderTtmTest extends AbstractTurnOverFinderTest {
         assertTrue("Eating the teammate with the ball is a turnover", turnOverOpt.isPresent());
         TurnOver turnOver = turnOverOpt.get();
         assertEquals("TurnOver must have the teamMember set as active player", teamMember, turnOver.getActivePlayer());
-        assertEquals("TurnOver must reflect the failed action", ReportId.ESCAPE_ROLL.getTurnOverDesc(), turnOver.getAction());
+        assertEquals("TurnOver must reflect the failed action", TurnOverDescription.get(ReportId.ESCAPE_ROLL), turnOver.getAction());
         assertEquals("TurnOver must show the minimum roll", 2, turnOver.getMinRollOrDiceCount());
         assertFalse("Was not rerolled", turnOver.isReRolled());
         assertFalse("Was not rerolled", turnOver.isReRolledWithTeamReroll());
@@ -182,7 +183,7 @@ public class TurnOverFinderTtmTest extends AbstractTurnOverFinderTest {
         assertTrue("Eating the teammate with the ball is a turnover", turnOverOpt.isPresent());
         TurnOver turnOver = turnOverOpt.get();
         assertEquals("TurnOver must have the teamMember set as active player", teamMember, turnOver.getActivePlayer());
-        assertEquals("TurnOver must reflect the failed action", ReportId.ESCAPE_ROLL.getTurnOverDesc(), turnOver.getAction());
+        assertEquals("TurnOver must reflect the failed action", TurnOverDescription.get(ReportId.ESCAPE_ROLL), turnOver.getAction());
         assertEquals("TurnOver must show the minimum roll", 2, turnOver.getMinRollOrDiceCount());
         assertTrue("Was rerolled", turnOver.isReRolled());
         assertTrue("Was rerolled with a team reroll", turnOver.isReRolledWithTeamReroll());
@@ -202,7 +203,7 @@ public class TurnOverFinderTtmTest extends AbstractTurnOverFinderTest {
         assertTrue("Eating the teammate with the ball is a turnover", turnOverOpt.isPresent());
         TurnOver turnOver = turnOverOpt.get();
         assertEquals("TurnOver must have the teamMember set as active player", teamMember, turnOver.getActivePlayer());
-        assertEquals("TurnOver must reflect the failed action", ReportId.ESCAPE_ROLL.getTurnOverDesc(), turnOver.getAction());
+        assertEquals("TurnOver must reflect the failed action", TurnOverDescription.get(ReportId.ESCAPE_ROLL), turnOver.getAction());
         assertEquals("TurnOver must show the minimum roll", 2, turnOver.getMinRollOrDiceCount());
         assertTrue("Was rerolled", turnOver.isReRolled());
         assertTrue("Was rerolled with a team reroll", turnOver.isReRolledWithTeamReroll());
@@ -222,7 +223,7 @@ public class TurnOverFinderTtmTest extends AbstractTurnOverFinderTest {
         assertTrue("Eating the teammate with the ball is a turnover", turnOverOpt.isPresent());
         TurnOver turnOver = turnOverOpt.get();
         assertEquals("TurnOver must have the teamMember set as active player", teamMember, turnOver.getActivePlayer());
-        assertEquals("TurnOver must reflect the failed action", ReportId.ESCAPE_ROLL.getTurnOverDesc(), turnOver.getAction());
+        assertEquals("TurnOver must reflect the failed action", TurnOverDescription.get(ReportId.ESCAPE_ROLL), turnOver.getAction());
         assertEquals("TurnOver must show the minimum roll", 2, turnOver.getMinRollOrDiceCount());
         assertTrue("Was rerolled", turnOver.isReRolled());
         assertFalse("Was not rerolled with a team reroll", turnOver.isReRolledWithTeamReroll());

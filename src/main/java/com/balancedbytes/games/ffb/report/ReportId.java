@@ -10,18 +10,18 @@ public enum ReportId implements INamedObject
 {
     ALWAYS_HUNGRY_ROLL("alwaysHungryRoll"),
     ARGUE_THE_CALL("argueTheCall"),
-    CATCH_ROLL("catchRoll", "Catch"),
+    CATCH_ROLL("catchRoll"),
     CONFUSION_ROLL("confusionRoll"),
     DAUNTLESS_ROLL("dauntlessRoll"),
-    DODGE_ROLL("dodgeRoll", "Dodge"),
-    ESCAPE_ROLL("escapeRoll", "Being eaten"),
+    DODGE_ROLL("dodgeRoll"),
+    ESCAPE_ROLL("escapeRoll"),
     FOUL_APPEARANCE_ROLL("foulAppearanceRoll"),
-    GO_FOR_IT_ROLL("goForItRoll", "Go for it"),
-    INTERCEPTION_ROLL("interceptionRoll", "Interception"),
-    LEAP_ROLL("leapRoll", "Leap"),
-    PASS_ROLL( "passRoll", "Pass"),
-    PICK_UP_ROLL("pickUpRoll", "Pick up"),
-    RIGHT_STUFF_ROLL("rightStuffRoll", "Landing"),
+    GO_FOR_IT_ROLL("goForItRoll"),
+    INTERCEPTION_ROLL("interceptionRoll"),
+    LEAP_ROLL("leapRoll"),
+    PASS_ROLL( "passRoll"),
+    PICK_UP_ROLL("pickUpRoll"),
+    RIGHT_STUFF_ROLL("rightStuffRoll"),
     REGENERATION_ROLL("regenerationRoll"),
     SAFE_THROW_ROLL("safeThrowRoll"),
     TENTACLES_SHADOWING_ROLL("tentaclesShadowingRoll"),
@@ -29,14 +29,14 @@ public enum ReportId implements INamedObject
     RE_ROLL("reRoll"),
     TURN_END("turnEnd"),
     PLAYER_ACTION("playerAction"),
-    FOUL("foul", "Foul"),
-    HAND_OVER("handOver", "Hand Over"),
+    FOUL("foul"),
+    HAND_OVER("handOver"),
     INJURY("injury"),
     APOTHECARY_ROLL("apothecaryRoll"),
     APOTHECARY_CHOICE("apothecaryChoice"),
     THROW_IN("throwIn"),
     SCATTER_BALL("scatterBall"),
-    BLOCK("block", "Block"),
+    BLOCK("block"),
     BLOCK_CHOICE("blockChoice"),
     SPECTATORS("spectators"),
     WEATHER("weather"),
@@ -60,20 +60,20 @@ public enum ReportId implements INamedObject
     DEFECTING_PLAYERS("defectingPlayers"),
     JUMP_UP_ROLL("jumpUpRoll"),
     STAND_UP_ROLL("standUpRoll"),
-    BRIBES_ROLL("bribesRoll", "Bribe"),
+    BRIBES_ROLL("bribesRoll"),
     MASTER_CHEF_ROLL("masterChefRoll"),
     START_HALF("startHalf"),
     INDUCEMENT("inducement"),
     PILING_ON("pilingOn"),
-    CHAINSAW_ROLL("chainsawRoll", "Chainsaw"),
+    CHAINSAW_ROLL("chainsawRoll"),
     LEADER("leader"),
     SECRET_WEAPON_BAN("secretWeaponBan"),
-    BLOOD_LUST_ROLL("bloodLustRoll", "Bloodlust"),
+    BLOOD_LUST_ROLL("bloodLustRoll"),
     HYPNOTIC_GAZE_ROLL("hypnoticGazeRoll"),
     BITE_SPECTATOR("biteSpectator"),
     ANIMOSITY_ROLL("animosityRoll"),
     RAISE_DEAD("raiseDead"),
-    BLOCK_ROLL("blockRoll", "Block"),
+    BLOCK_ROLL("blockRoll"),
     PENALTY_SHOOTOUT("penaltyShootout"),
     DOUBLE_HIRED_STAR_PLAYER("doubleHiredStarPlayer"),
     SPELL_EFFECT_ROLL("spellEffectRoll"),
@@ -92,26 +92,15 @@ public enum ReportId implements INamedObject
     DUMMY("dummy" );
 
     private String fName;
-    private String turnOverDesc;
-
-    ReportId(String pName, String turnOverDesc) {
-        this.fName = pName;
-        this.turnOverDesc = turnOverDesc;
-    }
 
     ReportId(String pName) {
         this.fName = pName;
-        this.turnOverDesc = pName;
     }
 
 
     @Override
     public String getName() {
         return this.fName;
-    }
-
-    public String getTurnOverDesc() {
-        return turnOverDesc;
     }
 
     public IReport createReport() {
