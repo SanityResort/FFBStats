@@ -2,8 +2,9 @@ package org.butterbrot.ffb.stats;
 
 import com.balancedbytes.games.ffb.ReRollSource;
 import com.balancedbytes.games.ffb.report.ReportReRoll;
+import org.butterbrot.ffb.stats.collections.Data;
 
-public class TurnOver {
+public class TurnOver implements Data {
     private String action;
     private int minRollOrDiceCount;
     private boolean wasReRolled;

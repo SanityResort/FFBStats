@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class TeamStatsCollection  implements Data {
+public class TeamStatsCollection implements Data {
 
     private transient BlockResultFactory factory = new BlockResultFactory();
 

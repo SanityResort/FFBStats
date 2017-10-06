@@ -342,7 +342,7 @@ public class StatsCollection  implements Data {
         return home;
     }
 
-    private static final class Drive {
+    private static final class Drive implements Data {
         private final List<Turn> turns = new ArrayList<>();
         private final String kickOff;
 
@@ -403,7 +403,7 @@ public class StatsCollection  implements Data {
         }
     }
 
-    private static final class Turn {
+    private static final class Turn implements Data {
         private final boolean isHomeActive;
         private final String turnMode;
         private final int number;

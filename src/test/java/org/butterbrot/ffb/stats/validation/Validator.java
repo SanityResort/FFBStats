@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.util.StringUtils;
 
 import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 
 /**
  * Defines a validation contract for data objects
@@ -34,13 +35,18 @@ public abstract class Validator<T> {
      * @param data The object to be checked for handling
      * @return true if this class handles the given object
      */
-    public boolean handles(Object data) {
-        Class<T> genericClass = (Class<T>) ((ParameterizedType) this.getClass().getGenericSuperclass())
+    boolean handles(Object data) {
+        Type type = ((ParameterizedType) this.getClass().getGenericSuperclass())
                 .getActualTypeArguments()[0];
-        return genericClass == data.getClass();
+        if (type instanceof ParameterizedType) {
+            type = ((ParameterizedType) type).getRawType();
+        }
+
+        Class<T> genericClass = (Class<T>) type;
+        return genericClass.isAssignableFrom(data.getClass());
     }
 
-    private Logger getLogger() {
+    protected Logger getLogger() {
         if (logger == null) {
             logger = LoggerFactory.getLogger(this.getClass());
         }
@@ -53,7 +59,7 @@ public abstract class Validator<T> {
     }
 
     protected String getCompoundName(String prefix, String fieldName) {
-        return StringUtils.isEmpty(prefix) ? fieldName : String.join(prefix,
-                PREFIX_DELIM, fieldName);
+        return StringUtils.isEmpty(prefix) ? fieldName : String.join( PREFIX_DELIM, prefix,
+               fieldName);
     }
 }
