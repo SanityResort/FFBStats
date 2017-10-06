@@ -8,9 +8,6 @@ zmq:
   receiverEndpoint: tcp://localhost:44444
   fileQueueEndpoint: tcp://localhost:44446
 
-cache:
-  cacheSize: 10000
-
 debug:
   activateOutputLog: false
   outputPathTemplate: src/test/resources/baseline/output/%s.json
