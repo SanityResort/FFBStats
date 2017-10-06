@@ -1,4 +1,4 @@
-package org.butterbrot.ffb.stats.collections;
+package org.butterbrot.ffb.stats.model;
 
 public class Injury  implements Data {
     private String playerId;

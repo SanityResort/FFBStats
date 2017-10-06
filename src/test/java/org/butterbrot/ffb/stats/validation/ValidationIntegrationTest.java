@@ -3,7 +3,7 @@ package org.butterbrot.ffb.stats.validation;
 import com.google.common.collect.Lists;
 import com.google.gson.Gson;
 import org.butterbrot.ffb.stats.StatsStarter;
-import org.butterbrot.ffb.stats.collections.StatsCollection;
+import org.butterbrot.ffb.stats.model.StatsCollection;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;

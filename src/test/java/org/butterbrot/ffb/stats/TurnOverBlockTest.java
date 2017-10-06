@@ -7,6 +7,7 @@ import com.balancedbytes.games.ffb.report.ReportId;
 import com.balancedbytes.games.ffb.report.ReportInjury;
 import com.balancedbytes.games.ffb.report.ReportPlayerAction;
 import com.balancedbytes.games.ffb.report.ReportReRoll;
+import org.butterbrot.ffb.stats.model.TurnOver;
 import org.junit.Test;
 
 import java.util.Optional;

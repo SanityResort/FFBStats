@@ -1,7 +1,5 @@
 package org.butterbrot.ffb.stats.validation;
 
-import org.butterbrot.ffb.stats.collections.Data;
-
 import java.util.List;
 
 public class ListValidator extends DelegatingValidator<List<Object>, Object> {

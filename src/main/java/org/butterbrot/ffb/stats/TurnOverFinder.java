@@ -17,6 +17,7 @@ import com.balancedbytes.games.ffb.report.ReportScatterBall;
 import com.balancedbytes.games.ffb.report.ReportSkillRoll;
 import com.balancedbytes.games.ffb.report.ReportSpecialEffectRoll;
 import com.balancedbytes.games.ffb.report.ReportTurnEnd;
+import org.butterbrot.ffb.stats.model.TurnOver;
 
 import java.util.ArrayDeque;
 import java.util.Deque;

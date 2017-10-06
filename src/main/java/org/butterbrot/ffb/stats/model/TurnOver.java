@@ -1,8 +1,8 @@
-package org.butterbrot.ffb.stats;
+package org.butterbrot.ffb.stats.model;
 
 import com.balancedbytes.games.ffb.ReRollSource;
 import com.balancedbytes.games.ffb.report.ReportReRoll;
-import org.butterbrot.ffb.stats.collections.Data;
+import org.butterbrot.ffb.stats.model.Data;
 
 public class TurnOver implements Data {
     private String action;

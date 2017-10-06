@@ -1,4 +1,4 @@
-package org.butterbrot.ffb.stats.collections;
+package org.butterbrot.ffb.stats.model;
 
 import com.balancedbytes.games.ffb.PlayerState;
 

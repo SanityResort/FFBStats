@@ -41,8 +41,7 @@ import com.balancedbytes.games.ffb.report.ReportWeather;
 import com.balancedbytes.games.ffb.report.ReportWinningsRoll;
 import com.balancedbytes.games.ffb.report.ReportWizardUse;
 import com.balancedbytes.games.ffb.util.ArrayTool;
-import org.butterbrot.ffb.stats.collections.StatsCollection;
-import org.springframework.stereotype.Service;
+import org.butterbrot.ffb.stats.model.StatsCollection;
 import org.springframework.util.StringUtils;
 
 import java.util.ArrayDeque;

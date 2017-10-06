@@ -1,7 +1,7 @@
 package org.butterbrot.ffb.stats;
 
 import com.balancedbytes.games.ffb.net.commands.ServerCommand;
-import org.butterbrot.ffb.stats.collections.StatsCollection;
+import org.butterbrot.ffb.stats.model.StatsCollection;
 import org.butterbrot.ffb.stats.communication.CommandHandler;
 import org.butterbrot.ffb.stats.communication.StatsCommandSocket;
 import org.slf4j.Logger;

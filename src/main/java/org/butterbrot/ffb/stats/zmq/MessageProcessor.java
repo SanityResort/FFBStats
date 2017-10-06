@@ -11,7 +11,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import org.butterbrot.ffb.stats.StatsCollector;
-import org.butterbrot.ffb.stats.collections.StatsCollection;
+import org.butterbrot.ffb.stats.model.StatsCollection;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -21,7 +21,6 @@ import zmq.Msg;
 import zmq.SocketBase;
 import zmq.ZMQ;
 
-import javax.annotation.Resource;
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.InputStreamReader;

@@ -1,9 +1,8 @@
-package org.butterbrot.ffb.stats.collections;
+package org.butterbrot.ffb.stats.model;
 
 import com.balancedbytes.games.ffb.BlockResult;
 import com.balancedbytes.games.ffb.BlockResultFactory;
 import com.balancedbytes.games.ffb.report.ReportId;
-import org.butterbrot.ffb.stats.TurnOver;
 
 import java.util.ArrayList;
 import java.util.HashMap;

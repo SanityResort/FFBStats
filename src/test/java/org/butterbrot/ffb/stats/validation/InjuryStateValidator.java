@@ -1,6 +1,6 @@
 package org.butterbrot.ffb.stats.validation;
 
-import org.butterbrot.ffb.stats.collections.InjuryState;
+import org.butterbrot.ffb.stats.model.InjuryState;
 
 public class InjuryStateValidator extends Validator<InjuryState> {
     @Override

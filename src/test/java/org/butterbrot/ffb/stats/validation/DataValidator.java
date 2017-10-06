@@ -1,6 +1,6 @@
 package org.butterbrot.ffb.stats.validation;
 
-import org.butterbrot.ffb.stats.collections.Data;
+import org.butterbrot.ffb.stats.model.Data;
 import org.springframework.test.util.ReflectionTestUtils;
 
 import java.lang.reflect.Field;
