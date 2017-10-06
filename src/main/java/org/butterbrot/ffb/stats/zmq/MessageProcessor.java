@@ -1,17 +1,10 @@
 package org.butterbrot.ffb.stats.zmq;
 
-import com.balancedbytes.games.ffb.model.Team;
-import com.balancedbytes.games.ffb.net.NetCommandFactory;
-import com.balancedbytes.games.ffb.net.NetCommandId;
-import com.balancedbytes.games.ffb.net.commands.ServerCommand;
-import com.eclipsesource.json.JsonValue;
 import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import org.butterbrot.ffb.stats.StatsCollector;
-import org.butterbrot.ffb.stats.collections.StatsCollection;
+import org.butterbrot.ffb.stats.conversion.JsonConverter;
+import org.butterbrot.ffb.stats.conversion.Unzipper;
+import org.butterbrot.ffb.stats.model.StatsCollection;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -21,14 +14,9 @@ import zmq.Msg;
 import zmq.SocketBase;
 import zmq.ZMQ;
 
-import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.stream.Stream;
-import java.util.zip.GZIPInputStream;
+import javax.annotation.Resource;
+
+import static org.butterbrot.ffb.stats.Constants.ZMG_ERROR;
 
 @Component
 @ConfigurationProperties(prefix = "zmq")
@@ -42,7 +30,13 @@ public class MessageProcessor implements Runnable {
     private String senderEndpoint;
     private String receiverEndpoint;
     private String fileQueueEndpoint;
-    private NetCommandFactory factory = new NetCommandFactory();
+    private Gson gson = new Gson();
+
+    @Resource
+    private Unzipper unzipper;
+
+    @Resource
+    private JsonConverter converter;
 
     public MessageProcessor() {
         logger.info("Creating MessageProcessor");
@@ -72,50 +66,22 @@ public class MessageProcessor implements Runnable {
 
                 byte[] responseData = response.data();
 
-                if ("ERROR".equalsIgnoreCase(new String(responseData))) {
+                if (ZMG_ERROR.equalsIgnoreCase(new String(responseData))) {
                     logger.error("File Queue returned an error for " + replayId + ". Skipping");
-                    sender.send(new Msg("ERROR".getBytes()), 0);
+                    sender.send(new Msg(ZMG_ERROR.getBytes()), 0);
                     continue;
                 }
 
-                try (ByteArrayInputStream byteIn = new ByteArrayInputStream(responseData);
-                        GZIPInputStream gzipInputStream = new GZIPInputStream(byteIn);
-                        InputStreamReader inputStreamReader = new InputStreamReader(gzipInputStream);
-                        BufferedReader buf = new BufferedReader(inputStreamReader)) {
-                    Stream<String> stringStream = buf.lines();
-                    String data = stringStream.reduce((s, s2) -> s + s2).get();
-                    JsonObject root = new JsonParser().parse(data).getAsJsonObject();
-
-                    JsonObject game = root.getAsJsonObject("game");
-                    Team away = new Team().initFrom(JsonValue.readFrom(game.getAsJsonObject("teamAway").toString()));
-                    Team home = new Team().initFrom(JsonValue.readFrom(game.getAsJsonObject("teamHome").toString()));
-
-                    JsonArray commands = root.getAsJsonObject("gameLog").getAsJsonArray("commandArray");
-                    Iterator<JsonElement> it = commands.iterator();
-
-                    List<ServerCommand> replayCommands = new ArrayList<>();
-                    while (it.hasNext()) {
-                        JsonElement element = it.next();
-                      //  logger.info("Element: " + );
-                        String id = element.getAsJsonObject().get("netCommandId").getAsString();
-                        if (NetCommandId.SERVER_MODEL_SYNC.getName().equals(id)) {
-                            replayCommands
-                                .add((ServerCommand) factory.forJsonValue(JsonValue.readFrom(element.toString())));
-                        }
-                    }
-
-                    StatsCollector collector = new StatsCollector(replayCommands);
-                    collector.setHomeTeam(home);
-                    collector.setAwayTeam(away);
-                    StatsCollection collection = collector.evaluate(replayId);
-                    Gson gson = new Gson();
+                try {
+                    JsonObject root = unzipper.fromGZip(responseData);
+                    StatsCollection collection = converter.convert(root, replayId);
                     String gameJson = gson.toJson(collection);
                     sender.send(new Msg(gameJson.getBytes()), 0);
                     logger.info("Stats sent for replayId {}", replayId);
 
                 } catch (Exception e) {
                     logger.error("Could not create stats for replayId " + replayId, e);
-                    sender.send(new Msg("ERROR".getBytes()), 0);
+                    sender.send(new Msg(ZMG_ERROR.getBytes()), 0);
                 }
             }
         } finally {
