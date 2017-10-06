@@ -11,14 +11,6 @@ public class TurnOver implements Data {
     private boolean wasReRolledWithTeamReRoll;
     private transient String activePlayer;
 
-    public TurnOver(String action, int minRollOrDiceCount, boolean wasReRolled, boolean wasReRolledWithTeamReRoll, String activePlayer) {
-        this.action = action;
-        this.minRollOrDiceCount = minRollOrDiceCount;
-        this.wasReRolled = wasReRolled;
-        this.wasReRolledWithTeamReRoll = wasReRolledWithTeamReRoll;
-        this.activePlayer = activePlayer;
-    }
-
     public TurnOver(String action, int minRollOrDiceCount, ReportReRoll reportReRoll, String activePlayer) {
         this.action = action;
         this.minRollOrDiceCount = minRollOrDiceCount;
