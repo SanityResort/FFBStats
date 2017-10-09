@@ -1,5 +1,6 @@
 package org.butterbrot.ffb.stats.turnover;
 
+import com.balancedbytes.games.ffb.report.ReportPassRoll;
 import org.butterbrot.ffb.stats.evaluation.TurnOverFinder;
 import org.junit.Before;
 
@@ -16,6 +17,14 @@ public class AbstractTurnOverFinderTest {
 
     protected TurnOverFinder turnOverFinder;
 
+    public static ReportPassRoll regularPass(String pPlayerId, boolean pSuccessful, int pRoll, int pMinimumRoll, boolean pFumble, boolean pSafeThrowHold, boolean pBomb, boolean reRolled) {
+        return new ReportPassRoll(pPlayerId,  pSuccessful,  pRoll,  pMinimumRoll, reRolled,  null, null, pFumble,  pSafeThrowHold, pBomb);
+    }
+
+    public static ReportPassRoll hailMaryPass(String pPlayerId, boolean pFumble, int pRoll, boolean pBomb, boolean reRolled) {
+        return new ReportPassRoll(pPlayerId, pFumble, pRoll, reRolled, pBomb);
+    }
+
     @Before
     @SuppressWarnings("unchecked")
     public void setUp() throws Exception{
@@ -30,4 +39,6 @@ public class AbstractTurnOverFinderTest {
         homeTeam.setAccessible(true);
         homeTeam.set(turnOverFinder, actingTeam);
     }
+
+
 }

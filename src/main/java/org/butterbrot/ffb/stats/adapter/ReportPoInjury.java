@@ -18,8 +18,4 @@ public class ReportPoInjury extends ReportInjury {
     public ReportPilingOn getPoReport() {
         return poReport;
     }
-
-    public void setPoReport(ReportPilingOn poReport) {
-        this.poReport = poReport;
-    }
 }

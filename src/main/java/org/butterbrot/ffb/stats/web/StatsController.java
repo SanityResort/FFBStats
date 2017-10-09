@@ -41,9 +41,9 @@ public class StatsController {
     @ResponseBody
     public String stats(@PathVariable(value = "replayId") final String replayId) throws NoSuchReplayException, IOException {
 
-        String statsJson = new Gson().toJson(provider.stats(replayId, activateInputLog, inputPathTemplate));
 
         try {
+            String statsJson = new Gson().toJson(provider.stats(replayId, activateInputLog, inputPathTemplate));
             if (activateOutputLog) {
                 String jsonFile = String.format(outputPathTemplate, replayId);
                 logger.info("Creating json file: {}", jsonFile);
@@ -51,10 +51,11 @@ public class StatsController {
                 Files.write(jsonPath, statsJson.getBytes(Charset.forName("UTF-8")));
 
             }
+            return statsJson;
         } catch (Throwable err) {
             logger.error("Error writing file", err);
+            return err.getMessage();
         }
-        return statsJson;
     }
 
     public void setActivateOutputLog(boolean activateOutputLog) {
