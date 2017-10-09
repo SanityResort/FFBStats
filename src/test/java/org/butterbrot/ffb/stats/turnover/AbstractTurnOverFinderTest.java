@@ -1,7 +1,7 @@
 package org.butterbrot.ffb.stats.turnover;
 
 import com.balancedbytes.games.ffb.report.ReportPassRoll;
-import org.butterbrot.ffb.stats.evaluation.TurnOverFinder;
+import org.butterbrot.ffb.stats.evaluation.turnover.TurnOverFinder;
 import org.junit.Before;
 
 import java.lang.reflect.Field;

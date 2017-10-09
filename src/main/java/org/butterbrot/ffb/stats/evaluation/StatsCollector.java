@@ -42,6 +42,7 @@ import com.balancedbytes.games.ffb.report.ReportWinningsRoll;
 import com.balancedbytes.games.ffb.report.ReportWizardUse;
 import com.balancedbytes.games.ffb.util.ArrayTool;
 import org.butterbrot.ffb.stats.adapter.ReportPoInjury;
+import org.butterbrot.ffb.stats.evaluation.turnover.TurnOverFinder;
 import org.butterbrot.ffb.stats.model.StatsCollection;
 import org.springframework.util.StringUtils;
 

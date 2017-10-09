@@ -1,4 +1,4 @@
-package org.butterbrot.ffb.stats.evaluation;
+package org.butterbrot.ffb.stats.evaluation.turnover;
 
 import com.balancedbytes.games.ffb.PlayerAction;
 import com.balancedbytes.games.ffb.SpecialEffect;
@@ -77,54 +77,50 @@ public class TurnOverFinder {
 
     private Optional<TurnOver> findTurnOver(ReportPlayerAction action) {
 
-        ReportReRoll reportReRoll = null;
-        ReportSkillRoll reportSkillRoll = null;
-        ReportBlockRoll reportBlockRoll = null;
-        boolean blockingPlayerWasInjured = false;
-        boolean ballScattered = false;
-        boolean successfulPass = false;
-        boolean sentOff = false;
-        boolean landingFailed = false;
+        TurnOverState state = new TurnOverState();
+
         for (IReport report : reports) {
             if (report instanceof ReportReRoll) {
-                reportReRoll = (ReportReRoll) report;
+                state.setReportReRoll((ReportReRoll) report);
             } else if (report instanceof ReportSkillRoll) {
                 ReportSkillRoll skillRoll = (ReportSkillRoll) report;
-                reportBlockRoll = null;
+                state.setReportBlockRoll(null);
                 if (!(ReportId.CATCH_ROLL == report.getId() && (homePlayers.contains(skillRoll.getPlayerId()) != homePlayers.contains(activePlayer)))) {
                     // if a successful pass was not caught by an opponent we do not reset the flag
-                    successfulPass = false;
+                    state.setSuccessfulPass(false);
                 }
                 if (skillRoll.isSuccessful()) {
                     if (ReportId.INTERCEPTION_ROLL == report.getId()) {
-                        reportSkillRoll = skillRoll;
+                        state.setReportSkillRoll(skillRoll);
                     } else if (ReportId.PASS_ROLL == report.getId()) {
-                        reportSkillRoll = null;
-                        reportReRoll = null;
-                        successfulPass = true;
+                        state.setReportSkillRoll(null);
+                        state.setReportReRoll(null);
+                        state.setSuccessfulPass(true);
                     } else if (ReportId.CATCH_ROLL == report.getId()) {
                         if (homePlayers.contains(skillRoll.getPlayerId()) == homePlayers.contains(activePlayer)) {
-                            if (reportSkillRoll == null || !(reportSkillRoll.getId() == ReportId.PASS_ROLL &&
-                                    ((ReportPassRoll) reportSkillRoll).isFumble() || reportSkillRoll.getId() == ReportId.PICK_UP_ROLL)) {
-                                reportSkillRoll = null;
-                                reportReRoll = null;
+                            if (state.getReportSkillRoll() == null ||
+                                    !(state.getReportSkillRoll().getId() == ReportId.PASS_ROLL &&
+                                    ((ReportPassRoll) state.getReportSkillRoll()).isFumble() ||
+                                            state.getReportSkillRoll().getId()== ReportId.PICK_UP_ROLL)) {
+                                state.setReportSkillRoll(null);
+                                state.setReportReRoll(null);
                             }
-                        } else if (reportSkillRoll == null && !successfulPass) {
+                        } else if (state.getReportSkillRoll() == null && !state.isSuccessfulPass()) {
                             return Optional.of(new TurnOver(TurnOverDescription.get(ReportId.HAND_OVER),
-                                    0, reportReRoll,
+                                    0, state.getReportReRoll(),
                                     activePlayer));
                         }
 
-                    } else if (!ballScattered) {
-                        reportSkillRoll = null;
-                        reportReRoll = null;
+                    } else if (!state.isBallScattered()) {
+                        state.setReportSkillRoll(null);
+                        state.setReportReRoll(null);
                     }
                 } else {
                     // failed skill rolls are not causing turn overs if they are safe throw or a pass from an opponent (dump off) or the ball scattered already
                     if (ReportId.SAFE_THROW_ROLL != report.getId() &&
                             !(ReportId.PASS_ROLL == report.getId() && (homePlayers.contains(skillRoll.getPlayerId()) != homePlayers.contains(activePlayer)))
-                            && !ballScattered) {
-                        reportSkillRoll = skillRoll;
+                            && !state.isBallScattered()) {
+                        state.setReportSkillRoll(skillRoll);
                     }
                 }
             } else if (report instanceof ReportInjury) {
@@ -132,69 +128,87 @@ public class TurnOverFinder {
                 if (homePlayers.contains(injury.getDefenderId()) == homePlayers.contains(activePlayer)) {
                     if (PlayerAction.THROW_BOMB == action.getPlayerAction()) {
                         // if the bomb was fumbled by the active team, we report the fumble
-                        if (reportSkillRoll != null && reportSkillRoll instanceof ReportPassRoll && ((ReportPassRoll) reportSkillRoll).isFumble() && (homePlayers.contains(reportSkillRoll.getPlayerId()) == homePlayers.contains(activePlayer))) {
-                            return Optional.of(new TurnOver(TurnOverDescription.get(SpecialEffect.BOMB), reportSkillRoll.getMinimumRoll(), reportReRoll, reportSkillRoll.getPlayerId()));
+                        if (state.getReportSkillRoll() != null && state.getReportSkillRoll() instanceof ReportPassRoll
+                                && ((ReportPassRoll) state.getReportSkillRoll()).isFumble() && (homePlayers.contains
+                                (state.getReportSkillRoll().getPlayerId()) == homePlayers.contains(activePlayer))) {
+                            return Optional.of(new TurnOver(TurnOverDescription.get(SpecialEffect.BOMB),
+                                    state.getReportSkillRoll().getMinimumRoll(), state.getReportReRoll(),
+                                    state.getReportSkillRoll().getPlayerId()));
                         }
-                        return Optional.of(new TurnOver(TurnOverDescription.get(SpecialEffect.BOMB), 0, reportReRoll, activePlayer));
-                    } else if (reportBlockRoll != null) {
-                        blockingPlayerWasInjured = true;
-                    } else if (reportSkillRoll != null && ReportId.CHAINSAW_ROLL == reportSkillRoll.getId() && !injury.isArmorBroken()) {
-                        reportSkillRoll = null;
-                        reportReRoll = null;
-                    } else if (reportSkillRoll != null && ReportId.RIGHT_STUFF_ROLL == reportSkillRoll.getId()) {
-                        if (injury.getDefenderId().equals(reportSkillRoll.getPlayerId())) {
-                            landingFailed = true;
+                        return Optional.of(new TurnOver(TurnOverDescription.get(SpecialEffect.BOMB), 0,
+                                state.getReportReRoll(), activePlayer));
+                    } else if (state.getReportBlockRoll() != null) {
+                        state.setBlockingPlayerWasInjured(true);
+                    } else if (state.getReportSkillRoll() != null && ReportId.CHAINSAW_ROLL == state.getReportSkillRoll().getId() &&
+                            !injury.isArmorBroken()) {
+                        state.setReportSkillRoll(null);
+                        state.setReportReRoll(null);
+                    } else if (state.getReportSkillRoll() != null && ReportId.RIGHT_STUFF_ROLL == state
+                            .getReportSkillRoll().getId()) {
+                        if (injury.getDefenderId().equals(state.getReportSkillRoll().getPlayerId())) {
+                            state.setLandingFailed(true);
                             continue;
                         } else {
-                            return Optional.of(new TurnOver(TurnOverDescription.get(ReportId.RIGHT_STUFF_ROLL), 0, reportReRoll, reportSkillRoll.getPlayerId()));
+                            return Optional.of(new TurnOver(TurnOverDescription.get(ReportId.RIGHT_STUFF_ROLL), 0,
+                                    state.getReportReRoll(), state.getReportSkillRoll().getPlayerId()));
                         }
                     }
                     break;
                 }
             } else if (report instanceof ReportBlockRoll) {
-                reportBlockRoll = (ReportBlockRoll) report;
-                reportSkillRoll = null;
+                state.setReportBlockRoll((ReportBlockRoll) report);
+                state.setReportSkillRoll(null);
             } else if (report instanceof ReportScatterBall) {
-                if (landingFailed) {
-                    return Optional.of(new TurnOver(TurnOverDescription.get(reportSkillRoll.getId()), reportSkillRoll.getMinimumRoll(), reportReRoll, reportSkillRoll.getPlayerId()));
+                if (state.isLandingFailed()) {
+                    return Optional.of(new TurnOver(TurnOverDescription.get(state.getReportSkillRoll().getId()),
+                            state.getReportSkillRoll().getMinimumRoll(), state.getReportReRoll(), state
+                            .getReportSkillRoll().getPlayerId()));
                 }
-                ballScattered = true;
+                state.setBallScattered(true);
             } else if (report instanceof ReportReferee) {
-                sentOff = ((ReportReferee) report).isFoulingPlayerBanned();
+                state.setSentOff(((ReportReferee) report).isFoulingPlayerBanned());
             } else if (report instanceof ReportBribesRoll) {
-                sentOff = !((ReportBribesRoll) report).isSuccessful();
+                state.setSentOff(!((ReportBribesRoll) report).isSuccessful());
             }
         }
 
-        if (sentOff) {
+        if (state.isSentOff()) {
             return Optional.of(new TurnOver(TurnOverDescription.get(ReportId.FOUL), 0, null, activePlayer));
         }
 
-        if (successfulPass && ballScattered) {
-            return Optional.of(new TurnOver(TurnOverDescription.get(ReportId.PASS_ROLL), 0, reportReRoll, activePlayer));
+        if (state.isSuccessfulPass() && state.isBallScattered()) {
+            return Optional.of(new TurnOver(TurnOverDescription.get(ReportId.PASS_ROLL), 0, state.getReportReRoll(),
+                    activePlayer));
         }
 
-        if (reportSkillRoll != null) {
-            if (ReportId.INTERCEPTION_ROLL == reportSkillRoll.getId()) {
-                return Optional.of(new TurnOver(TurnOverDescription.get(reportSkillRoll.getId()), reportSkillRoll.getMinimumRoll(), reportReRoll, activePlayer));
-            } else if (ReportId.RIGHT_STUFF_ROLL == reportSkillRoll.getId()) {
-                if (ballScattered) {
-                    return Optional.of(new TurnOver(TurnOverDescription.get(reportSkillRoll.getId()), reportSkillRoll.getMinimumRoll(), reportReRoll, reportSkillRoll.getPlayerId()));
+        if (state.getReportSkillRoll() != null) {
+            if (ReportId.INTERCEPTION_ROLL == state.getReportSkillRoll().getId()) {
+                return Optional.of(new TurnOver(TurnOverDescription.get(state.getReportSkillRoll().getId()),
+                        state.getReportSkillRoll().getMinimumRoll(), state.getReportReRoll(), activePlayer));
+            } else if (ReportId.RIGHT_STUFF_ROLL == state.getReportSkillRoll().getId()) {
+                if (state.isBallScattered()) {
+                    return Optional.of(new TurnOver(TurnOverDescription.get(state.getReportSkillRoll().getId()),
+                            state.getReportSkillRoll().getMinimumRoll(), state.getReportReRoll(), state
+                            .getReportSkillRoll().getPlayerId()));
                 } else {
                     return Optional.empty();
                 }
             } else {
-                return Optional.of(new TurnOver(TurnOverDescription.get(reportSkillRoll.getId()), reportSkillRoll.getMinimumRoll(), reportReRoll, reportSkillRoll.getPlayerId()));
+                return Optional.of(new TurnOver(TurnOverDescription.get(state.getReportSkillRoll().getId()),
+                        state.getReportSkillRoll().getMinimumRoll(), state.getReportReRoll(), state.getReportSkillRoll()
+                        .getPlayerId()));
             }
         }
 
-        if (reportBlockRoll != null && blockingPlayerWasInjured) {
-            int blockDiceCount = reportBlockRoll.getBlockRoll().length;
-            boolean actingTeamWasChoosing = homePlayers.contains(activePlayer) == (reportBlockRoll.getChoosingTeamId().equals(homeTeam));
+        if (state.getReportBlockRoll() != null && state.isBlockingPlayerWasInjured()) {
+            int blockDiceCount = state.getReportBlockRoll().getBlockRoll().length;
+            boolean actingTeamWasChoosing = homePlayers.contains(activePlayer) == (state.getReportBlockRoll()
+                    .getChoosingTeamId().equals(homeTeam));
             if (!actingTeamWasChoosing) {
                 blockDiceCount *= -1;
             }
-            return Optional.of(new TurnOver(TurnOverDescription.get(reportBlockRoll.getId()), blockDiceCount, reportReRoll, activePlayer));
+            return Optional.of(new TurnOver(TurnOverDescription.get(state.getReportBlockRoll().getId()),
+                    blockDiceCount, state.getReportReRoll(), activePlayer));
         }
 
         return Optional.empty();
