@@ -8,7 +8,7 @@ import com.eclipsesource.json.JsonValue;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import org.butterbrot.ffb.stats.evaluation.StatsCollector;
+import org.butterbrot.ffb.stats.evaluation.stats.StatsCollector;
 import org.butterbrot.ffb.stats.model.StatsCollection;
 import org.springframework.stereotype.Service;
 

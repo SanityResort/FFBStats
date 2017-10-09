@@ -1,4 +1,4 @@
-package org.butterbrot.ffb.stats.evaluation;
+package org.butterbrot.ffb.stats.evaluation.stats;
 
 import com.balancedbytes.games.ffb.HeatExhaustion;
 import com.balancedbytes.games.ffb.KnockoutRecovery;
@@ -46,9 +46,7 @@ import org.butterbrot.ffb.stats.evaluation.turnover.TurnOverFinder;
 import org.butterbrot.ffb.stats.model.StatsCollection;
 import org.springframework.util.StringUtils;
 
-import java.util.ArrayDeque;
 import java.util.ArrayList;
-import java.util.Deque;
 import java.util.List;
 
 public class StatsCollector {
@@ -79,43 +77,31 @@ public class StatsCollector {
     }
 
     public StatsCollection evaluate(String replayId) {
-        int fameHome = 0;
-        int fameAway = 0;
-        boolean isHomePlaying = false;
-        TurnMode turnMode = null;
-        int turnNumber = 0;
         collection.setReplayId(replayId);
-        String activePlayer = null;
-        ReportBlockRoll currentBlockRoll = null;
-        boolean lastReportWasBlockRoll = false;
-        boolean blockRerolled = false;
-        boolean startSecondHalf = false;
-        boolean startOvertime = false;
-        ReportPilingOn poReport = null;
-        boolean isActionTurn = false;
-        boolean ballScatters = false;
-        Deque<ReportPoInjury> injuries = new ArrayDeque<>();
+
+        StatsState state = new StatsState();
+
         for (ServerCommand command : replayCommands) {
             if (command instanceof ServerCommandModelSync) {
                 ServerCommandModelSync modelSync = (ServerCommandModelSync) command;
                 for (ModelChange change : modelSync.getModelChanges().getChanges()) {
                     if (ModelChangeId.GAME_SET_HOME_PLAYING == change.getChangeId()) {
-                        isHomePlaying = (boolean) change.getValue();
-                        turnOverFinder.setHomeTeamActive(isHomePlaying);
+                        state.setHomePlaying((boolean) change.getValue());
+                        turnOverFinder.setHomeTeamActive(state.isHomePlaying());
                     }
 
                     if (ModelChangeId.GAME_SET_TURN_MODE == change.getChangeId()) {
-                        turnMode = (TurnMode) change.getValue();
+                        state.setTurnMode((TurnMode) change.getValue());
                     }
 
                     if (ModelChangeId.TURN_DATA_SET_TURN_NR == change.getChangeId()) {
-                        turnNumber = (int) change.getValue();
+                        state.setTurnNumber((int) change.getValue());
                     }
                 }
 
                 ReportList reportList = modelSync.getReportList();
                 for (IReport report : reportList.getReports()) {
-                    if (isActionTurn) {
+                    if (state.isActionTurn()) {
                         turnOverFinder.add(report);
                     }
                     // DEBUG LOGGING
@@ -164,7 +150,7 @@ public class StatsCollector {
 
                         // set the block roll to null, when some other skill roll was made, like dodge or gfi.
                         // this should take are that a fanatic falling down due to a gfi is not counted as a failed block.
-                        currentBlockRoll = null;
+                        state.setCurrentBlockRoll(null);
                     } else if (report instanceof ReportFanFactorRoll) {
                         ReportFanFactorRoll ffReport = ((ReportFanFactorRoll) report);
                         if (ArrayTool.isProvided(ffReport.getFanFactorRollAway())) {
@@ -180,13 +166,13 @@ public class StatsCollector {
                     } else if (report instanceof ReportInjury) {
                         ReportInjury injury = (ReportInjury) report;
                         if (ArrayTool.isProvided(injury.getArmorRoll())) {
-                            if (poReport == null || (poReport.isUsed() && !poReport.isReRollInjury())) {
+                            if (state.getPoReport() == null || (state.getPoReport().isUsed() && !state.getPoReport().isReRollInjury())) {
                                 collection.addArmourRoll(injury.getArmorRoll(), injury.getDefenderId());
                             }
                         }
                         if (injury.isArmorBroken()) {
-                            injuries.addLast(new ReportPoInjury(injury, poReport));
-                            poReport = null;
+                            state.getInjuries().addLast(new ReportPoInjury(injury, state.getPoReport()));
+                            state.setPoReport(null);
                             // if the armour is broken report the injury roll, but only if both injury dice are not 0. this
                             // should prevent errors when fanatic armour is broken, as this might be reported with weird data.
                             if (ArrayTool.isProvided(injury.getInjuryRoll()) && injury.getInjuryRoll()[0] * injury.getInjuryRoll()[1] > 0) {
@@ -199,9 +185,9 @@ public class StatsCollector {
                                 }
                             }
                         }
-                        if (activePlayer != null && currentBlockRoll != null) {
-                            collection.addBlockKnockDown(currentBlockRoll.getBlockRoll().length, injury.getDefenderId(),
-                                    currentBlockRoll.getChoosingTeamId(), activePlayer);
+                        if (state.getActivePlayer() != null && state.getCurrentBlockRoll() != null) {
+                            collection.addBlockKnockDown(state.getCurrentBlockRoll().getBlockRoll().length, injury.getDefenderId(),
+                                    state.getCurrentBlockRoll().getChoosingTeamId(), state.getActivePlayer());
                         }
                     } else if (report instanceof ReportTentaclesShadowingRoll) {
                         ReportTentaclesShadowingRoll tentShadow = (ReportTentaclesShadowingRoll) report;
@@ -216,8 +202,8 @@ public class StatsCollector {
                         ReportSpectators specs = (ReportSpectators) report;
                         collection.getHome().addDoubleRoll(specs.getSpectatorRollHome());
                         collection.getAway().addDoubleRoll(specs.getSpectatorRollAway());
-                        fameHome = specs.getFameHome();
-                        fameAway = specs.getFameAway();
+                        state.setFameHome(specs.getFameHome());
+                        state.setFameAway(specs.getFameAway());
                     } else if (report instanceof ReportKickoffResult) {
                         ReportKickoffResult kickoff = (ReportKickoffResult) report;
                         collection.addDrive(kickoff.getKickoffResult());
@@ -234,7 +220,7 @@ public class StatsCollector {
                     } else if (report instanceof ReportKickoffPitchInvasion) {
                         ReportKickoffPitchInvasion invasion = (ReportKickoffPitchInvasion) report;
                         for (int roll : invasion.getRollsHome()) {
-                            int minimumRoll = 6 - fameAway;
+                            int minimumRoll = 6 - state.getFameAway();
                             if (roll > 0) {
                                 collection.getAway().addSingleRoll(roll);
                                 if (roll >= minimumRoll) {
@@ -243,7 +229,7 @@ public class StatsCollector {
                             }
                         }
                         for (int roll : invasion.getRollsAway()) {
-                            int minimumRoll = 6 - fameHome;
+                            int minimumRoll = 6 - state.getFameHome();
                             if (roll > 0) {
                                 collection.getHome().addSingleRoll(roll);
                                 if (roll >= minimumRoll) {
@@ -292,12 +278,12 @@ public class StatsCollector {
                         }
 
                     } else if (report instanceof ReportPlayerAction) {
-                        ballScatters = false;
-                        lastReportWasBlockRoll = false;
-                        blockRerolled = false;
+                        state.setBallScatters(false);
+                        state.setLastReportWasBlockRoll(false);
+                        state.setBlockRerolled(false);
                         ReportPlayerAction action = ((ReportPlayerAction) report);
-                        currentBlockRoll = null;
-                        poReport = null;
+                        state.setCurrentBlockRoll(null);
+                        state.setPoReport(null);
                         turnOverFinder.reset();
                         turnOverFinder.add(action);
                         switch (action.getPlayerAction()) {
@@ -305,30 +291,30 @@ public class StatsCollector {
                             case BLITZ_MOVE:
                             case BLOCK:
                             case MULTIPLE_BLOCK:
-                                activePlayer = action.getActingPlayerId();
+                                state.setActivePlayer(action.getActingPlayerId());
                                 break;
                             case MOVE:
-                                activePlayer = action.getActingPlayerId();
+                                state.setActivePlayer(action.getActingPlayerId());
                                 break;
                             default:
-                                activePlayer = null;
+                                state.setActivePlayer(null);
                         }
                     } else if (report instanceof ReportBlockRoll) {
                         ReportBlockRoll block = (ReportBlockRoll) report;
-                        collection.addBlockRolls(block.getBlockRoll(), activePlayer, block.getChoosingTeamId(), blockRerolled);
-                        currentBlockRoll = block;
-                        lastReportWasBlockRoll = true;
+                        collection.addBlockRolls(block.getBlockRoll(), state.getActivePlayer(), block.getChoosingTeamId(), state.isBlockRerolled());
+                        state.setCurrentBlockRoll(block);
+                        state.setLastReportWasBlockRoll(true);
                     } else if (report instanceof ReportReRoll) {
-                        if (lastReportWasBlockRoll) {
-                            lastReportWasBlockRoll = false;
-                            blockRerolled = true;
+                        if (state.isLastReportWasBlockRoll()) {
+                            state.setLastReportWasBlockRoll(false);
+                            state.setBlockRerolled(true);
                         }
                         ReportReRoll reportReRoll = (ReportReRoll) report;
                         if (ReRollSource.TEAM_RE_ROLL == reportReRoll.getReRollSource() || ReRollSource.LEADER == reportReRoll.getReRollSource()) {
                             collection.addReroll(reportReRoll.getPlayerId());
                         }
                     } else if (report instanceof ReportTurnEnd) {
-                        ballScatters = false;
+                        state.setBallScatters(false);
                         ReportTurnEnd turn = (ReportTurnEnd) report;
                         if (!StringUtils.isEmpty(turn.getPlayerIdTouchdown())) {
                             collection.addTouchdown(turn.getPlayerIdTouchdown());
@@ -354,34 +340,34 @@ public class StatsCollector {
                             }
                         }
 
-                        collection.addArmourAndInjuryStats(injuries);
-                        injuries.clear();
-                        if (isActionTurn) {
+                        collection.addArmourAndInjuryStats(state.getInjuries());
+                        state.getInjuries().clear();
+                        if (state.isActionTurn()) {
                             turnOverFinder.findTurnover().ifPresent(turnOver -> collection.addTurnOver(turnOver));
                         }
 
                         turnOverFinder.reset();
-                        if (startSecondHalf) {
+                        if (state.isStartSecondHalf()) {
                             collection.startSecondHalf();
-                            startSecondHalf = false;
+                            state.setStartSecondHalf(false);
                         }
-                        if (startOvertime) {
+                        if (state.isStartOvertime()) {
                             collection.startOvertime();
-                            startOvertime = false;
+                            state.setStartOvertime(false);
                         }
 
-                        if (TurnMode.BLITZ == turnMode || TurnMode.REGULAR == turnMode) {
-                            collection.addTurn(isHomePlaying, turnMode, turnNumber);
-                            isActionTurn = true;
+                        if (TurnMode.BLITZ == state.getTurnMode() || TurnMode.REGULAR == state.getTurnMode()) {
+                            collection.addTurn(state.isHomePlaying(), state.getTurnMode(), state.getTurnNumber());
+                            state.setActionTurn(true);
                         } else {
-                            isActionTurn = false;
+                            state.setActionTurn(false);
                         }
 
 
                     } else if (report instanceof ReportPilingOn) {
                         if (((ReportPilingOn) report).isUsed()) {
-                            poReport = ((ReportPilingOn) report);
-                            injuries.pollLast();
+                            state.setPoReport(((ReportPilingOn) report));
+                            state.getInjuries().pollLast();
                         }
                     } else if (report instanceof ReportStandUpRoll) {
                         ReportStandUpRoll standUpRoll = (ReportStandUpRoll) report;
@@ -393,20 +379,20 @@ public class StatsCollector {
                         collection.setWeather(((ReportWeather) report).getWeather().getName());
                     } else if (report instanceof ReportStartHalf) {
                         if (((ReportStartHalf) report).getHalf() == 2) {
-                            startSecondHalf = true;
+                            state.setStartSecondHalf(true);
                         } else if (((ReportStartHalf) report).getHalf() > 2) {
-                            startOvertime = true;
-                            startSecondHalf = false;
+                            state.setStartOvertime(true);
+                            state.setStartSecondHalf(false);
                         }
                     } else if (report instanceof ReportTimeoutEnforced) {
-                        collection.addTimeOut(isHomePlaying);
-                    } else if (report instanceof ReportScatterBall && !ballScatters) {
-                        collection.addScatter(isHomePlaying);
-                        ballScatters = true;
+                        collection.addTimeOut(state.isHomePlaying());
+                    } else if (report instanceof ReportScatterBall && !state.isBallScatters()) {
+                        collection.addScatter(state.isHomePlaying());
+                        state.setBallScatters(true);
                     } else if (report instanceof ReportWizardUse) {
-                        collection.addWizardUse(isHomePlaying);
+                        collection.addWizardUse(state.isHomePlaying());
                     } else if (report instanceof ReportKickoffResult) {
-                        ballScatters = true;
+                        state.setBallScatters(true);
                     }
                 }
             }

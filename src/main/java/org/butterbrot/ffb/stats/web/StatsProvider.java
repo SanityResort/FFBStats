@@ -2,7 +2,7 @@ package org.butterbrot.ffb.stats.web;
 
 import com.balancedbytes.games.ffb.net.commands.ServerCommand;
 import org.butterbrot.ffb.stats.NoSuchReplayException;
-import org.butterbrot.ffb.stats.evaluation.StatsCollector;
+import org.butterbrot.ffb.stats.evaluation.stats.StatsCollector;
 import org.butterbrot.ffb.stats.model.StatsCollection;
 import org.butterbrot.ffb.stats.communication.CommandHandler;
 import org.butterbrot.ffb.stats.communication.StatsCommandSocket;
