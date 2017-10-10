@@ -86,7 +86,8 @@ public class ValidationIntegrationTest {
         logger.info("Starting validation");
         StatsCollection baseline = getExpectedStatsCollection(replayId);
         StatsCollection toValidate = getActualCollection(replayId);
-        assertTrue(dataValidator.validate(baseline, toValidate));
+        boolean result = dataValidator.validate(baseline, toValidate);
+        assertTrue("Generated data model does not match expectations", result);
         logger.info("Finished validation");
     }
 
