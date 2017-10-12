@@ -20,7 +20,7 @@ public class ListValidator extends DelegatingValidator<List<Object>, Object> {
                     .valueOf(toValidateSize));
             result = false;
         }
-        for (int index=0; index< baselineSize; index++) {
+        for (int index=0; index< Math.min(baselineSize, toValidateSize); index++) {
             String compoundFieldName = getCompoundName(fieldPrefix, "[" + index + "]");
             Object baselineField = baseline.get(index);
             result = delegate(compoundFieldName, baselineField, toValidate.get(index)) && result;

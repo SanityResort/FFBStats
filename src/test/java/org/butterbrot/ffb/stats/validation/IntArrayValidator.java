@@ -19,7 +19,7 @@ public class IntArrayValidator extends DelegatingValidator<int[], Integer> {
                     .valueOf(toValidateSize));
             result = false;
         }
-        for (int index=0; index< baselineSize; index++) {
+        for (int index=0; index< Math.min(baselineSize, toValidateSize); index++) {
             String compoundFieldName = getCompoundName(fieldPrefix, "[" + index + "]");
             int baselineField = baseline[index];
             result = delegate(compoundFieldName, baselineField, toValidate[index]) && result;
