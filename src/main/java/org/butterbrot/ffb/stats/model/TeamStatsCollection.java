@@ -238,6 +238,7 @@ public class TeamStatsCollection implements Data {
 
     public void addSingleRoll(int roll) {
         increment(singleRolls, roll);
+        increment(totalSingleRolls, roll);
     }
 
     public void addDoubleRoll(int[] rolls) {
