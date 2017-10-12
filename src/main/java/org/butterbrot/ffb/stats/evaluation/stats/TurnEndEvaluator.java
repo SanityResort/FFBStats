@@ -65,12 +65,5 @@ public class TurnEndEvaluator extends Evaluator<ReportTurnEnd> {
             collection.startOvertime();
             state.setStartOvertime(false);
         }
-
-        if (TurnMode.BLITZ == state.getTurnMode() || TurnMode.REGULAR == state.getTurnMode()) {
-            collection.addTurn(state.isHomePlaying(), state.getTurnMode(), state.getTurnNumber());
-            state.setActionTurn(true);
-        } else {
-            state.setActionTurn(false);
-        }
     }
 }

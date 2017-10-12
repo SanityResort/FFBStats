@@ -41,6 +41,7 @@ import com.balancedbytes.games.ffb.report.ReportWeather;
 import com.balancedbytes.games.ffb.report.ReportWinningsRoll;
 import com.balancedbytes.games.ffb.report.ReportWizardUse;
 import com.balancedbytes.games.ffb.util.ArrayTool;
+import com.google.gson.Gson;
 import org.butterbrot.ffb.stats.adapter.ReportPoInjury;
 import org.butterbrot.ffb.stats.evaluation.turnover.TurnOverFinder;
 import org.butterbrot.ffb.stats.model.StatsCollection;
@@ -110,6 +111,25 @@ public class StatsCollector {
         for (ServerCommand command : replayCommands) {
             if (command instanceof ServerCommandModelSync) {
                 ServerCommandModelSync modelSync = (ServerCommandModelSync) command;
+
+
+                ReportList reportList = modelSync.getReportList();
+                for (IReport report : reportList.getReports()) {
+                    if (state.isActionTurn()) {
+                        turnOverFinder.add(report);
+                    }
+                    // DEBUG LOGGING
+                        System.out.println(new Gson().toJson(report));
+                    for (Evaluator evaluator: evaluators) {
+                        if (evaluator.handles(report)){
+                            evaluator.evaluate(report);
+                            break;
+                        }
+                    }
+                }
+
+                boolean newTurnMode = false;
+
                 for (ModelChange change : modelSync.getModelChanges().getChanges()) {
                     if (ModelChangeId.GAME_SET_HOME_PLAYING == change.getChangeId()) {
                         state.setHomePlaying((boolean) change.getValue());
@@ -118,26 +138,19 @@ public class StatsCollector {
 
                     if (ModelChangeId.GAME_SET_TURN_MODE == change.getChangeId()) {
                         state.setTurnMode((TurnMode) change.getValue());
+                        newTurnMode = true;
                     }
 
                     if (ModelChangeId.TURN_DATA_SET_TURN_NR == change.getChangeId()) {
                         state.setTurnNumber((int) change.getValue());
+                        newTurnMode = true;
                     }
                 }
 
-                ReportList reportList = modelSync.getReportList();
-                for (IReport report : reportList.getReports()) {
-                    if (state.isActionTurn()) {
-                        turnOverFinder.add(report);
-                    }
-                    // DEBUG LOGGING
-                    //System.out.println(new Gson().toJson(report));
-                    for (Evaluator evaluator: evaluators) {
-                        if (evaluator.handles(report)){
-                            evaluator.evaluate(report);
-                            break;
-                        }
-                    }
+                state.setActionTurn(TurnMode.BLITZ == state.getTurnMode() || TurnMode.REGULAR == state.getTurnMode());
+
+                if (newTurnMode && state.isActionTurn()){
+                    collection.addTurn(state.isHomePlaying(), state.getTurnMode(), state.getTurnNumber());
                 }
             }
         }
