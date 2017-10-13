@@ -3,15 +3,19 @@ package org.butterbrot.ffb.stats.evaluation.stats;
 import com.balancedbytes.games.ffb.report.IReport;
 import com.balancedbytes.games.ffb.report.ReportPlayerAction;
 import org.butterbrot.ffb.stats.evaluation.turnover.TurnOverFinder;
+import org.butterbrot.ffb.stats.model.StatsCollection;
+import org.butterbrot.ffb.stats.model.TeamStatsCollection;
 
 public class PlayerActionEvaluator extends Evaluator<ReportPlayerAction> {
 
     private StatsState state;
     private TurnOverFinder turnOverFinder;
+    private StatsCollection collection;
 
-    public PlayerActionEvaluator(StatsState state, TurnOverFinder turnOverFinder) {
+    public PlayerActionEvaluator(StatsCollection collection, StatsState state, TurnOverFinder turnOverFinder) {
         this.state = state;
         this.turnOverFinder = turnOverFinder;
+        this.collection = collection;
     }
 
     @Override
@@ -24,6 +28,7 @@ public class PlayerActionEvaluator extends Evaluator<ReportPlayerAction> {
         state.setPoReport(null);
         turnOverFinder.reset();
         turnOverFinder.add(action);
+        collection.addPlayerActon(action.getPlayerAction(), action.getActingPlayerId());
         switch (action.getPlayerAction()) {
             case BLITZ:
             case BLITZ_MOVE:
@@ -37,6 +42,5 @@ public class PlayerActionEvaluator extends Evaluator<ReportPlayerAction> {
             default:
                 state.setActivePlayer(null);
         }
-
     }
 }

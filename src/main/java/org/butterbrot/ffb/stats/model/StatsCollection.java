@@ -2,6 +2,7 @@ package org.butterbrot.ffb.stats.model;
 
 import com.balancedbytes.games.ffb.ArmorModifier;
 import com.balancedbytes.games.ffb.KickoffResult;
+import com.balancedbytes.games.ffb.PlayerAction;
 import com.balancedbytes.games.ffb.TurnMode;
 import com.balancedbytes.games.ffb.model.Player;
 import com.balancedbytes.games.ffb.model.Team;
@@ -334,6 +335,12 @@ public class StatsCollection  implements Data {
         TeamStatsCollection team = isHomeTeamActive ? home : away;
         team.addWizardUse();
         turnTeam(team).addWizardUse();
+    }
+
+    public void addPlayerActon(PlayerAction action, String playerId) {
+        TeamStatsCollection team = teams.get(playerId);
+        team.addPlayerAction(action, playerId);
+        turnTeam(team).addPlayerAction(action, playerId);
     }
 
     private TeamStatsCollection getOpposition(TeamStatsCollection team) {

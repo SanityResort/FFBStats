@@ -2,12 +2,16 @@ package org.butterbrot.ffb.stats.model;
 
 import com.balancedbytes.games.ffb.BlockResult;
 import com.balancedbytes.games.ffb.BlockResultFactory;
+import com.balancedbytes.games.ffb.PlayerAction;
 import com.balancedbytes.games.ffb.report.ReportId;
+import org.butterbrot.ffb.stats.adapter.PlayerActionMapping;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class TeamStatsCollection implements Data {
 
@@ -33,6 +37,7 @@ public class TeamStatsCollection implements Data {
     private List<Injury> causedInjuries = new ArrayList<>();
     private List<TurnOver> turnOvers = new ArrayList<>();
     private Map<String, Integer> additionalStats = initAdditonalStatsMap();
+    private Map<PlayerAction, Set<String>> playerActionMap = new HashMap<>();
 
     private String teamName;
     private String coach;
@@ -169,6 +174,14 @@ public class TeamStatsCollection implements Data {
             stats.put(i++ + "+", 0);
         }
         return stats;
+    }
+
+    public void addPlayerAction(PlayerAction action, String playerId) {
+        PlayerAction mappedAction = PlayerActionMapping.get(action);
+        if (!playerActionMap.containsKey(mappedAction)) {
+            playerActionMap.put(mappedAction, new HashSet<>());
+        }
+        playerActionMap.get(mappedAction).add(playerId);
     }
 
     public void addTurnOver(TurnOver turnOver) {
