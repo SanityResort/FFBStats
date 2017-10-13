@@ -76,7 +76,8 @@ public class ValidationIntegrationTest {
         MapValidator mapValidator = new MapValidator();
         IntArrayValidator intArrayValidator = new IntArrayValidator();
         List<Validator> delegates = Lists.newArrayList(dataValidator, new StringValidator(), new InjuryStateValidator(),
-                new IntegerValidator(), listValidator, mapValidator, new BooleanValidator(), intArrayValidator);
+                new IntegerValidator(), listValidator, mapValidator, new BooleanValidator(), intArrayValidator, new
+                        SetValidator());
         dataValidator.setDelegateValidators(delegates);
         listValidator.setDelegateValidators(delegates);
         mapValidator.setDelegateValidators(delegates);
