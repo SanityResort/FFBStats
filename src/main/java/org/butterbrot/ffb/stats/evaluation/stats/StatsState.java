@@ -4,6 +4,7 @@ import com.balancedbytes.games.ffb.TurnMode;
 import com.balancedbytes.games.ffb.report.ReportBlockRoll;
 import com.balancedbytes.games.ffb.report.ReportPilingOn;
 import org.butterbrot.ffb.stats.adapter.ReportPoInjury;
+import org.butterbrot.ffb.stats.model.Turn;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
@@ -24,6 +25,7 @@ public class StatsState {
     private boolean isActionTurn = false;
     private boolean ballScatters = false;
     private Deque<ReportPoInjury> injuries = new ArrayDeque<>();
+    private Turn lastTurn;
 
     public int getFameHome() {
         return fameHome;
@@ -143,5 +145,20 @@ public class StatsState {
 
     public void setInjuries(Deque<ReportPoInjury> injuries) {
         this.injuries = injuries;
+    }
+
+    public Turn getLastTurn() {
+        return lastTurn;
+    }
+
+    public void setLastTurn(Turn lastTurn) {
+        this.lastTurn = lastTurn;
+    }
+
+    public boolean isNewTurn() {
+        return lastTurn == null ||
+                (lastTurn.isHomeActive() != this.isHomePlaying()) ||
+                (lastTurn.getNumber() != this.getTurnNumber()) ||
+                (!lastTurn.getTurnMode().equals(this.getTurnMode().getName()));
     }
 }

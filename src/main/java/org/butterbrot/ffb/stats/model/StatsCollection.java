@@ -213,8 +213,10 @@ public class StatsCollection  implements Data {
         }
     }
 
-    public void addTurn(boolean isHomeActive, TurnMode turnMode, int turnNumber) {
-        currentDrive.addTurn(new Turn(isHomeActive, turnMode.getName(), turnNumber, home));
+    public Turn addTurn(boolean isHomeActive, TurnMode turnMode, int turnNumber) {
+        Turn turn = new Turn(isHomeActive, turnMode.getName(), turnNumber, home);
+        currentDrive.addTurn(turn);
+        return turn;
     }
 
     public void addArmourAndInjuryStats(Collection<ReportPoInjury> injuries) {
@@ -402,28 +404,4 @@ public class StatsCollection  implements Data {
         }
     }
 
-    private static final class Turn implements Data {
-        private final boolean isHomeActive;
-        private final String turnMode;
-        private final int number;
-
-        private final transient TeamStatsCollection globalHome;
-
-        private final TeamStatsCollection rollsHome = new TeamStatsCollection();
-        private final TeamStatsCollection rollsAway = new TeamStatsCollection();
-
-        public Turn(boolean isHomeActive, String turnMode, int number, TeamStatsCollection globalHome) {
-            this.isHomeActive = isHomeActive;
-            this.turnMode = turnMode;
-            this.number = number;
-            this.globalHome = globalHome;
-        }
-
-        public TeamStatsCollection getTurnTeam(TeamStatsCollection globalTeam) {
-            if (globalTeam == globalHome) {
-                return rollsHome;
-            }
-            return rollsAway;
-        }
-    }
 }
