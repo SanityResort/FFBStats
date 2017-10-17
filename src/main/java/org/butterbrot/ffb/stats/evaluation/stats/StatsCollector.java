@@ -53,10 +53,10 @@ public class StatsCollector {
         evaluators.add(new SpecialEffectRollEvaluator(collection));
         evaluators.add(new SpectatorsEvaluator(collection, state));
         evaluators.add(new StandUpRollEvaluator(collection));
-        evaluators.add(new StartHalfEvaluator(state));
+        evaluators.add(new StartHalfEvaluator(state, turnOverFinder, collection ));
         evaluators.add(new TentaclesShadowingRollEvaluator(collection));
         evaluators.add(new TimeoutEnforcedEvaluator(state));
-        evaluators.add(new TurnEndEvaluator(collection, state, turnOverFinder));
+        evaluators.add(new TurnEndEvaluator(collection, state));
         evaluators.add(new WeatherEvaluator(collection));
         evaluators.add(new WinnigsRollEvaluator(collection));
         evaluators.add(new WizardUseEvaluator(state, collection));
@@ -114,6 +114,8 @@ public class StatsCollector {
                 state.setActionTurn(TurnMode.BLITZ == state.getTurnMode() || TurnMode.REGULAR == state.getTurnMode());
 
                 if (newTurnValuesSet && state.isActionTurn() && state.isNewTurn()){
+                    turnOverFinder.findTurnover().ifPresent(turnOver -> collection.addTurnOver(turnOver));
+                    turnOverFinder.reset();
                     state.setLastTurn(collection.addTurn(state.isHomePlaying(), state.getTurnMode(), state
                             .getTurnNumber()));
                 }

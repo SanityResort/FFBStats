@@ -14,12 +14,10 @@ public class TurnEndEvaluator extends Evaluator<ReportTurnEnd> {
 
     private StatsCollection collection;
     private StatsState state;
-    private TurnOverFinder turnOverFinder;
 
-    public TurnEndEvaluator(StatsCollection collection, StatsState state, TurnOverFinder turnOverFinder) {
+    public TurnEndEvaluator(StatsCollection collection, StatsState state) {
         this.collection = collection;
         this.state = state;
-        this.turnOverFinder = turnOverFinder;
     }
 
     @Override
@@ -52,11 +50,7 @@ public class TurnEndEvaluator extends Evaluator<ReportTurnEnd> {
 
         collection.addArmourAndInjuryStats(state.getInjuries());
         state.getInjuries().clear();
-        if (state.isActionTurn()) {
-            turnOverFinder.findTurnover().ifPresent(turnOver -> collection.addTurnOver(turnOver));
-        }
 
-        turnOverFinder.reset();
         if (state.isStartSecondHalf()) {
             collection.startSecondHalf();
             state.setStartSecondHalf(false);
