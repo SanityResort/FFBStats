@@ -34,6 +34,7 @@ public class StatsCollector {
 
     public StatsCollector(List<ServerCommand> replayCommands) {
         this.replayCommands = replayCommands;
+        evaluators.add(new ArgueTheCallEvaluator(collection));
         evaluators.add(new ApothecaryRollEvaluator(collection));
         evaluators.add(new BlockRollEvaluator(collection, state));
         evaluators.add(new BribesRollEvaluator(collection));
