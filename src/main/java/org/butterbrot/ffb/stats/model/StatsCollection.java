@@ -419,7 +419,7 @@ public class StatsCollection  implements Data {
         }
     }
 
-    private static class Half {
+    private static class Half implements Data {
         private List<Drive> drives = new ArrayList<>();
         private List<Integer> chefRolls = new ArrayList<>();
     }
