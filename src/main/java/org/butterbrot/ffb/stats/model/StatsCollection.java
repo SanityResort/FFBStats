@@ -24,10 +24,10 @@ public class StatsCollection  implements Data {
     private int version = 5;
     private String replayId;
     private String weather;
-    private List<Drive> firstHalf = new ArrayList<>();
-    private List<Drive> secondHalf = new ArrayList<>();
-    private List<Drive> overtime = new ArrayList<>();
-    private transient List<Drive> currentHalf = firstHalf;
+    private Half firstHalf = new Half();
+    private Half secondHalf = new Half();
+    private Half overtime = new Half();
+    private transient Half currentHalf = firstHalf;
     private transient Map<String, Integer> armourValues = new HashMap<>();
     private transient Map<String, TeamStatsCollection> teams = new HashMap<>();
     private transient Drive currentDrive;
@@ -90,6 +90,14 @@ public class StatsCollection  implements Data {
     public void addSingleRoll(int roll, String playerOrTeam) {
         teams.get(playerOrTeam).addSingleRoll(roll);
         turnTeam(teams.get(playerOrTeam)).addSingleRoll(roll);
+    }
+
+    public void addChefRoll(int roll, String playerOrTeam, int minimumRoll) {
+        currentHalf.chefRolls.add(roll);
+        teams.get(playerOrTeam).addSingleRoll(roll);
+        if (roll >= minimumRoll) {
+            teams.get(playerOrTeam).addSuccessRoll(ReportId.MASTER_CHEF_ROLL, minimumRoll);
+        }
     }
 
     public void addSingleOpposingRoll(int roll, String playerOrTeam) {
@@ -189,7 +197,7 @@ public class StatsCollection  implements Data {
 
     public void addDrive(KickoffResult kickoffResult) {
         Drive drive = new Drive(kickoffResult.getName(), home);
-        currentHalf.add(drive);
+        currentHalf.drives.add(drive);
         currentDrive = drive;
     }
 
@@ -411,4 +419,8 @@ public class StatsCollection  implements Data {
         }
     }
 
+    private static class Half {
+        private List<Drive> drives = new ArrayList<>();
+        private List<Integer> chefRolls = new ArrayList<>();
+    }
 }

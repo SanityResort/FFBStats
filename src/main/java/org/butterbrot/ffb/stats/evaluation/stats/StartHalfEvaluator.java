@@ -1,6 +1,7 @@
 package org.butterbrot.ffb.stats.evaluation.stats;
 
 import com.balancedbytes.games.ffb.report.IReport;
+import com.balancedbytes.games.ffb.report.ReportMasterChefRoll;
 import com.balancedbytes.games.ffb.report.ReportStartHalf;
 import org.butterbrot.ffb.stats.evaluation.turnover.TurnOverFinder;
 import org.butterbrot.ffb.stats.model.StatsCollection;
@@ -19,6 +20,16 @@ public class StartHalfEvaluator extends Evaluator<ReportStartHalf> {
 
     @Override
     public void evaluate(IReport report) {
+
+        if (state.getChefRoll() != null) {
+            ReportMasterChefRoll chef = state.getChefRoll();
+            for (int roll : chef.getMasterChefRoll()) {
+                collection.addChefRoll(roll, chef.getTeamId(), 4);
+            }
+        }
+
+        state.setChefRoll(null);
+
         if (((ReportStartHalf) report).getHalf() == 2) {
             turnOverFinder.findTurnover().ifPresent(turnOver -> collection.addTurnOver(turnOver));
             turnOverFinder.reset();

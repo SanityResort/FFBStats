@@ -2,6 +2,7 @@ package org.butterbrot.ffb.stats.evaluation.stats;
 
 import com.balancedbytes.games.ffb.TurnMode;
 import com.balancedbytes.games.ffb.report.ReportBlockRoll;
+import com.balancedbytes.games.ffb.report.ReportMasterChefRoll;
 import com.balancedbytes.games.ffb.report.ReportPilingOn;
 import org.butterbrot.ffb.stats.adapter.ReportPoInjury;
 import org.butterbrot.ffb.stats.model.Turn;
@@ -26,6 +27,15 @@ public class StatsState {
     private boolean ballScatters = false;
     private Deque<ReportPoInjury> injuries = new ArrayDeque<>();
     private Turn lastTurn;
+    private ReportMasterChefRoll chefRoll;
+
+    public ReportMasterChefRoll getChefRoll() {
+        return chefRoll;
+    }
+
+    public void setChefRoll(ReportMasterChefRoll chefRoll) {
+        this.chefRoll = chefRoll;
+    }
 
     public int getFameHome() {
         return fameHome;

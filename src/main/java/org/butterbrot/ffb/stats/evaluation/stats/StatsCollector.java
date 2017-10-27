@@ -8,6 +8,7 @@ import com.balancedbytes.games.ffb.net.commands.ServerCommand;
 import com.balancedbytes.games.ffb.net.commands.ServerCommandModelSync;
 import com.balancedbytes.games.ffb.report.IReport;
 import com.balancedbytes.games.ffb.report.ReportList;
+import com.balancedbytes.games.ffb.report.ReportStartHalf;
 import com.balancedbytes.games.ffb.report.ReportTurnEnd;
 import com.google.gson.Gson;
 import org.butterbrot.ffb.stats.evaluation.turnover.TurnOverFinder;
@@ -22,6 +23,7 @@ public class StatsCollector {
     private TurnOverFinder turnOverFinder = new TurnOverFinder();
     private StatsState state = new StatsState();
     private List<Evaluator> evaluators = new ArrayList<>();
+    private StartHalfEvaluator halfEvaluator;
 
     public void setHomeTeam(Team team) {
         collection.setHomeTeam(team);
@@ -34,6 +36,7 @@ public class StatsCollector {
 
     public StatsCollector(List<ServerCommand> replayCommands) {
         this.replayCommands = replayCommands;
+        halfEvaluator = new StartHalfEvaluator(state, turnOverFinder, collection );
         evaluators.add(new ArgueTheCallEvaluator(collection));
         evaluators.add(new ApothecaryRollEvaluator(collection));
         evaluators.add(new BlockRollEvaluator(collection, state));
@@ -44,7 +47,7 @@ public class StatsCollector {
         evaluators.add(new KickoffPitchInvasionEvaluator(collection, state));
         evaluators.add(new KickoffResultEvaluator(collection, state));
         evaluators.add(new KickoffThrowARockEvaluator(collection));
-        evaluators.add(new MasterChefRollEvaluator(collection));
+        evaluators.add(new MasterChefRollEvaluator(state));
         evaluators.add(new PenaltyShootoutEvaluator(collection));
         evaluators.add(new PillingOnEvaluator(state));
         evaluators.add(new PlayerActionEvaluator(collection, state, turnOverFinder));
@@ -54,7 +57,7 @@ public class StatsCollector {
         evaluators.add(new SpecialEffectRollEvaluator(collection));
         evaluators.add(new SpectatorsEvaluator(collection, state));
         evaluators.add(new StandUpRollEvaluator(collection));
-        evaluators.add(new StartHalfEvaluator(state, turnOverFinder, collection ));
+        evaluators.add(halfEvaluator);
         evaluators.add(new TentaclesShadowingRollEvaluator(collection));
         evaluators.add(new TimeoutEnforcedEvaluator(state));
         evaluators.add(new TurnEndEvaluator(collection, state));
@@ -122,6 +125,12 @@ public class StatsCollector {
                 }
             }
         }
+
+        // ugly hack to evaluate master chef rolls of the current active half before the game ends.
+        // during the loop master chef rolls are evaluated before a new half is started
+        // it can't happen when the report appears as the first half start is not reported but the others are
+        // this way is the only remotely consistent one I found so far
+        halfEvaluator.evaluate(new ReportStartHalf(0));
 
         return collection;
     }
