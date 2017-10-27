@@ -70,6 +70,11 @@ public class ValidationIntegrationTest {
         validateBaseline("1005014");
     }
 
+    @Test
+    public void replay1011681() throws IOException {
+        validateBaseline("1011681");
+    }
+
     private void validateBaseline(String replayId) throws IOException {
         DataValidator dataValidator = new DataValidator();
         ListValidator listValidator = new ListValidator();
