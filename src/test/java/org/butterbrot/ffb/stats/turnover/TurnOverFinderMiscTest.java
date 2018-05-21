@@ -2,7 +2,9 @@ package org.butterbrot.ffb.stats.turnover;
 
 import com.balancedbytes.games.ffb.PlayerAction;
 import com.balancedbytes.games.ffb.ReRollSource;
+import com.balancedbytes.games.ffb.Skill;
 import com.balancedbytes.games.ffb.SpecialEffect;
+import com.balancedbytes.games.ffb.report.ReportConfusionRoll;
 import com.balancedbytes.games.ffb.report.ReportId;
 import com.balancedbytes.games.ffb.report.ReportInjury;
 import com.balancedbytes.games.ffb.report.ReportPlayerAction;
@@ -31,6 +33,14 @@ public class TurnOverFinderMiscTest extends AbstractTurnOverFinderTest {
     @Test
     public void actionOnly() {
         turnOverFinder.add(new ReportPlayerAction(actingPlayer, PlayerAction.MOVE));
+        turnOverFinder.add(new ReportTurnEnd(null, null, null));
+        assertFalse("Action without dice cannot create a turn over", turnOverFinder.findTurnover().isPresent());
+    }
+
+    @Test
+    public void confusion() {
+        turnOverFinder.add(new ReportPlayerAction(actingPlayer, PlayerAction.MOVE));
+        turnOverFinder.add(new ReportConfusionRoll(actingPlayer, false, 1, 2, false, Skill.BONE_HEAD));
         turnOverFinder.add(new ReportTurnEnd(null, null, null));
         assertFalse("Action without dice cannot create a turn over", turnOverFinder.findTurnover().isPresent());
     }

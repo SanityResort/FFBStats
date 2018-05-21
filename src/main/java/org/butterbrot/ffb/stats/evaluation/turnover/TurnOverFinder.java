@@ -7,6 +7,7 @@ import com.balancedbytes.games.ffb.model.Team;
 import com.balancedbytes.games.ffb.report.IReport;
 import com.balancedbytes.games.ffb.report.ReportBlockRoll;
 import com.balancedbytes.games.ffb.report.ReportBribesRoll;
+import com.balancedbytes.games.ffb.report.ReportConfusionRoll;
 import com.balancedbytes.games.ffb.report.ReportId;
 import com.balancedbytes.games.ffb.report.ReportInjury;
 import com.balancedbytes.games.ffb.report.ReportPassRoll;
@@ -82,8 +83,11 @@ public class TurnOverFinder {
         for (IReport report : reports) {
             if (report instanceof ReportReRoll) {
                 state.setReportReRoll((ReportReRoll) report);
-            } else if (report instanceof ReportSkillRoll) {
+            } else if (report instanceof ReportSkillRoll &&
+                    // failed confusion rolls do not cause turn overs
+                    !(report instanceof ReportConfusionRoll)) {
                 ReportSkillRoll skillRoll = (ReportSkillRoll) report;
+
                 state.setReportBlockRoll(null);
                 if (!(ReportId.CATCH_ROLL == report.getId() && (homePlayers.contains(skillRoll.getPlayerId()) != homePlayers.contains(activePlayer)))) {
                     // if a successful pass was not caught by an opponent we do not reset the flag

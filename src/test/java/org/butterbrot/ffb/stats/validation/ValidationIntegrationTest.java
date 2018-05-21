@@ -17,7 +17,9 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import javax.annotation.Resource;
 import java.io.IOException;
 import java.io.Reader;
+import java.nio.charset.Charset;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 
@@ -95,6 +97,16 @@ public class ValidationIntegrationTest {
         boolean result = dataValidator.validate(baseline, toValidate);
         assertTrue("Generated data model does not match expectations", result);
         logger.info("Finished validation");
+    }
+
+   // @Test
+    public void updateExpectation() throws Exception {
+        String replayId = "861710";
+        String statsJson = new Gson().toJson(getActualCollection(replayId));
+        String jsonFile = String.format(outputPathTemplate, replayId);
+        logger.info("Creating json file: {}", jsonFile);
+        Path jsonPath = Paths.get(jsonFile);
+        Files.write(jsonPath, statsJson.getBytes(Charset.forName("UTF-8")));
     }
 
     private StatsCollection getExpectedStatsCollection(String replayId) throws IOException {
