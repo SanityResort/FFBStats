@@ -18,6 +18,7 @@ import com.balancedbytes.games.ffb.report.ReportScatterBall;
 import com.balancedbytes.games.ffb.report.ReportSkillRoll;
 import com.balancedbytes.games.ffb.report.ReportSpecialEffectRoll;
 import com.balancedbytes.games.ffb.report.ReportTurnEnd;
+import com.google.common.collect.Sets;
 import org.butterbrot.ffb.stats.adapter.TurnOverDescription;
 import org.butterbrot.ffb.stats.model.TurnOver;
 
@@ -85,7 +86,9 @@ public class TurnOverFinder {
                 state.setReportReRoll((ReportReRoll) report);
             } else if (report instanceof ReportSkillRoll &&
                     // failed confusion rolls do not cause turn overs
-                    !(report instanceof ReportConfusionRoll)) {
+                    !(report instanceof ReportConfusionRoll) &&
+                    // failed foul appearance rolls do not cause turn overs
+                    ! ReportId.FOUL_APPEARANCE_ROLL.equals(report.getId())) {
                 ReportSkillRoll skillRoll = (ReportSkillRoll) report;
 
                 state.setReportBlockRoll(null);

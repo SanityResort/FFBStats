@@ -13,11 +13,16 @@ import com.balancedbytes.games.ffb.report.ReportTurnEnd;
 import com.google.gson.Gson;
 import org.butterbrot.ffb.stats.evaluation.turnover.TurnOverFinder;
 import org.butterbrot.ffb.stats.model.StatsCollection;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class StatsCollector {
+
+    private static final Logger logger = LoggerFactory.getLogger(StatsCollector.class);
+
     private List<ServerCommand> replayCommands;
     private StatsCollection collection = new StatsCollection();
     private TurnOverFinder turnOverFinder = new TurnOverFinder();
@@ -80,18 +85,23 @@ public class StatsCollector {
 
         for (ServerCommand command : replayCommands) {
             if (command instanceof ServerCommandModelSync) {
+                //logger.info(new Gson().toJson(command));
+
                 ServerCommandModelSync modelSync = (ServerCommandModelSync) command;
 
 
                 ReportList reportList = modelSync.getReportList();
                 for (IReport report : reportList.getReports()) {
-                    if (state.isActionTurn()) {
-                        turnOverFinder.add(report);
-                    }
-                    for (Evaluator evaluator: evaluators) {
-                        if (evaluator.handles(report)){
-                            evaluator.evaluate(report);
-                            break;
+                  //  logger.info(new Gson().toJson(report));
+                    if (!TurnMode.KICKOFF_RETURN.equals(state.getTurnMode())) {
+                        if (state.isActionTurn()) {
+                            turnOverFinder.add(report);
+                        }
+                        for (Evaluator evaluator : evaluators) {
+                            if (evaluator.handles(report)) {
+                                evaluator.evaluate(report);
+                                break;
+                            }
                         }
                     }
                 }
@@ -99,6 +109,7 @@ public class StatsCollector {
                 boolean newTurnValuesSet = false;
 
                 for (ModelChange change : modelSync.getModelChanges().getChanges()) {
+                    //logger.info(new Gson().toJson(change));
                     if (ModelChangeId.GAME_SET_HOME_PLAYING == change.getChangeId()) {
                         state.setHomePlaying((boolean) change.getValue());
                         turnOverFinder.setHomeTeamActive(state.isHomePlaying());

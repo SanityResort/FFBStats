@@ -42,7 +42,15 @@ public class TurnOverFinderMiscTest extends AbstractTurnOverFinderTest {
         turnOverFinder.add(new ReportPlayerAction(actingPlayer, PlayerAction.MOVE));
         turnOverFinder.add(new ReportConfusionRoll(actingPlayer, false, 1, 2, false, Skill.BONE_HEAD));
         turnOverFinder.add(new ReportTurnEnd(null, null, null));
-        assertFalse("Action without dice cannot create a turn over", turnOverFinder.findTurnover().isPresent());
+        assertFalse("Confusion rolls cannot create a turn over", turnOverFinder.findTurnover().isPresent());
+    }
+
+    @Test
+    public void foulAppearance() {
+        turnOverFinder.add(new ReportPlayerAction(actingPlayer, PlayerAction.MOVE));
+        turnOverFinder.add(new ReportSkillRoll(ReportId.FOUL_APPEARANCE_ROLL, actingPlayer, false, 1, 2, false));
+        turnOverFinder.add(new ReportTurnEnd(null, null, null));
+        assertFalse("Foul Appearance rolls   cannot create a turn over", turnOverFinder.findTurnover().isPresent());
     }
 
     @Test
