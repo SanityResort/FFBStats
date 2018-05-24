@@ -59,7 +59,7 @@ public class StatsCollector {
         evaluators.add(new StandUpRollEvaluator(collection));
         evaluators.add(halfEvaluator);
         evaluators.add(new TentaclesShadowingRollEvaluator(collection));
-        evaluators.add(new TimeoutEnforcedEvaluator(state));
+        evaluators.add(new TimeoutEnforcedEvaluator(collection, state));
         evaluators.add(new TurnEndEvaluator(collection, state));
         evaluators.add(new WeatherEvaluator(collection));
         evaluators.add(new WinnigsRollEvaluator(collection));

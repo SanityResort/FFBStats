@@ -9,7 +9,8 @@ public class TimeoutEnforcedEvaluator extends Evaluator<ReportTimeoutEnforced> {
     private StatsState state;
     private StatsCollection collection;
 
-    public TimeoutEnforcedEvaluator(StatsState state) {
+    public TimeoutEnforcedEvaluator(StatsCollection collection, StatsState state) {
+        this.collection = collection;
         this.state = state;
     }
 
