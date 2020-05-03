@@ -10,6 +10,7 @@ import org.butterbrot.ffb.stats.adapter.TurnOverDescription;
 import org.butterbrot.ffb.stats.model.TurnOver;
 import org.junit.Test;
 
+import java.util.ArrayList;
 import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
@@ -22,7 +23,7 @@ public class TurnOverFinderRefTest extends AbstractTurnOverFinderTest{
     public void foulSentOff(){
         turnOverFinder.add(new ReportPlayerAction(actingPlayer, PlayerAction.FOUL));
         turnOverFinder.add(new ReportReferee(true));
-        turnOverFinder.add(new ReportTurnEnd(null, null, null));
+        turnOverFinder.add(new ReportTurnEnd(null, null, null, new ArrayList<>()));
         Optional<TurnOver> turnOverOpt = turnOverFinder.findTurnover();
         assertTrue("Spotted foul is a turnover", turnOverOpt.isPresent());
         TurnOver turnOver = turnOverOpt.get();
@@ -37,7 +38,7 @@ public class TurnOverFinderRefTest extends AbstractTurnOverFinderTest{
     public void foulMoveSentOff(){
         turnOverFinder.add(new ReportPlayerAction(actingPlayer, PlayerAction.FOUL_MOVE));
         turnOverFinder.add(new ReportReferee(true));
-        turnOverFinder.add(new ReportTurnEnd(null, null, null));
+        turnOverFinder.add(new ReportTurnEnd(null, null, null, new ArrayList<>()));
         Optional<TurnOver> turnOverOpt = turnOverFinder.findTurnover();
         assertTrue("Spotted foul is a turnover", turnOverOpt.isPresent());
         TurnOver turnOver = turnOverOpt.get();
@@ -52,7 +53,7 @@ public class TurnOverFinderRefTest extends AbstractTurnOverFinderTest{
     public void foulSuccess(){
         turnOverFinder.add(new ReportPlayerAction(actingPlayer, PlayerAction.FOUL));
         turnOverFinder.add(new ReportReferee(false));
-        turnOverFinder.add(new ReportTurnEnd(null, null, null));
+        turnOverFinder.add(new ReportTurnEnd(null, null, null, new ArrayList<>()));
         Optional<TurnOver> turnOverOpt = turnOverFinder.findTurnover();
         assertFalse("Unspotted foul is not a turnover", turnOverOpt.isPresent());
     }
@@ -62,7 +63,7 @@ public class TurnOverFinderRefTest extends AbstractTurnOverFinderTest{
         turnOverFinder.add(new ReportPlayerAction(actingPlayer, PlayerAction.FOUL));
         turnOverFinder.add(new ReportReferee(true));
         turnOverFinder.add(new ReportBribesRoll(actingPlayer, false, 1));
-        turnOverFinder.add(new ReportTurnEnd(null, null, null));
+        turnOverFinder.add(new ReportTurnEnd(null, null, null, new ArrayList<>()));
         Optional<TurnOver> turnOverOpt = turnOverFinder.findTurnover();
         assertTrue("Spotted foul is a turnover", turnOverOpt.isPresent());
         TurnOver turnOver = turnOverOpt.get();
@@ -78,7 +79,7 @@ public class TurnOverFinderRefTest extends AbstractTurnOverFinderTest{
         turnOverFinder.add(new ReportPlayerAction(actingPlayer, PlayerAction.FOUL));
         turnOverFinder.add(new ReportReferee(true));
         turnOverFinder.add(new ReportBribesRoll(actingPlayer, true, 2));
-        turnOverFinder.add(new ReportTurnEnd(null, null, null));
+        turnOverFinder.add(new ReportTurnEnd(null, null, null, new ArrayList<>()));
         Optional<TurnOver> turnOverOpt = turnOverFinder.findTurnover();
         assertFalse("Successful bribe precents turnover", turnOverOpt.isPresent());
     }

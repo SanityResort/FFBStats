@@ -13,6 +13,7 @@ import org.butterbrot.ffb.stats.adapter.TurnOverDescription;
 import org.butterbrot.ffb.stats.model.TurnOver;
 import org.junit.Test;
 
+import java.util.ArrayList;
 import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
@@ -26,7 +27,7 @@ public class TurnOverFinderDodgeTest  extends AbstractTurnOverFinderTest {
         turnOverFinder.add(new ReportPlayerAction(actingPlayer, PlayerAction.MOVE));
         turnOverFinder.add(new ReportSkillRoll(ReportId.DODGE_ROLL, actingPlayer, false, 2, 3, false));
         turnOverFinder.add(new ReportInjury(actingPlayer, null,false, null, null, null, null, null, null, null, null, null, null, null));
-        turnOverFinder.add(new ReportTurnEnd(null, null, null));
+        turnOverFinder.add(new ReportTurnEnd(null, null, null, new ArrayList<>()));
         Optional<TurnOver> turnOverOpt = turnOverFinder.findTurnover();
         assertTrue("Failed dodge is a turnover", turnOverOpt.isPresent());
         TurnOver turnOver = turnOverOpt.get();
@@ -44,7 +45,7 @@ public class TurnOverFinderDodgeTest  extends AbstractTurnOverFinderTest {
         turnOverFinder.add(new ReportInjury(actingPlayer, null,false, null, null, null, null, null, null, null, null, null, null, null));
         turnOverFinder.add(new ReportScatterBall());
         turnOverFinder.add(new ReportSkillRoll(ReportId.CATCH_ROLL, teamMember, true, 3, 3, false));
-        turnOverFinder.add(new ReportTurnEnd(null, null, null));
+        turnOverFinder.add(new ReportTurnEnd(null, null, null, new ArrayList<>()));
         Optional<TurnOver> turnOverOpt = turnOverFinder.findTurnover();
         assertTrue("Failed dodge is a turnover", turnOverOpt.isPresent());
         TurnOver turnOver = turnOverOpt.get();
@@ -62,7 +63,7 @@ public class TurnOverFinderDodgeTest  extends AbstractTurnOverFinderTest {
         turnOverFinder.add(new ReportInjury(actingPlayer, null,false, null, null, null, null, null, null, null, null, null, null, null));
         turnOverFinder.add(new ReportScatterBall());
         turnOverFinder.add(new ReportSkillRoll(ReportId.CATCH_ROLL, opponent, false, 3, 3, false));
-        turnOverFinder.add(new ReportTurnEnd(null, null, null));
+        turnOverFinder.add(new ReportTurnEnd(null, null, null, new ArrayList<>()));
         Optional<TurnOver> turnOverOpt = turnOverFinder.findTurnover();
         assertTrue("Failed dodge is a turnover", turnOverOpt.isPresent());
         TurnOver turnOver = turnOverOpt.get();
@@ -80,7 +81,7 @@ public class TurnOverFinderDodgeTest  extends AbstractTurnOverFinderTest {
         turnOverFinder.add(new ReportInjury(actingPlayer, null,false, null, null, null, null, null, null, null, null, null, null, null));
         turnOverFinder.add(new ReportScatterBall());
         turnOverFinder.add(new ReportSkillRoll(ReportId.CATCH_ROLL, teamMember, false, 2, 3, false));
-        turnOverFinder.add(new ReportTurnEnd(null, null, null));
+        turnOverFinder.add(new ReportTurnEnd(null, null, null, new ArrayList<>()));
         Optional<TurnOver> turnOverOpt = turnOverFinder.findTurnover();
         assertTrue("Failed dodge is a turnover", turnOverOpt.isPresent());
         TurnOver turnOver = turnOverOpt.get();
@@ -98,7 +99,7 @@ public class TurnOverFinderDodgeTest  extends AbstractTurnOverFinderTest {
         turnOverFinder.add(new ReportReRoll(actingPlayer, ReRollSource.TEAM_RE_ROLL, true, 6));
         turnOverFinder.add(new ReportSkillRoll(ReportId.DODGE_ROLL, actingPlayer, false, 2, 3, true));
         turnOverFinder.add(new ReportInjury(actingPlayer, null,false, null, null, null, null, null, null, null, null, null, null, null));
-        turnOverFinder.add(new ReportTurnEnd(null, null, null));
+        turnOverFinder.add(new ReportTurnEnd(null, null, null, new ArrayList<>()));
         Optional<TurnOver> turnOverOpt = turnOverFinder.findTurnover();
         assertTrue("Failed dodge is a turnover", turnOverOpt.isPresent());
         TurnOver turnOver = turnOverOpt.get();
@@ -116,7 +117,7 @@ public class TurnOverFinderDodgeTest  extends AbstractTurnOverFinderTest {
         turnOverFinder.add(new ReportReRoll(actingPlayer, ReRollSource.LEADER, true, 6));
         turnOverFinder.add(new ReportSkillRoll(ReportId.DODGE_ROLL, actingPlayer, false, 2, 3, true));
         turnOverFinder.add(new ReportInjury(actingPlayer, null,false, null, null, null, null, null, null, null, null, null, null, null));
-        turnOverFinder.add(new ReportTurnEnd(null, null, null));
+        turnOverFinder.add(new ReportTurnEnd(null, null, null, new ArrayList<>()));
         Optional<TurnOver> turnOverOpt = turnOverFinder.findTurnover();
         assertTrue("Failed dodge is a turnover", turnOverOpt.isPresent());
         TurnOver turnOver = turnOverOpt.get();
@@ -134,7 +135,7 @@ public class TurnOverFinderDodgeTest  extends AbstractTurnOverFinderTest {
         turnOverFinder.add(new ReportReRoll(actingPlayer, ReRollSource.DODGE, true, 6));
         turnOverFinder.add(new ReportSkillRoll(ReportId.DODGE_ROLL, actingPlayer, false, 2, 3, true));
         turnOverFinder.add(new ReportInjury(actingPlayer, null,false, null, null, null, null, null, null, null, null, null, null, null));
-        turnOverFinder.add(new ReportTurnEnd(null, null, null));
+        turnOverFinder.add(new ReportTurnEnd(null, null, null, new ArrayList<>()));
         Optional<TurnOver> turnOverOpt = turnOverFinder.findTurnover();
         assertTrue("Failed dodge is a turnover", turnOverOpt.isPresent());
         TurnOver turnOver = turnOverOpt.get();
@@ -151,7 +152,7 @@ public class TurnOverFinderDodgeTest  extends AbstractTurnOverFinderTest {
         turnOverFinder.add(new ReportSkillRoll(ReportId.DODGE_ROLL, actingPlayer, false, 4, 3, false));
         turnOverFinder.add(new ReportSkillRoll(ReportId.DODGE_ROLL, actingPlayer, false, 0, 5, false));
         turnOverFinder.add(new ReportInjury(actingPlayer, null,false, null, null, null, null, null, null, null, null, null, null, null));
-        turnOverFinder.add(new ReportTurnEnd(null, null, null));
+        turnOverFinder.add(new ReportTurnEnd(null, null, null, new ArrayList<>()));
         Optional<TurnOver> turnOverOpt = turnOverFinder.findTurnover();
         assertTrue("Failed dodge is a turnover", turnOverOpt.isPresent());
         TurnOver turnOver = turnOverOpt.get();
@@ -170,7 +171,7 @@ public class TurnOverFinderDodgeTest  extends AbstractTurnOverFinderTest {
         turnOverFinder.add(new ReportSkillRoll(ReportId.DODGE_ROLL, actingPlayer, false, 4, 3, true));
         turnOverFinder.add(new ReportSkillRoll(ReportId.DODGE_ROLL, actingPlayer, false, 0, 5, false));
         turnOverFinder.add(new ReportInjury(actingPlayer, null,false, null, null, null, null, null, null, null, null, null, null, null));
-        turnOverFinder.add(new ReportTurnEnd(null, null, null));
+        turnOverFinder.add(new ReportTurnEnd(null, null, null, new ArrayList<>()));
         Optional<TurnOver> turnOverOpt = turnOverFinder.findTurnover();
         assertTrue("Failed dodge is a turnover", turnOverOpt.isPresent());
         TurnOver turnOver = turnOverOpt.get();
@@ -189,7 +190,7 @@ public class TurnOverFinderDodgeTest  extends AbstractTurnOverFinderTest {
         turnOverFinder.add(new ReportSkillRoll(ReportId.DODGE_ROLL, actingPlayer, false, 4, 3, true));
         turnOverFinder.add(new ReportSkillRoll(ReportId.DODGE_ROLL, actingPlayer, false, 0, 5, false));
         turnOverFinder.add(new ReportInjury(actingPlayer, null,false, null, null, null, null, null, null, null, null, null, null, null));
-        turnOverFinder.add(new ReportTurnEnd(null, null, null));
+        turnOverFinder.add(new ReportTurnEnd(null, null, null, new ArrayList<>()));
         Optional<TurnOver> turnOverOpt = turnOverFinder.findTurnover();
         assertTrue("Failed dodge is a turnover", turnOverOpt.isPresent());
         TurnOver turnOver = turnOverOpt.get();
@@ -209,7 +210,7 @@ public class TurnOverFinderDodgeTest  extends AbstractTurnOverFinderTest {
         turnOverFinder.add(new ReportSkillRoll(ReportId.DODGE_ROLL, actingPlayer, false, 4, 3, true));
         turnOverFinder.add(new ReportSkillRoll(ReportId.DODGE_ROLL, actingPlayer, false, 0, 5, false));
         turnOverFinder.add(new ReportInjury(actingPlayer, null,false, null, null, null, null, null, null, null, null, null, null, null));
-        turnOverFinder.add(new ReportTurnEnd(null, null, null));
+        turnOverFinder.add(new ReportTurnEnd(null, null, null, new ArrayList<>()));
         Optional<TurnOver> turnOverOpt = turnOverFinder.findTurnover();
         assertTrue("Failed dodge is a turnover", turnOverOpt.isPresent());
         TurnOver turnOver = turnOverOpt.get();
@@ -228,7 +229,7 @@ public class TurnOverFinderDodgeTest  extends AbstractTurnOverFinderTest {
         turnOverFinder.add(new ReportSkillRoll(ReportId.DODGE_ROLL, actingPlayer, false, 4, 3, true));
         turnOverFinder.add(new ReportSkillRoll(ReportId.DODGE_ROLL, actingPlayer, false, 0, 5, false));
         turnOverFinder.add(new ReportInjury(actingPlayer, null,false, null, null, null, null, null, null, null, null, null, null, null));
-        turnOverFinder.add(new ReportTurnEnd(null, null, null));
+        turnOverFinder.add(new ReportTurnEnd(null, null, null, new ArrayList<>()));
         Optional<TurnOver> turnOverOpt = turnOverFinder.findTurnover();
         assertTrue("Failed dodge is a turnover", turnOverOpt.isPresent());
         TurnOver turnOver = turnOverOpt.get();
@@ -243,7 +244,7 @@ public class TurnOverFinderDodgeTest  extends AbstractTurnOverFinderTest {
     public void successDodge() throws Exception {
         turnOverFinder.add(new ReportPlayerAction(actingPlayer, PlayerAction.MOVE));
         turnOverFinder.add(new ReportSkillRoll(ReportId.DODGE_ROLL, actingPlayer, true, 4, 3, false));
-        turnOverFinder.add(new ReportTurnEnd(null, null, null));
+        turnOverFinder.add(new ReportTurnEnd(null, null, null, new ArrayList<>()));
         Optional<TurnOver> turnOverOpt = turnOverFinder.findTurnover();
         assertFalse("Successful dodge is not a turnover", turnOverOpt.isPresent());
     }

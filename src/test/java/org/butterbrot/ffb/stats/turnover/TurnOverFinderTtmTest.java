@@ -13,6 +13,7 @@ import org.butterbrot.ffb.stats.adapter.TurnOverDescription;
 import org.butterbrot.ffb.stats.model.TurnOver;
 import org.junit.Test;
 
+import java.util.ArrayList;
 import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
@@ -27,7 +28,7 @@ public class TurnOverFinderTtmTest extends AbstractTurnOverFinderTest {
         turnOverFinder.add(new ReportSkillRoll(ReportId.RIGHT_STUFF_ROLL, teamMember, false, 1, 4, false));
         turnOverFinder.add(new ReportInjury(teamMember, null,false, null, null, null, null, null, null, null, null, null, null, null));
         turnOverFinder.add(new ReportScatterBall());
-        turnOverFinder.add(new ReportTurnEnd(null, null, null));
+        turnOverFinder.add(new ReportTurnEnd(null, null, null, new ArrayList<>()));
         Optional<TurnOver> turnOverOpt = turnOverFinder.findTurnover();
         assertTrue("Failed landing with ball is a turnover", turnOverOpt.isPresent());
         TurnOver turnOver = turnOverOpt.get();
@@ -46,7 +47,7 @@ public class TurnOverFinderTtmTest extends AbstractTurnOverFinderTest {
         turnOverFinder.add(new ReportSkillRoll(ReportId.RIGHT_STUFF_ROLL, teamMember, false, 1, 4, true));
         turnOverFinder.add(new ReportInjury(teamMember,null, false, null, null, null, null, null, null, null, null, null, null, null));
         turnOverFinder.add(new ReportScatterBall());
-        turnOverFinder.add(new ReportTurnEnd(null, null, null));
+        turnOverFinder.add(new ReportTurnEnd(null, null, null, new ArrayList<>()));
         Optional<TurnOver> turnOverOpt = turnOverFinder.findTurnover();
         assertTrue("Failed landing with ball is a turnover", turnOverOpt.isPresent());
         TurnOver turnOver = turnOverOpt.get();
@@ -65,7 +66,7 @@ public class TurnOverFinderTtmTest extends AbstractTurnOverFinderTest {
         turnOverFinder.add(new ReportSkillRoll(ReportId.RIGHT_STUFF_ROLL, teamMember, false, 1, 4, true));
         turnOverFinder.add(new ReportInjury(teamMember, null,false, null, null, null, null, null, null, null, null, null, null, null));
         turnOverFinder.add(new ReportScatterBall());
-        turnOverFinder.add(new ReportTurnEnd(null, null, null));
+        turnOverFinder.add(new ReportTurnEnd(null, null, null, new ArrayList<>()));
         Optional<TurnOver> turnOverOpt = turnOverFinder.findTurnover();
         assertTrue("Failed landing with ball is a turnover", turnOverOpt.isPresent());
         TurnOver turnOver = turnOverOpt.get();
@@ -84,7 +85,7 @@ public class TurnOverFinderTtmTest extends AbstractTurnOverFinderTest {
         turnOverFinder.add(new ReportSkillRoll(ReportId.RIGHT_STUFF_ROLL, teamMember, false, 1, 4, true));
         turnOverFinder.add(new ReportInjury(teamMember, null,false, null, null, null, null, null, null, null, null, null, null, null));
         turnOverFinder.add(new ReportScatterBall());
-        turnOverFinder.add(new ReportTurnEnd(null, null, null));
+        turnOverFinder.add(new ReportTurnEnd(null, null, null, new ArrayList<>()));
         Optional<TurnOver> turnOverOpt = turnOverFinder.findTurnover();
         assertTrue("Failed landing with ball is a turnover", turnOverOpt.isPresent());
         TurnOver turnOver = turnOverOpt.get();
@@ -100,7 +101,7 @@ public class TurnOverFinderTtmTest extends AbstractTurnOverFinderTest {
         turnOverFinder.add(new ReportPlayerAction(actingPlayer, PlayerAction.THROW_TEAM_MATE));
         turnOverFinder.add(new ReportSkillRoll(ReportId.RIGHT_STUFF_ROLL, teamMember, false, 1, 4, false));
         turnOverFinder.add(new ReportInjury(teamMember, null,false, null, null, null, null, null, null, null, null, null, null, null));
-        turnOverFinder.add(new ReportTurnEnd(null, null, null));
+        turnOverFinder.add(new ReportTurnEnd(null, null, null, new ArrayList<>()));
         Optional<TurnOver> turnOverOpt = turnOverFinder.findTurnover();
         assertFalse("Failed landing without ball is no turnover", turnOverOpt.isPresent());
     }
@@ -112,7 +113,7 @@ public class TurnOverFinderTtmTest extends AbstractTurnOverFinderTest {
         turnOverFinder.add(new ReportInjury(teamMember, null,false, null, null, null, null, null, null, null, null, null, null, null));
         turnOverFinder.add(new ReportScatterBall());
         turnOverFinder.add(new ReportSkillRoll(ReportId.CATCH_ROLL, actingPlayer, true, 3, 3, false));
-        turnOverFinder.add(new ReportTurnEnd(null, null, null));
+        turnOverFinder.add(new ReportTurnEnd(null, null, null, new ArrayList<>()));
         Optional<TurnOver> turnOverOpt = turnOverFinder.findTurnover();
         assertTrue("Failed landing with ball is a turnover", turnOverOpt.isPresent());
         TurnOver turnOver = turnOverOpt.get();
@@ -129,7 +130,7 @@ public class TurnOverFinderTtmTest extends AbstractTurnOverFinderTest {
         turnOverFinder.add(new ReportSkillRoll(ReportId.RIGHT_STUFF_ROLL, teamMember, false, 4, 1, false));
         turnOverFinder.add(new ReportInjury(teamMember, null,false, null, null, null, null, null, null, null, null, null, null, null));
         turnOverFinder.add(new ReportInjury(actingPlayer, null,false, null, null, null, null, null, null, null, null, null, null, null));
-        turnOverFinder.add(new ReportTurnEnd(null, null, null));
+        turnOverFinder.add(new ReportTurnEnd(null, null, null, new ArrayList<>()));
         Optional<TurnOver> turnOverOpt = turnOverFinder.findTurnover();
         assertTrue("Hitting teammate is a turnover", turnOverOpt.isPresent());
         TurnOver turnOver = turnOverOpt.get();
@@ -146,7 +147,7 @@ public class TurnOverFinderTtmTest extends AbstractTurnOverFinderTest {
         turnOverFinder.add(new ReportSkillRoll(ReportId.RIGHT_STUFF_ROLL, teamMember, false, 4, 1,false));
         turnOverFinder.add(new ReportInjury(teamMember,null, false, null, null, null, null, null, null, null, null, null, null, null));
         turnOverFinder.add(new ReportInjury(opponent,null, false, null, null, null, null, null, null, null, null, null, null, null));
-        turnOverFinder.add(new ReportTurnEnd(null, null, null));
+        turnOverFinder.add(new ReportTurnEnd(null, null, null, new ArrayList<>()));
         Optional<TurnOver> turnOverOpt = turnOverFinder.findTurnover();
         assertFalse("Hitting opponent without ball is no turnover", turnOverOpt.isPresent());
     }
@@ -158,7 +159,7 @@ public class TurnOverFinderTtmTest extends AbstractTurnOverFinderTest {
         turnOverFinder.add(new ReportSkillRoll(ReportId.ALWAYS_HUNGRY_ROLL, actingPlayer, false, 1, 2, false));
         turnOverFinder.add(new ReportSkillRoll(ReportId.ESCAPE_ROLL, teamMember, false, 1, 2, false));
         turnOverFinder.add(new ReportScatterBall());
-        turnOverFinder.add(new ReportTurnEnd(null, null, null));
+        turnOverFinder.add(new ReportTurnEnd(null, null, null, new ArrayList<>()));
         Optional<TurnOver> turnOverOpt = turnOverFinder.findTurnover();
         assertTrue("Eating the teammate with the ball is a turnover", turnOverOpt.isPresent());
         TurnOver turnOver = turnOverOpt.get();
@@ -178,7 +179,7 @@ public class TurnOverFinderTtmTest extends AbstractTurnOverFinderTest {
         turnOverFinder.add(new ReportReRoll(teamMember, ReRollSource.TEAM_RE_ROLL, true, 6));
         turnOverFinder.add(new ReportSkillRoll(ReportId.ESCAPE_ROLL, teamMember, false, 1, 2, true));
         turnOverFinder.add(new ReportScatterBall());
-        turnOverFinder.add(new ReportTurnEnd(null, null, null));
+        turnOverFinder.add(new ReportTurnEnd(null, null, null, new ArrayList<>()));
         Optional<TurnOver> turnOverOpt = turnOverFinder.findTurnover();
         assertTrue("Eating the teammate with the ball is a turnover", turnOverOpt.isPresent());
         TurnOver turnOver = turnOverOpt.get();
@@ -198,7 +199,7 @@ public class TurnOverFinderTtmTest extends AbstractTurnOverFinderTest {
         turnOverFinder.add(new ReportReRoll(teamMember, ReRollSource.LEADER, true, 6));
         turnOverFinder.add(new ReportSkillRoll(ReportId.ESCAPE_ROLL, teamMember, false, 1, 2, true));
         turnOverFinder.add(new ReportScatterBall());
-        turnOverFinder.add(new ReportTurnEnd(null, null, null));
+        turnOverFinder.add(new ReportTurnEnd(null, null, null, new ArrayList<>()));
         Optional<TurnOver> turnOverOpt = turnOverFinder.findTurnover();
         assertTrue("Eating the teammate with the ball is a turnover", turnOverOpt.isPresent());
         TurnOver turnOver = turnOverOpt.get();
@@ -218,7 +219,7 @@ public class TurnOverFinderTtmTest extends AbstractTurnOverFinderTest {
         turnOverFinder.add(new ReportReRoll(teamMember, ReRollSource.PRO, true, 6));
         turnOverFinder.add(new ReportSkillRoll(ReportId.ESCAPE_ROLL, teamMember, false, 1, 2, true));
         turnOverFinder.add(new ReportScatterBall());
-        turnOverFinder.add(new ReportTurnEnd(null, null, null));
+        turnOverFinder.add(new ReportTurnEnd(null, null, null, new ArrayList<>()));
         Optional<TurnOver> turnOverOpt = turnOverFinder.findTurnover();
         assertTrue("Eating the teammate with the ball is a turnover", turnOverOpt.isPresent());
         TurnOver turnOver = turnOverOpt.get();
