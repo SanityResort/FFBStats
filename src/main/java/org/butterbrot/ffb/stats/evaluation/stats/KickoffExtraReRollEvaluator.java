@@ -15,8 +15,8 @@ public class KickoffExtraReRollEvaluator extends Evaluator<ReportKickoffExtraReR
     @Override
     public void evaluate(IReport report) {
         ReportKickoffExtraReRoll extraReRoll = (ReportKickoffExtraReRoll) report;
-        collection.getAway().addSingleRoll(extraReRoll.getRollAway());
-        collection.getHome().addSingleRoll(extraReRoll.getRollHome());
+        collection.getAway().addSingleRoll(extraReRoll.getRollAway() * 2);
+        collection.getHome().addSingleRoll(extraReRoll.getRollHome() * 2);
         collection.addKickOffRolls(new int[]{extraReRoll.getRollHome()}, new int[]{extraReRoll.getRollAway()});
     }
 }

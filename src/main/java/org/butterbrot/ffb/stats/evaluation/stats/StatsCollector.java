@@ -49,6 +49,7 @@ public class StatsCollector {
         evaluators.add(new FanFactorRollEvaluator(collection));
         evaluators.add(new InjuryEvaluator(collection, state));
         evaluators.add(new KickoffExtraReRollEvaluator(collection));
+        evaluators.add(new SwarmingRollEvaluator(collection));
         evaluators.add(new KickoffPitchInvasionEvaluator(collection, state));
         evaluators.add(new KickoffResultEvaluator(collection, state));
         evaluators.add(new KickoffThrowARockEvaluator(collection));
