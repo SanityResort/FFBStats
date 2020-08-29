@@ -16,7 +16,6 @@ public class SwarmingRollEvaluator extends Evaluator<ReportSwarmingRoll> {
     @Override
     public void evaluate(IReport report) {
         ReportSwarmingRoll swarmingRoll = (ReportSwarmingRoll) report;
-        collection.getAway().addSingleRoll(swarmingRoll.getAmount() * 2);
-
+        collection.addSingleRoll(swarmingRoll.getAmount() * 2, swarmingRoll.getTeamId());
     }
 }
