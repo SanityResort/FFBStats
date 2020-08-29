@@ -58,6 +58,7 @@ public class StatsCollector {
         evaluators.add(new PillingOnEvaluator(state));
         evaluators.add(new PlayerActionEvaluator(collection, state, turnOverFinder));
         evaluators.add(new ReRollEvaluator(state, collection));
+        evaluators.add(new ReportRiotousRookiesEvaluator(collection));
         evaluators.add(new ScatterBallEvaluator(state, collection));
         evaluators.add(new SkillRollEvaluator(collection, state));
         evaluators.add(new SpecialEffectRollEvaluator(collection));
