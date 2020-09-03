@@ -17,11 +17,7 @@ public class ReportRiotousRookiesEvaluator extends Evaluator<ReportRiotousRookie
     public void evaluate(IReport report) {
         ReportRiotousRookies rookiesRoll = (ReportRiotousRookies) report;
         for (int roll: rookiesRoll.getRoll()) {
-            if (rookiesRoll.isHomeTeam()) {
-                collection.getHome().addSingleRoll(roll * 2);
-            } else {
-                collection.getAway().addSingleRoll(roll * 2);
-            }
+            collection.addSingleRoll(roll * 2, rookiesRoll.getTeamId());
         }
     }
 }
