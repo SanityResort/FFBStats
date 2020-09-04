@@ -92,6 +92,10 @@ public class StatsCollection  implements Data {
         turnTeam(teams.get(playerOrTeam)).addSingleRoll(roll);
     }
 
+    public void addSingleRollAtGameStart(int roll, String playerOrTeam) {
+        teams.get(playerOrTeam).addSingleRoll(roll);
+    }
+    
     public void addChefRoll(int roll, String playerOrTeam, int minimumRoll) {
         currentHalf.chefRolls.add(roll);
         teams.get(playerOrTeam).addSingleRoll(roll);
