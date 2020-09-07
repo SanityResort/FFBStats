@@ -17,7 +17,7 @@ public class ReportRiotousRookiesEvaluator extends Evaluator<ReportRiotousRookie
         ReportRiotousRookies rookiesRoll = (ReportRiotousRookies) report;
         if (rookiesRoll.getTeamId() != null) {
             for (int roll : rookiesRoll.getRoll()) {
-                collection.addSingleRollAtGameStart(roll * 2, rookiesRoll.getTeamId());
+                collection.addSingleRollWithoutDrive(roll * 2, rookiesRoll.getTeamId());
             }
         }
     }
