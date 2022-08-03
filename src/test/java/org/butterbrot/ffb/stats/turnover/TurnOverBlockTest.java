@@ -1,21 +1,19 @@
 package org.butterbrot.ffb.stats.turnover;
 
-import com.balancedbytes.games.ffb.PlayerAction;
-import com.balancedbytes.games.ffb.ReRollSource;
-import com.balancedbytes.games.ffb.report.ReportBlockRoll;
-import com.balancedbytes.games.ffb.report.ReportId;
-import com.balancedbytes.games.ffb.report.ReportInjury;
-import com.balancedbytes.games.ffb.report.ReportPlayerAction;
-import com.balancedbytes.games.ffb.report.ReportReRoll;
+import com.fumbbl.ffb.PlayerAction;
+import com.fumbbl.ffb.ReRollSources;
+import com.fumbbl.ffb.report.ReportBlockRoll;
+import com.fumbbl.ffb.report.ReportId;
+import com.fumbbl.ffb.report.ReportPlayerAction;
+import com.fumbbl.ffb.report.ReportReRoll;
+import com.fumbbl.ffb.report.bb2016.ReportInjury;
 import org.butterbrot.ffb.stats.adapter.TurnOverDescription;
 import org.butterbrot.ffb.stats.model.TurnOver;
 import org.junit.Test;
 
 import java.util.Optional;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public class TurnOverBlockTest extends AbstractTurnOverFinderTest {
 
@@ -98,7 +96,7 @@ public class TurnOverBlockTest extends AbstractTurnOverFinderTest {
     public void failedBlock1DProReRoll() {
         turnOverFinder.add(new ReportPlayerAction(actingPlayer, PlayerAction.BLOCK));
         turnOverFinder.add(new ReportBlockRoll(actingTeam, new int[1]));
-        turnOverFinder.add(new ReportReRoll(actingPlayer, ReRollSource.PRO, true, 6));
+        turnOverFinder.add(new ReportReRoll(actingPlayer, ReRollSources.PRO, true, 6));
         turnOverFinder.add(new ReportBlockRoll(actingTeam, new int[1]));
         turnOverFinder.add(new ReportInjury(actingPlayer, null, false, null, null, null, null, null, null, null, null, null, null, null));
         Optional<TurnOver> turnOverOpt = turnOverFinder.findTurnover();
@@ -115,7 +113,7 @@ public class TurnOverBlockTest extends AbstractTurnOverFinderTest {
     public void failedBlock1DTeamReRoll() {
         turnOverFinder.add(new ReportPlayerAction(actingPlayer, PlayerAction.BLOCK));
         turnOverFinder.add(new ReportBlockRoll(actingTeam, new int[1]));
-        turnOverFinder.add(new ReportReRoll(actingPlayer, ReRollSource.TEAM_RE_ROLL, true, 6));
+        turnOverFinder.add(new ReportReRoll(actingPlayer, ReRollSources.TEAM_RE_ROLL, true, 6));
         turnOverFinder.add(new ReportBlockRoll(actingTeam, new int[1]));
         turnOverFinder.add(new ReportInjury(actingPlayer, null, false, null, null, null, null, null, null, null, null, null, null, null));
         Optional<TurnOver> turnOverOpt = turnOverFinder.findTurnover();
@@ -132,7 +130,7 @@ public class TurnOverBlockTest extends AbstractTurnOverFinderTest {
     public void failedBlock1DLeaderReRoll() {
         turnOverFinder.add(new ReportPlayerAction(actingPlayer, PlayerAction.BLOCK));
         turnOverFinder.add(new ReportBlockRoll(actingTeam, new int[1]));
-        turnOverFinder.add(new ReportReRoll(actingPlayer, ReRollSource.LEADER,true, 6));
+        turnOverFinder.add(new ReportReRoll(actingPlayer, ReRollSources.LEADER,true, 6));
         turnOverFinder.add(new ReportBlockRoll(actingTeam, new int[1]));
         turnOverFinder.add(new ReportInjury(actingPlayer, null, false, null, null, null, null, null, null, null, null, null, null, null));
         Optional<TurnOver> turnOverOpt = turnOverFinder.findTurnover();

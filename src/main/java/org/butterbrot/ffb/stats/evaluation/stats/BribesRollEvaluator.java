@@ -1,7 +1,7 @@
 package org.butterbrot.ffb.stats.evaluation.stats;
 
-import com.balancedbytes.games.ffb.report.IReport;
-import com.balancedbytes.games.ffb.report.ReportBribesRoll;
+import com.fumbbl.ffb.report.IReport;
+import com.fumbbl.ffb.report.ReportBribesRoll;
 import org.butterbrot.ffb.stats.model.StatsCollection;
 
 public class BribesRollEvaluator extends Evaluator<ReportBribesRoll> {

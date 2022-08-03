@@ -1,6 +1,6 @@
 package org.butterbrot.ffb.stats.web;
 
-import com.balancedbytes.games.ffb.net.commands.ServerCommand;
+import com.fumbbl.ffb.net.commands.ServerCommand;
 import org.butterbrot.ffb.stats.NoSuchReplayException;
 import org.butterbrot.ffb.stats.evaluation.stats.StatsCollector;
 import org.butterbrot.ffb.stats.model.StatsCollection;

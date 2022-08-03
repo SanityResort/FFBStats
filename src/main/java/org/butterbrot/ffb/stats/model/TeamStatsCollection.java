@@ -1,9 +1,10 @@
 package org.butterbrot.ffb.stats.model;
 
-import com.balancedbytes.games.ffb.BlockResult;
-import com.balancedbytes.games.ffb.BlockResultFactory;
-import com.balancedbytes.games.ffb.PlayerAction;
-import com.balancedbytes.games.ffb.report.ReportId;
+import com.fumbbl.ffb.BlockResult;
+
+import com.fumbbl.ffb.PlayerAction;
+import com.fumbbl.ffb.factory.BlockResultFactory;
+import com.fumbbl.ffb.report.ReportId;
 import org.butterbrot.ffb.stats.adapter.PlayerActionMapping;
 
 import java.util.ArrayList;
@@ -15,29 +16,29 @@ import java.util.Set;
 
 public class TeamStatsCollection implements Data {
 
-    private transient BlockResultFactory factory = new BlockResultFactory();
+    private final transient BlockResultFactory factory = new BlockResultFactory();
 
-    private Map<Integer, Integer> singleRolls = initNonBlockStatsMap(6);
-    private Map<String, Integer> successfulSingleRolls = initSkillRollsMap(2, 6);
-    private Map<String, Integer> successfulDodgeRolls = initSkillRollsMap(2, 6);
-    private Map<String, Integer> successfulGfiRolls = initSkillRollsMap(2, 3);
-    private Map<String, Integer> failedDodgeRolls = initSkillRollsMap(2, 6);
-    private Map<String, Integer> failedGfiRolls = initSkillRollsMap(2, 3);
-    private Map<Integer, Integer> totalSingleRolls = initNonBlockStatsMap(6);
-    private Map<Integer, Integer> doubleRolls = initNonBlockStatsMap(2, 12);
-    private Map<Integer, Integer> totalDoubleRolls = initNonBlockStatsMap(2, 12);
-    private Map<Integer, Integer> armourRolls = initNonBlockStatsMap(2, 12);
-    private Map<Integer, Integer> injuryRolls = initNonBlockStatsMap(2, 12);
-    private Map<BlockResult, Integer> blockDice = initBlockDiceMap();
-    private Map<Integer, Integer> totalBlocks = initBlockStatsMap();
-    private Map<Integer, Integer> rerolledBlocks = initBlockStatsMap();
-    private Map<Integer, Integer> successfulBlocks = initBlockStatsMap();
-    private Map<Integer, Integer> failedBlocks = initBlockStatsMap();
-    private Map<String, ArmourBreaks> armourBreaks = new HashMap<>();
-    private List<Injury> causedInjuries = new ArrayList<>();
-    private List<TurnOver> turnOvers = new ArrayList<>();
-    private Map<String, Integer> additionalStats = initAdditonalStatsMap();
-    private Map<PlayerAction, Set<String>> playerActionMap = new HashMap<>();
+    private final Map<Integer, Integer> singleRolls = initNonBlockStatsMap(6);
+    private final Map<String, Integer> successfulSingleRolls = initSkillRollsMap(2, 6);
+    private final Map<String, Integer> successfulDodgeRolls = initSkillRollsMap(2, 6);
+    private final Map<String, Integer> successfulGfiRolls = initSkillRollsMap(2, 3);
+    private final Map<String, Integer> failedDodgeRolls = initSkillRollsMap(2, 6);
+    private final Map<String, Integer> failedGfiRolls = initSkillRollsMap(2, 3);
+    private final Map<Integer, Integer> totalSingleRolls = initNonBlockStatsMap(6);
+    private final Map<Integer, Integer> doubleRolls = initNonBlockStatsMap(2, 12);
+    private final Map<Integer, Integer> totalDoubleRolls = initNonBlockStatsMap(2, 12);
+    private final Map<Integer, Integer> armourRolls = initNonBlockStatsMap(2, 12);
+    private final Map<Integer, Integer> injuryRolls = initNonBlockStatsMap(2, 12);
+    private final Map<BlockResult, Integer> blockDice = initBlockDiceMap();
+    private final Map<Integer, Integer> totalBlocks = initBlockStatsMap();
+    private final Map<Integer, Integer> rerolledBlocks = initBlockStatsMap();
+    private final Map<Integer, Integer> successfulBlocks = initBlockStatsMap();
+    private final Map<Integer, Integer> failedBlocks = initBlockStatsMap();
+    private final Map<String, ArmourBreaks> armourBreaks = new HashMap<>();
+    private final List<Injury> causedInjuries = new ArrayList<>();
+    private final List<TurnOver> turnOvers = new ArrayList<>();
+    private final Map<String, Integer> additionalStats = initAdditonalStatsMap();
+    private final Map<PlayerAction, Set<String>> playerActionMap = new HashMap<>();
 
     private String teamName;
     private String coach;

@@ -1,9 +1,10 @@
 package org.butterbrot.ffb.stats.conversion;
 
-import com.balancedbytes.games.ffb.model.Team;
-import com.balancedbytes.games.ffb.net.NetCommandFactory;
-import com.balancedbytes.games.ffb.net.NetCommandId;
-import com.balancedbytes.games.ffb.net.commands.ServerCommand;
+import com.fumbbl.ffb.model.Game;
+import com.fumbbl.ffb.model.Team;
+import com.fumbbl.ffb.net.NetCommandFactory;
+import com.fumbbl.ffb.net.NetCommandId;
+import com.fumbbl.ffb.net.commands.ServerCommand;
 import com.eclipsesource.json.JsonValue;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -20,13 +21,13 @@ import static org.butterbrot.ffb.stats.Constants.*;
 
 @Service
 public class JsonConverter {
-
-    private NetCommandFactory factory = new NetCommandFactory();
-
     public StatsCollection convert(JsonObject root, String replayId) {
-        com.google.gson.JsonObject game = root.getAsJsonObject(FIELD_GAME);
-        Team away = new Team().initFrom(JsonValue.readFrom(game.getAsJsonObject(FIELD_TEAM_AWAY).toString()));
-        Team home = new Team().initFrom(JsonValue.readFrom(game.getAsJsonObject(FIELD_TEAM_HOME).toString()));
+        EvaluationFactorySource factorySource = new EvaluationFactorySource();
+        NetCommandFactory factory = new NetCommandFactory(factorySource);
+        JsonObject gsonGame = root.getAsJsonObject(FIELD_GAME);
+        Game game = new Game(factorySource, factorySource.getFactoryManager()).initFrom(factorySource, JsonValue.readFrom(gsonGame.getAsString()));
+        Team away = game.getTeamAway();
+        Team home = game.getTeamHome();
 
         JsonArray commands = root.getAsJsonObject(FIELD_GAME_LOG).getAsJsonArray(FIELD_COMMAND_ARRAY);
         Iterator<JsonElement> it = commands.iterator();
@@ -37,13 +38,12 @@ public class JsonConverter {
             String id = element.getAsJsonObject().get(FIELD_NET_COMMAND_ID).getAsString();
             if (NetCommandId.SERVER_MODEL_SYNC.getName().equals(id)) {
                 replayCommands
-                        .add((ServerCommand) factory.forJsonValue(JsonValue.readFrom(element.toString())));
+                        .add((ServerCommand) factory.forJsonValue(factorySource, JsonValue.readFrom(element.toString())));
             }
         }
 
         StatsCollector collector = new StatsCollector(replayCommands);
-        collector.setHomeTeam(home);
-        collector.setAwayTeam(away);
+        collector.setGame(game);
         return collector.evaluate(replayId);
     }
 

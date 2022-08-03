@@ -1,11 +1,12 @@
 package org.butterbrot.ffb.stats.communication;
 
-import com.balancedbytes.games.ffb.json.LZString;
-import com.balancedbytes.games.ffb.net.NetCommand;
-import com.balancedbytes.games.ffb.net.NetCommandFactory;
-import com.balancedbytes.games.ffb.net.commands.ClientCommandReplay;
-import com.balancedbytes.games.ffb.util.StringTool;
+import com.fumbbl.ffb.json.LZString;
+import com.fumbbl.ffb.net.NetCommand;
+import com.fumbbl.ffb.net.NetCommandFactory;
+import com.fumbbl.ffb.net.commands.ClientCommandReplay;
+import com.fumbbl.ffb.util.StringTool;
 import com.eclipsesource.json.JsonValue;
+import org.butterbrot.ffb.stats.conversion.EvaluationFactorySource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -24,11 +25,12 @@ import java.util.concurrent.TimeUnit;
 public class StatsCommandSocket
 {
     private static final Logger logger = LoggerFactory.getLogger(StatsCommandSocket.class);
+    private final EvaluationFactorySource applicationFactorySource;
 
     private Session fSession;
 
-    private NetCommandFactory fNetCommandFactory;
-    private boolean fCommandCompression;
+    private final NetCommandFactory fNetCommandFactory;
+    private final boolean fCommandCompression;
     private final CountDownLatch fCloseLatch;
     private final CommandHandler statsHandler;
     private final long replayId;
@@ -36,13 +38,14 @@ public class StatsCommandSocket
     public StatsCommandSocket(long replayId, boolean compression, CommandHandler statsHandler) {
         this.replayId = replayId;
         this.statsHandler = statsHandler;
-        this.fNetCommandFactory = new NetCommandFactory();
+        applicationFactorySource = new EvaluationFactorySource();
+        this.fNetCommandFactory = new NetCommandFactory(applicationFactorySource);
         this.fCloseLatch = new CountDownLatch(1);
         this.fCommandCompression = compression;
     }
 
     @OnOpen
-    public void onOpen(Session session, EndpointConfig endpointConfig) {
+    public void onOpen(Session session, EndpointConfig ignoredEndpointConfig) {
         this.fSession = session;
         try {
             send(new ClientCommandReplay(replayId, 0));
@@ -54,12 +57,12 @@ public class StatsCommandSocket
     @OnMessage
     public void onMessage(String pTextMessage) {
         try {
-            if (!StringTool.isProvided(pTextMessage) || !this.isOpen()) {
+            if (!StringTool.isProvided(pTextMessage) || this.isClosed()) {
                 return;
             }
             JsonValue jsonValue = JsonValue.readFrom(this.fCommandCompression ? LZString.decompressFromUTF16(pTextMessage) : pTextMessage);
 
-            NetCommand netCommand = this.fNetCommandFactory.forJsonValue(jsonValue);
+            NetCommand netCommand = this.fNetCommandFactory.forJsonValue(applicationFactorySource, jsonValue);
             if (netCommand == null) {
                 return;
             }
@@ -71,35 +74,35 @@ public class StatsCommandSocket
     }
 
     @OnClose
-    public void onClose(Session session, CloseReason closeReason) {
+    public void onClose(Session ignoredSession, CloseReason ignoredCloseReason) {
         this.fCloseLatch.countDown();
     }
 
-    public boolean awaitClose(int duration, TimeUnit unit) throws InterruptedException {
-        return this.fCloseLatch.await(duration, unit);
+    public void awaitClose(int duration, TimeUnit unit) throws InterruptedException {
+        //noinspection ResultOfMethodCallIgnored
+        this.fCloseLatch.await(duration, unit);
     }
 
-    private boolean send(ClientCommandReplay pCommand) throws IOException {
-        if (pCommand == null || !this.isOpen()) {
-            return false;
+    private void send(ClientCommandReplay pCommand) throws IOException {
+        if (pCommand == null || this.isClosed()) {
+            return;
         }
         JsonValue jsonValue = pCommand.toJsonValue();
         if (jsonValue == null) {
-            return false;
+            return;
         }
         String textMessage = jsonValue.toString();
         if (this.fCommandCompression) {
             textMessage = LZString.compressToUTF16(textMessage);
         }
         if (!StringTool.isProvided(textMessage)) {
-            return false;
+            return;
         }
         this.fSession.getAsyncRemote().sendText(textMessage);
-        return true;
     }
 
-    private boolean isOpen() {
-        return this.fSession != null && this.fSession.isOpen();
+    private boolean isClosed() {
+        return this.fSession == null || !this.fSession.isOpen();
     }
 }
 

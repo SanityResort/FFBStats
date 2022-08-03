@@ -1,9 +1,10 @@
 package org.butterbrot.ffb.stats.evaluation.stats;
 
-import com.balancedbytes.games.ffb.TurnMode;
-import com.balancedbytes.games.ffb.report.ReportBlockRoll;
-import com.balancedbytes.games.ffb.report.ReportMasterChefRoll;
-import com.balancedbytes.games.ffb.report.ReportPilingOn;
+import com.fumbbl.ffb.TurnMode;
+import com.fumbbl.ffb.model.Game;
+import com.fumbbl.ffb.report.ReportBlockRoll;
+import com.fumbbl.ffb.report.ReportMasterChefRoll;
+import com.fumbbl.ffb.report.ReportPilingOn;
 import org.butterbrot.ffb.stats.adapter.ReportPoInjury;
 import org.butterbrot.ffb.stats.model.Turn;
 
@@ -11,6 +12,8 @@ import java.util.ArrayDeque;
 import java.util.Deque;
 
 public class StatsState {
+
+    private Game game;
     private int fameHome = 0;
     private int fameAway = 0;
     private boolean isHomePlaying = false;
@@ -28,6 +31,14 @@ public class StatsState {
     private Deque<ReportPoInjury> injuries = new ArrayDeque<>();
     private Turn lastTurn;
     private ReportMasterChefRoll chefRoll;
+
+    public Game getGame() {
+        return game;
+    }
+
+    public void setGame(Game game) {
+        this.game = game;
+    }
 
     public ReportMasterChefRoll getChefRoll() {
         return chefRoll;

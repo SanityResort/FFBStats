@@ -1,13 +1,14 @@
 package org.butterbrot.ffb.stats.evaluation.stats;
 
-import com.balancedbytes.games.ffb.report.IReport;
-import com.balancedbytes.games.ffb.report.ReportFanFactorRoll;
-import com.balancedbytes.games.ffb.util.ArrayTool;
+import com.fumbbl.ffb.report.IReport;
+
+import com.fumbbl.ffb.report.bb2016.ReportFanFactorRollPostMatch;
+import com.fumbbl.ffb.util.ArrayTool;
 import org.butterbrot.ffb.stats.model.StatsCollection;
 
-public class FanFactorRollEvaluator extends Evaluator<ReportFanFactorRoll> {
+public class FanFactorRollEvaluator extends Evaluator<ReportFanFactorRollPostMatch> {
 
-    private StatsCollection collection;
+    private final StatsCollection collection;
 
     public FanFactorRollEvaluator(StatsCollection collection) {
         this.collection = collection;
@@ -15,7 +16,7 @@ public class FanFactorRollEvaluator extends Evaluator<ReportFanFactorRoll> {
 
     @Override
     public void evaluate(IReport report) {
-        ReportFanFactorRoll ffReport = ((ReportFanFactorRoll) report);
+        ReportFanFactorRollPostMatch ffReport = ((ReportFanFactorRollPostMatch) report);
         if (ArrayTool.isProvided(ffReport.getFanFactorRollAway())) {
             for (int roll : ffReport.getFanFactorRollAway()) {
                 collection.getAway().addSingleRoll(roll);

@@ -1,12 +1,12 @@
 package org.butterbrot.ffb.stats.evaluation.stats;
 
-import com.balancedbytes.games.ffb.report.IReport;
-import com.balancedbytes.games.ffb.report.ReportPenaltyShootout;
+import com.fumbbl.ffb.report.IReport;
+import com.fumbbl.ffb.report.bb2016.ReportPenaltyShootout;
 import org.butterbrot.ffb.stats.model.StatsCollection;
 
 public class PenaltyShootoutEvaluator extends Evaluator<ReportPenaltyShootout> {
 
-    private StatsCollection collection;
+    private final StatsCollection collection;
 
     public PenaltyShootoutEvaluator(StatsCollection collection) {
         this.collection = collection;

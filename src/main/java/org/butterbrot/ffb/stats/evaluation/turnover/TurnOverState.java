@@ -1,8 +1,8 @@
 package org.butterbrot.ffb.stats.evaluation.turnover;
 
-import com.balancedbytes.games.ffb.report.ReportBlockRoll;
-import com.balancedbytes.games.ffb.report.ReportReRoll;
-import com.balancedbytes.games.ffb.report.ReportSkillRoll;
+import com.fumbbl.ffb.report.ReportBlockRoll;
+import com.fumbbl.ffb.report.ReportReRoll;
+import com.fumbbl.ffb.report.ReportSkillRoll;
 
 public class TurnOverState {
     private ReportReRoll reportReRoll = null;

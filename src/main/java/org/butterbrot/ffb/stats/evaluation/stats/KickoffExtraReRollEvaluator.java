@@ -1,12 +1,12 @@
 package org.butterbrot.ffb.stats.evaluation.stats;
 
-import com.balancedbytes.games.ffb.report.IReport;
-import com.balancedbytes.games.ffb.report.ReportKickoffExtraReRoll;
+import com.fumbbl.ffb.report.IReport;
+import com.fumbbl.ffb.report.bb2016.ReportKickoffExtraReRoll;
 import org.butterbrot.ffb.stats.model.StatsCollection;
 
 public class KickoffExtraReRollEvaluator extends Evaluator<ReportKickoffExtraReRoll> {
 
-    private StatsCollection collection;
+    private final StatsCollection collection;
 
     public KickoffExtraReRollEvaluator(StatsCollection collection) {
         this.collection = collection;

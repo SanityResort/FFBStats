@@ -1,6 +1,8 @@
 package org.butterbrot.ffb.stats.turnover;
 
-import com.balancedbytes.games.ffb.report.ReportPassRoll;
+import com.fumbbl.ffb.PassingDistance;
+import com.fumbbl.ffb.mechanics.PassResult;
+import com.fumbbl.ffb.report.bb2016.ReportPassRoll;
 import org.butterbrot.ffb.stats.evaluation.turnover.TurnOverFinder;
 import org.junit.Before;
 
@@ -17,12 +19,12 @@ public class AbstractTurnOverFinderTest {
 
     protected TurnOverFinder turnOverFinder;
 
-    public static ReportPassRoll regularPass(String pPlayerId, boolean pSuccessful, int pRoll, int pMinimumRoll, boolean pFumble, boolean pSafeThrowHold, boolean pBomb, boolean reRolled) {
-        return new ReportPassRoll(pPlayerId,  pSuccessful,  pRoll,  pMinimumRoll, reRolled,  null, null, pFumble,  pSafeThrowHold, pBomb);
-    }
+    public static ReportPassRoll regularPass(String pPlayerId, int pRoll, int pMinimumRoll, boolean pBomb, boolean reRolled, PassResult passResult) {
+        return new ReportPassRoll(pPlayerId, pRoll,  pMinimumRoll, reRolled,  null, null, pBomb, passResult);
+        }
 
-    public static ReportPassRoll hailMaryPass(String pPlayerId, boolean pFumble, int pRoll, boolean pBomb, boolean reRolled) {
-        return new ReportPassRoll(pPlayerId, pFumble, pRoll, reRolled, pBomb);
+    public static ReportPassRoll hailMaryPass(String pPlayerId, int pRoll, boolean pBomb, boolean reRolled, PassResult passResult) {
+        return new ReportPassRoll(pPlayerId, pRoll, reRolled, pBomb, passResult);
     }
 
     @Before

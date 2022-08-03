@@ -1,24 +1,24 @@
 package org.butterbrot.ffb.stats.evaluation.turnover;
 
-import com.balancedbytes.games.ffb.PlayerAction;
-import com.balancedbytes.games.ffb.SpecialEffect;
-import com.balancedbytes.games.ffb.model.Player;
-import com.balancedbytes.games.ffb.model.Team;
-import com.balancedbytes.games.ffb.report.IReport;
-import com.balancedbytes.games.ffb.report.ReportBlockRoll;
-import com.balancedbytes.games.ffb.report.ReportBribesRoll;
-import com.balancedbytes.games.ffb.report.ReportConfusionRoll;
-import com.balancedbytes.games.ffb.report.ReportId;
-import com.balancedbytes.games.ffb.report.ReportInjury;
-import com.balancedbytes.games.ffb.report.ReportPassRoll;
-import com.balancedbytes.games.ffb.report.ReportPlayerAction;
-import com.balancedbytes.games.ffb.report.ReportReRoll;
-import com.balancedbytes.games.ffb.report.ReportReferee;
-import com.balancedbytes.games.ffb.report.ReportScatterBall;
-import com.balancedbytes.games.ffb.report.ReportSkillRoll;
-import com.balancedbytes.games.ffb.report.ReportSpecialEffectRoll;
-import com.balancedbytes.games.ffb.report.ReportTurnEnd;
-import com.google.common.collect.Sets;
+import com.fumbbl.ffb.PlayerAction;
+import com.fumbbl.ffb.SpecialEffect;
+import com.fumbbl.ffb.mechanics.PassResult;
+import com.fumbbl.ffb.model.Player;
+import com.fumbbl.ffb.model.Team;
+import com.fumbbl.ffb.report.IReport;
+import com.fumbbl.ffb.report.ReportBlockRoll;
+import com.fumbbl.ffb.report.ReportBribesRoll;
+import com.fumbbl.ffb.report.ReportConfusionRoll;
+import com.fumbbl.ffb.report.ReportId;
+import com.fumbbl.ffb.report.ReportPlayerAction;
+import com.fumbbl.ffb.report.ReportReRoll;
+import com.fumbbl.ffb.report.ReportScatterBall;
+import com.fumbbl.ffb.report.ReportSkillRoll;
+import com.fumbbl.ffb.report.ReportSpecialEffectRoll;
+import com.fumbbl.ffb.report.bb2016.ReportInjury;
+import com.fumbbl.ffb.report.bb2016.ReportPassRoll;
+import com.fumbbl.ffb.report.bb2016.ReportReferee;
+import com.fumbbl.ffb.report.bb2016.ReportTurnEnd;
 import org.butterbrot.ffb.stats.adapter.TurnOverDescription;
 import org.butterbrot.ffb.stats.model.TurnOver;
 
@@ -34,14 +34,14 @@ public class TurnOverFinder {
 
     private String activePlayer;
 
-    private Deque<IReport> reports = new ArrayDeque<>();
+    private final Deque<IReport> reports = new ArrayDeque<>();
 
     private String homeTeam;
-    private Set<String> homePlayers = new HashSet<>();
+    private final Set<String> homePlayers = new HashSet<>();
 
     public void addHomePlayers(Team homeTeam) {
         this.homeTeam = homeTeam.getId();
-        for (Player player : homeTeam.getPlayers()) {
+        for (Player<?> player : homeTeam.getPlayers()) {
             homePlayers.add(player.getId());
         }
     }
@@ -107,7 +107,7 @@ public class TurnOverFinder {
                         if (homePlayers.contains(skillRoll.getPlayerId()) == homePlayers.contains(activePlayer)) {
                             if (state.getReportSkillRoll() == null ||
                                     !(state.getReportSkillRoll().getId() == ReportId.PASS_ROLL &&
-                                    ((ReportPassRoll) state.getReportSkillRoll()).isFumble() ||
+                                    ((ReportPassRoll) state.getReportSkillRoll()).getResult() == PassResult.FUMBLE ||
                                             state.getReportSkillRoll().getId()== ReportId.PICK_UP_ROLL)) {
                                 state.setReportSkillRoll(null);
                                 state.setReportReRoll(null);
@@ -136,7 +136,7 @@ public class TurnOverFinder {
                     if (PlayerAction.THROW_BOMB == action.getPlayerAction()) {
                         // if the bomb was fumbled by the active team, we report the fumble
                         if (state.getReportSkillRoll() != null && state.getReportSkillRoll() instanceof ReportPassRoll
-                                && ((ReportPassRoll) state.getReportSkillRoll()).isFumble() && (homePlayers.contains
+                                && ((ReportPassRoll) state.getReportSkillRoll()).getResult() == PassResult.FUMBLE && (homePlayers.contains
                                 (state.getReportSkillRoll().getPlayerId()) == homePlayers.contains(activePlayer))) {
                             return Optional.of(new TurnOver(TurnOverDescription.get(SpecialEffect.BOMB),
                                     state.getReportSkillRoll().getMinimumRoll(), state.getReportReRoll(),

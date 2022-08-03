@@ -17,7 +17,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import javax.annotation.Resource;
 import java.io.IOException;
 import java.io.Reader;
-import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -32,7 +32,7 @@ public class ValidationIntegrationTest {
 
     private static final Logger logger = LoggerFactory.getLogger(ValidationIntegrationTest.class);
 
-    private Gson gson = new Gson();
+    private final Gson gson = new Gson();
 
     private String outputPathTemplate;
     private String inputPathTemplate;
@@ -106,7 +106,7 @@ public class ValidationIntegrationTest {
         String jsonFile = String.format(outputPathTemplate, replayId);
         logger.info("Creating json file: {}", jsonFile);
         Path jsonPath = Paths.get(jsonFile);
-        Files.write(jsonPath, statsJson.getBytes(Charset.forName("UTF-8")));
+        Files.write(jsonPath, statsJson.getBytes(StandardCharsets.UTF_8));
     }
 
     private StatsCollection getExpectedStatsCollection(String replayId) throws IOException {

@@ -1,15 +1,15 @@
 package org.butterbrot.ffb.stats.evaluation.stats;
 
-import com.balancedbytes.games.ffb.report.IReport;
-import com.balancedbytes.games.ffb.report.ReportInjury;
-import com.balancedbytes.games.ffb.util.ArrayTool;
+import com.fumbbl.ffb.report.IReport;
+import com.fumbbl.ffb.report.bb2016.ReportInjury;
+import com.fumbbl.ffb.util.ArrayTool;
 import org.butterbrot.ffb.stats.adapter.ReportPoInjury;
 import org.butterbrot.ffb.stats.model.StatsCollection;
 
 public class InjuryEvaluator extends Evaluator<ReportInjury> {
 
-    private StatsCollection collection;
-    private StatsState state;
+    private final StatsCollection collection;
+    private final StatsState state;
 
     public InjuryEvaluator(StatsCollection collection, StatsState state) {
         this.collection = collection;

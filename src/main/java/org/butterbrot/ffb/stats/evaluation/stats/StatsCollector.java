@@ -1,16 +1,15 @@
 package org.butterbrot.ffb.stats.evaluation.stats;
 
-import com.balancedbytes.games.ffb.TurnMode;
-import com.balancedbytes.games.ffb.model.Team;
-import com.balancedbytes.games.ffb.model.change.ModelChange;
-import com.balancedbytes.games.ffb.model.change.ModelChangeId;
-import com.balancedbytes.games.ffb.net.commands.ServerCommand;
-import com.balancedbytes.games.ffb.net.commands.ServerCommandModelSync;
-import com.balancedbytes.games.ffb.report.IReport;
-import com.balancedbytes.games.ffb.report.ReportList;
-import com.balancedbytes.games.ffb.report.ReportStartHalf;
-import com.balancedbytes.games.ffb.report.ReportTurnEnd;
-import com.google.gson.Gson;
+import com.fumbbl.ffb.TurnMode;
+import com.fumbbl.ffb.model.Game;
+import com.fumbbl.ffb.model.Team;
+import com.fumbbl.ffb.model.change.ModelChange;
+import com.fumbbl.ffb.model.change.ModelChangeId;
+import com.fumbbl.ffb.net.commands.ServerCommand;
+import com.fumbbl.ffb.net.commands.ServerCommandModelSync;
+import com.fumbbl.ffb.report.IReport;
+import com.fumbbl.ffb.report.ReportList;
+import com.fumbbl.ffb.report.ReportStartHalf;
 import org.butterbrot.ffb.stats.evaluation.turnover.TurnOverFinder;
 import org.butterbrot.ffb.stats.model.StatsCollection;
 import org.slf4j.Logger;
@@ -23,17 +22,13 @@ public class StatsCollector {
 
     private static final Logger logger = LoggerFactory.getLogger(StatsCollector.class);
 
-    private List<ServerCommand> replayCommands;
-    private StatsCollection collection = new StatsCollection();
-    private TurnOverFinder turnOverFinder = new TurnOverFinder();
-    private StatsState state = new StatsState();
-    private List<Evaluator> evaluators = new ArrayList<>();
-    private StartHalfEvaluator halfEvaluator;
-
-    public void setHomeTeam(Team team) {
-        collection.setHomeTeam(team);
-        turnOverFinder.addHomePlayers(team);
-    }
+    private final List<ServerCommand> replayCommands;
+    private final StatsCollection collection = new StatsCollection();
+    private final TurnOverFinder turnOverFinder = new TurnOverFinder();
+    private final StatsState state = new StatsState();
+    private final List<Evaluator<?>> evaluators = new ArrayList<>();
+    private final StartHalfEvaluator halfEvaluator;
+    private Game game;
 
     public StatsCollector() {
         this(new ArrayList<>());
@@ -73,10 +68,22 @@ public class StatsCollector {
         evaluators.add(new WizardUseEvaluator(state, collection));
     }
 
-    public void setAwayTeam(Team team) {
+    private void setAwayTeam(Team team) {
         collection.setAwayTeam(team);
     }
 
+    private void setHomeTeam(Team team) {
+        collection.setHomeTeam(team);
+        turnOverFinder.addHomePlayers(team);
+    }
+
+    public void setGame(Game game) {
+        this.game = game;
+        setAwayTeam(game.getTeamAway());
+        setHomeTeam(game.getTeamHome());
+        state.setGame(game);
+        collection.setGame(game);
+    }
 
     public List<ServerCommand> getReplayCommands() {
         return replayCommands;
@@ -91,7 +98,6 @@ public class StatsCollector {
 
                 ServerCommandModelSync modelSync = (ServerCommandModelSync) command;
 
-
                 ReportList reportList = modelSync.getReportList();
                 for (IReport report : reportList.getReports()) {
                   //  logger.info(new Gson().toJson(report));
@@ -99,7 +105,7 @@ public class StatsCollector {
                         if (state.isActionTurn()) {
                             turnOverFinder.add(report);
                         }
-                        for (Evaluator evaluator : evaluators) {
+                        for (Evaluator<?> evaluator : evaluators) {
                             if (evaluator.handles(report)) {
                                 evaluator.evaluate(report);
                                 break;
@@ -131,7 +137,7 @@ public class StatsCollector {
                 state.setActionTurn(TurnMode.BLITZ == state.getTurnMode() || TurnMode.REGULAR == state.getTurnMode());
 
                 if (newTurnValuesSet && state.isActionTurn() && state.isNewTurn()){
-                    turnOverFinder.findTurnover().ifPresent(turnOver -> collection.addTurnOver(turnOver));
+                    turnOverFinder.findTurnover().ifPresent(collection::addTurnOver);
                     turnOverFinder.reset();
                     state.setLastTurn(collection.addTurn(state.isHomePlaying(), state.getTurnMode(), state
                             .getTurnNumber()));

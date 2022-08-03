@@ -1,12 +1,12 @@
 package org.butterbrot.ffb.stats.evaluation.stats;
 
-import com.balancedbytes.games.ffb.report.IReport;
-import com.balancedbytes.games.ffb.report.ReportTentaclesShadowingRoll;
+import com.fumbbl.ffb.report.IReport;
+import com.fumbbl.ffb.report.bb2016.ReportTentaclesShadowingRoll;
 import org.butterbrot.ffb.stats.model.StatsCollection;
 
 public class TentaclesShadowingRollEvaluator extends Evaluator<ReportTentaclesShadowingRoll> {
 
-    private StatsCollection collection;
+    private final StatsCollection collection;
 
     public TentaclesShadowingRollEvaluator(StatsCollection collection) {
         this.collection = collection;

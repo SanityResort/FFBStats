@@ -1,11 +1,11 @@
 package org.butterbrot.ffb.stats.communication;
 
-import com.balancedbytes.games.ffb.model.Game;
-import com.balancedbytes.games.ffb.net.INetCommandHandler;
-import com.balancedbytes.games.ffb.net.NetCommand;
-import com.balancedbytes.games.ffb.net.commands.ServerCommand;
-import com.balancedbytes.games.ffb.net.commands.ServerCommandGameState;
-import com.balancedbytes.games.ffb.net.commands.ServerCommandReplay;
+import com.fumbbl.ffb.model.Game;
+import com.fumbbl.ffb.net.INetCommandHandler;
+import com.fumbbl.ffb.net.NetCommand;
+import com.fumbbl.ffb.net.commands.ServerCommand;
+import com.fumbbl.ffb.net.commands.ServerCommandGameState;
+import com.fumbbl.ffb.net.commands.ServerCommandReplay;
 import com.eclipsesource.json.JsonArray;
 import com.eclipsesource.json.JsonObject;
 import org.butterbrot.ffb.stats.evaluation.stats.StatsCollector;
@@ -42,8 +42,7 @@ public class CommandHandler implements INetCommandHandler {
         switch (pNetCommand.getId()) {
             case SERVER_GAME_STATE:
                 game = ((ServerCommandGameState) pNetCommand).getGame();
-                statsCollector.setAwayTeam(game.getTeamAway());
-                statsCollector.setHomeTeam(game.getTeamHome());
+                statsCollector.setGame(game);
                 break;
             case SERVER_REPLAY:
                 ServerCommandReplay replayCommand = (ServerCommandReplay) pNetCommand;

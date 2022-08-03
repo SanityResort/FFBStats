@@ -1,8 +1,8 @@
 package org.butterbrot.ffb.stats.evaluation.stats;
 
-import com.balancedbytes.games.ffb.report.IReport;
-import com.balancedbytes.games.ffb.report.ReportApothecaryRoll;
-import com.balancedbytes.games.ffb.util.ArrayTool;
+import com.fumbbl.ffb.report.IReport;
+import com.fumbbl.ffb.report.bb2016.ReportApothecaryRoll;
+import com.fumbbl.ffb.util.ArrayTool;
 import org.butterbrot.ffb.stats.model.StatsCollection;
 
 public class ApothecaryRollEvaluator extends Evaluator<ReportApothecaryRoll> {

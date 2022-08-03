@@ -1,7 +1,7 @@
 package org.butterbrot.ffb.stats.adapter;
 
-import com.balancedbytes.games.ffb.report.ReportInjury;
-import com.balancedbytes.games.ffb.report.ReportPilingOn;
+import com.fumbbl.ffb.report.bb2016.ReportInjury;
+import com.fumbbl.ffb.report.ReportPilingOn;
 
 public class ReportPoInjury extends ReportInjury {
     private ReportPilingOn poReport;

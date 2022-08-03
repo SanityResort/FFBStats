@@ -1,7 +1,7 @@
 package org.butterbrot.ffb.stats.evaluation.stats;
 
-import com.balancedbytes.games.ffb.report.IReport;
-import com.balancedbytes.games.ffb.report.ReportWizardUse;
+import com.fumbbl.ffb.report.IReport;
+import com.fumbbl.ffb.report.ReportWizardUse;
 import org.butterbrot.ffb.stats.model.StatsCollection;
 
 public class WizardUseEvaluator extends Evaluator<ReportWizardUse> {

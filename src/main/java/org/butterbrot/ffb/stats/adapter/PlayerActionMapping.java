@@ -1,6 +1,6 @@
 package org.butterbrot.ffb.stats.adapter;
 
-import com.balancedbytes.games.ffb.PlayerAction;
+import com.fumbbl.ffb.PlayerAction;
 import com.google.common.collect.Sets;
 
 import java.util.HashMap;

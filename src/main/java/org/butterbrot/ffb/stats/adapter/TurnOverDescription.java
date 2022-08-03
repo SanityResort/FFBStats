@@ -1,14 +1,14 @@
 package org.butterbrot.ffb.stats.adapter;
 
-import com.balancedbytes.games.ffb.INamedObject;
-import com.balancedbytes.games.ffb.SpecialEffect;
-import com.balancedbytes.games.ffb.report.ReportId;
+import com.fumbbl.ffb.INamedObject;
+import com.fumbbl.ffb.SpecialEffect;
+import com.fumbbl.ffb.report.ReportId;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class TurnOverDescription {
-    private static Map<INamedObject, String> DESCRIPTIONS = new HashMap<>();
+    private static final Map<INamedObject, String> DESCRIPTIONS = new HashMap<>();
 
    static {
         DESCRIPTIONS.put(ReportId.BLOCK_ROLL, "Block" );
@@ -21,7 +21,7 @@ public class TurnOverDescription {
         DESCRIPTIONS.put(ReportId.RIGHT_STUFF_ROLL, "Landing");
         DESCRIPTIONS.put(ReportId.PICK_UP_ROLL, "Pick up");
         DESCRIPTIONS.put(ReportId.PASS_ROLL, "Pass");
-        DESCRIPTIONS.put(ReportId.LEAP_ROLL, "Leap");
+        DESCRIPTIONS.put(ReportId.JUMP_ROLL, "Jump");
         DESCRIPTIONS.put(ReportId.INTERCEPTION_ROLL, "Interception");
         DESCRIPTIONS.put(ReportId.GO_FOR_IT_ROLL, "Go for it");
         DESCRIPTIONS.put(ReportId.ESCAPE_ROLL, "Being eaten");

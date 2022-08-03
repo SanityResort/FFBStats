@@ -1,11 +1,11 @@
 package org.butterbrot.ffb.stats.turnover;
 
-import com.balancedbytes.games.ffb.PlayerAction;
-import com.balancedbytes.games.ffb.report.ReportBribesRoll;
-import com.balancedbytes.games.ffb.report.ReportId;
-import com.balancedbytes.games.ffb.report.ReportPlayerAction;
-import com.balancedbytes.games.ffb.report.ReportReferee;
-import com.balancedbytes.games.ffb.report.ReportTurnEnd;
+import com.fumbbl.ffb.PlayerAction;
+import com.fumbbl.ffb.report.ReportBribesRoll;
+import com.fumbbl.ffb.report.ReportId;
+import com.fumbbl.ffb.report.ReportPlayerAction;
+import com.fumbbl.ffb.report.bb2016.ReportReferee;
+import com.fumbbl.ffb.report.bb2016.ReportTurnEnd;
 import org.butterbrot.ffb.stats.adapter.TurnOverDescription;
 import org.butterbrot.ffb.stats.model.TurnOver;
 import org.junit.Test;

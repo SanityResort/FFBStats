@@ -1,13 +1,13 @@
 package org.butterbrot.ffb.stats.evaluation.stats;
 
-import com.balancedbytes.games.ffb.report.IReport;
-import com.balancedbytes.games.ffb.report.ReportKickoffPitchInvasion;
+import com.fumbbl.ffb.report.IReport;
+import com.fumbbl.ffb.report.bb2016.ReportKickoffPitchInvasion;
 import org.butterbrot.ffb.stats.model.StatsCollection;
 
 public class KickoffPitchInvasionEvaluator extends Evaluator<ReportKickoffPitchInvasion> {
 
-    private StatsCollection collection;
-    private StatsState state;
+    private final StatsCollection collection;
+    private final StatsState state;
 
     public KickoffPitchInvasionEvaluator(StatsCollection collection, StatsState state) {
         this.collection = collection;

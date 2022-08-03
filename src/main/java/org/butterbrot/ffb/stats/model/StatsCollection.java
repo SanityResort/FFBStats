@@ -1,12 +1,18 @@
 package org.butterbrot.ffb.stats.model;
 
-import com.balancedbytes.games.ffb.ArmorModifier;
-import com.balancedbytes.games.ffb.KickoffResult;
-import com.balancedbytes.games.ffb.PlayerAction;
-import com.balancedbytes.games.ffb.TurnMode;
-import com.balancedbytes.games.ffb.model.Player;
-import com.balancedbytes.games.ffb.model.Team;
-import com.balancedbytes.games.ffb.report.ReportId;
+import com.fumbbl.ffb.PlayerAction;
+import com.fumbbl.ffb.TurnMode;
+import com.fumbbl.ffb.kickoff.KickoffResult;
+import com.fumbbl.ffb.model.Game;
+import com.fumbbl.ffb.model.Player;
+import com.fumbbl.ffb.model.Team;
+import com.fumbbl.ffb.model.property.ISkillProperty;
+import com.fumbbl.ffb.model.property.NamedProperties;
+import com.fumbbl.ffb.model.skill.Skill;
+import com.fumbbl.ffb.modifiers.ArmorModifier;
+import com.fumbbl.ffb.modifiers.IRegistrationAwareModifier;
+import com.fumbbl.ffb.report.ReportId;
+import com.fumbbl.ffb.util.StringTool;
 import com.google.common.collect.Lists;
 import org.butterbrot.ffb.stats.adapter.ReportPoInjury;
 
@@ -15,21 +21,22 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public class StatsCollection  implements Data {
 
     private boolean finished = false;
     private TeamStatsCollection home;
     private TeamStatsCollection away;
-    private int version = 5;
     private String replayId;
     private String weather;
-    private Half firstHalf = new Half();
-    private Half secondHalf = new Half();
-    private Half overtime = new Half();
+    private Game game;
+    private final Half firstHalf = new Half();
+    private final Half secondHalf = new Half();
+    private final Half overtime = new Half();
     private transient Half currentHalf = firstHalf;
-    private transient Map<String, Integer> armourValues = new HashMap<>();
-    private transient Map<String, TeamStatsCollection> teams = new HashMap<>();
+    private final transient Map<String, Integer> armourValues = new HashMap<>();
+    private final transient Map<String, TeamStatsCollection> teams = new HashMap<>();
     private transient Drive currentDrive;
 
     public void setReplayId(String replayId) {
@@ -64,6 +71,14 @@ public class StatsCollection  implements Data {
 
     public TeamStatsCollection getAway() {
         return away;
+    }
+
+    public Game getGame() {
+        return game;
+    }
+
+    public void setGame(Game game) {
+        this.game = game;
     }
 
     public void addSuccessRoll(String playerOrTeam, ReportId reportId, int minimumRoll) {
@@ -234,27 +249,27 @@ public class StatsCollection  implements Data {
 
     public void addArmourAndInjuryStats(Collection<ReportPoInjury> injuries) {
         for (ReportPoInjury injury : injuries) {
+            String playerId = StringTool.isProvided(injury.getAttackerId()) ? injury.getAttackerId() : injury.getDefenderId();
             TeamStatsCollection team = getOpposition(teams.get(injury.getDefenderId()));
             TeamStatsCollection turnTeam = turnTeam(team);
             int effectiveAV = armourValues.get(injury.getDefenderId());
             List<ArmorModifier> armorModifiers = Lists.newArrayList(injury.getArmorModifiers());
-            if (armorModifiers.contains(ArmorModifier.CLAWS)) {
+            if (haveProperty(armorModifiers, NamedProperties.reducesArmourToFixedValue)) {
                 effectiveAV = Math.min(7, effectiveAV);
             }
             boolean poUsedForArmour = injury.getPoReport() != null && !injury.getPoReport().isReRollInjury();
             boolean mbUsed = false;
             boolean dpUsed = false;
+            if (haveProperty(armorModifiers, NamedProperties.affectsEitherArmourOrInjuryOnBlock)) {
+                mbUsed = true;
+            }
+
+            if (haveProperty(armorModifiers, NamedProperties.affectsEitherArmourOrInjuryOnFoul)) {
+                dpUsed = true;
+            }
+
             for (ArmorModifier modifier : armorModifiers) {
-                switch (modifier) {
-                    case MIGHTY_BLOW:
-                        mbUsed = true;
-                        break;
-                    case DIRTY_PLAYER:
-                        dpUsed = true;
-                        break;
-                    default:
-                        effectiveAV -= modifier.getModifier();
-                }
+                effectiveAV -= modifier.getModifier(game.getPlayerById(playerId));
             }
 
             effectiveAV = Math.max(0, effectiveAV);
@@ -269,6 +284,11 @@ public class StatsCollection  implements Data {
                 }
             }
         }
+    }
+
+    private boolean haveProperty(List<ArmorModifier> armorModifiers, ISkillProperty property) {
+        return armorModifiers.stream().map(IRegistrationAwareModifier::getRegisteredTo).filter(Objects::nonNull)
+          .anyMatch(skill -> skill.hasSkillProperty(property));
     }
 
     public void addTurnOver(TurnOver turnOver) {
@@ -362,19 +382,31 @@ public class StatsCollection  implements Data {
         return home;
     }
 
+    public String getReplayId() {
+        return replayId;
+    }
+
+    public String getWeather() {
+        return weather;
+    }
+
+    public int getVersion() {
+        return 6;
+    }
+
     private static final class Drive implements Data {
         private final List<Turn> turns = new ArrayList<>();
         private final String kickOff;
 
         private int[] kickOffRollsHome;
         private int[] kickOffRollsAway;
-        private List<Integer> koRollsHome = new ArrayList<>();
-        private List<Integer> koRollsAway = new ArrayList<>();
-        private List<Integer> heatRollsHome = new ArrayList<>();
-        private List<Integer> heatRollsAway = new ArrayList<>();
+        private final List<Integer> koRollsHome = new ArrayList<>();
+        private final List<Integer> koRollsAway = new ArrayList<>();
+        private final List<Integer> heatRollsHome = new ArrayList<>();
+        private final List<Integer> heatRollsAway = new ArrayList<>();
 
-        private TeamStatsCollection driveHome = new TeamStatsCollection();
-        private TeamStatsCollection driveAway = new TeamStatsCollection();
+        private final TeamStatsCollection driveHome = new TeamStatsCollection();
+        private final TeamStatsCollection driveAway = new TeamStatsCollection();
 
         private final transient TeamStatsCollection globalHome;
 
@@ -421,10 +453,22 @@ public class StatsCollection  implements Data {
             }
             return driveAway;
         }
+
+        public String getKickOff() {
+            return kickOff;
+        }
+
+        public int[] getKickOffRollsHome() {
+            return kickOffRollsHome;
+        }
+
+        public int[] getKickOffRollsAway() {
+            return kickOffRollsAway;
+        }
     }
 
     private static class Half implements Data {
-        private List<Drive> drives = new ArrayList<>();
-        private List<Integer> chefRolls = new ArrayList<>();
+        private final List<Drive> drives = new ArrayList<>();
+        private final List<Integer> chefRolls = new ArrayList<>();
     }
 }

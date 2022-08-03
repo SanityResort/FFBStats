@@ -1,22 +1,21 @@
 package org.butterbrot.ffb.stats.model;
 
-import com.balancedbytes.games.ffb.ReRollSource;
-import com.balancedbytes.games.ffb.report.ReportReRoll;
-import org.butterbrot.ffb.stats.model.Data;
+import com.fumbbl.ffb.ReRollSources;
+import com.fumbbl.ffb.report.ReportReRoll;
 
 public class TurnOver implements Data {
-    private String action;
-    private int minRollOrDiceCount;
-    private boolean wasReRolled;
-    private boolean wasReRolledWithTeamReRoll;
-    private transient String activePlayer;
+    private final String action;
+    private final int minRollOrDiceCount;
+    private final boolean wasReRolled;
+    private final boolean wasReRolledWithTeamReRoll;
+    private final transient String activePlayer;
 
     public TurnOver(String action, int minRollOrDiceCount, ReportReRoll reportReRoll, String activePlayer) {
         this.action = action;
         this.minRollOrDiceCount = minRollOrDiceCount;
         this.wasReRolled = reportReRoll != null;
         this.wasReRolledWithTeamReRoll = reportReRoll != null &&
-                (reportReRoll.getReRollSource() == ReRollSource.LEADER || reportReRoll.getReRollSource() == ReRollSource.TEAM_RE_ROLL);
+                (reportReRoll.getReRollSource() == ReRollSources.LEADER || reportReRoll.getReRollSource() == ReRollSources.TEAM_RE_ROLL);
         this.activePlayer = activePlayer;
     }
 

@@ -1,19 +1,17 @@
 package org.butterbrot.ffb.stats.evaluation.stats;
 
-import com.balancedbytes.games.ffb.HeatExhaustion;
-import com.balancedbytes.games.ffb.KnockoutRecovery;
-import com.balancedbytes.games.ffb.TurnMode;
-import com.balancedbytes.games.ffb.report.IReport;
-import com.balancedbytes.games.ffb.report.ReportTurnEnd;
-import com.balancedbytes.games.ffb.util.ArrayTool;
-import org.butterbrot.ffb.stats.evaluation.turnover.TurnOverFinder;
+import com.fumbbl.ffb.HeatExhaustion;
+import com.fumbbl.ffb.KnockoutRecovery;
+import com.fumbbl.ffb.report.IReport;
+import com.fumbbl.ffb.report.bb2016.ReportTurnEnd;
+import com.fumbbl.ffb.util.ArrayTool;
 import org.butterbrot.ffb.stats.model.StatsCollection;
 import org.springframework.util.StringUtils;
 
 public class TurnEndEvaluator extends Evaluator<ReportTurnEnd> {
 
-    private StatsCollection collection;
-    private StatsState state;
+    private final StatsCollection collection;
+    private final StatsState state;
 
     public TurnEndEvaluator(StatsCollection collection, StatsState state) {
         this.collection = collection;

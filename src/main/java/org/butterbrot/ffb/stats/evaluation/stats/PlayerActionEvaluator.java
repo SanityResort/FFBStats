@@ -1,7 +1,7 @@
 package org.butterbrot.ffb.stats.evaluation.stats;
 
-import com.balancedbytes.games.ffb.report.IReport;
-import com.balancedbytes.games.ffb.report.ReportPlayerAction;
+import com.fumbbl.ffb.report.IReport;
+import com.fumbbl.ffb.report.ReportPlayerAction;
 import org.butterbrot.ffb.stats.evaluation.turnover.TurnOverFinder;
 import org.butterbrot.ffb.stats.model.StatsCollection;
 import org.butterbrot.ffb.stats.model.TeamStatsCollection;

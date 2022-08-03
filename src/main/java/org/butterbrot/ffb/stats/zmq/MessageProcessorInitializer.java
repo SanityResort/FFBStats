@@ -12,7 +12,7 @@ public class MessageProcessorInitializer implements InitializingBean {
     private MessageProcessor messageProcessor;
 
     @Override
-    public void afterPropertiesSet() throws Exception {
+    public void afterPropertiesSet() {
         new Thread(messageProcessor).start();
     }
 }
