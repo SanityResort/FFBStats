@@ -25,7 +25,7 @@ public class JsonConverter {
         EvaluationFactorySource factorySource = new EvaluationFactorySource();
         NetCommandFactory factory = new NetCommandFactory(factorySource);
         JsonObject gsonGame = root.getAsJsonObject(FIELD_GAME);
-        Game game = new Game(factorySource, factorySource.getFactoryManager()).initFrom(factorySource, JsonValue.readFrom(gsonGame.getAsString()));
+        Game game = new Game(factorySource, factorySource.getFactoryManager()).initFrom(factorySource, JsonValue.readFrom(gsonGame.toString()));
         Team away = game.getTeamAway();
         Team home = game.getTeamHome();
 
