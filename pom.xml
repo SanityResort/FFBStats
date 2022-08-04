@@ -26,7 +26,7 @@
             </snapshots>
         </pluginRepository>
     </pluginRepositories>
-    
+
     <repositories>
         <repository>
             <!-- DO NOT set id to "local" because it is reserved by Maven -->
@@ -78,6 +78,12 @@
                 <groupId>com.fumbbl.ffb.client</groupId>
                 <artifactId>FantasyFootballClient</artifactId>
                 <version>2.13.0-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>io.github.classgraph</groupId>
+                <artifactId>classgraph</artifactId>
+                <version>4.8.98</version>
+                <scope>test</scope>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -149,6 +155,10 @@
                     <groupId>com.fumbbl.ffb.client</groupId>
                     <artifactId>FantasyFootballClient</artifactId>
                 </dependency>
+                <dependency>
+                    <groupId>io.github.classgraph</groupId>
+                    <artifactId>classgraph</artifactId>
+                </dependency>
             </dependencies>
         </profile>
         <profile>
@@ -206,6 +216,10 @@
                 <dependency>
                     <groupId>com.fumbbl.ffb.client</groupId>
                     <artifactId>FantasyFootballClient</artifactId>
+                </dependency>
+                <dependency>
+                    <groupId>io.github.classgraph</groupId>
+                    <artifactId>classgraph</artifactId>
                 </dependency>
             </dependencies>
         </profile>
