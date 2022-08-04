@@ -8,7 +8,6 @@ import com.fumbbl.ffb.model.Player;
 import com.fumbbl.ffb.model.Team;
 import com.fumbbl.ffb.model.property.ISkillProperty;
 import com.fumbbl.ffb.model.property.NamedProperties;
-import com.fumbbl.ffb.model.skill.Skill;
 import com.fumbbl.ffb.modifiers.ArmorModifier;
 import com.fumbbl.ffb.modifiers.IRegistrationAwareModifier;
 import com.fumbbl.ffb.report.ReportId;
@@ -30,7 +29,6 @@ public class StatsCollection  implements Data {
     private TeamStatsCollection away;
     private String replayId;
     private String weather;
-    private Game game;
     private final Half firstHalf = new Half();
     private final Half secondHalf = new Half();
     private final Half overtime = new Half();
@@ -38,6 +36,7 @@ public class StatsCollection  implements Data {
     private final transient Map<String, Integer> armourValues = new HashMap<>();
     private final transient Map<String, TeamStatsCollection> teams = new HashMap<>();
     private transient Drive currentDrive;
+    private transient Game game;
 
     public void setReplayId(String replayId) {
         this.replayId = replayId;
@@ -52,7 +51,7 @@ public class StatsCollection  implements Data {
         teams.put(team.getId(), home);
         for (Player player : team.getPlayers()) {
             teams.put(player.getId(), home);
-            armourValues.put(player.getId(), player.getArmour());
+            armourValues.put(player.getId(), player.getArmourWithModifiers());
         }
     }
 
@@ -61,7 +60,7 @@ public class StatsCollection  implements Data {
         teams.put(team.getId(), away);
         for (Player player : team.getPlayers()) {
             teams.put(player.getId(), away);
-            armourValues.put(player.getId(), player.getArmour());
+            armourValues.put(player.getId(), player.getArmourWithModifiers());
         }
     }
 
@@ -269,7 +268,9 @@ public class StatsCollection  implements Data {
             }
 
             for (ArmorModifier modifier : armorModifiers) {
-                effectiveAV -= modifier.getModifier(game.getPlayerById(playerId));
+                if (!mbUsed && !dpUsed) {
+                    effectiveAV -= modifier.getModifier(game.getPlayerById(playerId));
+                }
             }
 
             effectiveAV = Math.max(0, effectiveAV);
