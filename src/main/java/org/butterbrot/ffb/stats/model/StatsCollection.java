@@ -8,8 +8,8 @@ import com.fumbbl.ffb.model.Player;
 import com.fumbbl.ffb.model.Team;
 import com.fumbbl.ffb.model.property.ISkillProperty;
 import com.fumbbl.ffb.model.property.NamedProperties;
+import com.fumbbl.ffb.model.skill.Skill;
 import com.fumbbl.ffb.modifiers.ArmorModifier;
-import com.fumbbl.ffb.modifiers.IRegistrationAwareModifier;
 import com.fumbbl.ffb.report.ReportId;
 import com.fumbbl.ffb.util.StringTool;
 import com.google.common.collect.Lists;
@@ -20,7 +20,6 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 public class StatsCollection  implements Data {
 
@@ -259,16 +258,13 @@ public class StatsCollection  implements Data {
             boolean poUsedForArmour = injury.getPoReport() != null && !injury.getPoReport().isReRollInjury();
             boolean mbUsed = false;
             boolean dpUsed = false;
-            if (haveProperty(armorModifiers, NamedProperties.affectsEitherArmourOrInjuryOnBlock)) {
-                mbUsed = true;
-            }
-
-            if (haveProperty(armorModifiers, NamedProperties.affectsEitherArmourOrInjuryOnFoul)) {
-                dpUsed = true;
-            }
 
             for (ArmorModifier modifier : armorModifiers) {
-                if (!mbUsed && !dpUsed) {
+                if (hasProperty(modifier, NamedProperties.affectsEitherArmourOrInjuryOnBlock)) {
+                    mbUsed = true;
+                } else if (hasProperty(modifier, NamedProperties.affectsEitherArmourOrInjuryOnFoul)) {
+                    dpUsed = true;
+                } else {
                     effectiveAV -= modifier.getModifier(game.getPlayerById(playerId));
                 }
             }
@@ -288,8 +284,12 @@ public class StatsCollection  implements Data {
     }
 
     private boolean haveProperty(List<ArmorModifier> armorModifiers, ISkillProperty property) {
-        return armorModifiers.stream().map(IRegistrationAwareModifier::getRegisteredTo).filter(Objects::nonNull)
-          .anyMatch(skill -> skill.hasSkillProperty(property));
+        return armorModifiers.stream().anyMatch(armorModifier -> hasProperty(armorModifier, property));
+    }
+
+    private boolean hasProperty(ArmorModifier armorModifier, ISkillProperty property) {
+        Skill skill = armorModifier.getRegisteredTo();
+        return skill != null && skill.hasSkillProperty(property);
     }
 
     public void addTurnOver(TurnOver turnOver) {
