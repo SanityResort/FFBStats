@@ -26,8 +26,6 @@ public class JsonConverter {
         NetCommandFactory factory = new NetCommandFactory(factorySource);
         JsonObject gsonGame = root.getAsJsonObject(FIELD_GAME);
         Game game = new Game(factorySource, factorySource.getFactoryManager()).initFrom(factorySource, JsonValue.readFrom(gsonGame.toString()));
-        Team away = game.getTeamAway();
-        Team home = game.getTeamHome();
 
         JsonArray commands = root.getAsJsonObject(FIELD_GAME_LOG).getAsJsonArray(FIELD_COMMAND_ARRAY);
         Iterator<JsonElement> it = commands.iterator();
@@ -38,7 +36,7 @@ public class JsonConverter {
             String id = element.getAsJsonObject().get(FIELD_NET_COMMAND_ID).getAsString();
             if (NetCommandId.SERVER_MODEL_SYNC.getName().equals(id)) {
                 replayCommands
-                        .add((ServerCommand) factory.forJsonValue(factorySource, JsonValue.readFrom(element.toString())));
+                        .add((ServerCommand) factory.forJsonValue(game.getRules(), JsonValue.readFrom(element.toString())));
             }
         }
 
