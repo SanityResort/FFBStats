@@ -11,10 +11,9 @@ import com.fumbbl.ffb.model.property.NamedProperties;
 import com.fumbbl.ffb.model.skill.Skill;
 import com.fumbbl.ffb.modifiers.ArmorModifier;
 import com.fumbbl.ffb.report.ReportId;
-import com.fumbbl.ffb.stats.BlockDiceStat;
+import com.fumbbl.ffb.stats.DicePoolStat;
 import com.fumbbl.ffb.stats.DieStat;
 import com.fumbbl.ffb.stats.DoubleDiceStat;
-import com.fumbbl.ffb.stats.SingleDiceStat;
 import com.fumbbl.ffb.stats.SingleDieStat;
 import com.fumbbl.ffb.util.StringTool;
 import com.google.common.collect.Lists;
@@ -104,12 +103,10 @@ public class StatsCollection implements Data {
 		teamStatsCollections.forEach(teamStatsCollection -> {
 			if (dieStat instanceof SingleDieStat) {
 				teamStatsCollection.add((SingleDieStat) dieStat);
-			} else if (dieStat instanceof SingleDiceStat) {
-				teamStatsCollection.add((SingleDiceStat) dieStat);
+			} else if (dieStat instanceof DicePoolStat) {
+				teamStatsCollection.add((DicePoolStat) dieStat);
 			} else if (dieStat instanceof DoubleDiceStat) {
 				teamStatsCollection.add((DoubleDiceStat) dieStat);
-			} else if (dieStat instanceof BlockDiceStat) {
-				teamStatsCollection.add((BlockDiceStat) dieStat);
 			} else {
 				logger.warn("Unhandled dieStat subclass: " + dieStat.getClass().getCanonicalName());
 			}

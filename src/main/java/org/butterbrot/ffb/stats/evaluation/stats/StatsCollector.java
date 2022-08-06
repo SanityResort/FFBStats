@@ -11,6 +11,7 @@ import com.fumbbl.ffb.report.IReport;
 import com.fumbbl.ffb.report.ReportList;
 import com.fumbbl.ffb.report.ReportStartHalf;
 import org.butterbrot.ffb.stats.evaluation.stats.migrated.ApothecaryRollEvaluator;
+import org.butterbrot.ffb.stats.evaluation.stats.migrated.BlockRollEvaluator;
 import org.butterbrot.ffb.stats.evaluation.turnover.TurnOverFinder;
 import org.butterbrot.ffb.stats.model.StatsCollection;
 import org.slf4j.Logger;
@@ -38,7 +39,6 @@ public class StatsCollector {
     public StatsCollector(List<ServerCommand> replayCommands) {
         this.replayCommands = replayCommands;
         halfEvaluator = new StartHalfEvaluator(state, turnOverFinder, collection );
-        evaluators.add(new ArgueTheCallEvaluator(collection));
         evaluators.add(new ApothecaryRollEvaluator(collection));
         evaluators.add(new BlockRollEvaluator(collection, state));
         evaluators.add(new BribesRollEvaluator(collection));
