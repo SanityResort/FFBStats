@@ -16,6 +16,7 @@ public class ApothecaryRollEvaluator extends Evaluator<ReportApothecaryRoll> {
 
     @Override
     public void evaluate(IReport report) {
+        // do not move this to the reportIdMapper as the usage is not recorded for the same team as the potential die roll
         ReportApothecaryRoll apoRoll = (ReportApothecaryRoll) report;
         collection.addApoUse(apoRoll.getPlayerId());
     }

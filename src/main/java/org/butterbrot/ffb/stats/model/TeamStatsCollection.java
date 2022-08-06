@@ -45,6 +45,7 @@ public class TeamStatsCollection implements Data {
 	private final Map<String, Integer> additionalStats = initAdditionalStatsMap();
 	private final Map<PlayerAction, Set<String>> playerActionMap = new HashMap<>();
 
+	private final transient ReportIdMapper reportIdMapper = new ReportIdMapper();
 	private String teamName;
 	private String coach;
 	private String race;
@@ -346,12 +347,15 @@ public class TeamStatsCollection implements Data {
 	}
 
 	public void add(SingleDieStat stat) {
-		addSingleRoll(getNormalizedValue(stat));
+		if (stat.getValue() > 0) {
+			addSingleRoll(getNormalizedValue(stat));
+		}
 		if (stat.isSuccessful()) {
 			addSuccessRoll(stat.getReportId(), stat.getMinimumRoll());
 		} else {
 			addFailedRoll(stat.getReportId(), stat.getMinimumRoll());
 		}
+		reportIdMapper.map(stat.getReportId(), stat.isSuccessful()).ifPresent(this::incrementAdditionalStat);
 	}
 
 	public void add(DicePoolStat stat) {
@@ -396,19 +400,4 @@ public class TeamStatsCollection implements Data {
 		rolls.put(roll, rolls.get(roll) - 1);
 	}
 
-	private enum StatKey {
-		APO("Apothecary Usages"), BRIBE("Bribes"), BLOOD_LUST("Failed Blood Lusts"), CONFUSION("Failed Confusions"), HYPNOTIC_GAZE("Successful Hypnotic Gazes"),
-		REROLL("Reroll Usages"), SCATTER("Scattered Balls"), TAKE_ROOT("Failed Take Roots"), TIME_OUT("Time Outs"), TOUCHDOWN("Tochdowns"), WILD_ANIMAL("Failed Wild Animals"), WIZARD("Wizard Usages");
-
-		private final String description;
-
-		StatKey(String description) {
-			this.description = description;
-		}
-
-		@Override
-		public String toString() {
-			return name();
-		}
-	}
 }

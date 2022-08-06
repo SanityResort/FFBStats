@@ -41,7 +41,6 @@ public class StatsCollector {
         halfEvaluator = new StartHalfEvaluator(state, turnOverFinder, collection );
         evaluators.add(new ApothecaryRollEvaluator(collection));
         evaluators.add(new BlockRollEvaluator(collection, state));
-        evaluators.add(new BribesRollEvaluator(collection));
         evaluators.add(new InjuryEvaluator(collection, state));
         evaluators.add(new KickoffExtraReRollEvaluator(collection));
         evaluators.add(new SwarmingRollEvaluator(collection));
