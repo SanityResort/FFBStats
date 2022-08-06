@@ -16,10 +16,6 @@ public class ApothecaryRollEvaluator extends Evaluator<ReportApothecaryRoll> {
     @Override
     public void evaluate(IReport report) {
         ReportApothecaryRoll apoRoll = (ReportApothecaryRoll) report;
-        if (ArrayTool.isProvided(apoRoll.getCasualtyRoll())) {
-            collection.addSingleOpposingRoll(apoRoll.getCasualtyRoll()[0], apoRoll.getPlayerId());
-        }
         collection.addApoUse(apoRoll.getPlayerId());
-
     }
 }

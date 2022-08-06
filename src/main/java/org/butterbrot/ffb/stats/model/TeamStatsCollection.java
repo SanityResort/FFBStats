@@ -6,17 +6,20 @@ import com.fumbbl.ffb.PlayerAction;
 import com.fumbbl.ffb.factory.BlockResultFactory;
 import com.fumbbl.ffb.report.ReportId;
 import com.fumbbl.ffb.stats.BlockDiceStat;
+import com.fumbbl.ffb.stats.DieBase;
 import com.fumbbl.ffb.stats.DoubleDiceStat;
 import com.fumbbl.ffb.stats.SingleDiceStat;
 import com.fumbbl.ffb.stats.SingleDieStat;
 import org.butterbrot.ffb.stats.adapter.PlayerActionMapping;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class TeamStatsCollection implements Data {
 
@@ -345,19 +348,31 @@ public class TeamStatsCollection implements Data {
     }
 
     public void add(SingleDieStat stat) {
-
+        addSingleRoll(getNormalizedValue(stat));
     }
 
     public void add(SingleDiceStat stat) {
-        stat.getValue().forEach(this::addSingleRoll);
+        getNormalizedValue(stat).forEach(this::addSingleRoll);
     }
 
     public void add(DoubleDiceStat stat) {
-
+        addDoubleRoll(getNormalizedValue(stat));
     }
 
     public void add(BlockDiceStat stat) {
+        addBlockDice(stat.getValue());
+    }
 
+    private static List<Integer> getNormalizedValue(SingleDiceStat stat) {
+        return stat.getBase() == DieBase.D3 ? (stat.getValue().stream().map(val -> val * 2).collect(Collectors.toList())) : stat.getValue();
+    }
+
+    private static Integer getNormalizedValue(SingleDieStat stat) {
+        return stat.getBase() == DieBase.D3 ? (stat.getValue() * 2) : stat.getValue();
+    }
+
+    private static int[] getNormalizedValue(DoubleDiceStat stat) {
+        return stat.getBase() == DieBase.D3 ? Arrays.stream(stat.getValue()).map(val -> val * 2).toArray() : stat.getValue();
     }
 
     private void incrementAdditionalStat(StatKey key) {

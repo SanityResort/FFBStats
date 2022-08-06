@@ -3,21 +3,21 @@
   <groupId>com.fumbbl.ffb.client</groupId>
   <artifactId>FantasyFootballClient</artifactId>
   <versioning>
-    <lastUpdated>20220806120433</lastUpdated>
+    <lastUpdated>20220806140112</lastUpdated>
     <snapshot>
-      <timestamp>20220806.120433</timestamp>
+      <timestamp>20220806.140112</timestamp>
       <buildNumber>1</buildNumber>
     </snapshot>
     <snapshotVersions>
       <snapshotVersion>
         <extension>jar</extension>
-        <value>2.13.0-20220806.120433-1</value>
-        <updated>20220806120433</updated>
+        <value>2.13.0-20220806.140112-1</value>
+        <updated>20220806140112</updated>
       </snapshotVersion>
       <snapshotVersion>
         <extension>pom</extension>
-        <value>2.13.0-20220806.120433-1</value>
-        <updated>20220806120433</updated>
+        <value>2.13.0-20220806.140112-1</value>
+        <updated>20220806140112</updated>
       </snapshotVersion>
     </snapshotVersions>
   </versioning>
