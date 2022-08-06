@@ -23,7 +23,7 @@ public class DataValidator extends DelegatingValidator<Data, Object> {
         boolean result = true;
 
         for (Field field : baseline.getClass().getDeclaredFields()) {
-            if (!Modifier.isTransient(field.getModifiers())) {
+            if (!Modifier.isTransient(field.getModifiers()) && !Modifier.isStatic(field.getModifiers())) {
                 String fieldName = field.getName();
                 Object baseField = ReflectionTestUtils.getField(baseline, fieldName);
                 Object toValidateField = ReflectionTestUtils.getField(toValidate, fieldName);

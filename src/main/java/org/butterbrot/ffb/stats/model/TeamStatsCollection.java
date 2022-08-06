@@ -5,6 +5,10 @@ import com.fumbbl.ffb.BlockResult;
 import com.fumbbl.ffb.PlayerAction;
 import com.fumbbl.ffb.factory.BlockResultFactory;
 import com.fumbbl.ffb.report.ReportId;
+import com.fumbbl.ffb.stats.BlockDiceStat;
+import com.fumbbl.ffb.stats.DoubleDiceStat;
+import com.fumbbl.ffb.stats.SingleDiceStat;
+import com.fumbbl.ffb.stats.SingleDieStat;
 import org.butterbrot.ffb.stats.adapter.PlayerActionMapping;
 
 import java.util.ArrayList;
@@ -37,7 +41,7 @@ public class TeamStatsCollection implements Data {
     private final Map<String, ArmourBreaks> armourBreaks = new HashMap<>();
     private final List<Injury> causedInjuries = new ArrayList<>();
     private final List<TurnOver> turnOvers = new ArrayList<>();
-    private final Map<String, Integer> additionalStats = initAdditonalStatsMap();
+    private final Map<String, Integer> additionalStats = initAdditionalStatsMap();
     private final Map<PlayerAction, Set<String>> playerActionMap = new HashMap<>();
 
     private String teamName;
@@ -129,7 +133,7 @@ public class TeamStatsCollection implements Data {
         return race;
     }
 
-    private Map<String, Integer> initAdditonalStatsMap() {
+    private Map<String, Integer> initAdditionalStatsMap() {
         Map<String, Integer> additionalStats = new HashMap<>();
         for (StatKey key : StatKey.values()) {
             additionalStats.put(key.toString(), 0);
@@ -338,6 +342,22 @@ public class TeamStatsCollection implements Data {
 
     public void addWizardUse() {
         incrementAdditionalStat(StatKey.WIZARD);
+    }
+
+    public void add(SingleDieStat stat) {
+
+    }
+
+    public void add(SingleDiceStat stat) {
+        stat.getValue().forEach(this::addSingleRoll);
+    }
+
+    public void add(DoubleDiceStat stat) {
+
+    }
+
+    public void add(BlockDiceStat stat) {
+
     }
 
     private void incrementAdditionalStat(StatKey key) {

@@ -41,7 +41,6 @@ public class StatsCollector {
         evaluators.add(new ApothecaryRollEvaluator(collection));
         evaluators.add(new BlockRollEvaluator(collection, state));
         evaluators.add(new BribesRollEvaluator(collection));
-        evaluators.add(new FanFactorRollEvaluator(collection));
         evaluators.add(new InjuryEvaluator(collection, state));
         evaluators.add(new KickoffExtraReRollEvaluator(collection));
         evaluators.add(new SwarmingRollEvaluator(collection));
@@ -100,6 +99,7 @@ public class StatsCollector {
 
                 ReportList reportList = modelSync.getReportList();
                 for (IReport report : reportList.getReports()) {
+                    report.diceStats(collection.getGame()).forEach(collection::addStat);
                   //  logger.info(new Gson().toJson(report));
                     if (!TurnMode.KICKOFF_RETURN.equals(state.getTurnMode())) {
                         if (state.isActionTurn()) {
