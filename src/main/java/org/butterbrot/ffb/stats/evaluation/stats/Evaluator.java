@@ -1,4 +1,4 @@
-package org.butterbrot.ffb.stats.evaluation.stats.migrated;
+package org.butterbrot.ffb.stats.evaluation.stats;
 
 import com.fumbbl.ffb.report.IReport;
 

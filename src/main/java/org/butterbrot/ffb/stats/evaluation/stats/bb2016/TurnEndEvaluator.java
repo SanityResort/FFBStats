@@ -1,10 +1,11 @@
-package org.butterbrot.ffb.stats.evaluation.stats.migrated;
+package org.butterbrot.ffb.stats.evaluation.stats.bb2016;
 
 import com.fumbbl.ffb.HeatExhaustion;
 import com.fumbbl.ffb.KnockoutRecovery;
 import com.fumbbl.ffb.report.IReport;
 import com.fumbbl.ffb.report.bb2016.ReportTurnEnd;
 import com.fumbbl.ffb.util.ArrayTool;
+import org.butterbrot.ffb.stats.evaluation.stats.Evaluator;
 import org.butterbrot.ffb.stats.evaluation.stats.StatsState;
 import org.butterbrot.ffb.stats.model.StatsCollection;
 import org.springframework.util.StringUtils;

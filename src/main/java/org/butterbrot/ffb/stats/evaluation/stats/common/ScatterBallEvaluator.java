@@ -1,7 +1,8 @@
-package org.butterbrot.ffb.stats.evaluation.stats.migrated;
+package org.butterbrot.ffb.stats.evaluation.stats.common;
 
 import com.fumbbl.ffb.report.IReport;
 import com.fumbbl.ffb.report.ReportScatterBall;
+import org.butterbrot.ffb.stats.evaluation.stats.Evaluator;
 import org.butterbrot.ffb.stats.evaluation.stats.StatsState;
 import org.butterbrot.ffb.stats.model.StatsCollection;
 
