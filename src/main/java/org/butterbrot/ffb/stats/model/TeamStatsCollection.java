@@ -3,6 +3,7 @@ package org.butterbrot.ffb.stats.model;
 import com.fumbbl.ffb.BlockResult;
 import com.fumbbl.ffb.PlayerAction;
 import com.fumbbl.ffb.factory.BlockResultFactory;
+import com.fumbbl.ffb.model.Player;
 import com.fumbbl.ffb.report.ReportId;
 import com.fumbbl.ffb.stats.DicePoolStat;
 import com.fumbbl.ffb.stats.DieBase;
@@ -16,6 +17,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -346,7 +348,7 @@ public class TeamStatsCollection implements Data {
 		incrementAdditionalStat(StatKey.WIZARD);
 	}
 
-	public void add(SingleDieStat stat) {
+	public void add(SingleDieStat stat, Optional<Player<?>> player) {
 		if (stat.getValue() > 0) {
 			addSingleRoll(getNormalizedValue(stat));
 		}
@@ -355,7 +357,7 @@ public class TeamStatsCollection implements Data {
 		} else {
 			addFailedRoll(stat.getReportId(), stat.getMinimumRoll());
 		}
-		reportIdMapper.map(stat.getReportId(), stat.isSuccessful()).ifPresent(this::incrementAdditionalStat);
+		reportIdMapper.map(stat.getReportId(), stat.isSuccessful(), player).ifPresent(this::incrementAdditionalStat);
 	}
 
 	public void add(DicePoolStat stat) {

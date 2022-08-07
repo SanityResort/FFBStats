@@ -5,6 +5,7 @@ import com.fumbbl.ffb.KnockoutRecovery;
 import com.fumbbl.ffb.report.IReport;
 import com.fumbbl.ffb.report.bb2016.ReportTurnEnd;
 import com.fumbbl.ffb.util.ArrayTool;
+import org.butterbrot.ffb.stats.evaluation.stats.migrated.Evaluator;
 import org.butterbrot.ffb.stats.model.StatsCollection;
 import org.springframework.util.StringUtils;
 

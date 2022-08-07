@@ -3,6 +3,7 @@ package org.butterbrot.ffb.stats.evaluation.stats;
 import com.fumbbl.ffb.report.IReport;
 import com.fumbbl.ffb.report.ReportMasterChefRoll;
 import com.fumbbl.ffb.report.ReportStartHalf;
+import org.butterbrot.ffb.stats.evaluation.stats.migrated.Evaluator;
 import org.butterbrot.ffb.stats.evaluation.turnover.TurnOverFinder;
 import org.butterbrot.ffb.stats.model.StatsCollection;
 

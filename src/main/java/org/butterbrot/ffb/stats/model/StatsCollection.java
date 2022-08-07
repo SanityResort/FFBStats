@@ -102,7 +102,7 @@ public class StatsCollection implements Data {
 		List<TeamStatsCollection> teamStatsCollections = teamStatsCollections(dieStat.team(game), dieStat.isDuringGame());
 		teamStatsCollections.forEach(teamStatsCollection -> {
 			if (dieStat instanceof SingleDieStat) {
-				teamStatsCollection.add((SingleDieStat) dieStat);
+				teamStatsCollection.add((SingleDieStat) dieStat, dieStat.getPlayer(game));
 			} else if (dieStat instanceof DicePoolStat) {
 				teamStatsCollection.add((DicePoolStat) dieStat);
 			} else if (dieStat instanceof DoubleDiceStat) {
@@ -146,10 +146,6 @@ public class StatsCollection implements Data {
 
 	public void addChefRoll(int roll, String playerOrTeam, int minimumRoll) {
 		currentHalf.chefRolls.add(roll);
-		teams.get(playerOrTeam).addSingleRoll(roll);
-		if (roll >= minimumRoll) {
-			teams.get(playerOrTeam).addSuccessRoll(ReportId.MASTER_CHEF_ROLL, minimumRoll);
-		}
 	}
 
 	public void addSingleOpposingRoll(int roll, String playerOrTeam) {
@@ -337,12 +333,6 @@ public class StatsCollection implements Data {
 		TeamStatsCollection team = teams.get(playerId);
 		team.addApoUse();
 		turnTeam(team).addApoUse();
-	}
-
-	public void addBribe(String playerId) {
-		TeamStatsCollection team = teams.get(playerId);
-		team.addBribe();
-		turnTeam(team).addBribe();
 	}
 
 	public void addBloodLust(String playerId) {
