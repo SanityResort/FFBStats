@@ -28,6 +28,9 @@ import org.butterbrot.ffb.stats.evaluation.stats.migrated.SpectatorsEvaluator;
 import org.butterbrot.ffb.stats.evaluation.stats.migrated.StartHalfEvaluator;
 import org.butterbrot.ffb.stats.evaluation.stats.migrated.TimeoutEnforcedEvaluator;
 import org.butterbrot.ffb.stats.evaluation.stats.migrated.TurnEndEvaluator;
+import org.butterbrot.ffb.stats.evaluation.stats.migrated.WeatherEvaluator;
+import org.butterbrot.ffb.stats.evaluation.stats.migrated.WinningsRollEvaluator;
+import org.butterbrot.ffb.stats.evaluation.stats.migrated.WizardUseEvaluator;
 import org.butterbrot.ffb.stats.evaluation.turnover.TurnOverFinder;
 import org.butterbrot.ffb.stats.model.StatsCollection;
 import org.slf4j.Logger;
@@ -72,7 +75,7 @@ public class StatsCollector {
         evaluators.add(new TimeoutEnforcedEvaluator(collection, state));
         evaluators.add(new TurnEndEvaluator(collection, state));
         evaluators.add(new WeatherEvaluator(collection));
-        evaluators.add(new WinnigsRollEvaluator(collection));
+        evaluators.add(new WinningsRollEvaluator(collection));
         evaluators.add(new WizardUseEvaluator(state, collection));
     }
 
