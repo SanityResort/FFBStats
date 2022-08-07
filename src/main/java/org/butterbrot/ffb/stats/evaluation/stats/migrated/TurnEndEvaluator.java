@@ -1,0 +1,54 @@
+package org.butterbrot.ffb.stats.evaluation.stats.migrated;
+
+import com.fumbbl.ffb.HeatExhaustion;
+import com.fumbbl.ffb.KnockoutRecovery;
+import com.fumbbl.ffb.report.IReport;
+import com.fumbbl.ffb.report.bb2016.ReportTurnEnd;
+import com.fumbbl.ffb.util.ArrayTool;
+import org.butterbrot.ffb.stats.evaluation.stats.StatsState;
+import org.butterbrot.ffb.stats.model.StatsCollection;
+import org.springframework.util.StringUtils;
+
+public class TurnEndEvaluator extends Evaluator<ReportTurnEnd> {
+
+	private final StatsCollection collection;
+	private final StatsState state;
+
+	public TurnEndEvaluator(StatsCollection collection, StatsState state) {
+		this.collection = collection;
+		this.state = state;
+	}
+
+	@Override
+	public void evaluate(IReport report) {
+		state.setBallScatters(false);
+		ReportTurnEnd turn = (ReportTurnEnd) report;
+		if (!StringUtils.isEmpty(turn.getPlayerIdTouchdown())) {
+			collection.addTouchdown(turn.getPlayerIdTouchdown());
+		}
+
+		if (ArrayTool.isProvided(turn.getKnockoutRecoveries())) {
+			for (KnockoutRecovery recovery : turn.getKnockoutRecoveries()) {
+				collection.addKoRoll(recovery.getRoll(), recovery.getPlayerId());
+			}
+		}
+
+		if (ArrayTool.isProvided(turn.getHeatExhaustions())) {
+			for (HeatExhaustion exhaustion : turn.getHeatExhaustions()) {
+				collection.addHeatRoll(exhaustion.getRoll(), exhaustion.getPlayerId());
+			}
+		}
+
+		collection.addArmourAndInjuryStats(state.getInjuries());
+		state.getInjuries().clear();
+
+		if (state.isStartSecondHalf()) {
+			collection.startSecondHalf();
+			state.setStartSecondHalf(false);
+		}
+		if (state.isStartOvertime()) {
+			collection.startOvertime();
+			state.setStartOvertime(false);
+		}
+	}
+}
