@@ -2,6 +2,7 @@ package org.butterbrot.ffb.stats.web;
 
 import com.fumbbl.ffb.net.commands.ServerCommand;
 import org.butterbrot.ffb.stats.NoSuchReplayException;
+import org.butterbrot.ffb.stats.adapter.ExposingInjuryReport;
 import org.butterbrot.ffb.stats.evaluation.stats.StatsCollector;
 import org.butterbrot.ffb.stats.model.StatsCollection;
 import org.butterbrot.ffb.stats.communication.CommandHandler;
@@ -39,9 +40,9 @@ public class StatsProvider {
 
         logger.info("Creating stats for game: {}", replayId);
 
-        StatsCollector collector = new StatsCollector();
+        StatsCollector<? extends ExposingInjuryReport> collector = new org.butterbrot.ffb.stats.evaluation.stats.bb2016.StatsCollector();
         CommandHandler statsHandler = new CommandHandler(collector);
-        StatsCommandSocket commandSocket = new StatsCommandSocket(Long.valueOf(replayId), compression, statsHandler);
+        StatsCommandSocket commandSocket = new StatsCommandSocket(Long.parseLong(replayId), compression, statsHandler);
         Session session;
         try {
             URI uri = new URI("ws", null, InetAddress.getByName(server).getCanonicalHostName(), port, "/command", null, null);

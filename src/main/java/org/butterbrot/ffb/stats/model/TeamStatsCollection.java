@@ -9,7 +9,6 @@ import com.fumbbl.ffb.stats.DicePoolStat;
 import com.fumbbl.ffb.stats.DieBase;
 import com.fumbbl.ffb.stats.DoubleDiceStat;
 import com.fumbbl.ffb.stats.SingleDieStat;
-import org.butterbrot.ffb.stats.adapter.PlayerActionMapping;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -186,11 +185,10 @@ public class TeamStatsCollection implements Data {
 	}
 
 	public void addPlayerAction(PlayerAction action, String playerId) {
-		PlayerAction mappedAction = PlayerActionMapping.get(action);
-		if (!playerActionMap.containsKey(mappedAction)) {
-			playerActionMap.put(mappedAction, new HashSet<>());
+		if (!playerActionMap.containsKey(action)) {
+			playerActionMap.put(action, new HashSet<>());
 		}
-		playerActionMap.get(mappedAction).add(playerId);
+		playerActionMap.get(action).add(playerId);
 	}
 
 	public void addTurnOver(TurnOver turnOver) {

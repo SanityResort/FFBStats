@@ -5,13 +5,13 @@ import com.fumbbl.ffb.model.Game;
 import com.fumbbl.ffb.report.ReportBlockRoll;
 import com.fumbbl.ffb.report.ReportMasterChefRoll;
 import com.fumbbl.ffb.report.ReportPilingOn;
-import org.butterbrot.ffb.stats.adapter.ReportPoInjury;
+import org.butterbrot.ffb.stats.adapter.ExposingInjuryReport;
 import org.butterbrot.ffb.stats.model.Turn;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
 
-public class StatsState {
+public abstract class StatsState<T extends ExposingInjuryReport> {
 
     private Game game;
     private int fameHome = 0;
@@ -28,7 +28,7 @@ public class StatsState {
     private ReportPilingOn poReport = null;
     private boolean isActionTurn = false;
     private boolean ballScatters = false;
-    private Deque<ReportPoInjury> injuries = new ArrayDeque<>();
+    private Deque<T> injuries = new ArrayDeque<>();
     private Turn lastTurn;
     private ReportMasterChefRoll chefRoll;
 
@@ -160,11 +160,11 @@ public class StatsState {
         this.ballScatters = ballScatters;
     }
 
-    public Deque<ReportPoInjury> getInjuries() {
+    public Deque<T> getInjuries() {
         return injuries;
     }
 
-    public void setInjuries(Deque<ReportPoInjury> injuries) {
+    public void setInjuries(Deque<T> injuries) {
         this.injuries = injuries;
     }
 

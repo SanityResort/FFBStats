@@ -17,7 +17,8 @@ import com.fumbbl.ffb.stats.DoubleDiceStat;
 import com.fumbbl.ffb.stats.SingleDieStat;
 import com.fumbbl.ffb.util.StringTool;
 import com.google.common.collect.Lists;
-import org.butterbrot.ffb.stats.adapter.ReportPoInjury;
+import org.butterbrot.ffb.stats.adapter.ExposingInjuryReport;
+import org.butterbrot.ffb.stats.adapter.PlayerActionMapping;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -44,6 +45,11 @@ public class StatsCollection implements Data {
 	private final transient Map<String, TeamStatsCollection> teams = new HashMap<>();
 	private transient Drive currentDrive;
 	private transient Game game;
+	private transient PlayerActionMapping playerActionMapping;
+
+	public StatsCollection(PlayerActionMapping playerActionMapping) {
+		this.playerActionMapping = playerActionMapping;
+	}
 
 	public void setReplayId(String replayId) {
 		this.replayId = replayId;
@@ -276,8 +282,8 @@ public class StatsCollection implements Data {
 		return turn;
 	}
 
-	public void addArmourAndInjuryStats(Collection<ReportPoInjury> injuries) {
-		for (ReportPoInjury injury : injuries) {
+	public void addArmourAndInjuryStats(Collection<ExposingInjuryReport> injuries) {
+		for (ExposingInjuryReport injury : injuries) {
 			String playerId = StringTool.isProvided(injury.getAttackerId()) ? injury.getAttackerId() : injury.getDefenderId();
 			TeamStatsCollection team = getOpposition(teams.get(injury.getDefenderId()));
 			TeamStatsCollection turnTeam = turnTeam(team);
@@ -396,9 +402,10 @@ public class StatsCollection implements Data {
 	}
 
 	public void addPlayerActon(PlayerAction action, String playerId) {
+		PlayerAction mappedAction = playerActionMapping.get(action);
 		TeamStatsCollection team = teams.get(playerId);
-		team.addPlayerAction(action, playerId);
-		turnTeam(team).addPlayerAction(action, playerId);
+		team.addPlayerAction(mappedAction, playerId);
+		turnTeam(team).addPlayerAction(mappedAction, playerId);
 	}
 
 	private TeamStatsCollection getOpposition(TeamStatsCollection team) {

@@ -1,4 +1,4 @@
-package org.butterbrot.ffb.stats.evaluation.stats.common;
+package org.butterbrot.ffb.stats.evaluation.stats.bb2016;
 
 import com.fumbbl.ffb.report.IReport;
 import com.fumbbl.ffb.report.bb2016.ReportWinningsRoll;

@@ -9,6 +9,7 @@ import com.eclipsesource.json.JsonValue;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import org.butterbrot.ffb.stats.adapter.ExposingInjuryReport;
 import org.butterbrot.ffb.stats.evaluation.stats.StatsCollector;
 import org.butterbrot.ffb.stats.model.StatsCollection;
 import org.springframework.stereotype.Service;
@@ -40,7 +41,7 @@ public class JsonConverter {
             }
         }
 
-        StatsCollector collector = new StatsCollector(replayCommands);
+        StatsCollector<? extends ExposingInjuryReport> collector = new org.butterbrot.ffb.stats.evaluation.stats.bb2016.StatsCollector(replayCommands);
         collector.setGame(game);
         return collector.evaluate(replayId);
     }

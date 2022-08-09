@@ -1,23 +1,24 @@
 package org.butterbrot.ffb.stats.communication;
 
+import com.eclipsesource.json.JsonArray;
+import com.eclipsesource.json.JsonObject;
 import com.fumbbl.ffb.model.Game;
 import com.fumbbl.ffb.net.INetCommandHandler;
 import com.fumbbl.ffb.net.NetCommand;
 import com.fumbbl.ffb.net.commands.ServerCommand;
 import com.fumbbl.ffb.net.commands.ServerCommandGameState;
 import com.fumbbl.ffb.net.commands.ServerCommandReplay;
-import com.eclipsesource.json.JsonArray;
-import com.eclipsesource.json.JsonObject;
+import org.butterbrot.ffb.stats.adapter.ExposingInjuryReport;
 import org.butterbrot.ffb.stats.evaluation.stats.StatsCollector;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
+import java.nio.file.Files;
 import java.util.Arrays;
 import java.util.List;
 import java.util.zip.GZIPOutputStream;
@@ -28,10 +29,10 @@ public class CommandHandler implements INetCommandHandler {
 
     private static final Logger logger = LoggerFactory.getLogger(CommandHandler.class);
 
-    private StatsCollector statsCollector;
+    private final StatsCollector<? extends ExposingInjuryReport> statsCollector;
     private Game game;
 
-    public CommandHandler(StatsCollector statsCollector) {
+    public CommandHandler(StatsCollector<? extends ExposingInjuryReport> statsCollector) {
         this.statsCollector = statsCollector;
     }
 
@@ -61,6 +62,7 @@ public class CommandHandler implements INetCommandHandler {
 
         List<ServerCommand> replayCommands = statsCollector.getReplayCommands();
 
+        //noinspection SynchronizationOnLocalVariableOrMethodParameter
         synchronized (replayCommands) {
             replayCommands.notify();
         }
@@ -78,9 +80,9 @@ public class CommandHandler implements INetCommandHandler {
         gameLog.add(FIELD_COMMAND_ARRAY, array);
         root.add(FIELD_GAME_LOG, gameLog);
 
-        try (OutputStream fileOutputStream = new FileOutputStream(new File(inputPath));
+        try (OutputStream fileOutputStream = Files.newOutputStream(new File(inputPath).toPath());
              OutputStream gzipStream = new GZIPOutputStream(fileOutputStream);
-             Writer writer = new OutputStreamWriter(gzipStream);) {
+             Writer writer = new OutputStreamWriter(gzipStream)) {
             root.writeTo(writer);
         } catch (IOException e) {
             logger.error("Could not write ");
