@@ -2,6 +2,7 @@ package org.butterbrot.ffb.stats.evaluation.stats.bb2016;
 
 import com.fumbbl.ffb.report.IReport;
 import com.fumbbl.ffb.report.bb2016.ReportKickoffPitchInvasion;
+import org.butterbrot.ffb.stats.adapter.bb2016.ReportPoInjury;
 import org.butterbrot.ffb.stats.evaluation.stats.Evaluator;
 import org.butterbrot.ffb.stats.evaluation.stats.StatsState;
 import org.butterbrot.ffb.stats.model.StatsCollection;
@@ -9,9 +10,9 @@ import org.butterbrot.ffb.stats.model.StatsCollection;
 public class KickoffPitchInvasionEvaluator extends Evaluator<ReportKickoffPitchInvasion> {
 
     private final StatsCollection collection;
-    private final StatsState state;
+    private final StatsState<ReportPoInjury> state;
 
-    public KickoffPitchInvasionEvaluator(StatsCollection collection, StatsState state) {
+    public KickoffPitchInvasionEvaluator(StatsCollection collection, StatsState<ReportPoInjury> state) {
         this.collection = collection;
         this.state = state;
     }

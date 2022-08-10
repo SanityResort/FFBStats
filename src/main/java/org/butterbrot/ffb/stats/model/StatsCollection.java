@@ -282,7 +282,7 @@ public class StatsCollection implements Data {
 		return turn;
 	}
 
-	public void addArmourAndInjuryStats(Collection<ExposingInjuryReport> injuries) {
+	public void addArmourAndInjuryStats(Collection<? extends ExposingInjuryReport> injuries) {
 		for (ExposingInjuryReport injury : injuries) {
 			String playerId = StringTool.isProvided(injury.getAttackerId()) ? injury.getAttackerId() : injury.getDefenderId();
 			TeamStatsCollection team = getOpposition(teams.get(injury.getDefenderId()));

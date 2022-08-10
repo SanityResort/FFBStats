@@ -10,6 +10,7 @@ public abstract class Evaluator<T extends IReport> {
     public boolean handles(IReport report) {
         Type type = ((ParameterizedType) this.getClass().getGenericSuperclass())
                 .getActualTypeArguments()[0];
+        //noinspection unchecked
         Class<T> genericClass = (Class<T>) type;
         return genericClass.isAssignableFrom(report.getClass());
     }

@@ -1,15 +1,15 @@
-package org.butterbrot.ffb.stats.evaluation.stats.bb2016;
+package org.butterbrot.ffb.stats.evaluation.stats.common;
 
 import com.fumbbl.ffb.report.IReport;
-import com.fumbbl.ffb.report.bb2016.ReportWinningsRoll;
+import com.fumbbl.ffb.report.ReportFumbblResultUpload;
 import org.butterbrot.ffb.stats.evaluation.stats.Evaluator;
 import org.butterbrot.ffb.stats.model.StatsCollection;
 
-public class WinningsRollEvaluator extends Evaluator<ReportWinningsRoll> {
+public class UploadEvaluator extends Evaluator<ReportFumbblResultUpload> {
 
     private final StatsCollection collection;
 
-    public WinningsRollEvaluator(StatsCollection collection) {
+    public UploadEvaluator(StatsCollection collection) {
         this.collection = collection;
     }
 

@@ -9,9 +9,9 @@ import java.util.Set;
 
 public class PlayerActionMapping implements org.butterbrot.ffb.stats.adapter.PlayerActionMapping {
 
-    private static final Map<PlayerAction, Set<PlayerAction>> actionAliasMap = new HashMap<>();
+    protected final Map<PlayerAction, Set<PlayerAction>> actionAliasMap = new HashMap<>();
 
-    static {
+    public PlayerActionMapping() {
         actionAliasMap.put(PlayerAction.MOVE, Sets.newHashSet(PlayerAction.MOVE, PlayerAction.STAND_UP));
         actionAliasMap.put(PlayerAction.BLOCK, Sets.newHashSet(PlayerAction.BLOCK));
         actionAliasMap.put(PlayerAction.BLITZ, Sets.newHashSet(PlayerAction.BLITZ, PlayerAction.BLITZ_MOVE, PlayerAction.STAND_UP_BLITZ));

@@ -3,6 +3,7 @@ package org.butterbrot.ffb.stats.evaluation.stats.common;
 import com.fumbbl.ffb.report.IReport;
 import com.fumbbl.ffb.report.ReportMasterChefRoll;
 import com.fumbbl.ffb.report.ReportStartHalf;
+import org.butterbrot.ffb.stats.adapter.ExposingInjuryReport;
 import org.butterbrot.ffb.stats.evaluation.stats.StatsState;
 import org.butterbrot.ffb.stats.evaluation.stats.Evaluator;
 import org.butterbrot.ffb.stats.evaluation.turnover.TurnOverFinder;
@@ -10,11 +11,11 @@ import org.butterbrot.ffb.stats.model.StatsCollection;
 
 public class StartHalfEvaluator extends Evaluator<ReportStartHalf> {
 
-    private StatsState state;
-    private TurnOverFinder turnOverFinder;
-    private StatsCollection collection;
+    private final StatsState<? extends ExposingInjuryReport> state;
+    private final TurnOverFinder turnOverFinder;
+    private final StatsCollection collection;
 
-    public StartHalfEvaluator(StatsState state, TurnOverFinder turnOverFinder, StatsCollection collection) {
+    public StartHalfEvaluator(StatsState<? extends ExposingInjuryReport> state, TurnOverFinder turnOverFinder, StatsCollection collection) {
         this.state = state;
         this.turnOverFinder = turnOverFinder;
         this.collection = collection;
@@ -33,11 +34,11 @@ public class StartHalfEvaluator extends Evaluator<ReportStartHalf> {
         state.setChefRoll(null);
 
         if (((ReportStartHalf) report).getHalf() == 2) {
-            turnOverFinder.findTurnover().ifPresent(turnOver -> collection.addTurnOver(turnOver));
+            turnOverFinder.findTurnover().ifPresent(collection::addTurnOver);
             turnOverFinder.reset();
             state.setStartSecondHalf(true);
         } else if (((ReportStartHalf) report).getHalf() > 2) {
-            turnOverFinder.findTurnover().ifPresent(turnOver -> collection.addTurnOver(turnOver));
+            turnOverFinder.findTurnover().ifPresent(collection::addTurnOver);
             turnOverFinder.reset();
             state.setStartOvertime(true);
             state.setStartSecondHalf(false);

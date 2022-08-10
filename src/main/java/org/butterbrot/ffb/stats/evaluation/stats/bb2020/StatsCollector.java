@@ -1,4 +1,4 @@
-package org.butterbrot.ffb.stats.evaluation.stats.bb2016;
+package org.butterbrot.ffb.stats.evaluation.stats.bb2020;
 
 import com.fumbbl.ffb.TurnMode;
 import com.fumbbl.ffb.model.change.ModelChange;
@@ -8,11 +8,10 @@ import com.fumbbl.ffb.net.commands.ServerCommandModelSync;
 import com.fumbbl.ffb.report.IReport;
 import com.fumbbl.ffb.report.ReportList;
 import com.fumbbl.ffb.report.ReportStartHalf;
-import org.butterbrot.ffb.stats.adapter.bb2016.PlayerActionMapping;
-import org.butterbrot.ffb.stats.adapter.bb2016.ReportPoInjury;
+import org.butterbrot.ffb.stats.adapter.bb2020.PlayerActionMapping;
+import org.butterbrot.ffb.stats.adapter.bb2020.ReportPoInjury;
 import org.butterbrot.ffb.stats.evaluation.stats.Evaluator;
 import org.butterbrot.ffb.stats.evaluation.stats.StatsState;
-import org.butterbrot.ffb.stats.evaluation.stats.common.UploadEvaluator;
 import org.butterbrot.ffb.stats.evaluation.turnover.TurnOverFinder;
 import org.butterbrot.ffb.stats.model.StatsCollection;
 
@@ -32,11 +31,9 @@ public class StatsCollector extends org.butterbrot.ffb.stats.evaluation.stats.St
         evaluators.add(new ApothecaryRollEvaluator(collection));
         evaluators.add(new InjuryEvaluator(collection, state));
         evaluators.add(new KickoffExtraReRollEvaluator(collection));
-        evaluators.add(new KickoffPitchInvasionEvaluator(collection, state));
-        evaluators.add(new KickoffThrowARockEvaluator(collection));
-        evaluators.add(new SpectatorsEvaluator(state));
+        evaluators.add(new KickoffOfficiousRefEvaluator(collection));
         evaluators.add(new TurnEndEvaluator(collection, state));
-        evaluators.add(new UploadEvaluator(collection));
+        evaluators.add(new CheeringFansEvaluator(collection));
     }
 
     public StatsCollection evaluate(String replayId) {
@@ -112,11 +109,11 @@ public class StatsCollector extends org.butterbrot.ffb.stats.evaluation.stats.St
 
     @Override
     protected StatsState<ReportPoInjury> createStatsState() {
-        return new org.butterbrot.ffb.stats.evaluation.stats.bb2016.StatsState();
+        return new org.butterbrot.ffb.stats.evaluation.stats.bb2020.StatsState();
     }
 
     @Override
     protected TurnOverFinder createTurnOverFinder() {
-        return new org.butterbrot.ffb.stats.evaluation.turnover.bb2016.TurnOverFinder();
+        return new org.butterbrot.ffb.stats.evaluation.turnover.bb2020.TurnOverFinder();
     }
 }

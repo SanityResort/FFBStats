@@ -1,7 +1,7 @@
-package org.butterbrot.ffb.stats.evaluation.stats.bb2016;
+package org.butterbrot.ffb.stats.evaluation.stats.bb2020;
 
 import com.fumbbl.ffb.report.IReport;
-import com.fumbbl.ffb.report.bb2016.ReportApothecaryRoll;
+import com.fumbbl.ffb.report.bb2020.ReportApothecaryRoll;
 import org.butterbrot.ffb.stats.evaluation.stats.Evaluator;
 import org.butterbrot.ffb.stats.model.StatsCollection;
 

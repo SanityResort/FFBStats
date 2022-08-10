@@ -1,4 +1,4 @@
-package org.butterbrot.ffb.stats.evaluation.turnover.bb2016;
+package org.butterbrot.ffb.stats.evaluation.turnover.bb2020;
 
 import com.fumbbl.ffb.PlayerAction;
 import com.fumbbl.ffb.SpecialEffect;
@@ -13,10 +13,10 @@ import com.fumbbl.ffb.report.ReportReRoll;
 import com.fumbbl.ffb.report.ReportScatterBall;
 import com.fumbbl.ffb.report.ReportSkillRoll;
 import com.fumbbl.ffb.report.ReportSpecialEffectRoll;
-import com.fumbbl.ffb.report.bb2016.ReportInjury;
-import com.fumbbl.ffb.report.bb2016.ReportPassRoll;
-import com.fumbbl.ffb.report.bb2016.ReportReferee;
-import com.fumbbl.ffb.report.bb2016.ReportTurnEnd;
+import com.fumbbl.ffb.report.bb2020.ReportInjury;
+import com.fumbbl.ffb.report.bb2020.ReportPassRoll;
+import com.fumbbl.ffb.report.bb2020.ReportReferee;
+import com.fumbbl.ffb.report.bb2020.ReportTurnEnd;
 import org.butterbrot.ffb.stats.adapter.bb2016.TurnOverDescription;
 import org.butterbrot.ffb.stats.evaluation.turnover.TurnOverState;
 import org.butterbrot.ffb.stats.model.TurnOver;

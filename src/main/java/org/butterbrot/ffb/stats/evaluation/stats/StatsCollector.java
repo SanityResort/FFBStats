@@ -16,6 +16,7 @@ import org.butterbrot.ffb.stats.evaluation.stats.common.SkillRollEvaluator;
 import org.butterbrot.ffb.stats.evaluation.stats.common.StartHalfEvaluator;
 import org.butterbrot.ffb.stats.evaluation.stats.common.TimeoutEnforcedEvaluator;
 import org.butterbrot.ffb.stats.evaluation.stats.common.WeatherEvaluator;
+import org.butterbrot.ffb.stats.evaluation.stats.common.UploadEvaluator;
 import org.butterbrot.ffb.stats.evaluation.stats.common.WizardUseEvaluator;
 import org.butterbrot.ffb.stats.evaluation.turnover.TurnOverFinder;
 import org.butterbrot.ffb.stats.model.StatsCollection;
@@ -50,6 +51,7 @@ public abstract class StatsCollector<T extends ExposingInjuryReport> {
         evaluators.add(new TimeoutEnforcedEvaluator(collection, state));
         evaluators.add(new WeatherEvaluator(collection));
         evaluators.add(new WizardUseEvaluator(state, collection));
+        evaluators.add(new UploadEvaluator(collection));
     }
 
     private void setAwayTeam(Team team) {
