@@ -2,16 +2,13 @@ package org.butterbrot.ffb.stats.turnover.bb2020;
 
 import com.fumbbl.ffb.PlayerAction;
 import com.fumbbl.ffb.ReRollSources;
-import com.fumbbl.ffb.SpecialEffect;
 import com.fumbbl.ffb.mechanics.PassResult;
 import com.fumbbl.ffb.modifiers.CatchModifier;
-import com.fumbbl.ffb.modifiers.RollModifier;
 import com.fumbbl.ffb.report.ReportCatchRoll;
 import com.fumbbl.ffb.report.ReportId;
 import com.fumbbl.ffb.report.ReportInterceptionRoll;
 import com.fumbbl.ffb.report.ReportPlayerAction;
 import com.fumbbl.ffb.report.ReportReRoll;
-import com.fumbbl.ffb.report.ReportSafeThrowRoll;
 import com.fumbbl.ffb.report.ReportScatterBall;
 import com.fumbbl.ffb.report.bb2020.ReportCloudBurster;
 import com.fumbbl.ffb.report.bb2020.ReportInjury;
@@ -167,30 +164,12 @@ public class TurnOverFinderPassCatchTest extends AbstractTurnOverFinderTest {
 	}
 
 	@Test
-	public void failedPassFumbleSafeThrow() {
+	public void failedPassFumbleSafePass() {
 		turnOverFinder.add(new ReportPlayerAction(actingPlayer, PlayerAction.PASS));
 		turnOverFinder.add(regularPass(actingPlayer,  2, 3, false, false, PassResult.SAVED_FUMBLE));
-		turnOverFinder.add(new ReportSafeThrowRoll(actingPlayer, true, 4, 3, false, new RollModifier[0]));
 		turnOverFinder.add(new ReportTurnEnd(null, null, null, new ArrayList<>(), 0));
 		Optional<TurnOver> turnOverOpt = turnOverFinder.findTurnover();
-		assertFalse("Safe throw prevents turnover", turnOverOpt.isPresent());
-	}
-
-	@Test
-	public void failedPassFumbleSafeThrowFails() {
-		turnOverFinder.add(new ReportPlayerAction(actingPlayer, PlayerAction.PASS));
-		turnOverFinder.add(regularPass(actingPlayer,  2, 3,  false, false, PassResult.FUMBLE));
-		turnOverFinder.add(new ReportSafeThrowRoll(actingPlayer, false, 4, 3, false, new RollModifier[0]));
-		turnOverFinder.add(new ReportScatterBall());
-		turnOverFinder.add(new ReportTurnEnd(null, null, null, new ArrayList<>(), 0));
-		Optional<TurnOver> turnOverOpt = turnOverFinder.findTurnover();
-		assertTrue("Failed Safe throw does not prevent turnover", turnOverOpt.isPresent());
-		TurnOver turnOver = turnOverOpt.get();
-		assertEquals("TurnOver must have the actingPlayer set as active player", actingPlayer, turnOver.getActivePlayer());
-		assertEquals("TurnOver must reflect the failed action", turnOverDescription.get(ReportId.PASS_ROLL), turnOver.getAction());
-		assertEquals("TurnOver must show the minimum roll", 3, turnOver.getMinRollOrDiceCount());
-		assertFalse("Was not rerolled", turnOver.isReRolled());
-		assertFalse("Was not rerolled", turnOver.isReRolledWithTeamReroll());
+		assertFalse("Safe Pass prevents turnover", turnOverOpt.isPresent());
 	}
 
 	@Test
@@ -944,6 +923,7 @@ public class TurnOverFinderPassCatchTest extends AbstractTurnOverFinderTest {
 		assertFalse("Was not rerolled", turnOver.isReRolledWithTeamReroll());
 	}
 
+	@Test
 	public void deflectedOnly() {
 		turnOverFinder.add(new ReportPlayerAction(actingPlayer, PlayerAction.PASS));
 		turnOverFinder.add(new ReportInterceptionRoll(opponent, true, 6, 6, false, null, false));
