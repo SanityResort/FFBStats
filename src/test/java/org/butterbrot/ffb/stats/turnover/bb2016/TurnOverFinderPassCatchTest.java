@@ -757,7 +757,7 @@ public class TurnOverFinderPassCatchTest extends AbstractTurnOverFinderTest {
 	}
 
 	@Test
-	public void missedHamdoffMoveSkillReRoll() {
+	public void missedHandoffMoveSkillReRoll() {
 		turnOverFinder.add(new ReportPlayerAction(actingPlayer, PlayerAction.HAND_OVER_MOVE));
 		turnOverFinder.add(new ReportCatchRoll(teamMember, false, 2, 4, false, new CatchModifier[0], false));
 		turnOverFinder.add(new ReportReRoll(actingPlayer, ReRollSources.CATCH, true, 6));

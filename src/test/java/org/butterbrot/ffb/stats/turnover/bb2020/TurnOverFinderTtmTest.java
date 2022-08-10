@@ -153,7 +153,13 @@ public class TurnOverFinderTtmTest extends AbstractTurnOverFinderTest {
         turnOverFinder.add(new ReportInjury(opponent,null, false, null, null, null, null, null, null, null, null, null, null, null, null, null, null));
         turnOverFinder.add(new ReportTurnEnd(null, null, null, new ArrayList<>(), 0));
         Optional<TurnOver> turnOverOpt = turnOverFinder.findTurnover();
-        assertFalse("Hitting opponent without ball is no turnover", turnOverOpt.isPresent());
+        assertTrue("Hitting opponent is a turnover", turnOverOpt.isPresent());
+        TurnOver turnOver = turnOverOpt.get();
+        assertEquals("TurnOver must have the teamMember set as active player", teamMember, turnOver.getActivePlayer());
+        assertEquals("TurnOver must reflect the failed action", turnOverDescription.get(ReportId.RIGHT_STUFF_ROLL), turnOver.getAction());
+        assertEquals("No minimum roll for hitting a player", 0, turnOver.getMinRollOrDiceCount());
+        assertFalse("Was not rerolled", turnOver.isReRolled());
+        assertFalse("Was not rerolled", turnOver.isReRolledWithTeamReroll());
     }
 
     @Test

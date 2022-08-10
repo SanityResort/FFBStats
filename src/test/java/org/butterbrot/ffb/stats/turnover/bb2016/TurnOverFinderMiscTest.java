@@ -147,7 +147,7 @@ public class TurnOverFinderMiscTest extends AbstractTurnOverFinderTest {
 		Optional<TurnOver> turnOverOpt = turnOverFinder.findTurnover();
 		assertTrue("Fireballing your ball carrier is a turnover", turnOverOpt.isPresent());
 		TurnOver turnOver = turnOverOpt.get();
-		assertTrue("For wizards there is no active player", turnOver.getActivePlayer() == null);
+		assertNull("For wizards there is no active player", turnOver.getActivePlayer());
 		assertEquals("TurnOver must reflect the failed action", turnOverDescription.get(SpecialEffect.FIREBALL), turnOver.getAction());
 		assertEquals("Wizard does not use minimum roll", 0, turnOver.getMinRollOrDiceCount());
 		assertFalse("Was not rerolled", turnOver.isReRolled());
@@ -163,7 +163,7 @@ public class TurnOverFinderMiscTest extends AbstractTurnOverFinderTest {
 		Optional<TurnOver> turnOverOpt = turnOverFinder.findTurnover();
 		assertTrue("Bolting your ball carrier is a turnover", turnOverOpt.isPresent());
 		TurnOver turnOver = turnOverOpt.get();
-		assertTrue("For wizards there is no active player", turnOver.getActivePlayer() == null);
+		assertNull("For wizards there is no active player", turnOver.getActivePlayer());
 		assertEquals("TurnOver must reflect the failed action", turnOverDescription.get(SpecialEffect.LIGHTNING), turnOver.getAction());
 		assertEquals("Wizard does not use minimum roll", 0, turnOver.getMinRollOrDiceCount());
 		assertFalse("Was not rerolled", turnOver.isReRolled());
