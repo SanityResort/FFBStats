@@ -20,8 +20,8 @@ public class Unzipper {
             InputStreamReader inputStreamReader = new InputStreamReader(gzipInputStream);
             BufferedReader buf = new BufferedReader(inputStreamReader)) {
             Stream<String> stringStream = buf.lines();
-            String data = stringStream.reduce((s, s2) -> s + s2).get();
-            return new JsonParser().parse(data).getAsJsonObject();
+            @SuppressWarnings("OptionalGetWithoutIsPresent") String data = stringStream.reduce((s, s2) -> s + s2).get();
+            return JsonParser.parseString(data).getAsJsonObject();
         }
     }
 }

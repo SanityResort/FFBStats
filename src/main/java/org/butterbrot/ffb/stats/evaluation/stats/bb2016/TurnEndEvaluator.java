@@ -25,7 +25,7 @@ public class TurnEndEvaluator extends Evaluator<ReportTurnEnd> {
 	public void evaluate(IReport report) {
 		state.setBallScatters(false);
 		ReportTurnEnd turn = (ReportTurnEnd) report;
-		if (!StringUtils.isEmpty(turn.getPlayerIdTouchdown())) {
+		if (StringUtils.hasLength(turn.getPlayerIdTouchdown())) {
 			collection.addTouchdown(turn.getPlayerIdTouchdown());
 		}
 

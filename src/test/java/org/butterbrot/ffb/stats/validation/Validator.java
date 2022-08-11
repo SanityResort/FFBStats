@@ -41,6 +41,7 @@ public abstract class Validator<T> {
             type = ((ParameterizedType) type).getRawType();
         }
 
+        //noinspection unchecked
         Class<T> genericClass = (Class<T>) type;
         return genericClass.isAssignableFrom(data.getClass());
     }
@@ -58,7 +59,7 @@ public abstract class Validator<T> {
     }
 
     protected String getCompoundName(String prefix, String fieldName) {
-        return StringUtils.isEmpty(prefix) ? fieldName : String.join( PREFIX_DELIM, prefix,
+        return !StringUtils.hasLength(prefix) ? fieldName : String.join( PREFIX_DELIM, prefix,
                fieldName);
     }
 }
