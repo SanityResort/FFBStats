@@ -14,14 +14,17 @@ import org.butterbrot.ffb.stats.evaluation.stats.Evaluator;
 import org.butterbrot.ffb.stats.evaluation.stats.StatsState;
 import org.butterbrot.ffb.stats.evaluation.turnover.TurnOverFinder;
 import org.butterbrot.ffb.stats.model.StatsCollection;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class StatsCollector extends org.butterbrot.ffb.stats.evaluation.stats.StatsCollector<ReportPoInjury> {
 
-    //private static final Logger logger = LoggerFactory.getLogger(StatsCollector.class);
+    private static final Logger logger = LoggerFactory.getLogger(StatsCollector.class);
 
+    @SuppressWarnings("unused")
     public StatsCollector() {
         this(new ArrayList<>());
     }
@@ -47,18 +50,22 @@ public class StatsCollector extends org.butterbrot.ffb.stats.evaluation.stats.St
 
                 ReportList reportList = modelSync.getReportList();
                 for (IReport report : reportList.getReports()) {
-                    report.diceStats(collection.getGame()).forEach(collection::addStat);
-                  //  logger.info(new Gson().toJson(report));
-                    if (!TurnMode.KICKOFF_RETURN.equals(state.getTurnMode())) {
-                        if (state.isActionTurn()) {
-                            turnOverFinder.add(report);
-                        }
-                        for (Evaluator<?> evaluator : evaluators) {
-                            if (evaluator.handles(report)) {
-                                evaluator.evaluate(report);
-                                break;
+                    try {
+                        report.diceStats(collection.getGame()).forEach(collection::addStat);
+                        //  logger.info(new Gson().toJson(report));
+                        if (!TurnMode.KICKOFF_RETURN.equals(state.getTurnMode())) {
+                            if (state.isActionTurn()) {
+                                turnOverFinder.add(report);
+                            }
+                            for (Evaluator<?> evaluator : evaluators) {
+                                if (evaluator.handles(report)) {
+                                    evaluator.evaluate(report);
+                                    break;
+                                }
                             }
                         }
+                    } catch (Exception e) {
+                        logger.error("Could not evaluate report: " + report.getId(), e);
                     }
                 }
 
