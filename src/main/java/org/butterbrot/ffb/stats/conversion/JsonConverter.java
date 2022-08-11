@@ -1,11 +1,11 @@
 package org.butterbrot.ffb.stats.conversion;
 
+import com.eclipsesource.json.JsonValue;
 import com.fumbbl.ffb.model.Game;
-import com.fumbbl.ffb.model.Team;
 import com.fumbbl.ffb.net.NetCommandFactory;
 import com.fumbbl.ffb.net.NetCommandId;
 import com.fumbbl.ffb.net.commands.ServerCommand;
-import com.eclipsesource.json.JsonValue;
+import com.fumbbl.ffb.option.GameOptionId;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -41,7 +41,12 @@ public class JsonConverter {
             }
         }
 
-        StatsCollector<? extends ExposingInjuryReport> collector = new org.butterbrot.ffb.stats.evaluation.stats.bb2016.StatsCollector(replayCommands);
+        StatsCollector<? extends ExposingInjuryReport> collector;
+        if (game.getOptions().getOptionWithDefault(GameOptionId.RULESVERSION).getValueAsString().equalsIgnoreCase("bb2016")) {
+            collector = new org.butterbrot.ffb.stats.evaluation.stats.bb2016.StatsCollector(replayCommands);
+        } else {
+            collector = new org.butterbrot.ffb.stats.evaluation.stats.bb2020.StatsCollector(replayCommands);
+        }
         collector.setGame(game);
         return collector.evaluate(replayId);
     }
