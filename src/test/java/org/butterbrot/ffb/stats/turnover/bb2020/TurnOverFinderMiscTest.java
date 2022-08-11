@@ -6,11 +6,13 @@ import com.fumbbl.ffb.modifiers.RollModifier;
 import com.fumbbl.ffb.report.ReportChainsawRoll;
 import com.fumbbl.ffb.report.ReportConfusionRoll;
 import com.fumbbl.ffb.report.ReportFoulAppearanceRoll;
+import com.fumbbl.ffb.report.ReportId;
 import com.fumbbl.ffb.report.ReportPlayerAction;
 import com.fumbbl.ffb.report.ReportScatterBall;
 import com.fumbbl.ffb.report.ReportSpecialEffectRoll;
 import com.fumbbl.ffb.report.bb2020.ReportInjury;
 import com.fumbbl.ffb.report.bb2020.ReportProjectileVomit;
+import com.fumbbl.ffb.report.bb2020.ReportThrownKeg;
 import com.fumbbl.ffb.report.bb2020.ReportTurnEnd;
 import com.fumbbl.ffb.skill.bb2020.BoneHead;
 import org.butterbrot.ffb.stats.model.TurnOver;
@@ -100,5 +102,29 @@ public class TurnOverFinderMiscTest extends AbstractTurnOverFinderTest {
 		turnOverFinder.add(new ReportTurnEnd(null, null, null, new ArrayList<>(), 0));
 		Optional<TurnOver> turnOverOpt = turnOverFinder.findTurnover();
 		assertFalse("Fireballing your own player without the ball is a not turnover", turnOverOpt.isPresent());
+	}
+
+	@Test
+	public void kegSuccess() {
+		turnOverFinder.add(new ReportThrownKeg(actingPlayer, opponent, 2, false, false));
+		turnOverFinder.add(new ReportTurnEnd(null, null, null, new ArrayList<>(), 0));
+		Optional<TurnOver> turnOverOpt = turnOverFinder.findTurnover();
+		assertFalse("Missed keg is a not turnover", turnOverOpt.isPresent());
+	}
+
+	@Test
+	public void kegFumble() {
+		turnOverFinder.add(new ReportPlayerAction(actingPlayer, PlayerAction.MOVE));
+		turnOverFinder.add(new ReportThrownKeg(actingPlayer, opponent, 2, false, true));
+		turnOverFinder.add(new ReportInjury(actingPlayer, null, false, null, null, null, null, null, null, null, null, null, null, null, null, null, null));
+		turnOverFinder.add(new ReportTurnEnd(null, null, null, new ArrayList<>(), 0));
+		Optional<TurnOver> turnOverOpt = turnOverFinder.findTurnover();
+		assertTrue("Keg hitting the thrower is a turnover", turnOverOpt.isPresent());
+		TurnOver turnOver = turnOverOpt.get();
+		assertEquals("TurnOver must have the actingPlayer set as active player", actingPlayer, turnOver.getActivePlayer());
+		assertEquals("TurnOver must reflect the failed action", turnOverDescription.get(ReportId.THROWN_KEG), turnOver.getAction());
+		assertEquals("TurnOver must show the minimum roll", 2, turnOver.getMinRollOrDiceCount());
+		assertFalse("Was not rerolled", turnOver.isReRolled());
+		assertFalse("Was not rerolled with team reroll", turnOver.isReRolledWithTeamReroll());
 	}
 }

@@ -14,8 +14,9 @@ import com.fumbbl.ffb.report.ReportSpecialEffectRoll;
 import com.fumbbl.ffb.report.bb2020.ReportInjury;
 import com.fumbbl.ffb.report.bb2020.ReportPassRoll;
 import com.fumbbl.ffb.report.bb2020.ReportReferee;
+import com.fumbbl.ffb.report.bb2020.ReportThrownKeg;
 import com.fumbbl.ffb.report.bb2020.ReportTurnEnd;
-import org.butterbrot.ffb.stats.adapter.bb2016.TurnOverDescription;
+import org.butterbrot.ffb.stats.adapter.bb2020.TurnOverDescription;
 import org.butterbrot.ffb.stats.evaluation.turnover.TurnOverState;
 import org.butterbrot.ffb.stats.model.TurnOver;
 
@@ -120,6 +121,12 @@ public class TurnOverFinder extends org.butterbrot.ffb.stats.evaluation.turnover
 				state.setSentOff(((ReportReferee) report).isFoulingPlayerBanned());
 			} else if (report instanceof ReportBribesRoll) {
 				state.setSentOff(!((ReportBribesRoll) report).isSuccessful());
+			} else if (report instanceof ReportThrownKeg) {
+				ReportThrownKeg thrownKeg = ((ReportThrownKeg) report);
+				if (thrownKeg.isFumble()) {
+					return Optional.of(new TurnOver(turnOverDescription.get(ReportId.THROWN_KEG), 2,
+						state.getReportReRoll(), thrownKeg.getPlayerId()));
+				}
 			}
 		}
 
