@@ -1,14 +1,10 @@
-connection:
-  server: fumbbl.com
-  port: 22223
-  compression: true
-
 zmq:
   senderEndpoint: tcp://localhost:44445
   receiverEndpoint: tcp://localhost:44444
   fileQueueEndpoint: tcp://localhost:44446
 
-debug:
+http:
+  replayEndpoint: https://fumbbl.com/api/replay/get/%s/gz
   activateOutputLog: false
   outputPathTemplate: src/test/resources/baseline/output/%s.json
   activateInputLog: false
