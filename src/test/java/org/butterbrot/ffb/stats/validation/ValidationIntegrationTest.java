@@ -77,11 +77,32 @@ public class ValidationIntegrationTest {
         validateBaseline("1011681");
     }
 
+    @Test
+    public void replay1546677() throws IOException {
+        validateBaseline("1546677");
+    }
+
+    @Test
+    public void replay1548033() throws IOException {
+        validateBaseline("1548033");
+    }
+
+    @Test
+    public void replay1548035() throws IOException {
+        validateBaseline("1548035");
+    }
+
+    @Test
+    public void replay1548042() throws IOException {
+        validateBaseline("1548042");
+    }
+
     private void validateBaseline(String replayId) throws IOException {
         DataValidator dataValidator = new DataValidator();
         ListValidator listValidator = new ListValidator();
         MapValidator mapValidator = new MapValidator();
         IntArrayValidator intArrayValidator = new IntArrayValidator();
+        //noinspection rawtypes
         List<Validator> delegates = Lists.newArrayList(dataValidator, new StringValidator(), new InjuryStateValidator(),
                 new IntegerValidator(), listValidator, mapValidator, new BooleanValidator(), intArrayValidator, new
                         SetValidator());
@@ -101,7 +122,7 @@ public class ValidationIntegrationTest {
 
    // @Test
     public void updateExpectation() throws Exception {
-        String replayId = "861710";
+        String replayId = "1548042";
         String statsJson = new Gson().toJson(getActualCollection(replayId));
         String jsonFile = String.format(outputPathTemplate, replayId);
         logger.info("Creating json file: {}", jsonFile);

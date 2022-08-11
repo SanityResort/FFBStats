@@ -33,12 +33,6 @@ public class InjuryEvaluator extends Evaluator<ReportInjury> {
             // should prevent errors when fanatic armour is broken, as this might be reported with weird data.
             if (ArrayTool.isProvided(injury.getInjuryRoll()) && injury.getInjuryRoll()[0] * injury.getInjuryRoll()[1] > 0) {
                 collection.addInjuryRoll(injury.getInjuryRoll(), injury.getDefenderId());
-                if (ArrayTool.isProvided(injury.getCasualtyRoll())) {
-                    collection.addSingleRoll(injury.getCasualtyRoll()[0], injury.getDefenderId());
-                }
-                if (ArrayTool.isProvided(injury.getCasualtyRollDecay())) {
-                    collection.addSingleRoll(injury.getCasualtyRollDecay()[0], injury.getDefenderId());
-                }
             }
         }
         if (state.getActivePlayer() != null && state.getCurrentBlockRoll() != null) {
