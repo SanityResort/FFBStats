@@ -18,6 +18,7 @@ import org.springframework.http.client.OkHttp3ClientHttpRequestFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
@@ -54,7 +55,7 @@ public class StatsController {
 	@Resource
 	private Unzipper unzipper;
 
-	@RequestMapping(value = "/stats/{replayId}")
+	@RequestMapping(value = "/stats/{replayId}", method = RequestMethod.GET)
 	@ResponseBody
 	public String stats(@PathVariable(value = "replayId") final String replayId) throws NoSuchReplayException, IOException, URISyntaxException {
 
