@@ -22,7 +22,7 @@ public class InjuryEvaluator extends Evaluator<ReportInjury> {
     public void evaluate(IReport report) {
         ReportInjury injury = (ReportInjury) report;
         if (ArrayTool.isProvided(injury.getArmorRoll())) {
-            if (state.getPoReport() == null || (state.getPoReport().isUsed() && !state.getPoReport().isReRollInjury())) {
+            if (injury.getSkip() == null || !injury.getSkip().isArmour() ) {
                 collection.addArmourRoll(injury.getArmorRoll(), injury.getDefenderId());
             }
         }
@@ -31,7 +31,7 @@ public class InjuryEvaluator extends Evaluator<ReportInjury> {
             state.setPoReport(null);
             // if the armour is broken report the injury roll, but only if both injury dice are not 0. this
             // should prevent errors when fanatic armour is broken, as this might be reported with weird data.
-            if (ArrayTool.isProvided(injury.getInjuryRoll()) && injury.getInjuryRoll()[0] * injury.getInjuryRoll()[1] > 0) {
+            if ((injury.getSkip() == null || !injury.getSkip().isInjury()) && ArrayTool.isProvided(injury.getInjuryRoll()) && injury.getInjuryRoll()[0] * injury.getInjuryRoll()[1] > 0) {
                 collection.addInjuryRoll(injury.getInjuryRoll(), injury.getDefenderId());
             }
         }
