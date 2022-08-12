@@ -12,6 +12,8 @@ import com.google.gson.JsonObject;
 import org.butterbrot.ffb.stats.adapter.ExposingInjuryReport;
 import org.butterbrot.ffb.stats.evaluation.stats.StatsCollector;
 import org.butterbrot.ffb.stats.model.StatsCollection;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -22,6 +24,9 @@ import static org.butterbrot.ffb.stats.Constants.*;
 
 @Service
 public class JsonConverter {
+
+    private static final Logger logger = LoggerFactory.getLogger(JsonConverter.class);
+
     public StatsCollection convert(JsonObject root, String replayId) {
         EvaluationFactorySource factorySource = new EvaluationFactorySource();
         NetCommandFactory factory = new NetCommandFactory(factorySource);
@@ -36,8 +41,12 @@ public class JsonConverter {
             JsonElement element = it.next();
             String id = element.getAsJsonObject().get(FIELD_NET_COMMAND_ID).getAsString();
             if (NetCommandId.SERVER_MODEL_SYNC.getName().equals(id)) {
-                replayCommands
-                        .add((ServerCommand) factory.forJsonValue(game.getRules(), JsonValue.readFrom(element.toString())));
+                try {
+                    replayCommands
+                      .add((ServerCommand) factory.forJsonValue(game.getRules(), JsonValue.readFrom(element.toString())));
+                } catch (Exception e) {
+                    logger.error("Could not create replay command: " + element, e);
+                }
             }
         }
 
