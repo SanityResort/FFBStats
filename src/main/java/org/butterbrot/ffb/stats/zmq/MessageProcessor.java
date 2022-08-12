@@ -23,14 +23,14 @@ import static org.butterbrot.ffb.stats.Constants.ZMG_ERROR;
 public class MessageProcessor implements Runnable {
 
     private static final Logger logger = LoggerFactory.getLogger(MessageProcessor.class);
-    private SocketBase receiver;
-    private Ctx context;
-    private SocketBase sender;
-    private SocketBase fileQueue;
+    private final SocketBase receiver;
+    private final Ctx context;
+    private final SocketBase sender;
+    private final SocketBase fileQueue;
     private String senderEndpoint;
     private String receiverEndpoint;
     private String fileQueueEndpoint;
-    private Gson gson = new Gson();
+    private final Gson gson = new Gson();
 
     @Resource
     private Unzipper unzipper;
@@ -55,6 +55,7 @@ public class MessageProcessor implements Runnable {
         fileQueue.connect(fileQueueEndpoint);
         logger.info("FileQueue binds to " + fileQueueEndpoint);
         try {
+            //noinspection InfiniteLoopStatement
             while (true) {
                 System.gc();
                 Msg msg = receiver.recv(0);
@@ -90,14 +91,17 @@ public class MessageProcessor implements Runnable {
         }
     }
 
+    @SuppressWarnings("unused")
     public void setFileQueueEndpoint(String fileQueueEndpoint) {
         this.fileQueueEndpoint = fileQueueEndpoint;
     }
 
+    @SuppressWarnings("unused")
     public void setSenderEndpoint(String senderEndpoint) {
         this.senderEndpoint = senderEndpoint;
     }
 
+    @SuppressWarnings("unused")
     public void setReceiverEndpoint(String receiverEndpoint) {
         this.receiverEndpoint = receiverEndpoint;
     }
