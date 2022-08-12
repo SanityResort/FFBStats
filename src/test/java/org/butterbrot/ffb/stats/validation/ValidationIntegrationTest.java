@@ -27,7 +27,7 @@ import static org.junit.Assert.assertTrue;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = StatsStarter.class)
-@ConfigurationProperties(prefix = "debug")
+@ConfigurationProperties(prefix = "http")
 public class ValidationIntegrationTest {
 
     private static final Logger logger = LoggerFactory.getLogger(ValidationIntegrationTest.class);
