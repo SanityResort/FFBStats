@@ -17,6 +17,7 @@ import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.http.client.OkHttp3ClientHttpRequestFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -56,6 +57,18 @@ public class StatsController {
 	@Resource
 	private Unzipper unzipper;
 
+
+	@RequestMapping(value = "/stats", method = RequestMethod.POST)
+	@ResponseBody
+	public String statsPost(@RequestBody final byte[] replayData) {
+		try {
+			return createStats(null, replayData);
+		} catch (IOException e) {
+			throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
+				"Could not load replay from posted data", e);
+		}
+	}
+
 	@RequestMapping(value = "/stats/{replayId}", method = RequestMethod.GET)
 	@ResponseBody
 	public String stats(@PathVariable(value = "replayId") final String replayId) {
@@ -65,8 +78,8 @@ public class StatsController {
 		try {
 			request = factory.createRequest(new URI(String.format(replayEndPoint, replayId)), HttpMethod.GET);
 		} catch (URISyntaxException e) {
-			logger.error("Could not create url to load replay. Using endpoint value: '{}' and replayId '{}' ", replayEndPoint, replayId, e);
-			throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "There is a server misconfiguration", e);
+			throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
+				"Could not create url to load replay. Using endpoint value: '" + replayEndPoint + "' and replayId '" + replayId + "'", e);
 		}
 
 		try (ClientHttpResponse response = request.execute();
@@ -84,58 +97,78 @@ public class StatsController {
 			}
 
 			byte[] gzippedData = outputStream.toByteArray();
-			JsonObject jsonObject = unzipper.fromGZip(gzippedData);
-
-			if (activateInputLog) {
-				String fileName = String.format(inputPathTemplate, replayId);
-				try (OutputStream fileOutputStream = Files.newOutputStream(new File(fileName).toPath())) {
-					fileOutputStream.write(gzippedData);
-				} catch (IOException e) {
-					logger.error("Could not write " + fileName, e);
-				}
-			}
-			String statsJson = new Gson().toJson(jsonConverter.convert(jsonObject, replayId));
-
-			if (activateOutputLog) {
-				try {
-					String jsonFile = String.format(outputPathTemplate, replayId);
-					logger.info("Creating json file: {}", jsonFile);
-					Path jsonPath = Paths.get(jsonFile);
-					Files.write(jsonPath, statsJson.getBytes(StandardCharsets.UTF_8));
-				} catch (Throwable err) {
-					logger.error("Error writing file", err);
-					return err.getMessage();
-				}
-			}
-			return statsJson;
+			return createStats(replayId, gzippedData);
 		} catch (Exception e) {
-			logger.error("Could not load replay. Using endpoint value: '{}' and replayId '{}' ", replayEndPoint, replayId, e);
-			throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "There was an issue loading the replay", e);
+			throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
+				"Could not load replay. Using endpoint value: '" + replayEndPoint + "' and replayId '" + replayId + "' ", e);
 		}
 	}
 
-		@SuppressWarnings("unused")
-		public void setActivateOutputLog ( boolean activateOutputLog){
-			this.activateOutputLog = activateOutputLog;
+	private String createStats(String passedId, byte[] gzippedData) throws IOException {
+		JsonObject jsonObject = unzipper.fromGZip(gzippedData);
+
+		String replayId;
+		try {
+			replayId = jsonObject.get("game").getAsJsonObject().get("gameId").getAsString();
+		} catch (Exception e) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Could not get gameId/replayId from passed data");
 		}
 
-		@SuppressWarnings("unused")
-		public void setOutputPathTemplate (String outputPathTemplate){
-			this.outputPathTemplate = outputPathTemplate;
+		if (passedId != null && !passedId.equals(replayId)) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The replayId passed was " + passedId +
+				" but the id from the archive was " + replayId);
 		}
 
-		@SuppressWarnings("unused")
-		public void setActivateInputLog ( boolean activateInputLog){
-			this.activateInputLog = activateInputLog;
+		if (passedId == null) {
+			logger.info("Extracted gameId {} from passed data", replayId);
 		}
 
-		@SuppressWarnings("unused")
-		public void setInputPathTemplate (String inputPathTemplate){
-			this.inputPathTemplate = inputPathTemplate;
+		if (activateInputLog) {
+			String fileName = String.format(inputPathTemplate, replayId);
+			try (OutputStream fileOutputStream = Files.newOutputStream(new File(fileName).toPath())) {
+				fileOutputStream.write(gzippedData);
+			} catch (IOException e) {
+				logger.error("Could not write " + fileName, e);
+			}
 		}
+		String statsJson = new Gson().toJson(jsonConverter.convert(jsonObject, replayId));
 
-		@SuppressWarnings("unused")
-		public void setReplayEndPoint (String replayEndPoint){
-			this.replayEndPoint = replayEndPoint;
+		if (activateOutputLog) {
+			try {
+				String jsonFile = String.format(outputPathTemplate, replayId);
+				logger.info("Creating json file: {}", jsonFile);
+				Path jsonPath = Paths.get(jsonFile);
+				Files.write(jsonPath, statsJson.getBytes(StandardCharsets.UTF_8));
+			} catch (Throwable err) {
+				logger.error("Error writing file", err);
+				return err.getMessage();
+			}
 		}
+		return statsJson;
 	}
+
+	@SuppressWarnings("unused")
+	public void setActivateOutputLog(boolean activateOutputLog) {
+		this.activateOutputLog = activateOutputLog;
+	}
+
+	@SuppressWarnings("unused")
+	public void setOutputPathTemplate(String outputPathTemplate) {
+		this.outputPathTemplate = outputPathTemplate;
+	}
+
+	@SuppressWarnings("unused")
+	public void setActivateInputLog(boolean activateInputLog) {
+		this.activateInputLog = activateInputLog;
+	}
+
+	@SuppressWarnings("unused")
+	public void setInputPathTemplate(String inputPathTemplate) {
+		this.inputPathTemplate = inputPathTemplate;
+	}
+
+	@SuppressWarnings("unused")
+	public void setReplayEndPoint(String replayEndPoint) {
+		this.replayEndPoint = replayEndPoint;
+	}
+}
