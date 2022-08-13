@@ -5,6 +5,7 @@ zmq:
 
 http:
   replayEndpoint: https://fumbbl.com/api/replay/get/%s/gz
+  addGzipHeader: false
   activateOutputLog: false
   outputPathTemplate: src/test/resources/baseline/output/%s.json
   activateInputLog: false

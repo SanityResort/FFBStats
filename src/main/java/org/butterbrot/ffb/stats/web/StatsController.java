@@ -2,6 +2,9 @@ package org.butterbrot.ffb.stats.web;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 import org.butterbrot.ffb.stats.conversion.JsonConverter;
 import org.butterbrot.ffb.stats.conversion.Unzipper;
 import org.slf4j.Logger;
@@ -10,11 +13,7 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.client.ClientHttpRequest;
-import org.springframework.http.client.ClientHttpResponse;
-import org.springframework.http.client.OkHttp3ClientHttpRequestFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -24,17 +23,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.annotation.Resource;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Objects;
 
 @Controller
 @EnableAutoConfiguration
@@ -50,12 +46,15 @@ public class StatsController {
 	private boolean activateInputLog;
 	private String inputPathTemplate;
 	private String replayEndPoint;
+	private boolean addGzipHeader;
 
 	@Resource
 	private JsonConverter jsonConverter;
 
 	@Resource
 	private Unzipper unzipper;
+
+	private final OkHttpClient client = new OkHttpClient();
 
 
 	@RequestMapping(value = "/stats", method = RequestMethod.POST)
@@ -73,30 +72,19 @@ public class StatsController {
 	@ResponseBody
 	public String stats(@PathVariable(value = "replayId") final String replayId) {
 
-		OkHttp3ClientHttpRequestFactory factory = new OkHttp3ClientHttpRequestFactory();
-		ClientHttpRequest request;
-		try {
-			request = factory.createRequest(new URI(String.format(replayEndPoint, replayId)), HttpMethod.GET);
-		} catch (URISyntaxException e) {
-			throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
-				"Could not create url to load replay. Using endpoint value: '" + replayEndPoint + "' and replayId '" + replayId + "'", e);
+		Request.Builder builder = new Request.Builder().url(String.format(replayEndPoint, replayId));
+		if (addGzipHeader) {
+		builder.header("Accept-Encoding", "gzip");
 		}
+		Request request = builder.build();
 
-		try (ClientHttpResponse response = request.execute();
-				 InputStream responseStream = response.getBody();
-				 ByteArrayOutputStream outputStream = new ByteArrayOutputStream()) {
+		try (Response response = client.newCall(request).execute()) {
 
-			if (response.getStatusCode() != HttpStatus.OK) {
+			if (!response.isSuccessful() || response.body() == null) {
 				throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Replay with id " + replayId + " not found");
 			}
 
-			byte[] buffer = new byte[1024];
-			int length;
-			while ((length = responseStream.read(buffer)) > 0) {
-				outputStream.write(buffer, 0, length);
-			}
-
-			byte[] gzippedData = outputStream.toByteArray();
+			byte[] gzippedData = Objects.requireNonNull(response.body()).bytes();
 			return createStats(replayId, gzippedData);
 		} catch (Exception e) {
 			throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
@@ -170,5 +158,10 @@ public class StatsController {
 	@SuppressWarnings("unused")
 	public void setReplayEndPoint(String replayEndPoint) {
 		this.replayEndPoint = replayEndPoint;
+	}
+
+	@SuppressWarnings("unused")
+	public void setAddGzipHeader(boolean addGzipHeader) {
+		this.addGzipHeader = addGzipHeader;
 	}
 }
