@@ -33,11 +33,11 @@ public class StartHalfEvaluator extends Evaluator<ReportStartHalf> {
 
         state.setChefRoll(null);
 
-        if (((ReportStartHalf) report).getHalf() == 2) {
+        if (((ReportStartHalf) report).getHalf() == 1) {
             turnOverFinder.findTurnover().ifPresent(collection::addTurnOver);
             turnOverFinder.reset();
             state.setStartSecondHalf(true);
-        } else if (((ReportStartHalf) report).getHalf() > 2) {
+        } else if (((ReportStartHalf) report).getHalf() > 1) {
             turnOverFinder.findTurnover().ifPresent(collection::addTurnOver);
             turnOverFinder.reset();
             state.setStartOvertime(true);
