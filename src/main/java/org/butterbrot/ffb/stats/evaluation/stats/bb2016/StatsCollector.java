@@ -8,6 +8,7 @@ import com.fumbbl.ffb.net.commands.ServerCommandModelSync;
 import com.fumbbl.ffb.report.IReport;
 import com.fumbbl.ffb.report.ReportList;
 import com.fumbbl.ffb.report.ReportStartHalf;
+import org.butterbrot.ffb.stats.adapter.ExposingInjuryReport;
 import org.butterbrot.ffb.stats.adapter.bb2016.PlayerActionMapping;
 import org.butterbrot.ffb.stats.adapter.bb2016.ReportPoInjury;
 import org.butterbrot.ffb.stats.evaluation.stats.Evaluator;
@@ -119,5 +120,10 @@ public class StatsCollector extends org.butterbrot.ffb.stats.evaluation.stats.St
 	@Override
 	protected TurnOverFinder createTurnOverFinder() {
 		return new org.butterbrot.ffb.stats.evaluation.turnover.bb2016.TurnOverFinder();
+	}
+
+	@Override
+	protected Evaluator<ReportStartHalf> createHalfEvaluator(StatsState<? extends ExposingInjuryReport> state, TurnOverFinder turnOverFinder, StatsCollection statsCollection) {
+		return new StartHalfEvaluator(state, turnOverFinder, statsCollection);
 	}
 }

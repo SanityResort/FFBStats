@@ -3,6 +3,7 @@ package org.butterbrot.ffb.stats.evaluation.stats;
 import com.fumbbl.ffb.model.Game;
 import com.fumbbl.ffb.model.Team;
 import com.fumbbl.ffb.net.commands.ServerCommand;
+import com.fumbbl.ffb.report.ReportStartHalf;
 import org.butterbrot.ffb.stats.adapter.ExposingInjuryReport;
 import org.butterbrot.ffb.stats.adapter.PlayerActionMapping;
 import org.butterbrot.ffb.stats.evaluation.stats.common.BlockRollEvaluator;
@@ -13,10 +14,9 @@ import org.butterbrot.ffb.stats.evaluation.stats.common.PlayerActionEvaluator;
 import org.butterbrot.ffb.stats.evaluation.stats.common.ReRollEvaluator;
 import org.butterbrot.ffb.stats.evaluation.stats.common.ScatterBallEvaluator;
 import org.butterbrot.ffb.stats.evaluation.stats.common.SkillRollEvaluator;
-import org.butterbrot.ffb.stats.evaluation.stats.common.StartHalfEvaluator;
 import org.butterbrot.ffb.stats.evaluation.stats.common.TimeoutEnforcedEvaluator;
-import org.butterbrot.ffb.stats.evaluation.stats.common.WeatherEvaluator;
 import org.butterbrot.ffb.stats.evaluation.stats.common.UploadEvaluator;
+import org.butterbrot.ffb.stats.evaluation.stats.common.WeatherEvaluator;
 import org.butterbrot.ffb.stats.evaluation.stats.common.WizardUseEvaluator;
 import org.butterbrot.ffb.stats.evaluation.turnover.TurnOverFinder;
 import org.butterbrot.ffb.stats.model.StatsCollection;
@@ -31,14 +31,14 @@ public abstract class StatsCollector<T extends ExposingInjuryReport> {
     protected final TurnOverFinder turnOverFinder;
     protected final StatsState<T> state;
     protected final List<Evaluator<?>> evaluators = new ArrayList<>();
-    protected final StartHalfEvaluator halfEvaluator;
+    protected final Evaluator<ReportStartHalf> halfEvaluator;
 
     protected StatsCollector(List<ServerCommand> replayCommands) {
         collection = new StatsCollection(createPlayerActionMapping());
         turnOverFinder = createTurnOverFinder();
         state = createStatsState();
         this.replayCommands = replayCommands;
-        halfEvaluator = new StartHalfEvaluator(state, turnOverFinder, collection );
+        halfEvaluator = createHalfEvaluator(state, turnOverFinder, collection );
         evaluators.add(halfEvaluator);
         evaluators.add(new BlockRollEvaluator(collection, state));
         evaluators.add(new KickoffResultEvaluator(collection, state));
@@ -70,10 +70,6 @@ public abstract class StatsCollector<T extends ExposingInjuryReport> {
         collection.setGame(game);
     }
 
-    public List<ServerCommand> getReplayCommands() {
-        return replayCommands;
-    }
-
     public abstract StatsCollection evaluate(String replayId);
 
     protected abstract PlayerActionMapping createPlayerActionMapping();
@@ -81,4 +77,6 @@ public abstract class StatsCollector<T extends ExposingInjuryReport> {
     protected abstract StatsState<T> createStatsState();
 
     protected abstract org.butterbrot.ffb.stats.evaluation.turnover.TurnOverFinder createTurnOverFinder();
+
+    protected abstract Evaluator<ReportStartHalf> createHalfEvaluator(StatsState<? extends ExposingInjuryReport> state,  TurnOverFinder turnOverFinder, StatsCollection statsCollection);
 }

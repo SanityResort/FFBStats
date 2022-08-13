@@ -120,9 +120,9 @@ public class ValidationIntegrationTest {
         logger.info("Finished validation");
     }
 
-   // @Test
+    @Test
     public void updateExpectation() throws Exception {
-        String replayId = "1548042";
+        String replayId = "1548035";
         String statsJson = new Gson().toJson(getActualCollection(replayId));
         String jsonFile = String.format(outputPathTemplate, replayId);
         logger.info("Creating json file: {}", jsonFile);
