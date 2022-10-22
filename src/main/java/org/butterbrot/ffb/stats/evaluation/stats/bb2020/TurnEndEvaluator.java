@@ -43,14 +43,5 @@ public class TurnEndEvaluator extends Evaluator<ReportTurnEnd> {
 
 		collection.addArmourAndInjuryStats(state.getInjuries());
 		state.getInjuries().clear();
-
-		if (state.isStartSecondHalf()) {
-			collection.startSecondHalf();
-			state.setStartSecondHalf(false);
-		}
-		if (state.isStartOvertime()) {
-			collection.startOvertime();
-			state.setStartOvertime(false);
-		}
 	}
 }
