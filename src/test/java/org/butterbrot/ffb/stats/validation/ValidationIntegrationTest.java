@@ -11,6 +11,7 @@ import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -25,6 +26,7 @@ import java.util.List;
 
 import static org.junit.Assert.assertTrue;
 
+@EnableConfigurationProperties(value = ValidationIntegrationTest.class)
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = StatsStarter.class)
 @ConfigurationProperties(prefix = "http")
@@ -104,8 +106,8 @@ public class ValidationIntegrationTest {
         IntArrayValidator intArrayValidator = new IntArrayValidator();
         //noinspection rawtypes
         List<Validator> delegates = Lists.newArrayList(dataValidator, new StringValidator(), new InjuryStateValidator(),
-                new IntegerValidator(), listValidator, mapValidator, new BooleanValidator(), intArrayValidator, new
-                        SetValidator());
+          new IntegerValidator(), listValidator, mapValidator, new BooleanValidator(), intArrayValidator, new
+            SetValidator());
         dataValidator.setDelegateValidators(delegates);
         listValidator.setDelegateValidators(delegates);
         mapValidator.setDelegateValidators(delegates);
@@ -120,9 +122,9 @@ public class ValidationIntegrationTest {
         logger.info("Finished validation");
     }
 
-    @Test
+    // @Test
     public void updateExpectation() throws Exception {
-        String replayId = "1548035";
+        String replayId = "1548033";
         String statsJson = new Gson().toJson(getActualCollection(replayId));
         String jsonFile = String.format(outputPathTemplate, replayId);
         logger.info("Creating json file: {}", jsonFile);
@@ -148,3 +150,6 @@ public class ValidationIntegrationTest {
         this.inputPathTemplate = inputPathTemplate;
     }
 }
+
+
+
