@@ -192,16 +192,16 @@ public class StatsCollection implements Data {
 			blockerTurnTeam.addRerolledBlock(count);
 			if (count < 0) {
 				// work around a bug in report data. it seems that the choosing team does not get set properly for -2db
-				// or -3db blocks that get rerolled. the block before the reroll is reported with the wrong choosing
-				// team, so a -2db for team a got reported as a 2db for team b. it seems that the choosing team is only
-				// set properly if an block die actually was chosen, otherwise the default value, i.e. the blocking
+				// or -3db blocks that get rerolled. the block before the re-roll is reported with the wrong choosing
+				// team, so a -2db got reported as a 2db for the same team. it seems that the choosing team is only
+				// set properly if a block die actually was chosen, otherwise the default value, i.e. the blocking
 				// team, remains.
 				// so we have to remove the wrong report and add a corrected report.
 
 				blockerTeam.addBlock(count);
-				getOpposition(blockerTeam).removeBlock(count * -1);
+				blockerTeam.removeBlock(count * -1);
 				blockerTurnTeam.addBlock(count);
-				turnTeam(getOpposition(blockerTeam)).removeBlock(count * -1);
+				turnTeam(blockerTeam).removeBlock(count * -1);
 			}
 		}
 		blockerTeam.addBlock(count);
