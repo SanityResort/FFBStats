@@ -898,7 +898,7 @@ public class TurnOverFinderPassCatchTest extends AbstractTurnOverFinderTest {
 	@Test
 	public void deflectionCaughtByTeamMate() {
 		turnOverFinder.add(new ReportPlayerAction(actingPlayer, PlayerAction.PASS));
-		turnOverFinder.add(new ReportInterceptionRoll(opponent, true, 6, 6, false, null, false));
+		turnOverFinder.add(new ReportInterceptionRoll(opponent, true, 6, 6, false, null, false, false));
 		turnOverFinder.add(new ReportCatchRoll(opponent, false, 1, 4, true, new CatchModifier[0], false));
 		turnOverFinder.add(new ReportScatterBall());
 		turnOverFinder.add(new ReportCatchRoll(teamMember, true, 4, 4, true, new CatchModifier[0], false));
@@ -910,7 +910,7 @@ public class TurnOverFinderPassCatchTest extends AbstractTurnOverFinderTest {
 	@Test
 	public void interceptedSuccessfully() {
 		turnOverFinder.add(new ReportPlayerAction(actingPlayer, PlayerAction.PASS));
-		turnOverFinder.add(new ReportInterceptionRoll(opponent, true, 6, 6, false, null, false));
+		turnOverFinder.add(new ReportInterceptionRoll(opponent, true, 6, 6, false, null, false, false));
 		turnOverFinder.add(new ReportCatchRoll(opponent, true, 4, 4, true, new CatchModifier[0], false));
 		turnOverFinder.add(new ReportTurnEnd(null, null, null, new ArrayList<>(), 0));
 		Optional<TurnOver> turnOverOpt = turnOverFinder.findTurnover();
@@ -926,7 +926,7 @@ public class TurnOverFinderPassCatchTest extends AbstractTurnOverFinderTest {
 	@Test
 	public void deflectedOnly() {
 		turnOverFinder.add(new ReportPlayerAction(actingPlayer, PlayerAction.PASS));
-		turnOverFinder.add(new ReportInterceptionRoll(opponent, true, 6, 6, false, null, false));
+		turnOverFinder.add(new ReportInterceptionRoll(opponent, true, 6, 6, false, null, false, false));
 		turnOverFinder.add(new ReportCatchRoll(opponent, false, 2, 4, true, new CatchModifier[0], false));
 		turnOverFinder.add(new ReportScatterBall());
 		turnOverFinder.add(new ReportTurnEnd(null, null, null, new ArrayList<>(), 0));
@@ -943,9 +943,9 @@ public class TurnOverFinderPassCatchTest extends AbstractTurnOverFinderTest {
 	@Test
 	public void interceptedSuccessfullyWithCatchReRoll() {
 		turnOverFinder.add(new ReportPlayerAction(actingPlayer, PlayerAction.PASS));
-		turnOverFinder.add(new ReportInterceptionRoll(opponent, false, 5, 6, false, null, false));
+		turnOverFinder.add(new ReportInterceptionRoll(opponent, false, 5, 6, false, null, false, false));
 		turnOverFinder.add(new ReportReRoll(opponent, ReRollSources.CATCH, true, 6));
-		turnOverFinder.add(new ReportInterceptionRoll(opponent, true, 6, 6, true, null, false));
+		turnOverFinder.add(new ReportInterceptionRoll(opponent, true, 6, 6, true, null, false, false));
 		turnOverFinder.add(new ReportCatchRoll(opponent, true, 4, 4, true, new CatchModifier[0], false));
 		turnOverFinder.add(new ReportTurnEnd(null, null, null, new ArrayList<>(), 0));
 		Optional<TurnOver> turnOverOpt = turnOverFinder.findTurnover();
@@ -961,9 +961,9 @@ public class TurnOverFinderPassCatchTest extends AbstractTurnOverFinderTest {
 	@Test
 	public void interceptedSuccessfullyWithProReRoll() {
 		turnOverFinder.add(new ReportPlayerAction(actingPlayer, PlayerAction.PASS));
-		turnOverFinder.add(new ReportInterceptionRoll(opponent, false, 5, 6, false, null, false));
+		turnOverFinder.add(new ReportInterceptionRoll(opponent, false, 5, 6, false, null, false, false));
 		turnOverFinder.add(new ReportReRoll(opponent, ReRollSources.PRO, true, 6));
-		turnOverFinder.add(new ReportInterceptionRoll(opponent, true, 6, 6, true, null, false));
+		turnOverFinder.add(new ReportInterceptionRoll(opponent, true, 6, 6, true, null, false, false));
 		turnOverFinder.add(new ReportCatchRoll(opponent, true, 4, 4, true, new CatchModifier[0], false));
 		turnOverFinder.add(new ReportTurnEnd(null, null, null, new ArrayList<>(), 0));
 		Optional<TurnOver> turnOverOpt = turnOverFinder.findTurnover();
@@ -979,9 +979,9 @@ public class TurnOverFinderPassCatchTest extends AbstractTurnOverFinderTest {
 	@Test
 	public void interceptionNotCancelledSuccessfully() {
 		turnOverFinder.add(new ReportPlayerAction(actingPlayer, PlayerAction.PASS));
-		turnOverFinder.add(new ReportInterceptionRoll(opponent, true, 6, 6, false, null, false));
+		turnOverFinder.add(new ReportInterceptionRoll(opponent, true, 6, 6, false, null, false, false));
 		turnOverFinder.add(new ReportCloudBurster(actingPlayer, opponent, actingTeam));
-		turnOverFinder.add(new ReportInterceptionRoll(opponent, true, 6, 6, false, null, false));
+		turnOverFinder.add(new ReportInterceptionRoll(opponent, true, 6, 6, false, null, false, false));
 		turnOverFinder.add(new ReportTurnEnd(null, null, null, new ArrayList<>(), 0));
 		Optional<TurnOver> turnOverOpt = turnOverFinder.findTurnover();
 		assertTrue("Intercepted pass is a turnover", turnOverOpt.isPresent());
@@ -996,9 +996,9 @@ public class TurnOverFinderPassCatchTest extends AbstractTurnOverFinderTest {
 	@Test
 	public void interceptionCancelled() {
 		turnOverFinder.add(new ReportPlayerAction(actingPlayer, PlayerAction.PASS));
-		turnOverFinder.add(new ReportInterceptionRoll(opponent, true, 6, 6, false, null, false));
+		turnOverFinder.add(new ReportInterceptionRoll(opponent, true, 6, 6, false, null, false, false));
 		turnOverFinder.add(new ReportCloudBurster(actingPlayer, opponent, actingTeam));
-		turnOverFinder.add(new ReportInterceptionRoll(opponent, false, 2, 6, false, null, false));
+		turnOverFinder.add(new ReportInterceptionRoll(opponent, false, 2, 6, false, null, false, false));
 		turnOverFinder.add(new ReportTurnEnd(null, null, null, new ArrayList<>(), 0));
 		Optional<TurnOver> turnOverOpt = turnOverFinder.findTurnover();
 		assertFalse("Cancelled interception is not a turnover", turnOverOpt.isPresent());
