@@ -285,6 +285,7 @@ public class StatsCollection implements Data {
 	public void addArmourAndInjuryStats(Collection<? extends ExposingInjuryReport> injuries) {
 		for (ExposingInjuryReport injury : injuries) {
 			String playerId = StringTool.isProvided(injury.getAttackerId()) ? injury.getAttackerId() : injury.getDefenderId();
+			String defenderId = injury.getDefenderId();
 			TeamStatsCollection team = getOpposition(teams.get(injury.getDefenderId()));
 			TeamStatsCollection turnTeam = turnTeam(team);
 			int effectiveAV = armourValues.get(injury.getDefenderId());
@@ -302,7 +303,7 @@ public class StatsCollection implements Data {
 				} else if (hasProperty(modifier, NamedProperties.affectsEitherArmourOrInjuryOnFoul)) {
 					dpUsed = true;
 				} else {
-					effectiveAV -= modifier.getModifier(game.getPlayerById(playerId));
+					effectiveAV -= modifier.getModifier(game.getPlayerById(playerId), game.getPlayerById(defenderId));
 				}
 			}
 
