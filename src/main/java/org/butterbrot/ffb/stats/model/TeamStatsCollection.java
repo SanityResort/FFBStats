@@ -20,17 +20,18 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+@SuppressWarnings("MismatchedQueryAndUpdateOfCollection")
 public class TeamStatsCollection implements Data {
 
 	private final transient BlockResultFactory factory = new BlockResultFactory();
 
-	private final Map<Integer, Integer> singleRolls = initNonBlockStatsMap(6);
-	private final Map<String, Integer> successfulSingleRolls = initSkillRollsMap(2, 6);
-	private final Map<String, Integer> successfulDodgeRolls = initSkillRollsMap(2, 6);
-	private final Map<String, Integer> successfulGfiRolls = initSkillRollsMap(2, 3);
-	private final Map<String, Integer> failedDodgeRolls = initSkillRollsMap(2, 6);
-	private final Map<String, Integer> failedGfiRolls = initSkillRollsMap(2, 3);
-	private final Map<Integer, Integer> totalSingleRolls = initNonBlockStatsMap(6);
+	private final Map<Integer, Integer> singleRolls = initNonBlockStatsMap();
+	private final Map<String, Integer> successfulSingleRolls = initSkillRollsMap();
+	private final Map<String, Integer> successfulDodgeRolls = initSkillRollsMap();
+	private final Map<String, Integer> successfulGfiRolls = initSkillRollsMap();
+	private final Map<String, Integer> failedDodgeRolls = initSkillRollsMap();
+	private final Map<String, Integer> failedGfiRolls = initSkillRollsMap();
+	private final Map<Integer, Integer> totalSingleRolls = initNonBlockStatsMap();
 	private final Map<Integer, Integer> doubleRolls = initNonBlockStatsMap(2, 12);
 	private final Map<Integer, Integer> totalDoubleRolls = initNonBlockStatsMap(2, 12);
 	private final Map<Integer, Integer> armourRolls = initNonBlockStatsMap(2, 12);
@@ -162,8 +163,8 @@ public class TeamStatsCollection implements Data {
 		return stats;
 	}
 
-	private Map<Integer, Integer> initNonBlockStatsMap(int max) {
-		return initNonBlockStatsMap(1, max);
+	private Map<Integer, Integer> initNonBlockStatsMap() {
+		return initNonBlockStatsMap(1, 6);
 	}
 
 	private Map<Integer, Integer> initNonBlockStatsMap(int min, int max) {
@@ -175,10 +176,10 @@ public class TeamStatsCollection implements Data {
 		return stats;
 	}
 
-	private Map<String, Integer> initSkillRollsMap(int min, int max) {
+	private Map<String, Integer> initSkillRollsMap() {
 		Map<String, Integer> stats = new HashMap<>();
-		int i = min;
-		while (i <= max) {
+		int i = 2;
+		while (i <= 6) {
 			stats.put(i++ + "+", 0);
 		}
 		return stats;
@@ -229,7 +230,7 @@ public class TeamStatsCollection implements Data {
 			if (ReportId.DODGE_ROLL == reportId) {
 				incrementSkillRolls(successfulDodgeRolls, maxedRolled);
 			} else if (ReportId.GO_FOR_IT_ROLL == reportId) {
-				incrementSkillRolls(successfulGfiRolls, Math.min(3, minimumRoll));
+				incrementSkillRolls(successfulGfiRolls, maxedRolled);
 			}
 		}
 	}
@@ -248,10 +249,11 @@ public class TeamStatsCollection implements Data {
 
 	public void addFailedRoll(ReportId reportId, int minimumRoll) {
 		if (minimumRoll > 1) {
+			int min = Math.min(6, minimumRoll);
 			if (ReportId.DODGE_ROLL == reportId) {
-				incrementSkillRolls(failedDodgeRolls, Math.min(6, minimumRoll));
+				incrementSkillRolls(failedDodgeRolls, min);
 			} else if (ReportId.GO_FOR_IT_ROLL == reportId) {
-				incrementSkillRolls(failedGfiRolls, Math.min(3, minimumRoll));
+				incrementSkillRolls(failedGfiRolls, min);
 			}
 		}
 	}
@@ -300,10 +302,6 @@ public class TeamStatsCollection implements Data {
 
 	public void addApoUse() {
 		incrementAdditionalStat(StatKey.APO);
-	}
-
-	public void addBribe() {
-		incrementAdditionalStat(StatKey.BRIBE);
 	}
 
 	public void addBloodLust() {

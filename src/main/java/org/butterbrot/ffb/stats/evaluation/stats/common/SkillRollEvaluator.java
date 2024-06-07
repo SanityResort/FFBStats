@@ -10,9 +10,9 @@ import org.butterbrot.ffb.stats.model.StatsCollection;
 public class SkillRollEvaluator extends Evaluator<ReportSkillRoll> {
 
 	private final StatsCollection collection;
-	private final StatsState state;
+	private final StatsState<?> state;
 
-	public SkillRollEvaluator(StatsCollection collection, StatsState state) {
+	public SkillRollEvaluator(StatsCollection collection, StatsState<?> state) {
 		this.collection = collection;
 		this.state = state;
 	}
@@ -21,7 +21,7 @@ public class SkillRollEvaluator extends Evaluator<ReportSkillRoll> {
 	public void evaluate(IReport report) {
 		ReportSkillRoll skillReport = ((ReportSkillRoll) report);
 		if (skillReport.getRoll() == 0 && ReportId.DODGE_ROLL == skillReport.getId()) {
-			// skill roll was 0 for a dodge, which means the dodge failed due to diving tackle and we have to remove the previously reported success and report the failure instead.
+			// skill roll was 0 for a dodge, which means the dodge failed due to diving tackle, so we have to remove the previously reported success and report the failure instead.
 			collection.addFailedRoll(skillReport.getPlayerId(), skillReport.getId(), skillReport.getMinimumRoll());
 			collection.removeSuccessRoll(skillReport.getPlayerId(), skillReport.getId(), skillReport.getMinimumRoll() - 2);
 		}
