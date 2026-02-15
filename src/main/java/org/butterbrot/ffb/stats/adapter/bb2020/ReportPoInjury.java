@@ -5,7 +5,7 @@ import com.fumbbl.ffb.SeriousInjury;
 import com.fumbbl.ffb.injury.InjuryType;
 import com.fumbbl.ffb.modifiers.bb2020.CasualtyModifier;
 import com.fumbbl.ffb.report.ReportPilingOn;
-import com.fumbbl.ffb.report.bb2020.ReportInjury;
+import com.fumbbl.ffb.report.mixed.ReportInjury;
 import com.fumbbl.ffb.report.logcontrol.SkipInjuryParts;
 import org.butterbrot.ffb.stats.adapter.ExposingInjuryReport;
 

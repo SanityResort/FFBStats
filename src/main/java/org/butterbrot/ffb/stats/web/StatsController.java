@@ -74,7 +74,7 @@ public class StatsController {
 
 		Request.Builder builder = new Request.Builder().url(String.format(replayEndPoint, replayId));
 		if (addGzipHeader) {
-		builder.header("Accept-Encoding", "gzip");
+			builder.header("Accept-Encoding", "gzip");
 		}
 		Request request = builder.build();
 

@@ -3,6 +3,7 @@ package org.butterbrot.ffb.stats.conversion;
 import com.fumbbl.ffb.FactoryManager;
 import com.fumbbl.ffb.FactoryType;
 import com.fumbbl.ffb.factory.IFactorySource;
+import com.fumbbl.ffb.factory.ILoggingFacade;
 import com.fumbbl.ffb.factory.INamedObjectFactory;
 
 import java.util.Map;
@@ -14,7 +15,8 @@ public class EvaluationFactorySource implements IFactorySource {
 	private final Map<FactoryType.Factory, INamedObjectFactory> factories;
 
 	public EvaluationFactorySource() {
-		this.factories = factoryManager.getFactoriesForContext(FactoryType.FactoryContext.APPLICATION);
+		this.factories = factoryManager.getFactoriesForContext(FactoryType.FactoryContext.APPLICATION,
+			(ILoggingFacade) null);
 	}
 
 	@Override

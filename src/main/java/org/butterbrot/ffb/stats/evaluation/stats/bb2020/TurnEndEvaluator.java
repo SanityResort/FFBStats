@@ -3,7 +3,7 @@ package org.butterbrot.ffb.stats.evaluation.stats.bb2020;
 import com.fumbbl.ffb.HeatExhaustion;
 import com.fumbbl.ffb.KnockoutRecovery;
 import com.fumbbl.ffb.report.IReport;
-import com.fumbbl.ffb.report.bb2020.ReportTurnEnd;
+import com.fumbbl.ffb.report.mixed.ReportTurnEnd;
 import com.fumbbl.ffb.util.ArrayTool;
 import org.butterbrot.ffb.stats.adapter.bb2020.ReportPoInjury;
 import org.butterbrot.ffb.stats.evaluation.stats.Evaluator;
