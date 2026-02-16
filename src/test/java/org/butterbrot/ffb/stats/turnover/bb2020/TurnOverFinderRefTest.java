@@ -4,8 +4,8 @@ import com.fumbbl.ffb.PlayerAction;
 import com.fumbbl.ffb.report.ReportBribesRoll;
 import com.fumbbl.ffb.report.ReportId;
 import com.fumbbl.ffb.report.ReportPlayerAction;
-import com.fumbbl.ffb.report.bb2020.ReportReferee;
-import com.fumbbl.ffb.report.bb2020.ReportTurnEnd;
+import com.fumbbl.ffb.report.mixed.ReportReferee;
+import com.fumbbl.ffb.report.mixed.ReportTurnEnd;
 import org.butterbrot.ffb.stats.model.TurnOver;
 import org.junit.Test;
 

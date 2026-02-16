@@ -9,9 +9,9 @@ import com.fumbbl.ffb.report.ReportId;
 import com.fumbbl.ffb.report.ReportPlayerAction;
 import com.fumbbl.ffb.report.ReportReRoll;
 import com.fumbbl.ffb.report.ReportScatterBall;
-import com.fumbbl.ffb.report.bb2020.ReportDodgeRoll;
-import com.fumbbl.ffb.report.bb2020.ReportInjury;
-import com.fumbbl.ffb.report.bb2020.ReportTurnEnd;
+import com.fumbbl.ffb.report.mixed.ReportDodgeRoll;
+import com.fumbbl.ffb.report.mixed.ReportInjury;
+import com.fumbbl.ffb.report.mixed.ReportTurnEnd;
 import org.butterbrot.ffb.stats.model.TurnOver;
 import org.junit.Test;
 
@@ -25,7 +25,7 @@ public class TurnOverFinderDodgeTest extends AbstractTurnOverFinderTest {
 	@Test
 	public void failedDodge() {
 		turnOverFinder.add(new ReportPlayerAction(actingPlayer, PlayerAction.MOVE));
-		turnOverFinder.add(new ReportDodgeRoll(actingPlayer, false, 2, 3, false, new RollModifier[0]));
+		turnOverFinder.add(new ReportDodgeRoll(actingPlayer, false, 2, 3, false, new RollModifier[0], null));
 		turnOverFinder.add(new ReportInjury(actingPlayer, null, false, null, null, null, null, null, null, null, null, null, null, null, null, null, null));
 		turnOverFinder.add(new ReportTurnEnd(null, null, null, new ArrayList<>(), 0));
 		Optional<TurnOver> turnOverOpt = turnOverFinder.findTurnover();
@@ -41,7 +41,7 @@ public class TurnOverFinderDodgeTest extends AbstractTurnOverFinderTest {
 	@Test
 	public void failedDodgeCatchByTeam() {
 		turnOverFinder.add(new ReportPlayerAction(actingPlayer, PlayerAction.MOVE));
-		turnOverFinder.add(new ReportDodgeRoll(actingPlayer, false, 2, 3, false, new RollModifier[0]));
+		turnOverFinder.add(new ReportDodgeRoll(actingPlayer, false, 2, 3, false, new RollModifier[0], null));
 		turnOverFinder.add(new ReportInjury(actingPlayer, null, false, null, null, null, null, null, null, null, null, null, null, null, null, null, null));
 		turnOverFinder.add(new ReportScatterBall());
 		turnOverFinder.add(new ReportCatchRoll(teamMember, true, 3, 3, false, new CatchModifier[0], false));
@@ -59,7 +59,7 @@ public class TurnOverFinderDodgeTest extends AbstractTurnOverFinderTest {
 	@Test
 	public void failedDodgeCatchByOpponent() {
 		turnOverFinder.add(new ReportPlayerAction(actingPlayer, PlayerAction.MOVE));
-		turnOverFinder.add(new ReportDodgeRoll(actingPlayer, false, 2, 3, false, new RollModifier[0]));
+		turnOverFinder.add(new ReportDodgeRoll(actingPlayer, false, 2, 3, false, new RollModifier[0], null));
 		turnOverFinder.add(new ReportInjury(actingPlayer, null, false, null, null, null, null, null, null, null, null, null, null, null, null, null, null));
 		turnOverFinder.add(new ReportScatterBall());
 		turnOverFinder.add(new ReportCatchRoll(opponent, false, 3, 3, false, new CatchModifier[0], false));
@@ -77,7 +77,7 @@ public class TurnOverFinderDodgeTest extends AbstractTurnOverFinderTest {
 	@Test
 	public void failedDodgeNoCatch() {
 		turnOverFinder.add(new ReportPlayerAction(actingPlayer, PlayerAction.MOVE));
-		turnOverFinder.add(new ReportDodgeRoll(actingPlayer, false, 2, 3, false, new RollModifier[0]));
+		turnOverFinder.add(new ReportDodgeRoll(actingPlayer, false, 2, 3, false, new RollModifier[0], null));
 		turnOverFinder.add(new ReportInjury(actingPlayer, null, false, null, null, null, null, null, null, null, null, null, null, null, null, null, null));
 		turnOverFinder.add(new ReportScatterBall());
 		turnOverFinder.add(new ReportCatchRoll(teamMember, false, 2, 3, false, new CatchModifier[0], false));
@@ -95,9 +95,9 @@ public class TurnOverFinderDodgeTest extends AbstractTurnOverFinderTest {
 	@Test
 	public void failedDodgeWithTeamReRoll() {
 		turnOverFinder.add(new ReportPlayerAction(actingPlayer, PlayerAction.MOVE));
-		turnOverFinder.add(new ReportDodgeRoll(actingPlayer, false, 2, 3, false, new RollModifier[0]));
+		turnOverFinder.add(new ReportDodgeRoll(actingPlayer, false, 2, 3, false, new RollModifier[0], null));
 		turnOverFinder.add(new ReportReRoll(actingPlayer, ReRollSources.TEAM_RE_ROLL, true, 6));
-		turnOverFinder.add(new ReportDodgeRoll(actingPlayer, false, 2, 3, true, new RollModifier[0]));
+		turnOverFinder.add(new ReportDodgeRoll(actingPlayer, false, 2, 3, true, new RollModifier[0], null));
 		turnOverFinder.add(new ReportInjury(actingPlayer, null, false, null, null, null, null, null, null, null, null, null, null, null, null, null, null));
 		turnOverFinder.add(new ReportTurnEnd(null, null, null, new ArrayList<>(), 0));
 		Optional<TurnOver> turnOverOpt = turnOverFinder.findTurnover();
@@ -113,9 +113,9 @@ public class TurnOverFinderDodgeTest extends AbstractTurnOverFinderTest {
 	@Test
 	public void failedDodgeWithLeaderReRoll() {
 		turnOverFinder.add(new ReportPlayerAction(actingPlayer, PlayerAction.MOVE));
-		turnOverFinder.add(new ReportDodgeRoll(actingPlayer, false, 2, 3, false, new RollModifier[0]));
+		turnOverFinder.add(new ReportDodgeRoll(actingPlayer, false, 2, 3, false, new RollModifier[0], null));
 		turnOverFinder.add(new ReportReRoll(actingPlayer, ReRollSources.LEADER, true, 6));
-		turnOverFinder.add(new ReportDodgeRoll(actingPlayer, false, 2, 3, true, new RollModifier[0]));
+		turnOverFinder.add(new ReportDodgeRoll(actingPlayer, false, 2, 3, true, new RollModifier[0], null));
 		turnOverFinder.add(new ReportInjury(actingPlayer, null, false, null, null, null, null, null, null, null, null, null, null, null, null, null, null));
 		turnOverFinder.add(new ReportTurnEnd(null, null, null, new ArrayList<>(), 0));
 		Optional<TurnOver> turnOverOpt = turnOverFinder.findTurnover();
@@ -131,9 +131,9 @@ public class TurnOverFinderDodgeTest extends AbstractTurnOverFinderTest {
 	@Test
 	public void failedDodgeWithSkillReRoll() {
 		turnOverFinder.add(new ReportPlayerAction(actingPlayer, PlayerAction.MOVE));
-		turnOverFinder.add(new ReportDodgeRoll(actingPlayer, false, 2, 3, false, new RollModifier[0]));
+		turnOverFinder.add(new ReportDodgeRoll(actingPlayer, false, 2, 3, false, new RollModifier[0], null));
 		turnOverFinder.add(new ReportReRoll(actingPlayer, ReRollSources.DODGE, true, 6));
-		turnOverFinder.add(new ReportDodgeRoll(actingPlayer, false, 2, 3, true, new RollModifier[0]));
+		turnOverFinder.add(new ReportDodgeRoll(actingPlayer, false, 2, 3, true, new RollModifier[0], null));
 		turnOverFinder.add(new ReportInjury(actingPlayer, null, false, null, null, null, null, null, null, null, null, null, null, null, null, null, null));
 		turnOverFinder.add(new ReportTurnEnd(null, null, null, new ArrayList<>(), 0));
 		Optional<TurnOver> turnOverOpt = turnOverFinder.findTurnover();
@@ -149,8 +149,8 @@ public class TurnOverFinderDodgeTest extends AbstractTurnOverFinderTest {
 	@Test
 	public void failedDodgeAgainstDT() {
 		turnOverFinder.add(new ReportPlayerAction(actingPlayer, PlayerAction.MOVE));
-		turnOverFinder.add(new ReportDodgeRoll(actingPlayer, false, 4, 3, false, new RollModifier[0]));
-		turnOverFinder.add(new ReportDodgeRoll(actingPlayer, false, 0, 5, false, new RollModifier[0]));
+		turnOverFinder.add(new ReportDodgeRoll(actingPlayer, false, 4, 3, false, new RollModifier[0], null));
+		turnOverFinder.add(new ReportDodgeRoll(actingPlayer, false, 0, 5, false, new RollModifier[0], null));
 		turnOverFinder.add(new ReportInjury(actingPlayer, null, false, null, null, null, null, null, null, null, null, null, null, null, null, null, null));
 		turnOverFinder.add(new ReportTurnEnd(null, null, null, new ArrayList<>(), 0));
 		Optional<TurnOver> turnOverOpt = turnOverFinder.findTurnover();
@@ -166,10 +166,10 @@ public class TurnOverFinderDodgeTest extends AbstractTurnOverFinderTest {
 	@Test
 	public void failedDodgeAgainstDTWithTeamReRoll() {
 		turnOverFinder.add(new ReportPlayerAction(actingPlayer, PlayerAction.MOVE));
-		turnOverFinder.add(new ReportDodgeRoll(actingPlayer, false, 2, 3, false, new RollModifier[0]));
+		turnOverFinder.add(new ReportDodgeRoll(actingPlayer, false, 2, 3, false, new RollModifier[0], null));
 		turnOverFinder.add(new ReportReRoll(actingPlayer, ReRollSources.TEAM_RE_ROLL, true, 6));
-		turnOverFinder.add(new ReportDodgeRoll(actingPlayer, false, 4, 3, true, new RollModifier[0]));
-		turnOverFinder.add(new ReportDodgeRoll(actingPlayer, false, 0, 5, false, new RollModifier[0]));
+		turnOverFinder.add(new ReportDodgeRoll(actingPlayer, false, 4, 3, true, new RollModifier[0], null));
+		turnOverFinder.add(new ReportDodgeRoll(actingPlayer, false, 0, 5, false, new RollModifier[0], null));
 		turnOverFinder.add(new ReportInjury(actingPlayer, null, false, null, null, null, null, null, null, null, null, null, null, null, null, null, null));
 		turnOverFinder.add(new ReportTurnEnd(null, null, null, new ArrayList<>(), 0));
 		Optional<TurnOver> turnOverOpt = turnOverFinder.findTurnover();
@@ -185,10 +185,10 @@ public class TurnOverFinderDodgeTest extends AbstractTurnOverFinderTest {
 	@Test
 	public void failedDodgeAgainstDTWithLeaderReRoll() {
 		turnOverFinder.add(new ReportPlayerAction(actingPlayer, PlayerAction.MOVE));
-		turnOverFinder.add(new ReportDodgeRoll(actingPlayer, false, 2, 3, false, new RollModifier[0]));
+		turnOverFinder.add(new ReportDodgeRoll(actingPlayer, false, 2, 3, false, new RollModifier[0], null));
 		turnOverFinder.add(new ReportReRoll(actingPlayer, ReRollSources.LEADER, true, 6));
-		turnOverFinder.add(new ReportDodgeRoll(actingPlayer, false, 4, 3, true, new RollModifier[0]));
-		turnOverFinder.add(new ReportDodgeRoll(actingPlayer, false, 0, 5, false, new RollModifier[0]));
+		turnOverFinder.add(new ReportDodgeRoll(actingPlayer, false, 4, 3, true, new RollModifier[0], null));
+		turnOverFinder.add(new ReportDodgeRoll(actingPlayer, false, 0, 5, false, new RollModifier[0], null));
 		turnOverFinder.add(new ReportInjury(actingPlayer, null, false, null, null, null, null, null, null, null, null, null, null, null, null, null, null));
 		turnOverFinder.add(new ReportTurnEnd(null, null, null, new ArrayList<>(), 0));
 		Optional<TurnOver> turnOverOpt = turnOverFinder.findTurnover();
@@ -205,10 +205,10 @@ public class TurnOverFinderDodgeTest extends AbstractTurnOverFinderTest {
 	@Test
 	public void failedDodgeAgainstDTWithProReRoll() {
 		turnOverFinder.add(new ReportPlayerAction(actingPlayer, PlayerAction.MOVE));
-		turnOverFinder.add(new ReportDodgeRoll(actingPlayer, false, 2, 3, false, new RollModifier[0]));
+		turnOverFinder.add(new ReportDodgeRoll(actingPlayer, false, 2, 3, false, new RollModifier[0], null));
 		turnOverFinder.add(new ReportReRoll(actingPlayer, ReRollSources.PRO, true, 6));
-		turnOverFinder.add(new ReportDodgeRoll(actingPlayer, false, 4, 3, true, new RollModifier[0]));
-		turnOverFinder.add(new ReportDodgeRoll(actingPlayer, false, 0, 5, false, new RollModifier[0]));
+		turnOverFinder.add(new ReportDodgeRoll(actingPlayer, false, 4, 3, true, new RollModifier[0], null));
+		turnOverFinder.add(new ReportDodgeRoll(actingPlayer, false, 0, 5, false, new RollModifier[0], null));
 		turnOverFinder.add(new ReportInjury(actingPlayer, null, false, null, null, null, null, null, null, null, null, null, null, null, null, null, null));
 		turnOverFinder.add(new ReportTurnEnd(null, null, null, new ArrayList<>(), 0));
 		Optional<TurnOver> turnOverOpt = turnOverFinder.findTurnover();
@@ -224,10 +224,10 @@ public class TurnOverFinderDodgeTest extends AbstractTurnOverFinderTest {
 	@Test
 	public void failedDodgeAgainstDTWithSkillReRoll() {
 		turnOverFinder.add(new ReportPlayerAction(actingPlayer, PlayerAction.MOVE));
-		turnOverFinder.add(new ReportDodgeRoll(actingPlayer, false, 2, 3, false, new RollModifier[0]));
+		turnOverFinder.add(new ReportDodgeRoll(actingPlayer, false, 2, 3, false, new RollModifier[0], null));
 		turnOverFinder.add(new ReportReRoll(actingPlayer, ReRollSources.DODGE, true, 6));
-		turnOverFinder.add(new ReportDodgeRoll(actingPlayer, false, 4, 3, true, new RollModifier[0]));
-		turnOverFinder.add(new ReportDodgeRoll(actingPlayer, false, 0, 5, false, new RollModifier[0]));
+		turnOverFinder.add(new ReportDodgeRoll(actingPlayer, false, 4, 3, true, new RollModifier[0], null));
+		turnOverFinder.add(new ReportDodgeRoll(actingPlayer, false, 0, 5, false, new RollModifier[0], null));
 		turnOverFinder.add(new ReportInjury(actingPlayer, null, false, null, null, null, null, null, null, null, null, null, null, null, null, null, null));
 		turnOverFinder.add(new ReportTurnEnd(null, null, null, new ArrayList<>(), 0));
 		Optional<TurnOver> turnOverOpt = turnOverFinder.findTurnover();
@@ -243,7 +243,7 @@ public class TurnOverFinderDodgeTest extends AbstractTurnOverFinderTest {
 	@Test
 	public void successDodge() {
 		turnOverFinder.add(new ReportPlayerAction(actingPlayer, PlayerAction.MOVE));
-		turnOverFinder.add(new ReportDodgeRoll(actingPlayer, true, 4, 3, false, new RollModifier[0]));
+		turnOverFinder.add(new ReportDodgeRoll(actingPlayer, true, 4, 3, false, new RollModifier[0], null));
 		turnOverFinder.add(new ReportTurnEnd(null, null, null, new ArrayList<>(), 0));
 		Optional<TurnOver> turnOverOpt = turnOverFinder.findTurnover();
 		assertFalse("Successful dodge is not a turnover", turnOverOpt.isPresent());

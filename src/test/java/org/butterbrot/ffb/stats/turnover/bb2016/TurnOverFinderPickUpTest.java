@@ -6,7 +6,7 @@ import com.fumbbl.ffb.modifiers.CatchModifier;
 import com.fumbbl.ffb.modifiers.RollModifier;
 import com.fumbbl.ffb.report.ReportCatchRoll;
 import com.fumbbl.ffb.report.ReportId;
-import com.fumbbl.ffb.report.ReportPickupRoll;
+import com.fumbbl.ffb.report.mixed.ReportPickupRoll;
 import com.fumbbl.ffb.report.ReportPlayerAction;
 import com.fumbbl.ffb.report.ReportReRoll;
 import com.fumbbl.ffb.report.ReportScatterBall;

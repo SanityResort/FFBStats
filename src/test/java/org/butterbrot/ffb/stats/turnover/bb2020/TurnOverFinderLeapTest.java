@@ -10,8 +10,8 @@ import com.fumbbl.ffb.report.ReportJumpRoll;
 import com.fumbbl.ffb.report.ReportPlayerAction;
 import com.fumbbl.ffb.report.ReportReRoll;
 import com.fumbbl.ffb.report.ReportScatterBall;
-import com.fumbbl.ffb.report.bb2020.ReportInjury;
-import com.fumbbl.ffb.report.bb2020.ReportTurnEnd;
+import com.fumbbl.ffb.report.mixed.ReportInjury;
+import com.fumbbl.ffb.report.mixed.ReportTurnEnd;
 import org.butterbrot.ffb.stats.model.TurnOver;
 import org.junit.Test;
 

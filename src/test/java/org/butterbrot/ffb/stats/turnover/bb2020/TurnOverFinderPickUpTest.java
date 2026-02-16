@@ -6,11 +6,11 @@ import com.fumbbl.ffb.modifiers.CatchModifier;
 import com.fumbbl.ffb.modifiers.RollModifier;
 import com.fumbbl.ffb.report.ReportCatchRoll;
 import com.fumbbl.ffb.report.ReportId;
-import com.fumbbl.ffb.report.ReportPickupRoll;
+import com.fumbbl.ffb.report.mixed.ReportPickupRoll;
 import com.fumbbl.ffb.report.ReportPlayerAction;
 import com.fumbbl.ffb.report.ReportReRoll;
 import com.fumbbl.ffb.report.ReportScatterBall;
-import com.fumbbl.ffb.report.bb2020.ReportTurnEnd;
+import com.fumbbl.ffb.report.mixed.ReportTurnEnd;
 import org.butterbrot.ffb.stats.model.TurnOver;
 import org.junit.Test;
 

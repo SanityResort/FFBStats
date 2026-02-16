@@ -6,7 +6,7 @@ import com.fumbbl.ffb.report.ReportBlockRoll;
 import com.fumbbl.ffb.report.ReportId;
 import com.fumbbl.ffb.report.ReportPlayerAction;
 import com.fumbbl.ffb.report.ReportReRoll;
-import com.fumbbl.ffb.report.bb2020.ReportInjury;
+import com.fumbbl.ffb.report.mixed.ReportInjury;
 import org.butterbrot.ffb.stats.model.TurnOver;
 import org.junit.Test;
 
