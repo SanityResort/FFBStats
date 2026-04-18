@@ -107,7 +107,7 @@
         <dependency>
             <groupId>com.fumbbl.ffb</groupId>
             <artifactId>ffb-client-logic</artifactId>
-            <version>3.0.1</version>
+            <version>3.2.3</version>
         </dependency>
         <dependency>
             <groupId>io.github.classgraph</groupId>
