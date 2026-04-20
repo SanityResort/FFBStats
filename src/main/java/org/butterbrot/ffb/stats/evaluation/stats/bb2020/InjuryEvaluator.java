@@ -4,7 +4,7 @@ import com.fumbbl.ffb.SendToBoxReason;
 import com.fumbbl.ffb.report.IReport;
 import com.fumbbl.ffb.report.mixed.ReportInjury;
 import com.fumbbl.ffb.util.ArrayTool;
-import org.butterbrot.ffb.stats.adapter.bb2020.ReportPoInjury;
+import org.butterbrot.ffb.stats.adapter.mixed.ReportPoInjury;
 import org.butterbrot.ffb.stats.evaluation.stats.Evaluator;
 import org.butterbrot.ffb.stats.evaluation.stats.StatsState;
 import org.butterbrot.ffb.stats.model.StatsCollection;

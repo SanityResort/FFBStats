@@ -45,7 +45,7 @@ public class StatsCollection implements Data {
 	private final transient Map<String, TeamStatsCollection> teams = new HashMap<>();
 	private transient Drive currentDrive;
 	private transient Game game;
-	private transient PlayerActionMapping playerActionMapping;
+	private final transient PlayerActionMapping playerActionMapping;
 
 	public StatsCollection(PlayerActionMapping playerActionMapping) {
 		this.playerActionMapping = playerActionMapping;
@@ -61,18 +61,18 @@ public class StatsCollection implements Data {
 
 	public void setHomeTeam(Team team) {
 		home = new TeamStatsCollection(team.getName(), team.getCoach(), team.getRace());
-		teams.put(team.getId(), home);
-		for (Player player : team.getPlayers()) {
-			teams.put(player.getId(), home);
-			armourValues.put(player.getId(), player.getArmourWithModifiers());
-		}
+		addTeam(team, home);
 	}
 
 	public void setAwayTeam(Team team) {
 		away = new TeamStatsCollection(team.getName(), team.getCoach(), team.getRace());
-		teams.put(team.getId(), away);
-		for (Player player : team.getPlayers()) {
-			teams.put(player.getId(), away);
+		addTeam(team, away);
+	}
+
+	private void addTeam(Team team, TeamStatsCollection col) {
+		teams.put(team.getId(), col);
+		for (Player<?> player : team.getPlayers()) {
+			teams.put(player.getId(), col);
 			armourValues.put(player.getId(), player.getArmourWithModifiers());
 		}
 	}
@@ -321,7 +321,7 @@ public class StatsCollection implements Data {
 		}
 	}
 
-	private boolean haveProperty(List<ArmorModifier> armorModifiers, ISkillProperty property) {
+	private boolean haveProperty(List<ArmorModifier> armorModifiers, @SuppressWarnings("SameParameterValue") ISkillProperty property) {
 		return armorModifiers.stream().anyMatch(armorModifier -> hasProperty(armorModifier, property));
 	}
 
@@ -428,6 +428,7 @@ public class StatsCollection implements Data {
 		return 6;
 	}
 
+	@SuppressWarnings("MismatchedQueryAndUpdateOfCollection")
 	private static final class Drive implements Data {
 		private final List<Turn> turns = new ArrayList<>();
 		private final String kickOff;
@@ -501,6 +502,7 @@ public class StatsCollection implements Data {
 		}
 	}
 
+	@SuppressWarnings("MismatchedQueryAndUpdateOfCollection")
 	private static class Half implements Data {
 		private final List<Drive> drives = new ArrayList<>();
 		private final List<Integer> chefRolls = new ArrayList<>();

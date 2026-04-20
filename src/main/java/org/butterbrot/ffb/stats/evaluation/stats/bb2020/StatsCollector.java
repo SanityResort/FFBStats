@@ -10,7 +10,7 @@ import com.fumbbl.ffb.report.ReportList;
 import com.fumbbl.ffb.report.ReportStartHalf;
 import org.butterbrot.ffb.stats.adapter.ExposingInjuryReport;
 import org.butterbrot.ffb.stats.adapter.bb2020.PlayerActionMapping;
-import org.butterbrot.ffb.stats.adapter.bb2020.ReportPoInjury;
+import org.butterbrot.ffb.stats.adapter.mixed.ReportPoInjury;
 import org.butterbrot.ffb.stats.evaluation.stats.Evaluator;
 import org.butterbrot.ffb.stats.evaluation.stats.StatsState;
 import org.butterbrot.ffb.stats.evaluation.turnover.TurnOverFinder;
