@@ -8,10 +8,10 @@ import org.butterbrot.ffb.stats.model.StatsCollection;
 
 public class WizardUseEvaluator extends Evaluator<ReportWizardUse> {
 
-    private final StatsState state;
+    private final StatsState<?> state;
     private final StatsCollection collection;
 
-    public WizardUseEvaluator(StatsState state, StatsCollection collection) {
+    public WizardUseEvaluator(StatsState<?> state, StatsCollection collection) {
         this.state = state;
         this.collection = collection;
     }

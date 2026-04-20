@@ -8,10 +8,10 @@ import org.butterbrot.ffb.stats.model.StatsCollection;
 
 public class TimeoutEnforcedEvaluator extends Evaluator<ReportTimeoutEnforced> {
 
-    private final StatsState state;
+    private final StatsState<?> state;
     private final StatsCollection collection;
 
-    public TimeoutEnforcedEvaluator(StatsCollection collection, StatsState state) {
+    public TimeoutEnforcedEvaluator(StatsCollection collection, StatsState<?> state) {
         this.collection = collection;
         this.state = state;
     }
