@@ -27,7 +27,7 @@ public class StartHalfEvaluator extends Evaluator<ReportStartHalf> {
         if (state.getChefRoll() != null) {
             ReportMasterChefRoll chef = state.getChefRoll();
             for (int roll : chef.getMasterChefRoll()) {
-                collection.addChefRoll(roll, chef.getTeamId(), 4);
+                collection.addChefRoll(roll);
             }
         }
 

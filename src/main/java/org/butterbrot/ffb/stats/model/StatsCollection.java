@@ -114,12 +114,18 @@ public class StatsCollection implements Data {
 			} else if (dieStat instanceof DoubleDiceStat) {
 				teamStatsCollection.add((DoubleDiceStat) dieStat);
 			} else {
-				logger.warn("Unhandled dieStat subclass: " + dieStat.getClass().getCanonicalName());
+				logger.warn("Unhandled dieStat subclass: {}", dieStat.getClass().getCanonicalName());
 			}
 
 		});
 	}
 
+	// We have some unused methods here, the team collection fields that would be called from here are also called from addStats
+	// bypassing this layer as it was more convenient. But the remove methods are used via this class.
+
+	// So far I decided to keep these unused methods around in case we need to refactor things at one point as they do not add
+	// an excessive amount of clutter
+	@SuppressWarnings("unused")
 	public void addSuccessRoll(String playerOrTeam, ReportId reportId, int minimumRoll) {
 		teams.get(playerOrTeam).addSuccessRoll(reportId, minimumRoll);
 		turnTeam(teams.get(playerOrTeam)).addSuccessRoll(reportId, minimumRoll);
@@ -135,6 +141,7 @@ public class StatsCollection implements Data {
 		turnTeam(teams.get(playerOrTeam)).addFailedRoll(reportId, minimumRoll);
 	}
 
+	@SuppressWarnings("unused")
 	public void addOpposingSuccessRoll(String playerOrTeam, ReportId reportId, int minimumRoll) {
 		TeamStatsCollection team = teams.get(playerOrTeam);
 		getOpposition(team).addSuccessRoll(reportId, minimumRoll);
@@ -146,20 +153,23 @@ public class StatsCollection implements Data {
 		turnTeam(teams.get(playerOrTeam)).addSingleRoll(roll);
 	}
 
+	@SuppressWarnings("unused")
 	public void addSingleRollWithoutDrive(int roll, String playerOrTeam) {
 		teams.get(playerOrTeam).addSingleRoll(roll);
 	}
 
-	public void addChefRoll(int roll, String playerOrTeam, int minimumRoll) {
+	public void addChefRoll(int roll) {
 		currentHalf.chefRolls.add(roll);
 	}
 
+	@SuppressWarnings("unused")
 	public void addSingleOpposingRoll(int roll, String playerOrTeam) {
 		TeamStatsCollection team = teams.get(playerOrTeam);
 		getOpposition(team).addSingleRoll(roll);
 		turnTeam(getOpposition(team)).addSingleRoll(roll);
 	}
 
+	@SuppressWarnings("unused")
 	public void addDoubleOpposingRoll(int[] rolls, String playerOrTeam) {
 		TeamStatsCollection team = teams.get(playerOrTeam);
 		getOpposition(team).addDoubleRoll(rolls);
@@ -342,18 +352,21 @@ public class StatsCollection implements Data {
 		turnTeam(team).addApoUse();
 	}
 
+	@SuppressWarnings("unused")
 	public void addBloodLust(String playerId) {
 		TeamStatsCollection team = teams.get(playerId);
 		team.addBloodLust();
 		turnTeam(team).addBloodLust();
 	}
 
+	@SuppressWarnings("unused")
 	public void addConfusion(String playerId) {
 		TeamStatsCollection team = teams.get(playerId);
 		team.addConfusion();
 		turnTeam(team).addConfusion();
 	}
 
+	@SuppressWarnings("unused")
 	public void addHypnoticGaze(String playerId) {
 		TeamStatsCollection team = teams.get(playerId);
 		team.addHypnoticGaze();
@@ -372,6 +385,7 @@ public class StatsCollection implements Data {
 		turnTeam(team).addScatter();
 	}
 
+	@SuppressWarnings("unused")
 	public void addTakeRoot(String playerId) {
 		TeamStatsCollection team = teams.get(playerId);
 		team.addTakeRoot();
@@ -390,6 +404,7 @@ public class StatsCollection implements Data {
 		turnTeam(team).addTouchdown();
 	}
 
+	@SuppressWarnings("unused")
 	public void addWildAnimal(String playerId) {
 		TeamStatsCollection team = teams.get(playerId);
 		team.addWildAnimal();
@@ -424,11 +439,7 @@ public class StatsCollection implements Data {
 		return weather;
 	}
 
-	public int getVersion() {
-		return 6;
-	}
-
-	@SuppressWarnings("MismatchedQueryAndUpdateOfCollection")
+	@SuppressWarnings({"MismatchedQueryAndUpdateOfCollection", "FieldCanBeLocal", "unused"})
 	private static final class Drive implements Data {
 		private final List<Turn> turns = new ArrayList<>();
 		private final String kickOff;
@@ -487,18 +498,6 @@ public class StatsCollection implements Data {
 				return driveHome;
 			}
 			return driveAway;
-		}
-
-		public String getKickOff() {
-			return kickOff;
-		}
-
-		public int[] getKickOffRollsHome() {
-			return kickOffRollsHome;
-		}
-
-		public int[] getKickOffRollsAway() {
-			return kickOffRollsAway;
 		}
 	}
 
