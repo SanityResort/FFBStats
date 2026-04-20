@@ -1,12 +1,7 @@
 package org.butterbrot.ffb.stats.adapter.bb2020;
 
-import com.fumbbl.ffb.PlayerState;
-import com.fumbbl.ffb.SeriousInjury;
-import com.fumbbl.ffb.injury.InjuryType;
-import com.fumbbl.ffb.modifiers.bb2020.CasualtyModifier;
 import com.fumbbl.ffb.report.ReportPilingOn;
 import com.fumbbl.ffb.report.mixed.ReportInjury;
-import com.fumbbl.ffb.report.logcontrol.SkipInjuryParts;
 import org.butterbrot.ffb.stats.adapter.ExposingInjuryReport;
 
 public class ReportPoInjury extends ReportInjury implements ExposingInjuryReport {

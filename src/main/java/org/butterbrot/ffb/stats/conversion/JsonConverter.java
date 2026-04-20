@@ -20,7 +20,10 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import static org.butterbrot.ffb.stats.Constants.*;
+import static org.butterbrot.ffb.stats.Constants.FIELD_COMMAND_ARRAY;
+import static org.butterbrot.ffb.stats.Constants.FIELD_GAME;
+import static org.butterbrot.ffb.stats.Constants.FIELD_GAME_LOG;
+import static org.butterbrot.ffb.stats.Constants.FIELD_NET_COMMAND_ID;
 
 @Service
 public class JsonConverter {
