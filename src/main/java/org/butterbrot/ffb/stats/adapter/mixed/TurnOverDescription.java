@@ -1,4 +1,4 @@
-package org.butterbrot.ffb.stats.adapter.bb2020;
+package org.butterbrot.ffb.stats.adapter.mixed;
 
 import com.fumbbl.ffb.report.ReportId;
 

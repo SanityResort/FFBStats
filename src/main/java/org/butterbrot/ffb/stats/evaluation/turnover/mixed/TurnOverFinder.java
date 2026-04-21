@@ -1,4 +1,4 @@
-package org.butterbrot.ffb.stats.evaluation.turnover.bb2020;
+package org.butterbrot.ffb.stats.evaluation.turnover.mixed;
 
 import com.fumbbl.ffb.mechanics.PassResult;
 import com.fumbbl.ffb.report.IReport;
@@ -16,7 +16,7 @@ import com.fumbbl.ffb.report.mixed.ReportPassRoll;
 import com.fumbbl.ffb.report.mixed.ReportReferee;
 import com.fumbbl.ffb.report.mixed.ReportThrownKeg;
 import com.fumbbl.ffb.report.mixed.ReportTurnEnd;
-import org.butterbrot.ffb.stats.adapter.bb2020.TurnOverDescription;
+import org.butterbrot.ffb.stats.adapter.mixed.TurnOverDescription;
 import org.butterbrot.ffb.stats.evaluation.turnover.TurnOverState;
 import org.butterbrot.ffb.stats.model.TurnOver;
 
@@ -31,6 +31,7 @@ public class TurnOverFinder extends org.butterbrot.ffb.stats.evaluation.turnover
 
 		TurnOverState state = new TurnOverState();
 
+		ReportSkillRoll reportSkillRoll = state.getReportSkillRoll();
 		for (IReport report : getReports()) {
 			if (report instanceof ReportReRoll) {
 				state.setReportReRoll((ReportReRoll) report);
@@ -60,14 +61,14 @@ public class TurnOverFinder extends org.butterbrot.ffb.stats.evaluation.turnover
 						state.setSuccessfulPass(true);
 					} else if (ReportId.CATCH_ROLL == report.getId()) {
 						if (getHomePlayers().contains(skillRoll.getPlayerId()) == getHomePlayers().contains(getActivePlayer())) {
-							if (state.getReportSkillRoll() == null ||
-								!(state.getReportSkillRoll().getId() == ReportId.PASS_ROLL &&
-									((ReportPassRoll) state.getReportSkillRoll()).getResult() == PassResult.FUMBLE ||
-									state.getReportSkillRoll().getId() == ReportId.PICK_UP_ROLL)) {
+							if (reportSkillRoll == null ||
+								!(reportSkillRoll.getId() == ReportId.PASS_ROLL &&
+									((ReportPassRoll) reportSkillRoll).getResult() == PassResult.FUMBLE ||
+									reportSkillRoll.getId() == ReportId.PICK_UP_ROLL)) {
 								state.setReportSkillRoll(null);
 								state.setReportReRoll(null);
 							}
-						} else if (state.getReportSkillRoll() == null && !state.isSuccessfulPass()) {
+						} else if (reportSkillRoll == null && !state.isSuccessfulPass()) {
 							return Optional.of(new TurnOver(turnOverDescription.get(ReportId.HAND_OVER),
 								0, state.getReportReRoll(),
 								getActivePlayer()));
@@ -86,20 +87,19 @@ public class TurnOverFinder extends org.butterbrot.ffb.stats.evaluation.turnover
 						if (!(ReportId.PASS_ROLL == report.getId()
 							&& ((getHomePlayers().contains(skillRoll.getPlayerId()) != getHomePlayers().contains(getActivePlayer())))
 							|| (report instanceof ReportPassRoll && ((ReportPassRoll) report).getResult() == PassResult.SAVED_FUMBLE))
-							&& !state.isBallScattered() && !(state.getReportSkillRoll() != null && state.getReportSkillRoll().getId() == ReportId.INTERCEPTION_ROLL)) {
+							&& !state.isBallScattered() && !(reportSkillRoll != null && reportSkillRoll.getId() == ReportId.INTERCEPTION_ROLL)) {
 							state.setReportSkillRoll(skillRoll);
 						}
 					}
 				}
 			} else if (report instanceof ReportInjury) {
 				ReportInjury injury = (ReportInjury) report;
-				 if (state.getReportSkillRoll() != null && ReportId.RIGHT_STUFF_ROLL == state
-					.getReportSkillRoll().getId()) {
-					if (injury.getDefenderId().equals(state.getReportSkillRoll().getPlayerId())) {
+				 if (reportSkillRoll != null && ReportId.RIGHT_STUFF_ROLL == reportSkillRoll.getId()) {
+					if (injury.getDefenderId().equals(reportSkillRoll.getPlayerId())) {
 						state.setLandingFailed(true);
 					} else {
 						return Optional.of(new TurnOver(turnOverDescription.get(ReportId.RIGHT_STUFF_ROLL), 0,
-							state.getReportReRoll(), state.getReportSkillRoll().getPlayerId()));
+							state.getReportReRoll(), reportSkillRoll.getPlayerId()));
 					}
 				} else if (getHomePlayers().contains(injury.getDefenderId()) == getHomePlayers().contains(getActivePlayer())) {
 					if (state.getReportBlockRoll() != null) {
@@ -111,10 +111,9 @@ public class TurnOverFinder extends org.butterbrot.ffb.stats.evaluation.turnover
 				state.setReportBlockRoll((ReportBlockRoll) report);
 				state.setReportSkillRoll(null);
 			} else if (report instanceof ReportScatterBall) {
-				if (state.isLandingFailed()) {
-					return Optional.of(new TurnOver(turnOverDescription.get(state.getReportSkillRoll().getId()),
-						state.getReportSkillRoll().getMinimumRoll(), state.getReportReRoll(), state
-						.getReportSkillRoll().getPlayerId()));
+				if (state.isLandingFailed() & reportSkillRoll != null) {
+					return Optional.of(new TurnOver(turnOverDescription.get(reportSkillRoll.getId()),
+						reportSkillRoll.getMinimumRoll(), state.getReportReRoll(), reportSkillRoll.getPlayerId()));
 				}
 				state.setBallScattered(true);
 			} else if (report instanceof ReportReferee) {
@@ -139,21 +138,20 @@ public class TurnOverFinder extends org.butterbrot.ffb.stats.evaluation.turnover
 				getActivePlayer()));
 		}
 
-		if (state.getReportSkillRoll() != null) {
-			if (ReportId.INTERCEPTION_ROLL == state.getReportSkillRoll().getId()) {
-				return Optional.of(new TurnOver(turnOverDescription.get(state.getReportSkillRoll().getId()),
-					state.getReportSkillRoll().getMinimumRoll(), state.getReportReRoll(), getActivePlayer()));
-			} else if (ReportId.RIGHT_STUFF_ROLL == state.getReportSkillRoll().getId()) {
+		if (reportSkillRoll != null) {
+			if (ReportId.INTERCEPTION_ROLL == reportSkillRoll.getId()) {
+				return Optional.of(new TurnOver(turnOverDescription.get(reportSkillRoll.getId()),
+					reportSkillRoll.getMinimumRoll(), state.getReportReRoll(), getActivePlayer()));
+			} else if (ReportId.RIGHT_STUFF_ROLL == reportSkillRoll.getId()) {
 				if (state.isBallScattered()) {
-					return Optional.of(new TurnOver(turnOverDescription.get(state.getReportSkillRoll().getId()),
-						state.getReportSkillRoll().getMinimumRoll(), state.getReportReRoll(), state
-						.getReportSkillRoll().getPlayerId()));
+					return Optional.of(new TurnOver(turnOverDescription.get(reportSkillRoll.getId()),
+						reportSkillRoll.getMinimumRoll(), state.getReportReRoll(), reportSkillRoll.getPlayerId()));
 				} else {
 					return Optional.empty();
 				}
 			} else {
-				return Optional.of(new TurnOver(turnOverDescription.get(state.getReportSkillRoll().getId()),
-					state.getReportSkillRoll().getMinimumRoll(), state.getReportReRoll(), state.getReportSkillRoll()
+				return Optional.of(new TurnOver(turnOverDescription.get(reportSkillRoll.getId()),
+					reportSkillRoll.getMinimumRoll(), state.getReportReRoll(), reportSkillRoll
 					.getPlayerId()));
 			}
 		}

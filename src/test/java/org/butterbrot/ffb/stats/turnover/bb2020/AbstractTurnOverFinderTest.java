@@ -2,8 +2,8 @@ package org.butterbrot.ffb.stats.turnover.bb2020;
 
 import com.fumbbl.ffb.mechanics.PassResult;
 import com.fumbbl.ffb.report.mixed.ReportPassRoll;
-import org.butterbrot.ffb.stats.adapter.bb2020.TurnOverDescription;
-import org.butterbrot.ffb.stats.evaluation.turnover.bb2020.TurnOverFinder;
+import org.butterbrot.ffb.stats.adapter.mixed.TurnOverDescription;
+import org.butterbrot.ffb.stats.evaluation.turnover.mixed.TurnOverFinder;
 import org.junit.Before;
 
 import java.util.Set;

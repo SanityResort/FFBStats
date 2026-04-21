@@ -1,4 +1,4 @@
-package org.butterbrot.ffb.stats.evaluation.stats.bb2020;
+package org.butterbrot.ffb.stats.evaluation.stats.mixed;
 
 import com.fumbbl.ffb.HeatExhaustion;
 import com.fumbbl.ffb.KnockoutRecovery;

@@ -1,4 +1,4 @@
-package org.butterbrot.ffb.stats.evaluation.stats.bb2020;
+package org.butterbrot.ffb.stats.evaluation.stats.mixed;
 
 import org.butterbrot.ffb.stats.adapter.mixed.ReportPoInjury;
 

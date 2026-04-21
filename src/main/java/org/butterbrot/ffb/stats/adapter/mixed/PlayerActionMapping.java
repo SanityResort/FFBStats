@@ -1,4 +1,4 @@
-package org.butterbrot.ffb.stats.adapter.bb2016;
+package org.butterbrot.ffb.stats.adapter.mixed;
 
 import com.fumbbl.ffb.PlayerAction;
 import com.google.common.collect.Sets;
