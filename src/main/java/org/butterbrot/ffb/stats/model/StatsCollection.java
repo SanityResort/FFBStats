@@ -417,7 +417,7 @@ public class StatsCollection implements Data {
 		turnTeam(team).addWizardUse();
 	}
 
-	public void addPlayerActon(PlayerAction action, String playerId) {
+	public void addPlayerAction(PlayerAction action, String playerId) {
 		PlayerAction mappedAction = playerActionMapping.get(action);
 		TeamStatsCollection team = teams.get(playerId);
 		team.addPlayerAction(mappedAction, playerId);

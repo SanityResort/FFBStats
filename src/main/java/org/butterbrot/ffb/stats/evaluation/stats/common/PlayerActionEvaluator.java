@@ -32,7 +32,7 @@ public class PlayerActionEvaluator extends Evaluator<ReportPlayerAction> {
         turnOverFinder.reset();
         turnOverFinder.add(action);
         turnOverFinder.setActivePlayer(action.getActingPlayerId());
-        collection.addPlayerActon(action.getPlayerAction(), action.getActingPlayerId());
+        collection.addPlayerAction(action.getPlayerAction(), action.getActingPlayerId());
 
     }
 }
