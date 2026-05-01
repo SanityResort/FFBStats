@@ -5,7 +5,7 @@ import com.fumbbl.ffb.model.Game;
 import com.fumbbl.ffb.net.NetCommandFactory;
 import com.fumbbl.ffb.net.NetCommandId;
 import com.fumbbl.ffb.net.commands.ServerCommand;
-import com.fumbbl.ffb.option.GameOptionId;
+import com.fumbbl.ffb.RulesCollection;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -55,8 +55,11 @@ public class JsonConverter {
         }
 
         StatsCollector<? extends ExposingInjuryReport> collector;
-        if (game.getOptions().getOptionWithDefault(GameOptionId.RULESVERSION).getValueAsString().equalsIgnoreCase("bb2016")) {
+        RulesCollection.Rules rulesVersion = game.getOptions().getRulesVersion();
+        if (rulesVersion == RulesCollection.Rules.BB2016) {
             collector = new org.butterbrot.ffb.stats.evaluation.stats.bb2016.StatsCollector(replayCommands);
+        } else if (rulesVersion == RulesCollection.Rules.BB2025) {
+            collector = new org.butterbrot.ffb.stats.evaluation.stats.bb2025.StatsCollector(replayCommands);
         } else {
             collector = new org.butterbrot.ffb.stats.evaluation.stats.bb2020.StatsCollector(replayCommands);
         }
