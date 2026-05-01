@@ -1,4 +1,4 @@
-package org.butterbrot.ffb.stats.evaluation.stats.bb2020;
+package org.butterbrot.ffb.stats.evaluation.stats.bb2025;
 
 import com.fumbbl.ffb.net.commands.ServerCommand;
 import com.fumbbl.ffb.report.ReportStartHalf;
@@ -11,6 +11,7 @@ import org.butterbrot.ffb.stats.evaluation.stats.mixed.ApothecaryRollEvaluator;
 import org.butterbrot.ffb.stats.evaluation.stats.mixed.KickoffExtraReRollEvaluator;
 import org.butterbrot.ffb.stats.evaluation.stats.mixed.StartHalfEvaluator;
 import org.butterbrot.ffb.stats.evaluation.stats.mixed.TurnEndEvaluator;
+import org.butterbrot.ffb.stats.evaluation.stats.bb2020.KickoffOfficiousRefEvaluator;
 import org.butterbrot.ffb.stats.evaluation.turnover.TurnOverFinder;
 import org.butterbrot.ffb.stats.model.StatsCollection;
 import org.slf4j.Logger;
@@ -22,6 +23,7 @@ import java.util.List;
 public class StatsCollector extends org.butterbrot.ffb.stats.evaluation.stats.StatsCollector<ReportPoInjury> {
 
     private static final Logger logger = LoggerFactory.getLogger(StatsCollector.class);
+
     @SuppressWarnings("unused")
     public StatsCollector() {
         this(new ArrayList<>());
