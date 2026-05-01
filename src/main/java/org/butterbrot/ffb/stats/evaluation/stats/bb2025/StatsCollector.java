@@ -3,7 +3,7 @@ package org.butterbrot.ffb.stats.evaluation.stats.bb2025;
 import com.fumbbl.ffb.net.commands.ServerCommand;
 import com.fumbbl.ffb.report.ReportStartHalf;
 import org.butterbrot.ffb.stats.adapter.ExposingInjuryReport;
-import org.butterbrot.ffb.stats.adapter.mixed.PlayerActionMapping;
+import org.butterbrot.ffb.stats.adapter.bb2025.PlayerActionMapping;
 import org.butterbrot.ffb.stats.adapter.mixed.ReportPoInjury;
 import org.butterbrot.ffb.stats.evaluation.stats.Evaluator;
 import org.butterbrot.ffb.stats.evaluation.stats.StatsState;
