@@ -14,19 +14,20 @@ import java.util.Set;
 
 public class InjuryEvaluator extends Evaluator<ReportInjury> {
 
-    private final Set<SendToBoxReason> nonBlockReasons = new HashSet<>();
+    private final Set<SendToBoxReason> blockReasons = new HashSet<>();
     private final StatsCollection collection;
     private final StatsState<ReportPoInjury> state;
 
     public InjuryEvaluator(StatsCollection collection, StatsState<ReportPoInjury> state) {
         this.collection = collection;
         this.state = state;
-        nonBlockReasons.add(SendToBoxReason.BITTEN);
-        nonBlockReasons.add(SendToBoxReason.CROWD_PUSHED);
-        nonBlockReasons.add(SendToBoxReason.FOULED);
-        nonBlockReasons.add(SendToBoxReason.DODGE_FAIL);
-        nonBlockReasons.add(SendToBoxReason.JUMP_FAIL);
-        nonBlockReasons.add(SendToBoxReason.TRAP_DOOR_FALL);
+
+        blockReasons.add(SendToBoxReason.BLOCKED);
+        blockReasons.add(SendToBoxReason.CHAINSAW);
+        blockReasons.add(SendToBoxReason.BALL_AND_CHAIN);
+        blockReasons.add(SendToBoxReason.STABBED);
+        blockReasons.add(SendToBoxReason.PROJECTILE_VOMIT);
+        blockReasons.add(SendToBoxReason.BREATHE_FIRE);
     }
 
     @Override
@@ -46,7 +47,7 @@ public class InjuryEvaluator extends Evaluator<ReportInjury> {
                 collection.addInjuryRoll(injury.getInjuryRoll(), injury.getDefenderId());
             }
         }
-        if (state.getActivePlayer() != null && state.getCurrentBlockRoll() != null && !nonBlockReasons.contains(injury.getInjuryType().injuryType().sendToBoxReason())) {
+        if (state.getActivePlayer() != null && state.getCurrentBlockRoll() != null && blockReasons.contains(injury.getInjuryType().injuryType().sendToBoxReason())) {
             collection.addBlockKnockDown(state.getCurrentBlockRoll().getBlockRoll().length, injury.getDefenderId(),
                     state.getCurrentBlockRoll().getChoosingTeamId(), state.getActivePlayer());
         }
