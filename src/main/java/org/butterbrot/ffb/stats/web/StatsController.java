@@ -9,10 +9,8 @@ import org.butterbrot.ffb.stats.conversion.JsonConverter;
 import org.butterbrot.ffb.stats.conversion.Unzipper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -32,9 +30,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Objects;
 
+@SuppressWarnings("ConfigurationProperties")
 @Controller
-@EnableAutoConfiguration
-@ComponentScan
 @SpringBootApplication
 @ConfigurationProperties(prefix = "http")
 public class StatsController {
