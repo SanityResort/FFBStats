@@ -105,6 +105,11 @@
             <scope>test</scope>
         </dependency>
         <dependency>
+            <groupId>org.junit.vintage</groupId>
+            <artifactId>junit-vintage-engine</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
             <groupId>com.fumbbl.ffb</groupId>
             <artifactId>ffb-client-logic</artifactId>
             <version>3.2.3</version>
