@@ -49,7 +49,7 @@ public class StatsCollector extends org.butterbrot.ffb.stats.evaluation.stats.St
 
     @Override
     protected TurnOverFinder createTurnOverFinder() {
-        return new org.butterbrot.ffb.stats.evaluation.turnover.mixed.TurnOverFinder();
+        return new org.butterbrot.ffb.stats.evaluation.turnover.bb2020.TurnOverFinder();
     }
 
     @Override

@@ -1,4 +1,4 @@
-package org.butterbrot.ffb.stats.evaluation.turnover.mixed;
+package org.butterbrot.ffb.stats.evaluation.turnover.bb2020;
 
 import com.fumbbl.ffb.mechanics.PassResult;
 import com.fumbbl.ffb.report.IReport;
