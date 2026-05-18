@@ -761,5 +761,15 @@ public class TurnOverFinderTtmTest extends AbstractTurnOverFinderTest {
     }
   ],
          */
+        turnOverFinder.add(new ReportPlayerAction(actingPlayer, PlayerAction.THROW_TEAM_MATE));
+        turnOverFinder.add(new ReportThrowTeamMateRoll(actingPlayer, true, 6, 2, false, new PassModifier[0], PassingDistance.SHORT_PASS, teamMember, PassResult.ACCURATE, false));
+        turnOverFinder.add(new ReportScatterPlayer(new FieldCoordinate(9, 2), new FieldCoordinate(12, 2), new Direction[]{Direction.EAST, Direction.EAST, Direction.EAST}, new int[]{3, 3, 3}, true));
+        turnOverFinder.add(new ReportPlayerEvent(opponent, "was hit"));
+        turnOverFinder.add(new ReportInjury(opponent, null, true, null, null, null, null, null, null, null, null, null, null, null, null, null, null));
+        turnOverFinder.add(new ReportScatterPlayer(new FieldCoordinate(12, 2), new FieldCoordinate(12, 1), new Direction[]{Direction.NORTH}, new int[]{1}, false));
+        turnOverFinder.add(new ReportInjury(teamMember, null, true, null, null, null, null, null, null, null, null, null, null, null, null, null, null));
+        turnOverFinder.add(new ReportTurnEnd(null, null, null, new ArrayList<>(), 0));
+        Optional<TurnOver> turnOverOpt = turnOverFinder.findTurnover();
+        assertFalse("Landing on an opponent is not a turnover", turnOverOpt.isPresent());
     }
 }
