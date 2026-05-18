@@ -149,6 +149,7 @@ public class TurnOverFinderMiscTest extends AbstractTurnOverFinderTest {
 	@Test
 	public void bombTeamMate() {
 		String secondTeamMate = "secondTeamMate";
+		turnOverFinder.getHomePlayers().add(secondTeamMate);
 		turnOverFinder.add(new ReportPlayerAction(actingPlayer, PlayerAction.THROW_BOMB));
 		turnOverFinder.add(regularPass(actingPlayer, 6, 4, true, false, PassResult.ACCURATE));
 		turnOverFinder.add(new ReportScatterBall());
