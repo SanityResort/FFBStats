@@ -623,4 +623,143 @@ public class TurnOverFinderTtmTest extends AbstractTurnOverFinderTest {
         Optional<TurnOver> turnOverOpt = turnOverFinder.findTurnover();
         assertFalse("Failed landing without ball scatter is not a turnover", turnOverOpt.isPresent());
     }
+
+    @Test
+    public void landingOnOpponent() {
+        /*
+        [
+    {
+      "reportId": "playerAction",
+      "actingPlayerId": "teamGoblinKalimar4",
+      "playerAction": "throwBomb"
+    }
+  ],
+  [
+    {
+      "reportId": "passRoll",
+      "playerId": "teamGoblinKalimar4",
+      "successful": true,
+      "roll": 6,
+      "minimumRoll": 5,
+      "reRolled": false,
+      "passingDistance": "Short Pass",
+      "passResult": "ACCURATE",
+      "hailMaryPass": false,
+      "bomb": true
+    }
+  ],
+  [
+    {
+      "reportId": "interceptionRoll",
+      "playerId": "teamHalflingBattleLore6",
+      "successful": true,
+      "roll": 6,
+      "minimumRoll": 7,
+      "reRolled": false,
+      "rollModifiers": [
+        "1 Tacklezone",
+        "Accurate Pass"
+      ],
+      "bomb": true,
+      "ignoreAgility": false
+    }
+  ],
+  [
+    {
+      "reportId": "passRoll",
+      "playerId": "teamHalflingBattleLore6",
+      "successful": true,
+      "roll": 6,
+      "minimumRoll": 6,
+      "reRolled": false,
+      "rollModifiers": [
+        "1 Tacklezone"
+      ],
+      "passingDistance": "Short Pass",
+      "passResult": "ACCURATE",
+      "hailMaryPass": false,
+      "bomb": true
+    }
+  ],
+  [
+    {
+      "reportId": "scatterBall",
+      "directionArray": [
+        "North"
+      ],
+      "rolls": [
+        1
+      ],
+      "gustOfWind": false
+    }
+  ],
+  [
+    {
+      "reportId": "spellEffectRoll",
+      "specialEffect": "bomb",
+      "playerId": "teamGoblinKalimar7",
+      "roll": 6,
+      "successful": true
+    }
+  ],
+  [
+    {
+      "reportId": "injury",
+      "defenderId": "teamGoblinKalimar7",
+      "injuryType": "bomb",
+      "armorBroken": false,
+      "armorRoll": [
+        1,
+        4
+      ],
+      "injuryRoll": null,
+      "casualtyRoll": null,
+      "seriousInjury": null,
+      "casualtyRollDecay": null,
+      "seriousInjuryDecay": null,
+      "seriousInjuryOld": null,
+      "injury": 3,
+      "injuryDecay": null,
+      "attackerId": null,
+      "armorModifiers": [],
+      "injuryModifiers": [],
+      "casualtyModifiers": [],
+      "skipInjuryParts": "CAS"
+    },
+    {
+      "reportId": "injury",
+      "defenderId": "teamGoblinKalimar7",
+      "injuryType": "bomb",
+      "armorBroken": false,
+      "armorRoll": [
+        1,
+        4
+      ],
+      "injuryRoll": null,
+      "casualtyRoll": null,
+      "seriousInjury": null,
+      "casualtyRollDecay": null,
+      "seriousInjuryDecay": null,
+      "seriousInjuryOld": null,
+      "injury": 3,
+      "injuryDecay": null,
+      "attackerId": null,
+      "armorModifiers": [],
+      "injuryModifiers": [],
+      "casualtyModifiers": [],
+      "skipInjuryParts": "EVERYTHING_BUT_CAS"
+    }
+  ],
+  [
+    {
+      "reportId": "turnEnd",
+      "playerIdTouchdown": null,
+      "knockoutRecoveryArray": [],
+      "heatExhaustionArray": [],
+      "unzapArray": [],
+      "heatRoll": 0
+    }
+  ],
+         */
+    }
 }
