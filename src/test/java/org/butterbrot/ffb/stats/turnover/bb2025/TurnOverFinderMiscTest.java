@@ -148,12 +148,13 @@ public class TurnOverFinderMiscTest extends AbstractTurnOverFinderTest {
 
 	@Test
 	public void bombTeamMate() {
+		String secondTeamMate = "secondTeamMate";
 		turnOverFinder.add(new ReportPlayerAction(actingPlayer, PlayerAction.THROW_BOMB));
 		turnOverFinder.add(regularPass(actingPlayer, 6, 4, true, false, PassResult.ACCURATE));
 		turnOverFinder.add(new ReportScatterBall());
 		turnOverFinder.add(new ReportSpecialEffectRoll(SpecialEffect.BOMB, teamMember, 6, true));
 		turnOverFinder.add(new ReportInjury(teamMember, null, true, null, null, null, null, null, null, null, null, null, null, null, null, null, null));
-		turnOverFinder.add(new ReportSpecialEffectRoll(SpecialEffect.BOMB, actingPlayer, 1, false));
+		turnOverFinder.add(new ReportSpecialEffectRoll(SpecialEffect.BOMB, secondTeamMate, 1, false));
 		turnOverFinder.add(new ReportTurnEnd(null, null, null, new ArrayList<>(), 0));
 		Optional<TurnOver> turnOverOpt = turnOverFinder.findTurnover();
 		assertTrue("Bomb injuring a teammate is a turnover", turnOverOpt.isPresent());

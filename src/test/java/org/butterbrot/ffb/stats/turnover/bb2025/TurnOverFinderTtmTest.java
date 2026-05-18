@@ -252,11 +252,13 @@ public class TurnOverFinderTtmTest extends AbstractTurnOverFinderTest {
 
     @Test
     public void landingOnTeamMate() {
+        String hitTeamMate = "hitTeamMate";
+        turnOverFinder.getHomePlayers().add(hitTeamMate);
         turnOverFinder.add(new ReportPlayerAction(actingPlayer, PlayerAction.THROW_TEAM_MATE));
         turnOverFinder.add(new ReportThrowTeamMateRoll(actingPlayer, true, 6, 2, false, new PassModifier[0], PassingDistance.SHORT_PASS, teamMember, PassResult.ACCURATE, false));
         turnOverFinder.add(new ReportScatterPlayer(new FieldCoordinate(9, 2), new FieldCoordinate(12, 2), new Direction[]{Direction.EAST, Direction.EAST, Direction.EAST}, new int[]{3, 3, 3}, true));
-        turnOverFinder.add(new ReportPlayerEvent(actingPlayer, "was hit"));
-        turnOverFinder.add(new ReportInjury(actingPlayer, null, true, null, null, null, null, null, null, null, null, null, null, null, null, null, null));
+        turnOverFinder.add(new ReportPlayerEvent(hitTeamMate, "was hit"));
+        turnOverFinder.add(new ReportInjury(hitTeamMate, null, true, null, null, null, null, null, null, null, null, null, null, null, null, null, null));
         turnOverFinder.add(new ReportScatterPlayer(new FieldCoordinate(12, 2), new FieldCoordinate(12, 1), new Direction[]{Direction.NORTH}, new int[]{1}, false));
         turnOverFinder.add(new ReportInjury(teamMember, null, true, null, null, null, null, null, null, null, null, null, null, null, null, null, null));
         turnOverFinder.add(new ReportTurnEnd(null, null, null, new ArrayList<>(), 0));
