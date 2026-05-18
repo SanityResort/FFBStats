@@ -258,7 +258,7 @@ public class TurnOverFinderTtmTest extends AbstractTurnOverFinderTest {
         turnOverFinder.add(new ReportPlayerEvent(actingPlayer, "was hit"));
         turnOverFinder.add(new ReportInjury(actingPlayer, null, true, null, null, null, null, null, null, null, null, null, null, null, null, null, null));
         turnOverFinder.add(new ReportScatterPlayer(new FieldCoordinate(12, 2), new FieldCoordinate(12, 1), new Direction[]{Direction.NORTH}, new int[]{1}, false));
-        turnOverFinder.add(new ReportInjury(teamMember, actingPlayer, true, null, null, null, null, null, null, null, null, null, null, null, null, null, null));
+        turnOverFinder.add(new ReportInjury(teamMember, null, true, null, null, null, null, null, null, null, null, null, null, null, null, null, null));
         turnOverFinder.add(new ReportTurnEnd(null, null, null, new ArrayList<>(), 0));
         Optional<TurnOver> turnOverOpt = turnOverFinder.findTurnover();
         assertTrue("Landing on a teammate is a turnover", turnOverOpt.isPresent());
@@ -272,7 +272,7 @@ public class TurnOverFinderTtmTest extends AbstractTurnOverFinderTest {
         turnOverFinder.add(new ReportThrowTeamMateRoll(actingPlayer, true, 6, 5, false, new PassModifier[0], PassingDistance.SHORT_PASS, teamMember, PassResult.ACCURATE, false));
         turnOverFinder.add(new ReportScatterPlayer(new FieldCoordinate(7, 6), new FieldCoordinate(7, 3), new Direction[]{Direction.NORTH, Direction.NORTH, Direction.NORTH}, new int[]{1, 1, 1}, true));
         turnOverFinder.add(new ReportRightStuffRoll(teamMember, false, 1, 3, false, new RollModifier[0]));
-        turnOverFinder.add(new ReportInjury(teamMember, actingPlayer, true, null, null, null, null, null, null, null, null, null, null, null, null, null, null));
+        turnOverFinder.add(new ReportInjury(teamMember, null, true, null, null, null, null, null, null, null, null, null, null, null, null, null, null));
         turnOverFinder.add(new ReportTurnEnd(null, null, null, new ArrayList<>(), 0));
         Optional<TurnOver> turnOverOpt = turnOverFinder.findTurnover();
         assertFalse("Failed landing without ball scatter is not a turnover", turnOverOpt.isPresent());
