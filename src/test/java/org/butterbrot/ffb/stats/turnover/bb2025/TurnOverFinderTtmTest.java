@@ -241,4 +241,356 @@ public class TurnOverFinderTtmTest extends AbstractTurnOverFinderTest {
         assertTrue("Was rerolled", turnOver.isReRolled());
         assertFalse("Was not rerolled with a team reroll", turnOver.isReRolledWithTeamReroll());
     }
+
+    @Test
+    public void landingOnTeamMate() {
+        /*
+          [
+    {
+      "reportId": "playerAction",
+      "actingPlayerId": "teamHalflingBattleLore2",
+      "playerAction": "throwTeamMateMove"
+    }
+  ],
+  [
+    {
+      "reportId": "throwTeamMateRoll",
+      "playerId": "teamHalflingBattleLore2",
+      "successful": true,
+      "roll": 6,
+      "minimumRoll": 2,
+      "reRolled": false,
+      "rollModifiers": [
+        "Strong Arm"
+      ],
+      "thrownPlayerId": "teamHalflingBattleLore9",
+      "passingDistance": "Short Pass",
+      "passResult": "ACCURATE",
+      "kicked": false
+    }
+  ],
+  [
+    {
+      "reportId": "scatterPlayer",
+      "startCoordinate": [
+        9,
+        2
+      ],
+      "endCoordinate": [
+        12,
+        2
+      ],
+      "directionArray": [
+        "East",
+        "East",
+        "East"
+      ],
+      "rolls": [
+        3,
+        3,
+        3
+      ],
+      "isScatter": true
+    }
+  ],
+  [
+    {
+      "reportId": "playerEvent",
+      "playerId": "teamHalflingBattleLore4",
+      "message": "was hit"
+    }
+  ],
+  [
+    {
+      "reportId": "injury",
+      "defenderId": "teamHalflingBattleLore4",
+      "injuryType": "ttmHitPlayer",
+      "armorBroken": true,
+      "armorRoll": [
+        4,
+        5
+      ],
+      "injuryRoll": [
+        1,
+        5
+      ],
+      "casualtyRoll": null,
+      "seriousInjury": null,
+      "casualtyRollDecay": null,
+      "seriousInjuryDecay": null,
+      "seriousInjuryOld": null,
+      "injury": 4,
+      "injuryDecay": null,
+      "attackerId": null,
+      "armorModifiers": [],
+      "injuryModifiers": [],
+      "casualtyModifiers": [],
+      "skipInjuryParts": "CAS"
+    },
+    {
+      "reportId": "injury",
+      "defenderId": "teamHalflingBattleLore4",
+      "injuryType": "ttmHitPlayer",
+      "armorBroken": true,
+      "armorRoll": [
+        4,
+        5
+      ],
+      "injuryRoll": [
+        1,
+        5
+      ],
+      "casualtyRoll": null,
+      "seriousInjury": null,
+      "casualtyRollDecay": null,
+      "seriousInjuryDecay": null,
+      "seriousInjuryOld": null,
+      "injury": 4,
+      "injuryDecay": null,
+      "attackerId": null,
+      "armorModifiers": [],
+      "injuryModifiers": [],
+      "casualtyModifiers": [],
+      "skipInjuryParts": "EVERYTHING_BUT_CAS"
+    }
+  ],
+  [
+    {
+      "reportId": "scatterPlayer",
+      "startCoordinate": [
+        12,
+        2
+      ],
+      "endCoordinate": [
+        12,
+        1
+      ],
+      "directionArray": [
+        "North"
+      ],
+      "rolls": [
+        1
+      ],
+      "isScatter": false
+    }
+  ],
+  [
+    {
+      "reportId": "injury",
+      "defenderId": "teamHalflingBattleLore9",
+      "injuryType": "ttmLanding",
+      "armorBroken": true,
+      "armorRoll": [
+        5,
+        4
+      ],
+      "injuryRoll": [
+        2,
+        5
+      ],
+      "casualtyRoll": null,
+      "seriousInjury": null,
+      "casualtyRollDecay": null,
+      "seriousInjuryDecay": null,
+      "seriousInjuryOld": null,
+      "injury": 4,
+      "injuryDecay": null,
+      "attackerId": "teamHalflingBattleLore2",
+      "armorModifiers": [],
+      "injuryModifiers": [],
+      "casualtyModifiers": [],
+      "skipInjuryParts": "CAS"
+    },
+    {
+      "reportId": "injury",
+      "defenderId": "teamHalflingBattleLore9",
+      "injuryType": "ttmLanding",
+      "armorBroken": true,
+      "armorRoll": [
+        5,
+        4
+      ],
+      "injuryRoll": [
+        2,
+        5
+      ],
+      "casualtyRoll": null,
+      "seriousInjury": null,
+      "casualtyRollDecay": null,
+      "seriousInjuryDecay": null,
+      "seriousInjuryOld": null,
+      "injury": 4,
+      "injuryDecay": null,
+      "attackerId": "teamHalflingBattleLore2",
+      "armorModifiers": [],
+      "injuryModifiers": [],
+      "casualtyModifiers": [],
+      "skipInjuryParts": "EVERYTHING_BUT_CAS"
+    }
+  ],
+  [
+    {
+      "reportId": "turnEnd",
+      "playerIdTouchdown": null,
+      "knockoutRecoveryArray": [],
+      "heatExhaustionArray": [],
+      "unzapArray": [],
+      "heatRoll": 0
+    }
+  ],
+         */
+    }
+
+    @Test
+    public void failedLanding() {
+        /*
+         [
+    {
+      "reportId": "playerAction",
+      "actingPlayerId": "teamGoblinKalimar2",
+      "playerAction": "throwTeamMateMove"
+    }
+  ],
+  [
+    {
+      "reportId": "confusionRoll",
+      "playerId": "teamGoblinKalimar2",
+      "successful": true,
+      "roll": 6,
+      "minimumRoll": 2,
+      "reRolled": false,
+      "confusionSkill": "Really Stupid"
+    }
+  ],
+  [
+    {
+      "reportId": "alwaysHungryRoll",
+      "playerId": "teamGoblinKalimar2",
+      "successful": true,
+      "roll": 6,
+      "minimumRoll": 2,
+      "reRolled": false
+    }
+  ],
+  [
+    {
+      "reportId": "throwTeamMateRoll",
+      "playerId": "teamGoblinKalimar2",
+      "successful": true,
+      "roll": 6,
+      "minimumRoll": 5,
+      "reRolled": false,
+      "rollModifiers": [
+        "2 Tacklezones"
+      ],
+      "thrownPlayerId": "teamGoblinKalimar9",
+      "passingDistance": "Short Pass",
+      "passResult": "ACCURATE",
+      "kicked": false
+    }
+  ],
+  [
+    {
+      "reportId": "scatterPlayer",
+      "startCoordinate": [
+        7,
+        6
+      ],
+      "endCoordinate": [
+        7,
+        3
+      ],
+      "directionArray": [
+        "North",
+        "North",
+        "North"
+      ],
+      "rolls": [
+        1,
+        1,
+        1
+      ],
+      "isScatter": true
+    }
+  ],
+  [
+    {
+      "reportId": "rightStuffRoll",
+      "playerId": "teamGoblinKalimar9",
+      "successful": false,
+      "roll": 1,
+      "minimumRoll": 3,
+      "reRolled": false
+    }
+  ],
+  [
+    {
+      "reportId": "injury",
+      "defenderId": "teamGoblinKalimar9",
+      "injuryType": "ttmLanding",
+      "armorBroken": true,
+      "armorRoll": [
+        5,
+        2
+      ],
+      "injuryRoll": [
+        2,
+        2
+      ],
+      "casualtyRoll": null,
+      "seriousInjury": null,
+      "casualtyRollDecay": null,
+      "seriousInjuryDecay": null,
+      "seriousInjuryOld": null,
+      "injury": 4,
+      "injuryDecay": null,
+      "attackerId": "teamGoblinKalimar2",
+      "armorModifiers": [],
+      "injuryModifiers": [
+        "Stunty"
+      ],
+      "casualtyModifiers": [],
+      "skipInjuryParts": "CAS"
+    },
+    {
+      "reportId": "injury",
+      "defenderId": "teamGoblinKalimar9",
+      "injuryType": "ttmLanding",
+      "armorBroken": true,
+      "armorRoll": [
+        5,
+        2
+      ],
+      "injuryRoll": [
+        2,
+        2
+      ],
+      "casualtyRoll": null,
+      "seriousInjury": null,
+      "casualtyRollDecay": null,
+      "seriousInjuryDecay": null,
+      "seriousInjuryOld": null,
+      "injury": 4,
+      "injuryDecay": null,
+      "attackerId": "teamGoblinKalimar2",
+      "armorModifiers": [],
+      "injuryModifiers": [
+        "Stunty"
+      ],
+      "casualtyModifiers": [],
+      "skipInjuryParts": "EVERYTHING_BUT_CAS"
+    }
+  ],
+  [
+    {
+      "reportId": "turnEnd",
+      "playerIdTouchdown": null,
+      "knockoutRecoveryArray": [],
+      "heatExhaustionArray": [],
+      "unzapArray": [],
+      "heatRoll": 0
+    }
+  ],
+         */
+    }
 }

@@ -130,4 +130,546 @@ public class TurnOverFinderMiscTest extends AbstractTurnOverFinderTest {
 		assertFalse("Was not rerolled", turnOver.isReRolled());
 		assertFalse("Was not rerolled with team reroll", turnOver.isReRolledWithTeamReroll());
 	}
+
+	@Test
+	public void bombOpponent() {
+		/*
+		 [
+    {
+      "reportId": "playerAction",
+      "actingPlayerId": "teamGoblinKalimar4",
+      "playerAction": "throwBomb"
+    }
+  ],
+  [
+    {
+      "reportId": "passRoll",
+      "playerId": "teamGoblinKalimar4",
+      "successful": true,
+      "roll": 6,
+      "minimumRoll": 5,
+      "reRolled": false,
+      "passingDistance": "Short Pass",
+      "passResult": "ACCURATE",
+      "hailMaryPass": false,
+      "bomb": true
+    }
+  ],
+  [
+    {
+      "reportId": "scatterBall",
+      "directionArray": [
+        "South"
+      ],
+      "rolls": [
+        5
+      ],
+      "gustOfWind": false
+    }
+  ],
+  [
+    {
+      "reportId": "spellEffectRoll",
+      "specialEffect": "bomb",
+      "playerId": "teamHalflingBattleLore9",
+      "roll": 6,
+      "successful": true
+    }
+  ],
+  [
+    {
+      "reportId": "injury",
+      "defenderId": "teamHalflingBattleLore9",
+      "injuryType": "bomb",
+      "armorBroken": true,
+      "armorRoll": [
+        5,
+        5
+      ],
+      "injuryRoll": [
+        6,
+        2
+      ],
+      "casualtyRoll": null,
+      "seriousInjury": null,
+      "casualtyRollDecay": null,
+      "seriousInjuryDecay": null,
+      "seriousInjuryOld": null,
+      "injury": 5,
+      "injuryDecay": null,
+      "attackerId": null,
+      "armorModifiers": [],
+      "injuryModifiers": [],
+      "casualtyModifiers": [],
+      "skipInjuryParts": "CAS"
+    },
+    {
+      "reportId": "injury",
+      "defenderId": "teamHalflingBattleLore9",
+      "injuryType": "bomb",
+      "armorBroken": true,
+      "armorRoll": [
+        5,
+        5
+      ],
+      "injuryRoll": [
+        6,
+        2
+      ],
+      "casualtyRoll": null,
+      "seriousInjury": null,
+      "casualtyRollDecay": null,
+      "seriousInjuryDecay": null,
+      "seriousInjuryOld": null,
+      "injury": 5,
+      "injuryDecay": null,
+      "attackerId": null,
+      "armorModifiers": [],
+      "injuryModifiers": [],
+      "casualtyModifiers": [],
+      "skipInjuryParts": "EVERYTHING_BUT_CAS"
+    }
+  ],
+  [
+    {
+      "reportId": "apothecaryRoll",
+      "playerId": "teamHalflingBattleLore9",
+      "casualtyRoll": null,
+      "playerState": null,
+      "seriousInjury": null,
+      "seriousInjuryOld": null,
+      "casualtyModifiers": []
+    }
+  ],
+  [
+    {
+      "reportId": "turnEnd",
+      "playerIdTouchdown": null,
+      "knockoutRecoveryArray": [],
+      "heatExhaustionArray": [],
+      "unzapArray": [],
+      "heatRoll": 0
+    }
+  ]
+		 */
+	}
+
+	@Test
+	public void bombTeamMate() {
+		/*
+		  [
+    {
+      "reportId": "playerAction",
+      "actingPlayerId": "teamGoblinKalimar4",
+      "playerAction": "throwBomb"
+    }
+  ],
+  [
+    {
+      "reportId": "passRoll",
+      "playerId": "teamGoblinKalimar4",
+      "successful": true,
+      "roll": 6,
+      "minimumRoll": 4,
+      "reRolled": false,
+      "passingDistance": "Quick Pass",
+      "passResult": "ACCURATE",
+      "hailMaryPass": false,
+      "bomb": true
+    }
+  ],
+  [
+    {
+      "reportId": "scatterBall",
+      "directionArray": [
+        "North"
+      ],
+      "rolls": [
+        1
+      ],
+      "gustOfWind": false
+    }
+  ],
+  [
+    {
+      "reportId": "spellEffectRoll",
+      "specialEffect": "bomb",
+      "playerId": "teamGoblinKalimar11",
+      "roll": 6,
+      "successful": true
+    }
+  ],
+  [
+    {
+      "reportId": "injury",
+      "defenderId": "teamGoblinKalimar11",
+      "injuryType": "bomb",
+      "armorBroken": true,
+      "armorRoll": [
+        5,
+        2
+      ],
+      "injuryRoll": [
+        6,
+        6
+      ],
+      "casualtyRoll": [
+        6,
+        2
+      ],
+      "seriousInjury": null,
+      "casualtyRollDecay": null,
+      "seriousInjuryDecay": null,
+      "seriousInjuryOld": null,
+      "injury": 6,
+      "injuryDecay": null,
+      "attackerId": null,
+      "armorModifiers": [],
+      "injuryModifiers": [
+        "Stunty"
+      ],
+      "casualtyModifiers": [],
+      "skipInjuryParts": "CAS"
+    },
+    {
+      "reportId": "regenerationRoll",
+      "playerId": "teamGoblinKalimar11",
+      "successful": false,
+      "roll": 2,
+      "minimumRoll": 4,
+      "reRolled": false
+    }
+  ],
+  [
+    {
+      "reportId": "injury",
+      "defenderId": "teamGoblinKalimar11",
+      "injuryType": "bomb",
+      "armorBroken": true,
+      "armorRoll": [
+        5,
+        2
+      ],
+      "injuryRoll": [
+        6,
+        6
+      ],
+      "casualtyRoll": [
+        6,
+        2
+      ],
+      "seriousInjury": null,
+      "casualtyRollDecay": null,
+      "seriousInjuryDecay": null,
+      "seriousInjuryOld": null,
+      "injury": 6,
+      "injuryDecay": null,
+      "attackerId": null,
+      "armorModifiers": [],
+      "injuryModifiers": [
+        "Stunty"
+      ],
+      "casualtyModifiers": [],
+      "skipInjuryParts": "EVERYTHING_BUT_CAS"
+    }
+  ],
+  [
+    {
+      "reportId": "apothecaryRoll",
+      "playerId": "teamGoblinKalimar11",
+      "casualtyRoll": null,
+      "playerState": null,
+      "seriousInjury": null,
+      "seriousInjuryOld": null,
+      "casualtyModifiers": []
+    }
+  ],
+  [
+    {
+      "reportId": "spellEffectRoll",
+      "specialEffect": "bomb",
+      "playerId": "teamGoblinKalimar12",
+      "roll": 1,
+      "successful": false
+    }
+  ],
+  [
+    {
+      "reportId": "turnEnd",
+      "playerIdTouchdown": null,
+      "knockoutRecoveryArray": [],
+      "heatExhaustionArray": [],
+      "unzapArray": [],
+      "heatRoll": 0
+    }
+  ],
+		 */
+	}
+
+	@Test
+	public void bombTeamMateAfterIntercept() {
+		/*
+		[
+    {
+      "reportId": "playerAction",
+      "actingPlayerId": "teamGoblinKalimar4",
+      "playerAction": "throwBomb"
+    }
+  ],
+  [
+    {
+      "reportId": "passRoll",
+      "playerId": "teamGoblinKalimar4",
+      "successful": true,
+      "roll": 6,
+      "minimumRoll": 5,
+      "reRolled": false,
+      "passingDistance": "Short Pass",
+      "passResult": "ACCURATE",
+      "hailMaryPass": false,
+      "bomb": true
+    }
+  ],
+  [
+    {
+      "reportId": "interceptionRoll",
+      "playerId": "teamHalflingBattleLore6",
+      "successful": true,
+      "roll": 6,
+      "minimumRoll": 7,
+      "reRolled": false,
+      "rollModifiers": [
+        "1 Tacklezone",
+        "Accurate Pass"
+      ],
+      "bomb": true,
+      "ignoreAgility": false
+    }
+  ],
+  [
+    {
+      "reportId": "passRoll",
+      "playerId": "teamHalflingBattleLore6",
+      "successful": true,
+      "roll": 6,
+      "minimumRoll": 6,
+      "reRolled": false,
+      "rollModifiers": [
+        "1 Tacklezone"
+      ],
+      "passingDistance": "Short Pass",
+      "passResult": "ACCURATE",
+      "hailMaryPass": false,
+      "bomb": true
+    }
+  ],
+  [
+    {
+      "reportId": "scatterBall",
+      "directionArray": [
+        "North"
+      ],
+      "rolls": [
+        1
+      ],
+      "gustOfWind": false
+    }
+  ],
+  [
+    {
+      "reportId": "spellEffectRoll",
+      "specialEffect": "bomb",
+      "playerId": "teamGoblinKalimar7",
+      "roll": 6,
+      "successful": true
+    }
+  ],
+  [
+    {
+      "reportId": "injury",
+      "defenderId": "teamGoblinKalimar7",
+      "injuryType": "bomb",
+      "armorBroken": false,
+      "armorRoll": [
+        1,
+        4
+      ],
+      "injuryRoll": null,
+      "casualtyRoll": null,
+      "seriousInjury": null,
+      "casualtyRollDecay": null,
+      "seriousInjuryDecay": null,
+      "seriousInjuryOld": null,
+      "injury": 3,
+      "injuryDecay": null,
+      "attackerId": null,
+      "armorModifiers": [],
+      "injuryModifiers": [],
+      "casualtyModifiers": [],
+      "skipInjuryParts": "CAS"
+    },
+    {
+      "reportId": "injury",
+      "defenderId": "teamGoblinKalimar7",
+      "injuryType": "bomb",
+      "armorBroken": false,
+      "armorRoll": [
+        1,
+        4
+      ],
+      "injuryRoll": null,
+      "casualtyRoll": null,
+      "seriousInjury": null,
+      "casualtyRollDecay": null,
+      "seriousInjuryDecay": null,
+      "seriousInjuryOld": null,
+      "injury": 3,
+      "injuryDecay": null,
+      "attackerId": null,
+      "armorModifiers": [],
+      "injuryModifiers": [],
+      "casualtyModifiers": [],
+      "skipInjuryParts": "EVERYTHING_BUT_CAS"
+    }
+  ],
+  [
+    {
+      "reportId": "turnEnd",
+      "playerIdTouchdown": null,
+      "knockoutRecoveryArray": [],
+      "heatExhaustionArray": [],
+      "unzapArray": [],
+      "heatRoll": 0
+    }
+  ],
+		 */
+	}
+
+	@Test
+	public void stalling() {
+		/*
+		[
+    {
+      "reportId": "playerAction",
+      "actingPlayerId": "teamHalflingBattleLore6",
+      "playerAction": "forgo"
+    }
+  ],
+  [
+    {
+      "reportId": "throwAtStallingPlayer",
+      "playerId": "teamHalflingBattleLore6",
+      "roll": 6,
+      "successful": true
+    }
+  ],
+  [
+    {
+      "reportId": "injury",
+      "defenderId": "teamHalflingBattleLore6",
+      "injuryType": "throwARock",
+      "armorBroken": true,
+      "armorRoll": [
+        6,
+        5
+      ],
+      "injuryRoll": [
+        1,
+        1
+      ],
+      "casualtyRoll": null,
+      "seriousInjury": null,
+      "casualtyRollDecay": null,
+      "seriousInjuryDecay": null,
+      "seriousInjuryOld": null,
+      "injury": 4,
+      "injuryDecay": null,
+      "attackerId": null,
+      "armorModifiers": [],
+      "injuryModifiers": [],
+      "casualtyModifiers": [],
+      "skipInjuryParts": "CAS"
+    },
+    {
+      "reportId": "injury",
+      "defenderId": "teamHalflingBattleLore6",
+      "injuryType": "throwARock",
+      "armorBroken": true,
+      "armorRoll": [
+        6,
+        5
+      ],
+      "injuryRoll": [
+        1,
+        1
+      ],
+      "casualtyRoll": null,
+      "seriousInjury": null,
+      "casualtyRollDecay": null,
+      "seriousInjuryDecay": null,
+      "seriousInjuryOld": null,
+      "injury": 4,
+      "injuryDecay": null,
+      "attackerId": null,
+      "armorModifiers": [],
+      "injuryModifiers": [],
+      "casualtyModifiers": [],
+      "skipInjuryParts": "EVERYTHING_BUT_CAS"
+    }
+  ],
+  [
+    {
+      "reportId": "scatterBall",
+      "directionArray": [
+        "East"
+      ],
+      "rolls": [
+        3
+      ],
+      "gustOfWind": false
+    }
+  ],
+  [
+    {
+      "reportId": "turnEnd",
+      "playerIdTouchdown": null,
+      "knockoutRecoveryArray": [],
+      "heatExhaustionArray": [],
+      "unzapArray": [],
+      "heatRoll": 0
+    }
+  ],
+		 */
+	}
+
+	@Test
+	public void stallingMisses() {
+		/*
+		[
+    {
+      "reportId": "playerAction",
+      "actingPlayerId": "teamHalflingBattleLore6",
+      "playerAction": "forgo"
+    }
+  ],
+  [
+    {
+      "reportId": "throwAtStallingPlayer",
+      "playerId": "teamHalflingBattleLore6",
+      "roll": 1,
+      "successful": false
+    }
+  ],
+  [
+    {
+      "reportId": "turnEnd",
+      "playerIdTouchdown": null,
+      "knockoutRecoveryArray": [],
+      "heatExhaustionArray": [],
+      "unzapArray": [],
+      "heatRoll": 0
+    }
+  ],
+		 */
+	}
 }
