@@ -2,16 +2,19 @@ package org.butterbrot.ffb.stats.turnover.bb2025;
 
 import com.fumbbl.ffb.PlayerAction;
 import com.fumbbl.ffb.SpecialEffect;
+import com.fumbbl.ffb.mechanics.PassResult;
 import com.fumbbl.ffb.modifiers.RollModifier;
 import com.fumbbl.ffb.report.ReportChainsawRoll;
 import com.fumbbl.ffb.report.ReportConfusionRoll;
 import com.fumbbl.ffb.report.ReportFoulAppearanceRoll;
 import com.fumbbl.ffb.report.ReportId;
+import com.fumbbl.ffb.report.ReportInterceptionRoll;
 import com.fumbbl.ffb.report.ReportPlayerAction;
 import com.fumbbl.ffb.report.ReportScatterBall;
 import com.fumbbl.ffb.report.ReportSpecialEffectRoll;
 import com.fumbbl.ffb.report.mixed.ReportInjury;
 import com.fumbbl.ffb.report.mixed.ReportProjectileVomit;
+import com.fumbbl.ffb.report.mixed.ReportThrowAtStallingPlayer;
 import com.fumbbl.ffb.report.mixed.ReportThrownKeg;
 import com.fumbbl.ffb.report.mixed.ReportTurnEnd;
 import com.fumbbl.ffb.skill.bb2025.BoneHead;
@@ -252,6 +255,14 @@ public class TurnOverFinderMiscTest extends AbstractTurnOverFinderTest {
     }
   ]
 		 */
+		turnOverFinder.add(new ReportPlayerAction(actingPlayer, PlayerAction.THROW_BOMB));
+		turnOverFinder.add(regularPass(actingPlayer, 6, 5, true, false, PassResult.ACCURATE));
+		turnOverFinder.add(new ReportScatterBall());
+		turnOverFinder.add(new ReportSpecialEffectRoll(SpecialEffect.BOMB, opponent, 6, true));
+		turnOverFinder.add(new ReportInjury(opponent, null, true, null, null, null, null, null, null, null, null, null, null, null, null, null, null));
+		turnOverFinder.add(new ReportTurnEnd(null, null, null, new ArrayList<>(), 0));
+		Optional<TurnOver> turnOverOpt = turnOverFinder.findTurnover();
+		assertFalse("Bomb only hitting opponents is not a turnover", turnOverOpt.isPresent());
 	}
 
 	@Test
@@ -404,6 +415,17 @@ public class TurnOverFinderMiscTest extends AbstractTurnOverFinderTest {
     }
   ],
 		 */
+		String secondTeamMate = "secondTeamMate";
+		turnOverFinder.getHomePlayers().add(secondTeamMate);
+		turnOverFinder.add(new ReportPlayerAction(actingPlayer, PlayerAction.THROW_BOMB));
+		turnOverFinder.add(regularPass(actingPlayer, 6, 4, true, false, PassResult.ACCURATE));
+		turnOverFinder.add(new ReportScatterBall());
+		turnOverFinder.add(new ReportSpecialEffectRoll(SpecialEffect.BOMB, teamMember, 6, true));
+		turnOverFinder.add(new ReportInjury(teamMember, null, true, null, null, null, null, null, null, null, null, null, null, null, null, null, null));
+		turnOverFinder.add(new ReportSpecialEffectRoll(SpecialEffect.BOMB, secondTeamMate, 1, false));
+		turnOverFinder.add(new ReportTurnEnd(null, null, null, new ArrayList<>(), 0));
+		Optional<TurnOver> turnOverOpt = turnOverFinder.findTurnover();
+		assertTrue("Bomb injuring a teammate is a turnover", turnOverOpt.isPresent());
 	}
 
 	@Test
@@ -543,6 +565,16 @@ public class TurnOverFinderMiscTest extends AbstractTurnOverFinderTest {
     }
   ],
 		 */
+		turnOverFinder.add(new ReportPlayerAction(actingPlayer, PlayerAction.THROW_BOMB));
+		turnOverFinder.add(regularPass(actingPlayer, 6, 5, true, false, PassResult.ACCURATE));
+		turnOverFinder.add(new ReportInterceptionRoll(opponent, true, 6, 7, false, null, true, false));
+		turnOverFinder.add(regularPass(opponent, 6, 6, true, false, PassResult.ACCURATE));
+		turnOverFinder.add(new ReportScatterBall());
+		turnOverFinder.add(new ReportSpecialEffectRoll(SpecialEffect.BOMB, teamMember, 6, true));
+		turnOverFinder.add(new ReportInjury(teamMember, null, false, null, null, null, null, null, null, null, null, null, null, null, null, null, null));
+		turnOverFinder.add(new ReportTurnEnd(null, null, null, new ArrayList<>(), 0));
+		Optional<TurnOver> turnOverOpt = turnOverFinder.findTurnover();
+		assertTrue("Bombing a teammate after interception is a turnover", turnOverOpt.isPresent());
 	}
 
 	@Test
@@ -640,6 +672,13 @@ public class TurnOverFinderMiscTest extends AbstractTurnOverFinderTest {
     }
   ],
 		 */
+		turnOverFinder.add(new ReportPlayerAction(actingPlayer, PlayerAction.FORGO));
+		turnOverFinder.add(new ReportThrowAtStallingPlayer(actingPlayer, 6, true));
+		turnOverFinder.add(new ReportInjury(actingPlayer, null, true, null, null, null, null, null, null, null, null, null, null, null, null, null, null));
+		turnOverFinder.add(new ReportScatterBall());
+		turnOverFinder.add(new ReportTurnEnd(null, null, null, new ArrayList<>(), 0));
+		Optional<TurnOver> turnOverOpt = turnOverFinder.findTurnover();
+		assertTrue("Stalling player hit by a rock is a turnover", turnOverOpt.isPresent());
 	}
 
 	@Test
@@ -671,5 +710,10 @@ public class TurnOverFinderMiscTest extends AbstractTurnOverFinderTest {
     }
   ],
 		 */
+		turnOverFinder.add(new ReportPlayerAction(actingPlayer, PlayerAction.FORGO));
+		turnOverFinder.add(new ReportThrowAtStallingPlayer(actingPlayer, 1, false));
+		turnOverFinder.add(new ReportTurnEnd(null, null, null, new ArrayList<>(), 0));
+		Optional<TurnOver> turnOverOpt = turnOverFinder.findTurnover();
+		assertFalse("Missing the stalling player is not a turnover", turnOverOpt.isPresent());
 	}
 }

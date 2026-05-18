@@ -2,7 +2,12 @@ package org.butterbrot.ffb.stats.turnover.bb2025;
 
 import com.fumbbl.ffb.PlayerAction;
 import com.fumbbl.ffb.ReRollSources;
+import com.fumbbl.ffb.Direction;
+import com.fumbbl.ffb.FieldCoordinate;
+import com.fumbbl.ffb.PassingDistance;
+import com.fumbbl.ffb.mechanics.PassResult;
 import com.fumbbl.ffb.modifiers.CatchModifier;
+import com.fumbbl.ffb.modifiers.PassModifier;
 import com.fumbbl.ffb.modifiers.RollModifier;
 import com.fumbbl.ffb.report.ReportAlwaysHungryRoll;
 import com.fumbbl.ffb.report.ReportCatchRoll;
@@ -13,7 +18,10 @@ import com.fumbbl.ffb.report.ReportPlayerAction;
 import com.fumbbl.ffb.report.ReportReRoll;
 import com.fumbbl.ffb.report.ReportRightStuffRoll;
 import com.fumbbl.ffb.report.ReportScatterBall;
+import com.fumbbl.ffb.report.ReportScatterPlayer;
 import com.fumbbl.ffb.report.mixed.ReportInjury;
+import com.fumbbl.ffb.report.mixed.ReportPlayerEvent;
+import com.fumbbl.ffb.report.mixed.ReportThrowTeamMateRoll;
 import com.fumbbl.ffb.report.mixed.ReportTurnEnd;
 import com.fumbbl.ffb.skill.bb2025.ReallyStupid;
 import org.butterbrot.ffb.stats.model.TurnOver;
@@ -439,6 +447,18 @@ public class TurnOverFinderTtmTest extends AbstractTurnOverFinderTest {
     }
   ],
          */
+        String hitTeamMate = "hitTeamMate";
+        turnOverFinder.getHomePlayers().add(hitTeamMate);
+        turnOverFinder.add(new ReportPlayerAction(actingPlayer, PlayerAction.THROW_TEAM_MATE));
+        turnOverFinder.add(new ReportThrowTeamMateRoll(actingPlayer, true, 6, 2, false, new PassModifier[0], PassingDistance.SHORT_PASS, teamMember, PassResult.ACCURATE, false));
+        turnOverFinder.add(new ReportScatterPlayer(new FieldCoordinate(9, 2), new FieldCoordinate(12, 2), new Direction[]{Direction.EAST, Direction.EAST, Direction.EAST}, new int[]{3, 3, 3}, true));
+        turnOverFinder.add(new ReportPlayerEvent(hitTeamMate, "was hit"));
+        turnOverFinder.add(new ReportInjury(hitTeamMate, null, true, null, null, null, null, null, null, null, null, null, null, null, null, null, null));
+        turnOverFinder.add(new ReportScatterPlayer(new FieldCoordinate(12, 2), new FieldCoordinate(12, 1), new Direction[]{Direction.NORTH}, new int[]{1}, false));
+        turnOverFinder.add(new ReportInjury(teamMember, null, true, null, null, null, null, null, null, null, null, null, null, null, null, null, null));
+        turnOverFinder.add(new ReportTurnEnd(null, null, null, new ArrayList<>(), 0));
+        Optional<TurnOver> turnOverOpt = turnOverFinder.findTurnover();
+        assertTrue("Landing on a teammate is a turnover", turnOverOpt.isPresent());
     }
 
     @Test
@@ -592,5 +612,15 @@ public class TurnOverFinderTtmTest extends AbstractTurnOverFinderTest {
     }
   ],
          */
+        turnOverFinder.add(new ReportPlayerAction(actingPlayer, PlayerAction.THROW_TEAM_MATE));
+        turnOverFinder.add(new ReportConfusionRoll(actingPlayer, true, 6, 2, false, new ReallyStupid()));
+        turnOverFinder.add(new ReportAlwaysHungryRoll(actingPlayer, true, 6, 2, false, new RollModifier[0]));
+        turnOverFinder.add(new ReportThrowTeamMateRoll(actingPlayer, true, 6, 5, false, new PassModifier[0], PassingDistance.SHORT_PASS, teamMember, PassResult.ACCURATE, false));
+        turnOverFinder.add(new ReportScatterPlayer(new FieldCoordinate(7, 6), new FieldCoordinate(7, 3), new Direction[]{Direction.NORTH, Direction.NORTH, Direction.NORTH}, new int[]{1, 1, 1}, true));
+        turnOverFinder.add(new ReportRightStuffRoll(teamMember, false, 1, 3, false, new RollModifier[0]));
+        turnOverFinder.add(new ReportInjury(teamMember, null, true, null, null, null, null, null, null, null, null, null, null, null, null, null, null));
+        turnOverFinder.add(new ReportTurnEnd(null, null, null, new ArrayList<>(), 0));
+        Optional<TurnOver> turnOverOpt = turnOverFinder.findTurnover();
+        assertFalse("Failed landing without ball scatter is not a turnover", turnOverOpt.isPresent());
     }
 }
