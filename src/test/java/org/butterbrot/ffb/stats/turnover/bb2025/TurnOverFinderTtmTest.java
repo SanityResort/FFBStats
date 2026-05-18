@@ -2,7 +2,12 @@ package org.butterbrot.ffb.stats.turnover.bb2025;
 
 import com.fumbbl.ffb.PlayerAction;
 import com.fumbbl.ffb.ReRollSources;
+import com.fumbbl.ffb.Direction;
+import com.fumbbl.ffb.FieldCoordinate;
+import com.fumbbl.ffb.PassingDistance;
+import com.fumbbl.ffb.mechanics.PassResult;
 import com.fumbbl.ffb.modifiers.CatchModifier;
+import com.fumbbl.ffb.modifiers.PassModifier;
 import com.fumbbl.ffb.modifiers.RollModifier;
 import com.fumbbl.ffb.report.ReportAlwaysHungryRoll;
 import com.fumbbl.ffb.report.ReportCatchRoll;
@@ -13,7 +18,10 @@ import com.fumbbl.ffb.report.ReportPlayerAction;
 import com.fumbbl.ffb.report.ReportReRoll;
 import com.fumbbl.ffb.report.ReportRightStuffRoll;
 import com.fumbbl.ffb.report.ReportScatterBall;
+import com.fumbbl.ffb.report.ReportScatterPlayer;
 import com.fumbbl.ffb.report.mixed.ReportInjury;
+import com.fumbbl.ffb.report.mixed.ReportPlayerEvent;
+import com.fumbbl.ffb.report.mixed.ReportThrowTeamMateRoll;
 import com.fumbbl.ffb.report.mixed.ReportTurnEnd;
 import com.fumbbl.ffb.skill.bb2025.ReallyStupid;
 import org.butterbrot.ffb.stats.model.TurnOver;
@@ -244,353 +252,29 @@ public class TurnOverFinderTtmTest extends AbstractTurnOverFinderTest {
 
     @Test
     public void landingOnTeamMate() {
-        /*
-          [
-    {
-      "reportId": "playerAction",
-      "actingPlayerId": "teamHalflingBattleLore2",
-      "playerAction": "throwTeamMateMove"
-    }
-  ],
-  [
-    {
-      "reportId": "throwTeamMateRoll",
-      "playerId": "teamHalflingBattleLore2",
-      "successful": true,
-      "roll": 6,
-      "minimumRoll": 2,
-      "reRolled": false,
-      "rollModifiers": [
-        "Strong Arm"
-      ],
-      "thrownPlayerId": "teamHalflingBattleLore9",
-      "passingDistance": "Short Pass",
-      "passResult": "ACCURATE",
-      "kicked": false
-    }
-  ],
-  [
-    {
-      "reportId": "scatterPlayer",
-      "startCoordinate": [
-        9,
-        2
-      ],
-      "endCoordinate": [
-        12,
-        2
-      ],
-      "directionArray": [
-        "East",
-        "East",
-        "East"
-      ],
-      "rolls": [
-        3,
-        3,
-        3
-      ],
-      "isScatter": true
-    }
-  ],
-  [
-    {
-      "reportId": "playerEvent",
-      "playerId": "teamHalflingBattleLore4",
-      "message": "was hit"
-    }
-  ],
-  [
-    {
-      "reportId": "injury",
-      "defenderId": "teamHalflingBattleLore4",
-      "injuryType": "ttmHitPlayer",
-      "armorBroken": true,
-      "armorRoll": [
-        4,
-        5
-      ],
-      "injuryRoll": [
-        1,
-        5
-      ],
-      "casualtyRoll": null,
-      "seriousInjury": null,
-      "casualtyRollDecay": null,
-      "seriousInjuryDecay": null,
-      "seriousInjuryOld": null,
-      "injury": 4,
-      "injuryDecay": null,
-      "attackerId": null,
-      "armorModifiers": [],
-      "injuryModifiers": [],
-      "casualtyModifiers": [],
-      "skipInjuryParts": "CAS"
-    },
-    {
-      "reportId": "injury",
-      "defenderId": "teamHalflingBattleLore4",
-      "injuryType": "ttmHitPlayer",
-      "armorBroken": true,
-      "armorRoll": [
-        4,
-        5
-      ],
-      "injuryRoll": [
-        1,
-        5
-      ],
-      "casualtyRoll": null,
-      "seriousInjury": null,
-      "casualtyRollDecay": null,
-      "seriousInjuryDecay": null,
-      "seriousInjuryOld": null,
-      "injury": 4,
-      "injuryDecay": null,
-      "attackerId": null,
-      "armorModifiers": [],
-      "injuryModifiers": [],
-      "casualtyModifiers": [],
-      "skipInjuryParts": "EVERYTHING_BUT_CAS"
-    }
-  ],
-  [
-    {
-      "reportId": "scatterPlayer",
-      "startCoordinate": [
-        12,
-        2
-      ],
-      "endCoordinate": [
-        12,
-        1
-      ],
-      "directionArray": [
-        "North"
-      ],
-      "rolls": [
-        1
-      ],
-      "isScatter": false
-    }
-  ],
-  [
-    {
-      "reportId": "injury",
-      "defenderId": "teamHalflingBattleLore9",
-      "injuryType": "ttmLanding",
-      "armorBroken": true,
-      "armorRoll": [
-        5,
-        4
-      ],
-      "injuryRoll": [
-        2,
-        5
-      ],
-      "casualtyRoll": null,
-      "seriousInjury": null,
-      "casualtyRollDecay": null,
-      "seriousInjuryDecay": null,
-      "seriousInjuryOld": null,
-      "injury": 4,
-      "injuryDecay": null,
-      "attackerId": "teamHalflingBattleLore2",
-      "armorModifiers": [],
-      "injuryModifiers": [],
-      "casualtyModifiers": [],
-      "skipInjuryParts": "CAS"
-    },
-    {
-      "reportId": "injury",
-      "defenderId": "teamHalflingBattleLore9",
-      "injuryType": "ttmLanding",
-      "armorBroken": true,
-      "armorRoll": [
-        5,
-        4
-      ],
-      "injuryRoll": [
-        2,
-        5
-      ],
-      "casualtyRoll": null,
-      "seriousInjury": null,
-      "casualtyRollDecay": null,
-      "seriousInjuryDecay": null,
-      "seriousInjuryOld": null,
-      "injury": 4,
-      "injuryDecay": null,
-      "attackerId": "teamHalflingBattleLore2",
-      "armorModifiers": [],
-      "injuryModifiers": [],
-      "casualtyModifiers": [],
-      "skipInjuryParts": "EVERYTHING_BUT_CAS"
-    }
-  ],
-  [
-    {
-      "reportId": "turnEnd",
-      "playerIdTouchdown": null,
-      "knockoutRecoveryArray": [],
-      "heatExhaustionArray": [],
-      "unzapArray": [],
-      "heatRoll": 0
-    }
-  ],
-         */
+        turnOverFinder.add(new ReportPlayerAction(actingPlayer, PlayerAction.THROW_TEAM_MATE));
+        turnOverFinder.add(new ReportThrowTeamMateRoll(actingPlayer, true, 6, 2, false, new PassModifier[0], PassingDistance.SHORT_PASS, teamMember, PassResult.ACCURATE, false));
+        turnOverFinder.add(new ReportScatterPlayer(new FieldCoordinate(9, 2), new FieldCoordinate(12, 2), new Direction[]{Direction.EAST, Direction.EAST, Direction.EAST}, new int[]{3, 3, 3}, true));
+        turnOverFinder.add(new ReportPlayerEvent(actingPlayer, "was hit"));
+        turnOverFinder.add(new ReportInjury(actingPlayer, null, true, null, null, null, null, null, null, null, null, null, null, null, null, null, null));
+        turnOverFinder.add(new ReportScatterPlayer(new FieldCoordinate(12, 2), new FieldCoordinate(12, 1), new Direction[]{Direction.NORTH}, new int[]{1}, false));
+        turnOverFinder.add(new ReportInjury(teamMember, actingPlayer, true, null, null, null, null, null, null, null, null, null, null, null, null, null, null));
+        turnOverFinder.add(new ReportTurnEnd(null, null, null, new ArrayList<>(), 0));
+        Optional<TurnOver> turnOverOpt = turnOverFinder.findTurnover();
+        assertTrue("Landing on a teammate is a turnover", turnOverOpt.isPresent());
     }
 
     @Test
     public void failedLanding() {
-        /*
-         [
-    {
-      "reportId": "playerAction",
-      "actingPlayerId": "teamGoblinKalimar2",
-      "playerAction": "throwTeamMateMove"
-    }
-  ],
-  [
-    {
-      "reportId": "confusionRoll",
-      "playerId": "teamGoblinKalimar2",
-      "successful": true,
-      "roll": 6,
-      "minimumRoll": 2,
-      "reRolled": false,
-      "confusionSkill": "Really Stupid"
-    }
-  ],
-  [
-    {
-      "reportId": "alwaysHungryRoll",
-      "playerId": "teamGoblinKalimar2",
-      "successful": true,
-      "roll": 6,
-      "minimumRoll": 2,
-      "reRolled": false
-    }
-  ],
-  [
-    {
-      "reportId": "throwTeamMateRoll",
-      "playerId": "teamGoblinKalimar2",
-      "successful": true,
-      "roll": 6,
-      "minimumRoll": 5,
-      "reRolled": false,
-      "rollModifiers": [
-        "2 Tacklezones"
-      ],
-      "thrownPlayerId": "teamGoblinKalimar9",
-      "passingDistance": "Short Pass",
-      "passResult": "ACCURATE",
-      "kicked": false
-    }
-  ],
-  [
-    {
-      "reportId": "scatterPlayer",
-      "startCoordinate": [
-        7,
-        6
-      ],
-      "endCoordinate": [
-        7,
-        3
-      ],
-      "directionArray": [
-        "North",
-        "North",
-        "North"
-      ],
-      "rolls": [
-        1,
-        1,
-        1
-      ],
-      "isScatter": true
-    }
-  ],
-  [
-    {
-      "reportId": "rightStuffRoll",
-      "playerId": "teamGoblinKalimar9",
-      "successful": false,
-      "roll": 1,
-      "minimumRoll": 3,
-      "reRolled": false
-    }
-  ],
-  [
-    {
-      "reportId": "injury",
-      "defenderId": "teamGoblinKalimar9",
-      "injuryType": "ttmLanding",
-      "armorBroken": true,
-      "armorRoll": [
-        5,
-        2
-      ],
-      "injuryRoll": [
-        2,
-        2
-      ],
-      "casualtyRoll": null,
-      "seriousInjury": null,
-      "casualtyRollDecay": null,
-      "seriousInjuryDecay": null,
-      "seriousInjuryOld": null,
-      "injury": 4,
-      "injuryDecay": null,
-      "attackerId": "teamGoblinKalimar2",
-      "armorModifiers": [],
-      "injuryModifiers": [
-        "Stunty"
-      ],
-      "casualtyModifiers": [],
-      "skipInjuryParts": "CAS"
-    },
-    {
-      "reportId": "injury",
-      "defenderId": "teamGoblinKalimar9",
-      "injuryType": "ttmLanding",
-      "armorBroken": true,
-      "armorRoll": [
-        5,
-        2
-      ],
-      "injuryRoll": [
-        2,
-        2
-      ],
-      "casualtyRoll": null,
-      "seriousInjury": null,
-      "casualtyRollDecay": null,
-      "seriousInjuryDecay": null,
-      "seriousInjuryOld": null,
-      "injury": 4,
-      "injuryDecay": null,
-      "attackerId": "teamGoblinKalimar2",
-      "armorModifiers": [],
-      "injuryModifiers": [
-        "Stunty"
-      ],
-      "casualtyModifiers": [],
-      "skipInjuryParts": "EVERYTHING_BUT_CAS"
-    }
-  ],
-  [
-    {
-      "reportId": "turnEnd",
-      "playerIdTouchdown": null,
-      "knockoutRecoveryArray": [],
-      "heatExhaustionArray": [],
-      "unzapArray": [],
-      "heatRoll": 0
-    }
-  ],
-         */
+        turnOverFinder.add(new ReportPlayerAction(actingPlayer, PlayerAction.THROW_TEAM_MATE));
+        turnOverFinder.add(new ReportConfusionRoll(actingPlayer, true, 6, 2, false, new ReallyStupid()));
+        turnOverFinder.add(new ReportAlwaysHungryRoll(actingPlayer, true, 6, 2, false, new RollModifier[0]));
+        turnOverFinder.add(new ReportThrowTeamMateRoll(actingPlayer, true, 6, 5, false, new PassModifier[0], PassingDistance.SHORT_PASS, teamMember, PassResult.ACCURATE, false));
+        turnOverFinder.add(new ReportScatterPlayer(new FieldCoordinate(7, 6), new FieldCoordinate(7, 3), new Direction[]{Direction.NORTH, Direction.NORTH, Direction.NORTH}, new int[]{1, 1, 1}, true));
+        turnOverFinder.add(new ReportRightStuffRoll(teamMember, false, 1, 3, false, new RollModifier[0]));
+        turnOverFinder.add(new ReportInjury(teamMember, actingPlayer, true, null, null, null, null, null, null, null, null, null, null, null, null, null, null));
+        turnOverFinder.add(new ReportTurnEnd(null, null, null, new ArrayList<>(), 0));
+        Optional<TurnOver> turnOverOpt = turnOverFinder.findTurnover();
+        assertFalse("Failed landing without ball scatter is not a turnover", turnOverOpt.isPresent());
     }
 }
