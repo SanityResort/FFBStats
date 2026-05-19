@@ -1,5 +1,6 @@
 package org.butterbrot.ffb.stats.evaluation.turnover.bb2025;
 
+import com.fumbbl.ffb.SpecialEffect;
 import com.fumbbl.ffb.mechanics.PassResult;
 import com.fumbbl.ffb.report.IReport;
 import com.fumbbl.ffb.report.ReportBlockRoll;
@@ -11,11 +12,7 @@ import com.fumbbl.ffb.report.ReportReRoll;
 import com.fumbbl.ffb.report.ReportScatterBall;
 import com.fumbbl.ffb.report.ReportSkillRoll;
 import com.fumbbl.ffb.report.ReportSpecialEffectRoll;
-import com.fumbbl.ffb.report.mixed.ReportInjury;
-import com.fumbbl.ffb.report.mixed.ReportPassRoll;
-import com.fumbbl.ffb.report.mixed.ReportReferee;
-import com.fumbbl.ffb.report.mixed.ReportThrownKeg;
-import com.fumbbl.ffb.report.mixed.ReportTurnEnd;
+import com.fumbbl.ffb.report.mixed.*;
 import org.butterbrot.ffb.stats.adapter.mixed.TurnOverDescription;
 import org.butterbrot.ffb.stats.evaluation.turnover.TurnOverState;
 import org.butterbrot.ffb.stats.model.TurnOver;
@@ -127,6 +124,17 @@ public class TurnOverFinder extends org.butterbrot.ffb.stats.evaluation.turnover
 				if (thrownKeg.isFumble()) {
 					return Optional.of(new TurnOver(turnOverDescription.get(ReportId.THROWN_KEG), 2,
 						state.getReportReRoll(), thrownKeg.getPlayerId()));
+				}
+			} else if (report instanceof ReportSpecialEffectRoll) {
+				ReportSpecialEffectRoll specialEffectRoll = ((ReportSpecialEffectRoll) report);
+				if (specialEffectRoll.getSpecialEffect() == SpecialEffect.BOMB && specialEffectRoll.isSuccessful()
+						&& getHomePlayers().contains(specialEffectRoll.getPlayerId()) == getHomePlayers().contains(getActivePlayer())) {
+					return Optional.of(new TurnOver(turnOverDescription.get(SpecialEffect.BOMB), 0, state.getReportReRoll(), specialEffectRoll.getPlayerId()));
+				}
+			} else if (report instanceof ReportThrowAtStallingPlayer) {
+				ReportThrowAtStallingPlayer throwAtStallingPlayer = ((ReportThrowAtStallingPlayer) report);
+				if (throwAtStallingPlayer.isSuccessful()) {
+					return Optional.of(new TurnOver(turnOverDescription.get(report.getId()), 0, state.getReportReRoll(), throwAtStallingPlayer.getPlayerId()));
 				}
 			}
 		}
