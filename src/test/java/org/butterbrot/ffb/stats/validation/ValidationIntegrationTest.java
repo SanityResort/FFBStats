@@ -45,6 +45,12 @@ public class ValidationIntegrationTest {
     private JsonConverter converter;
 
     @Test
+    public void replaylocal1() throws IOException {
+        validateBaseline("local1");
+    }
+
+
+    @Test
     public void replay861710() throws IOException {
         validateBaseline("861710");
     }
