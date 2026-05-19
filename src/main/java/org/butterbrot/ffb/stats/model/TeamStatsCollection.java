@@ -344,7 +344,8 @@ public class TeamStatsCollection implements Data {
 		incrementAdditionalStat(StatKey.WIZARD);
 	}
 
-	public void add(SingleDieStat stat, Optional<Player<?>> player) {
+	@SuppressWarnings("OptionalUsedAsFieldOrParameterType")
+    public void add(SingleDieStat stat, Optional<Player<?>> player) {
 		if (stat.getValue() > 0) {
 			addSingleRoll(getNormalizedValue(stat));
 		}
