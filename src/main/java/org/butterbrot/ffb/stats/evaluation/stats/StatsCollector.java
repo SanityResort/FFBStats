@@ -103,11 +103,12 @@ public abstract class StatsCollector<T extends ExposingInjuryReport> {
                             }
                         }
                     } catch (Exception e) {
-											getLogger().error("Could not evaluate report: {}", report.getId(), e);
+                        getLogger().error("Could not evaluate report: {}", report.getId(), e);
                     }
                 }
 
                 boolean newTurnValuesSet = false;
+                boolean insideBomb = false;
 
                 for (ModelChange change : modelSync.getModelChanges().getChanges()) {
                     //logger.info(new Gson().toJson(change));
@@ -117,8 +118,17 @@ public abstract class StatsCollector<T extends ExposingInjuryReport> {
                     }
 
                     if (ModelChangeId.GAME_SET_TURN_MODE == change.getChangeId()) {
-                        state.setTurnMode((TurnMode) change.getValue());
-                        newTurnValuesSet = true;
+                        TurnMode newTurnMode = (TurnMode) change.getValue();
+                        if (newTurnMode.isBombTurn()) {
+                            insideBomb = true;
+                        } else {
+                            if (insideBomb) {
+                                insideBomb = false;
+                            } else {
+                                state.setTurnMode(newTurnMode);
+                                newTurnValuesSet = true;
+                            }
+                        }
                     }
 
                     if (ModelChangeId.TURN_DATA_SET_TURN_NR == change.getChangeId()) {
@@ -154,7 +164,7 @@ public abstract class StatsCollector<T extends ExposingInjuryReport> {
 
     protected abstract org.butterbrot.ffb.stats.evaluation.turnover.TurnOverFinder createTurnOverFinder();
 
-    protected abstract Evaluator<ReportStartHalf> createHalfEvaluator(StatsState<? extends ExposingInjuryReport> state,  TurnOverFinder turnOverFinder, StatsCollection statsCollection);
+    protected abstract Evaluator<ReportStartHalf> createHalfEvaluator(StatsState<? extends ExposingInjuryReport> state, TurnOverFinder turnOverFinder, StatsCollection statsCollection);
 
     protected abstract Logger getLogger();
 }

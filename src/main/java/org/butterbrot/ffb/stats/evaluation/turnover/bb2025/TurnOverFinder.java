@@ -58,8 +58,9 @@ public class TurnOverFinder extends org.butterbrot.ffb.stats.evaluation.turnover
 						state.setReportSkillRoll(null);
 						state.setReportReRoll(null);
 						state.setSuccessfulPass(true);
+						state.setBomb(((ReportPassRoll) report).isBomb());
 					} else if (ReportId.CATCH_ROLL == report.getId()) {
-						if (getHomePlayers().contains(skillRoll.getPlayerId()) == getHomePlayers().contains(getActivePlayer())) {
+						if (!state.isBomb() && getHomePlayers().contains(skillRoll.getPlayerId()) == getHomePlayers().contains(getActivePlayer())) {
 							if (state.getReportSkillRoll() == null ||
 								!(state.getReportSkillRoll().getId() == ReportId.PASS_ROLL &&
 									((ReportPassRoll) state.getReportSkillRoll()).getResult() == PassResult.FUMBLE ||
@@ -110,11 +111,13 @@ public class TurnOverFinder extends org.butterbrot.ffb.stats.evaluation.turnover
 				state.setReportBlockRoll((ReportBlockRoll) report);
 				state.setReportSkillRoll(null);
 			} else if (report instanceof ReportScatterBall) {
-				if (state.isLandingFailed() & state.getReportSkillRoll() != null) {
+				if (state.isLandingFailed() && state.getReportSkillRoll() != null) {
 					return Optional.of(new TurnOver(turnOverDescription.get(state.getReportSkillRoll().getId()),
 						state.getReportSkillRoll().getMinimumRoll(), state.getReportReRoll(), state.getReportSkillRoll().getPlayerId()));
 				}
-				state.setBallScattered(true);
+				if (!state.isBomb())	{
+					state.setBallScattered(true);
+				}
 			} else if (report instanceof ReportReferee) {
 				state.setSentOff(((ReportReferee) report).isFoulingPlayerBanned());
 			} else if (report instanceof ReportBribesRoll) {

@@ -13,6 +13,7 @@ public class TurnOverState {
     private boolean successfulPass = false;
     private boolean sentOff = false;
     private boolean landingFailed = false;
+    private boolean bomb = false;
 
     public ReportReRoll getReportReRoll() {
         return reportReRoll;
@@ -76,5 +77,13 @@ public class TurnOverState {
 
     public void setLandingFailed(boolean landingFailed) {
         this.landingFailed = landingFailed;
+    }
+
+    public boolean isBomb() {
+        return bomb;
+    }
+
+    public void setBomb(boolean bomb) {
+        this.bomb = bomb;
     }
 }
