@@ -5,6 +5,8 @@ import com.fumbbl.ffb.ReRollSources;
 import com.fumbbl.ffb.Direction;
 import com.fumbbl.ffb.FieldCoordinate;
 import com.fumbbl.ffb.PassingDistance;
+import com.fumbbl.ffb.injury.InjuryType;
+import com.fumbbl.ffb.injury.TTMHitPlayer;
 import com.fumbbl.ffb.mechanics.PassResult;
 import com.fumbbl.ffb.modifiers.CatchModifier;
 import com.fumbbl.ffb.modifiers.PassModifier;
@@ -257,7 +259,7 @@ public class TurnOverFinderTtmTest extends AbstractTurnOverFinderTest {
         turnOverFinder.add(new ReportPlayerAction(actingPlayer, PlayerAction.THROW_TEAM_MATE));
         turnOverFinder.add(new ReportThrowTeamMateRoll(actingPlayer, true, 6, 2, false, new PassModifier[0], PassingDistance.SHORT_PASS, teamMember, PassResult.ACCURATE, false));
         turnOverFinder.add(new ReportScatterPlayer(new FieldCoordinate(9, 2), new FieldCoordinate(12, 2), new Direction[]{Direction.EAST, Direction.EAST, Direction.EAST}, new int[]{3, 3, 3}, true));
-        turnOverFinder.add(new ReportPlayerEvent(hitTeamMate, "was hit"));
+        turnOverFinder.add(new ReportInjury(hitTeamMate, new TTMHitPlayer(),false, null, null, null, null, null, null, null, null, null, null, null, null, null, null));
         turnOverFinder.add(new ReportTurnEnd(null, null, null, new ArrayList<>(), 0));
         Optional<TurnOver> turnOverOpt = turnOverFinder.findTurnover();
         assertTrue("Landing on a teammate is a turnover", turnOverOpt.isPresent());
@@ -278,7 +280,7 @@ public class TurnOverFinderTtmTest extends AbstractTurnOverFinderTest {
     public void landingOnOpponent() {
         turnOverFinder.add(new ReportPlayerAction(actingPlayer, PlayerAction.THROW_TEAM_MATE));
         turnOverFinder.add(new ReportThrowTeamMateRoll(actingPlayer, true, 6, 2, false, new PassModifier[0], PassingDistance.SHORT_PASS, teamMember, PassResult.ACCURATE, false));
-        turnOverFinder.add(new ReportPlayerEvent(opponent, "was hit"));
+        turnOverFinder.add(new ReportInjury("other player", new TTMHitPlayer(),false, null, null, null, null, null, null, null, null, null, null, null, null, null, null));
         turnOverFinder.add(new ReportTurnEnd(null, null, null, new ArrayList<>(), 0));
         Optional<TurnOver> turnOverOpt = turnOverFinder.findTurnover();
         assertFalse("Landing on an opponent is not a turnover", turnOverOpt.isPresent());

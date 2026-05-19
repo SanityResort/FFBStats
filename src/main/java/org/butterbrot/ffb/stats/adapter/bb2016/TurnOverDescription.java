@@ -30,7 +30,6 @@ public class TurnOverDescription {
 		descriptions.put(SpecialEffect.BOMB, "Bomb");
 		descriptions.put(SpecialEffect.FIREBALL, "Fireball");
 		descriptions.put(SpecialEffect.LIGHTNING, "Lightning Bolt");
-		descriptions.put(ReportId.THROW_AT_STALLING_PLAYER, "Stalling");
 	}
 
 	public String get(INamedObject key) {
