@@ -117,8 +117,8 @@ public class ValidationIntegrationTest {
         IntArrayValidator intArrayValidator = new IntArrayValidator();
         //noinspection rawtypes
         List<Validator> delegates = Lists.newArrayList(dataValidator, new StringValidator(), new InjuryStateValidator(),
-          new IntegerValidator(), listValidator, mapValidator, new BooleanValidator(), intArrayValidator, new
-            SetValidator());
+                new IntegerValidator(), listValidator, mapValidator, new BooleanValidator(), intArrayValidator, new
+                        SetValidator());
         dataValidator.setDelegateValidators(delegates);
         listValidator.setDelegateValidators(delegates);
         mapValidator.setDelegateValidators(delegates);
@@ -133,7 +133,7 @@ public class ValidationIntegrationTest {
         logger.info("Finished validation");
     }
 
-    @Test
+    // @Test
     public void updateExpectation() throws Exception {
         String replayId = "1902267";
         String statsJson = new Gson().toJson(getActualCollection(replayId));
