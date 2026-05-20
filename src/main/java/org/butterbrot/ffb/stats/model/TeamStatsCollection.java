@@ -29,8 +29,10 @@ public class TeamStatsCollection implements Data {
 	private final Map<String, Integer> successfulSingleRolls = initSkillRollsMap();
 	private final Map<String, Integer> successfulDodgeRolls = initSkillRollsMap();
 	private final Map<String, Integer> successfulGfiRolls = initSkillRollsMap();
+	private final Map<String, Integer> successfulSteadyFootingRolls = initSkillRollsMap(6);
 	private final Map<String, Integer> failedDodgeRolls = initSkillRollsMap();
 	private final Map<String, Integer> failedGfiRolls = initSkillRollsMap();
+	private final Map<String, Integer> failedSteadyFootingRolls = initSkillRollsMap(6);
 	private final Map<Integer, Integer> totalSingleRolls = initNonBlockStatsMap();
 	private final Map<Integer, Integer> doubleRolls = initNonBlockStatsMap(2, 12);
 	private final Map<Integer, Integer> totalDoubleRolls = initNonBlockStatsMap(2, 12);
@@ -177,8 +179,12 @@ public class TeamStatsCollection implements Data {
 	}
 
 	private Map<String, Integer> initSkillRollsMap() {
+		return initSkillRollsMap(2);
+	}
+
+	private Map<String, Integer> initSkillRollsMap(int from) {
 		Map<String, Integer> stats = new HashMap<>();
-		int i = 2;
+		int i = from;
 		while (i <= 6) {
 			stats.put(i++ + "+", 0);
 		}
@@ -231,6 +237,8 @@ public class TeamStatsCollection implements Data {
 				incrementSkillRolls(successfulDodgeRolls, maxedRolled);
 			} else if (ReportId.GO_FOR_IT_ROLL == reportId) {
 				incrementSkillRolls(successfulGfiRolls, maxedRolled);
+			} else if (ReportId.STEADY_FOOTING_ROLL == reportId) {
+				incrementSkillRolls(successfulSteadyFootingRolls, maxedRolled);
 			}
 		}
 	}
@@ -254,6 +262,8 @@ public class TeamStatsCollection implements Data {
 				incrementSkillRolls(failedDodgeRolls, min);
 			} else if (ReportId.GO_FOR_IT_ROLL == reportId) {
 				incrementSkillRolls(failedGfiRolls, min);
+			} else if (ReportId.STEADY_FOOTING_ROLL == reportId) {
+				incrementSkillRolls(failedSteadyFootingRolls, min);
 			}
 		}
 	}
