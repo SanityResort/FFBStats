@@ -8,6 +8,7 @@ import org.butterbrot.ffb.stats.adapter.mixed.PlayerActionMapping;
 import org.butterbrot.ffb.stats.evaluation.stats.Evaluator;
 import org.butterbrot.ffb.stats.evaluation.stats.StatsState;
 import org.butterbrot.ffb.stats.evaluation.stats.common.UploadEvaluator;
+import org.butterbrot.ffb.stats.evaluation.stats.mixed.SkillRollEvaluator;
 import org.butterbrot.ffb.stats.evaluation.turnover.TurnOverFinder;
 import org.butterbrot.ffb.stats.model.StatsCollection;
 import org.slf4j.Logger;
@@ -29,6 +30,7 @@ public class StatsCollector extends org.butterbrot.ffb.stats.evaluation.stats.St
 		evaluators.add(new SpectatorsEvaluator(state));
 		evaluators.add(new TurnEndEvaluator(collection, state));
 		evaluators.add(new UploadEvaluator(collection));
+		evaluators.add(new SkillRollEvaluator(collection, state));
 	}
 
 	@Override

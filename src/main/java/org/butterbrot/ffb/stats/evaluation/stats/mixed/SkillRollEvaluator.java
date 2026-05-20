@@ -1,4 +1,4 @@
-package org.butterbrot.ffb.stats.evaluation.stats.common;
+package org.butterbrot.ffb.stats.evaluation.stats.mixed;
 
 import com.fumbbl.ffb.report.IReport;
 import com.fumbbl.ffb.report.ReportId;

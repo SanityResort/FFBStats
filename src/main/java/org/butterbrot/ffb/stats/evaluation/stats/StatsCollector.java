@@ -19,7 +19,6 @@ import org.butterbrot.ffb.stats.evaluation.stats.common.PillingOnEvaluator;
 import org.butterbrot.ffb.stats.evaluation.stats.common.PlayerActionEvaluator;
 import org.butterbrot.ffb.stats.evaluation.stats.common.ReRollEvaluator;
 import org.butterbrot.ffb.stats.evaluation.stats.common.ScatterBallEvaluator;
-import org.butterbrot.ffb.stats.evaluation.stats.common.SkillRollEvaluator;
 import org.butterbrot.ffb.stats.evaluation.stats.common.TimeoutEnforcedEvaluator;
 import org.butterbrot.ffb.stats.evaluation.stats.common.UploadEvaluator;
 import org.butterbrot.ffb.stats.evaluation.stats.common.WeatherEvaluator;
@@ -54,7 +53,6 @@ public abstract class StatsCollector<T extends ExposingInjuryReport> {
         evaluators.add(new PlayerActionEvaluator(collection, state, turnOverFinder));
         evaluators.add(new ReRollEvaluator(state, collection));
         evaluators.add(new ScatterBallEvaluator(state, collection));
-        evaluators.add(new SkillRollEvaluator(collection, state));
         evaluators.add(new TimeoutEnforcedEvaluator(collection, state));
         evaluators.add(new WeatherEvaluator(collection));
         evaluators.add(new WizardUseEvaluator(state, collection));

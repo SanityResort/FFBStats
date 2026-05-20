@@ -37,6 +37,7 @@ public class StatsCollector extends org.butterbrot.ffb.stats.evaluation.stats.St
         evaluators.add(new KickoffOfficiousRefEvaluator(collection));
         evaluators.add(new TurnEndEvaluator(collection, state));
         evaluators.add(new CheeringFansEvaluator(collection));
+        evaluators.add(new SkillRollEvaluator(collection, state));
     }
 
     @Override

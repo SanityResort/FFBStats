@@ -7,10 +7,7 @@ import org.butterbrot.ffb.stats.adapter.mixed.PlayerActionMapping;
 import org.butterbrot.ffb.stats.adapter.mixed.ReportPoInjury;
 import org.butterbrot.ffb.stats.evaluation.stats.Evaluator;
 import org.butterbrot.ffb.stats.evaluation.stats.StatsState;
-import org.butterbrot.ffb.stats.evaluation.stats.mixed.ApothecaryRollEvaluator;
-import org.butterbrot.ffb.stats.evaluation.stats.mixed.KickoffExtraReRollEvaluator;
-import org.butterbrot.ffb.stats.evaluation.stats.mixed.StartHalfEvaluator;
-import org.butterbrot.ffb.stats.evaluation.stats.mixed.TurnEndEvaluator;
+import org.butterbrot.ffb.stats.evaluation.stats.mixed.*;
 import org.butterbrot.ffb.stats.evaluation.turnover.TurnOverFinder;
 import org.butterbrot.ffb.stats.model.StatsCollection;
 import org.slf4j.Logger;
@@ -35,6 +32,7 @@ public class StatsCollector extends org.butterbrot.ffb.stats.evaluation.stats.St
         evaluators.add(new KickoffOfficiousRefEvaluator(collection));
         evaluators.add(new TurnEndEvaluator(collection, state));
         evaluators.add(new CheeringFansEvaluator(collection));
+        evaluators.add(new SkillRollEvaluator(collection, state));
     }
 
     @Override
