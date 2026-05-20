@@ -30,10 +30,6 @@ public class SkillRollEvaluator extends Evaluator<ReportSkillRoll> {
 			// set the block roll to null, when some other skill roll was made, like dodge or gfi.
 			// this should take care that a fanatic falling down due to a gfi is not counted as a failed block.
 			state.setCurrentBlockRoll(null);
-		} else {
-			if (skillReport.isSuccessful()) {
-
-			}
 		}
 	}
 }
