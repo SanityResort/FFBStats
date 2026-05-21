@@ -138,7 +138,7 @@ public class ValidationIntegrationTest {
         logger.info("Finished validation");
     }
 
-    @Test
+    //@Test
     public void updateExpectation() throws Exception {
         String replayId = "1814563";
         String statsJson = new Gson().toJson(getActualCollection(replayId));
