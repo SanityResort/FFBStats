@@ -110,6 +110,11 @@ public class ValidationIntegrationTest {
         validateBaseline("1902267");
     }
 
+    @Test
+    public void replay1814563() throws IOException {
+        validateBaseline("1814563");
+    }
+
     private void validateBaseline(String replayId) throws IOException {
         DataValidator dataValidator = new DataValidator();
         ListValidator listValidator = new ListValidator();
@@ -133,9 +138,9 @@ public class ValidationIntegrationTest {
         logger.info("Finished validation");
     }
 
-    // @Test
+    @Test
     public void updateExpectation() throws Exception {
-        String replayId = "1902267";
+        String replayId = "1814563";
         String statsJson = new Gson().toJson(getActualCollection(replayId));
         String jsonFile = String.format(outputPathTemplate, replayId);
         logger.info("Creating json file: {}", jsonFile);

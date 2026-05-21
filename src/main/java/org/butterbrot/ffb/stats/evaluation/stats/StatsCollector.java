@@ -141,7 +141,7 @@ public abstract class StatsCollector<T extends ExposingInjuryReport> {
                     turnOverFinder.findTurnover().ifPresent(collection::addTurnOver);
                     turnOverFinder.reset();
                     state.setLastTurn(collection.addTurn(state.isHomePlaying(), state.getTurnMode(), state
-                      .getTurnNumber()));
+                      .getTurnNumber()), state.isHomePlaying());
                 }
             }
         }

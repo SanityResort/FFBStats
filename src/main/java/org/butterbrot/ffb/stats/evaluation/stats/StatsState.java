@@ -28,8 +28,8 @@ public abstract class StatsState<T extends ExposingInjuryReport> {
     private ReportPilingOn poReport = null;
     private boolean isActionTurn = false;
     private boolean ballScatters = false;
-    private Deque<T> injuries = new ArrayDeque<>();
-    private Turn lastTurn;
+    private final Deque<T> injuries = new ArrayDeque<>();
+    private Turn lastTurnHome, lastTurnAway;
     private ReportMasterChefRoll chefRoll;
 
     public Game getGame() {
@@ -164,21 +164,21 @@ public abstract class StatsState<T extends ExposingInjuryReport> {
         return injuries;
     }
 
-    public void setInjuries(Deque<T> injuries) {
-        this.injuries = injuries;
-    }
-
     public Turn getLastTurn() {
-        return lastTurn;
+        return isHomePlaying ? lastTurnHome : lastTurnAway;
     }
 
-    public void setLastTurn(Turn lastTurn) {
-        this.lastTurn = lastTurn;
+    public void setLastTurn(Turn lastTurn, boolean home) {
+        if (home) {
+            this.lastTurnHome = lastTurn;
+        } else {
+            this.lastTurnAway = lastTurn;
+        }
     }
 
     public boolean isNewTurn() {
-        return lastTurn == null ||
-                (lastTurn.isHomeActive() != this.isHomePlaying()) ||
+        Turn lastTurn = getLastTurn();
+        return  lastTurn == null ||
                 (lastTurn.getNumber() != this.getTurnNumber()) ||
                 (!lastTurn.getTurnMode().equals(this.getTurnMode().getName()));
     }
