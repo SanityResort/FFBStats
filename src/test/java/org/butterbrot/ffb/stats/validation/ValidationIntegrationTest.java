@@ -6,14 +6,17 @@ import org.butterbrot.ffb.stats.StatsStarter;
 import org.butterbrot.ffb.stats.conversion.JsonConverter;
 import org.butterbrot.ffb.stats.conversion.Unzipper;
 import org.butterbrot.ffb.stats.model.StatsCollection;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import javax.annotation.Resource;
 import java.io.IOException;
@@ -24,10 +27,10 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @EnableConfigurationProperties(value = ValidationIntegrationTest.class)
-@RunWith(SpringJUnit4ClassRunner.class)
+@ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = StatsStarter.class)
 @ConfigurationProperties(prefix = "http")
 public class ValidationIntegrationTest {
@@ -44,80 +47,26 @@ public class ValidationIntegrationTest {
     @Resource
     private JsonConverter converter;
 
-    @Test
-    public void replaylocal1() throws IOException {
-        validateBaseline("local1");
-    }
-
-
-    @Test
-    public void replay861710() throws IOException {
-        validateBaseline("861710");
-    }
-
-    @Test
-    public void replay1004777() throws IOException {
-        validateBaseline("1004777");
-    }
-
-    @Test
-    public void replay1005000() throws IOException {
-        validateBaseline("1005000");
-    }
-
-    @Test
-    public void replay1005001() throws IOException {
-        validateBaseline("1005001");
-    }
-
-    @Test
-    public void replay1005002() throws IOException {
-        validateBaseline("1005002");
-    }
-
-    @Test
-    public void replay1005014() throws IOException {
-        validateBaseline("1005014");
-    }
-
-    @Test
-    public void replay1011681() throws IOException {
-        validateBaseline("1011681");
-    }
-
-    @Test
-    public void replay1546677() throws IOException {
-        validateBaseline("1546677");
-    }
-
-    @Test
-    public void replay1548033() throws IOException {
-        validateBaseline("1548033");
-    }
-
-    @Test
-    public void replay1548035() throws IOException {
-        validateBaseline("1548035");
-    }
-
-    @Test
-    public void replay1548042() throws IOException {
-        validateBaseline("1548042");
-    }
-
-    @Test
-    public void replay1902267() throws IOException {
-        validateBaseline("1902267");
-    }
-
-    @Test
-    public void replay1814563() throws IOException {
-        validateBaseline("1814563");
-    }
-
-    @Test
-    public void replay1808149() throws IOException {
-        validateBaseline("1808149");
+    @ParameterizedTest
+    @ValueSource(strings = {
+        "local1",
+        "861710",
+        "1004777",
+        "1005000",
+        "1005001",
+        "1005002",
+        "1005014",
+        "1011681",
+        "1546677",
+        "1548033",
+        "1548035",
+        "1548042",
+        "1902267",
+        "1814563",
+        "1808149"
+    })
+    public void validateReplay(String replayId) throws IOException {
+        validateBaseline(replayId);
     }
 
     private void validateBaseline(String replayId) throws IOException {
@@ -139,11 +88,12 @@ public class ValidationIntegrationTest {
         StatsCollection baseline = getExpectedStatsCollection(replayId);
         StatsCollection toValidate = getActualCollection(replayId);
         boolean result = dataValidator.validate(baseline, toValidate);
-        assertTrue("Generated data model does not match expectations", result);
+        assertTrue(result, "Generated data model does not match expectations for replay: " + replayId);
         logger.info("Finished validation");
     }
 
-    //@Test
+    @Disabled
+    @Test
     public void updateExpectation() throws Exception {
         String replayId = "1808149";
         String statsJson = new Gson().toJson(getActualCollection(replayId));
@@ -171,6 +121,4 @@ public class ValidationIntegrationTest {
         this.inputPathTemplate = inputPathTemplate;
     }
 }
-
-
 
