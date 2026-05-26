@@ -44,7 +44,7 @@ public abstract class StatsCollector<T extends ExposingInjuryReport> {
         turnOverFinder = createTurnOverFinder();
         state = createStatsState();
         this.replayCommands = replayCommands;
-        halfEvaluator = createHalfEvaluator(state, turnOverFinder, collection );
+        halfEvaluator = createHalfEvaluator(state, turnOverFinder, collection);
         evaluators.add(halfEvaluator);
         evaluators.add(new BlockRollEvaluator(collection, state));
         evaluators.add(new KickoffResultEvaluator(collection, state));
@@ -141,7 +141,7 @@ public abstract class StatsCollector<T extends ExposingInjuryReport> {
                     turnOverFinder.findTurnover().ifPresent(collection::addTurnOver);
                     turnOverFinder.reset();
                     state.setLastTurn(collection.addTurn(state.isHomePlaying(), state.getTurnMode(), state
-                      .getTurnNumber()), state.isHomePlaying());
+                            .getTurnNumber()), state.isHomePlaying());
                 }
             }
         }
@@ -150,6 +150,8 @@ public abstract class StatsCollector<T extends ExposingInjuryReport> {
         // during the loop master chef rolls are evaluated before a new half is started
         // it can't happen when the report appears as the first half start is not reported but the others are
         // this way is the only remotely consistent one I found so far
+
+        // Also this triggers the turnover check for the last turn of the game
         halfEvaluator.evaluate(new ReportStartHalf(0));
 
         return collection;

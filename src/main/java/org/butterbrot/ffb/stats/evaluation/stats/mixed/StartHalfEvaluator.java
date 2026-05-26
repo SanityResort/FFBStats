@@ -41,6 +41,9 @@ public class StartHalfEvaluator extends Evaluator<ReportStartHalf> {
             turnOverFinder.findTurnover().ifPresent(collection::addTurnOver);
             turnOverFinder.reset();
             collection.startOvertime();
+        } else if (((ReportStartHalf) report).getHalf() == 0) {
+            turnOverFinder.findTurnover().ifPresent(collection::addTurnOver);
+            turnOverFinder.reset();
         }
     }
 }
