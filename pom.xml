@@ -6,7 +6,7 @@
 
     <groupId>org.butterbrot</groupId>
     <artifactId>ffbstats</artifactId>
-    <version>3.4.0-SNAPSHOT</version>
+    <version>3.3.1</version>
     <packaging>jar</packaging>
 
     <parent>
@@ -112,7 +112,7 @@
         <dependency>
             <groupId>com.fumbbl.ffb</groupId>
             <artifactId>ffb-client-logic</artifactId>
-            <version>3.2.3</version>
+            <version>3.3.1</version>
         </dependency>
         <dependency>
             <groupId>io.github.classgraph</groupId>
