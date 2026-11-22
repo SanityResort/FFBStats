@@ -14,7 +14,7 @@ import zmq.Msg;
 import zmq.SocketBase;
 import zmq.ZMQ;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 
 import static org.butterbrot.ffb.stats.Constants.ZMG_ERROR;
 

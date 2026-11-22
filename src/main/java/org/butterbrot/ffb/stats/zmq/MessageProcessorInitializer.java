@@ -3,7 +3,7 @@ package org.butterbrot.ffb.stats.zmq;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 
 @Component
 public class MessageProcessorInitializer implements InitializingBean {
